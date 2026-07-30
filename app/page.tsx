@@ -20,7 +20,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div className="wrap relative z-10">
+        <div className="wrap relative z-10 pointer-events-none">
           <div className="flex flex-col items-center md:items-start max-w-full md:max-w-[65%] gap-0 text-center md:text-left mx-auto md:mx-0">
             {/* Kicker */}
             <div className="text-(--gold-500) mb-2 text-[13px] tracking-[1px]">
@@ -34,17 +34,17 @@ export default function HomePage() {
               <span className="au">Resilience</span>.
             </h1>
 
-            {/* Description */}
             <p className="lede mt-6 md:mt-8">
               Engineering{' '}
               <span className="italic font-medium">Quantum-secure</span> and{' '}
-              <span className="italic font-medium">resilient </span> autonomous
-              systems <br className="hidden md:block" />
-              that create a seamless Digital Fabric for the tactical edge.
+              resilient autonomous systems <br className="hidden md:block" />
+              that create a seamless{' '}
+              <span className="italic font-medium">Digital-fabric</span> for the
+              tactical edge.
             </p>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col md:flex-row items-center md:items-start justify-center md:justify-start gap-4 mt-10 md:mt-16 w-full md:w-auto">
+            {/* CTA Buttons — re-enable pointer events just here */}
+            <div className="flex flex-col md:flex-row items-center md:items-start justify-center md:justify-start gap-4 mt-10 md:mt-16 w-full md:w-auto pointer-events-auto">
               <Link href="/company" className="btn btn-gold">
                 About Us
               </Link>
@@ -146,7 +146,10 @@ export default function HomePage() {
 
       {/* ═══════ WHY UELEMENT ═══════ */}
       <div className="section navy">
-        <div className="wrap grid2" style={{ alignItems: 'center' }}>
+        <div
+          className="wrap grid2"
+          style={{ alignItems: 'center', columnGap: '60px' }}
+        >
           <div>
             <div className="kicker">Why UElement</div>
             <p className="serif-line">
@@ -160,10 +163,17 @@ export default function HomePage() {
               as operational exhaust — not reconstructed for audit season.
             </p>
           </div>
-          <div className="grid2">
+          <div className="grid2 relative">
+            {/* Vertical divider */}
+            <div className="hidden md:block absolute inset-y-0 left-1/2 border-l border-dotted border-[#c5d0dc]/40" />
+            {/* Horizontal divider */}
+            <div className="hidden md:block absolute inset-x-0 top-1/2 border-t border-dotted border-[#c5d0dc]/40" />
+
             <div className="stat">
-              <b>3</b>
-              <span>Global offices — Pune HQ, Singapore, UAE</span>
+              <b>13</b>
+              <span>
+                Global customers across USA, Europe, Middle-east &amp; JAPAC
+              </span>
             </div>
             <div className="stat">
               <b>2 + 1</b>
@@ -264,7 +274,10 @@ export default function HomePage() {
       {/* ═══════ CREAM QUOTE ═══════ */}
       <div className="section cream">
         <div className="wrap" style={{ textAlign: 'center' }}>
-          <p className="serif-line" style={{ maxWidth: 760, margin: '0 auto' }}>
+          <p
+            className="serif-line serif-line--quote"
+            style={{ maxWidth: 760, margin: '0 auto' }}
+          >
             &quot;We don&apos;t connect the edge to the cloud.
             <br />
             We turn the edge into the cloud.&quot;

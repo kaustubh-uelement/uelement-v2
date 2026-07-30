@@ -28,27 +28,63 @@ export const navItems: NavItem[] = [
         heading: 'U92 Quantum',
         headingHref: '/u92',
         items: [
-          { label: 'PQC', description: 'Post-quantum cryptography', href: '/u92pqc' },
-          { label: 'QKD', description: 'Quantum key distribution', href: '/u92qkd' },
-          { label: 'Crypto-Agility', description: 'Axis · Codex · Crucible', href: '/u92agility' },
+          {
+            label: 'PQC',
+            description: 'Post-quantum cryptography',
+            href: '/u92pqc',
+          },
+          {
+            label: 'QKD',
+            description: 'Quantum key distribution',
+            href: '/u92qkd',
+          },
+          {
+            label: 'Crypto-Agility',
+            description: 'Axis · Codex · Crucible',
+            href: '/u92agility',
+          },
         ],
       },
       {
         heading: 'MainSTAY',
         headingHref: '/mainstay',
         items: [
-          { label: 'Nexus', description: 'The Enterprise Digital Fabric', href: '/nexus' },
-          { label: 'Vizor', description: 'Observability · Security · GRC', href: '/vizor' },
-          { label: 'Kayak', description: 'Everything as a Service', href: '/kayak' },
+          {
+            label: 'Nexus',
+            description: 'The Enterprise Digital Fabric',
+            href: '/nexus',
+          },
+          {
+            label: 'Vizor',
+            description: 'Observability · Security · GRC',
+            href: '/vizor',
+          },
+          {
+            label: 'Kayak',
+            description: 'Everything as a Service',
+            href: '/kayak',
+          },
         ],
       },
       {
         heading: 'MainSPAR',
         headingHref: '/mainspar',
         items: [
-          { label: 'MerlinOS', description: 'Sovereign edge AI OS', href: '/merlinos' },
-          { label: 'MustangC3', description: 'Agentic command & control', href: '/mustang' },
-          { label: 'MesoGRID', description: 'Resilient decentralised mesh', href: '/mesogrid' },
+          {
+            label: 'MerlinOS',
+            description: 'Sovereign edge AI OS',
+            href: '/merlinos',
+          },
+          {
+            label: 'MustangC3',
+            description: 'Agentic command & control',
+            href: '/mustang',
+          },
+          {
+            label: 'MesoGRID',
+            description: 'Resilient decentralised mesh',
+            href: '/mesogrid',
+          },
         ],
       },
     ],
@@ -149,23 +185,20 @@ export const navItems: NavItem[] = [
         items: [
           {
             label: 'About Us',
-            description: 'Our mission, vision, and the team driving sovereign deeptech.',
+            description:
+              'Our mission, vision, and the team driving sovereign deeptech.',
             href: '/company',
           },
-          {
-            label: 'News Room',
-            description: 'Announcements, media coverage, and press mentions.',
-            href: '/news',
-          },
-          {
-            label: 'Careers',
-            description: 'Grow your career building systems that cannot fail.',
-            href: '/careers',
-          },
+
           {
             label: 'Success Stories',
             description: 'How our platforms deliver measurable outcomes.',
             href: '/stories',
+          },
+          {
+            label: 'Investor Relations',
+            description: 'Structure, governance, and investor inquiries.',
+            href: '/investors',
           },
         ],
       },
@@ -178,15 +211,10 @@ export const navItems: NavItem[] = [
           },
           {
             label: 'Blogs',
-            description: 'Insights, trends, and expert perspectives from our team.',
+            description:
+              'Insights, trends, and expert perspectives from our team.',
             href: '/blogs',
           },
-          {
-            label: 'Investor Relations',
-            description: 'Structure, governance, and investor inquiries.',
-            href: '/investors',
-          },
-          { label: 'Contact', description: 'Talk to our team.', href: '/contact' },
         ],
       },
     ],

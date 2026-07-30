@@ -10,11 +10,15 @@ export const metadata: Metadata = {
 export default function NexusPage() {
   return (
     <>
-      <div className="hero">
+      <div className="hero hero-half">
+        <div className="hero-art">
+          <img src="/u92-flower.png" alt="" aria-hidden="true" />
+        </div>
         <div className="hero-fabric" />
         <div className="wrap">
           <div className="crumb">
-            <Link href="/">Home</Link> / <Link href="/mainstay">MainSTAY</Link> / Nexus
+            <Link href="/">Home</Link> / <Link href="/mainstay">MainSTAY</Link>{' '}
+            / Nexus
           </div>
           <div className="tag">MainSTAY · Projects outward</div>
           <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>
@@ -22,11 +26,15 @@ export default function NexusPage() {
           </h1>
           <p className="serif-line">The Enterprise Digital Fabric.</p>
           <p className="lede" style={{ marginTop: 22 }}>
-            Nexus is the platform for building your enterprise&apos;s outward-facing online properties —
-            every digital surface, channel, and workflow your customers, partners, and candidates
-            touch.
+            Nexus is the platform for building your enterprise&apos;s
+            outward-facing online properties — every digital surface, channel,
+            and workflow your customers, partners, and candidates touch.
           </p>
-          <Link href="/contact" className="btn btn-gold" style={{ marginTop: 28 }}>
+          <Link
+            href="/contact"
+            className="btn btn-gold"
+            style={{ marginTop: 28 }}
+          >
             Talk to the Nexus team
           </Link>
         </div>
@@ -39,22 +47,23 @@ export default function NexusPage() {
             <div className="card">
               <h4>Web platforms</h4>
               <p>
-                Websites, Google search presence, GenAI search optimization, SEO and SEM —
-                engineered as one discipline, not four vendors.
+                Websites, Google search presence, GenAI search optimization, SEO
+                and SEM — engineered as one discipline, not four vendors.
               </p>
             </div>
             <div className="card">
               <h4>Mobile applications</h4>
               <p>
-                Native-quality mobile surfaces that share content, identity, and analytics with your
-                web estate.
+                Native-quality mobile surfaces that share content, identity, and
+                analytics with your web estate.
               </p>
             </div>
             <div className="card">
               <h4>Workflow portal</h4>
               <p>
-                A scalable portal to design application workflows — public sites, e-commerce, help
-                centers, and careers portals composed from one system.
+                A scalable portal to design application workflows — public
+                sites, e-commerce, help centers, and careers portals composed
+                from one system.
               </p>
             </div>
           </div>
@@ -68,24 +77,34 @@ export default function NexusPage() {
             <h2 className="display" style={{ fontSize: 30 }}>
               Intelligence is not a module. It&apos;s the core.
             </h2>
-            <div style={{ marginTop: 26, display: 'flex', flexDirection: 'column', gap: 16 }}>
+            <div
+              style={{
+                marginTop: 26,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 16,
+              }}
+            >
               <div className="card">
                 <h4>Agentic AI automation</h4>
                 <p>
-                  Autonomous agents handle routing, personalization, and process execution across
-                  your digital surfaces.
+                  Autonomous agents handle routing, personalization, and process
+                  execution across your digital surfaces.
                 </p>
               </div>
               <div className="card">
                 <h4>GenAI &amp; OpenLM</h4>
                 <p>
-                  Generative experiences and open LLM operations — deploy, monitor, and govern the
-                  models behind every AI touchpoint.
+                  Generative experiences and open LLM operations — deploy,
+                  monitor, and govern the models behind every AI touchpoint.
                 </p>
               </div>
               <div className="card">
                 <h4>Advanced data analytics</h4>
-                <p>Every visit, journey, and conversion feeding one analytical fabric.</p>
+                <p>
+                  Every visit, journey, and conversion feeding one analytical
+                  fabric.
+                </p>
               </div>
             </div>
           </div>
@@ -107,11 +126,15 @@ export default function NexusPage() {
                 </tr>
                 <tr>
                   <td>Multi-tenant SaaS</td>
-                  <td>Isolated, secure workspaces with enterprise-grade controls</td>
+                  <td>
+                    Isolated, secure workspaces with enterprise-grade controls
+                  </td>
                 </tr>
                 <tr>
                   <td>AI-ready</td>
-                  <td>Intelligent automation and insights built into the core</td>
+                  <td>
+                    Intelligent automation and insights built into the core
+                  </td>
                 </tr>
               </tbody>
             </table>

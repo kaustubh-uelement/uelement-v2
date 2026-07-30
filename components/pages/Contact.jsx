@@ -13,6 +13,9 @@ const Contact = () => {
     <div>
       <div className="bg-hero-gradient">
         <ContactUs />
+        <DirectChannels />
+        <LocationMap />
+        <ContactFAQ />
         <FooterContent />
         <div className="border-t border-white/10 pt-6 sm:pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 container-padding py-8 lg:py-12">
           <div className="flex flex-wrap gap-3 sm:gap-5 lg:gap-8 justify-center sm:justify-start text-center">
@@ -343,11 +346,10 @@ const ContactUs = () => {
             {/* Success/Error Message */}
             {submitStatus.message && (
               <div
-                className={`mb-6 p-4 rounded-[4px] ${
-                  submitStatus.type === 'success'
-                    ? 'bg-green-100 text-green-700 border border-green-300'
-                    : 'bg-red-100 text-red-700 border border-red-300'
-                }`}
+                className={`mb-6 p-4 rounded-[4px] ${submitStatus.type === 'success'
+                  ? 'bg-green-100 text-green-700 border border-green-300'
+                  : 'bg-red-100 text-red-700 border border-red-300'
+                  }`}
               >
                 {submitStatus.message}
               </div>
@@ -467,9 +469,8 @@ const ContactUs = () => {
                   onBlur={handleBlur}
                   placeholder="Write your message.."
                   rows="1"
-                  className={`w-full placeholder:text-gray-8080 border-b ${
-                    errors.message ? 'border-b-red-600' : 'border-b-[#D7D7D7]'
-                  } font-reddit-sans text-14 py-2 resize-none focus:border-primary-blue transition-colors`}
+                  className={`w-full placeholder:text-gray-8080 border-b ${errors.message ? 'border-b-red-600' : 'border-b-[#D7D7D7]'
+                    } font-reddit-sans text-14 py-2 resize-none focus:border-primary-blue transition-colors`}
                 ></textarea>
                 {errors.message && (
                   <p className="text-red-600 text-12 mt-1 font-reddit-sans">
@@ -489,6 +490,228 @@ const ContactUs = () => {
               </div>
             </form>
           </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ── DirectChannels ─────────────────────────────────────────── */
+const channels = [
+  {
+    title: 'New business',
+    description: 'Scoping a project or evaluating a partner.',
+    contact: 'contact@uelement.in',
+    href: 'mailto:contact@uelement.in',
+    icon: 'email',
+  },
+  {
+    title: 'Security incidents',
+    description: 'Active incident or urgent vulnerability report.',
+    contact: '+91 762 069 0561',
+    href: 'tel:+917620690561',
+    icon: 'phone',
+  },
+  {
+    title: 'Careers',
+    description: 'Open roles across quantum, platform, and AI engineering.',
+    contact: 'careers@uelement.in',
+    href: 'mailto:careers@uelement.in',
+    icon: 'email',
+  },
+];
+
+const DirectChannels = () => {
+  return (
+    <section className="container-padding py-10 sm:py-14 lg:py-18 relative z-10">
+      <div className="max-w-[1100px] mx-auto">
+        <div className="text-center mb-10">
+          <p className="fl-slash">/ Direct channels</p>
+          <h4 className="fl1 !text-white">Know what you need?</h4>
+          <p className="font-reddit-sans text-[#8a9bb3] text-14 mt-2 max-w-[480px] mx-auto leading-relaxed">
+            Route straight to the right inbox — no general queue.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 lg:gap-6">
+          {channels.map((channel) => (
+            <Link
+              key={channel.title}
+              href={channel.href}
+              className="group relative rounded-[18px] p-6 lg:p-8 flex flex-col gap-5 transition-all duration-300 hover:-translate-y-1"
+              style={{
+                background:
+                  'linear-gradient(154.11deg,#0C142D 20%,#1a2d5a 100%) padding-box, linear-gradient(135deg,rgba(200,138,62,0.35),rgba(255,255,255,0.06) 50%,rgba(200,138,62,0.12)) border-box',
+                border: '1px solid transparent',
+              }}
+            >
+              <span
+                className="w-11 h-11 rounded-xl flex items-center justify-center text-white shrink-0 transition-all duration-300 group-hover:scale-110"
+                style={{
+                  background: 'linear-gradient(135deg,rgba(200,138,62,0.18),rgba(200,138,62,0.06))',
+                  border: '1px solid rgba(200,138,62,0.28)',
+                  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.1)',
+                }}
+              >
+                <Icon name={channel.icon} />
+              </span>
+              <div className="flex-1">
+                <h6 className="font-reddit-sans font-semibold text-white text-16 lg:text-17 mb-2">
+                  {channel.title}
+                </h6>
+                <p className="font-reddit-sans text-[#6b809a] text-13 leading-relaxed">
+                  {channel.description}
+                </p>
+              </div>
+              <span
+                className="font-reddit-sans text-13 font-medium group-hover:translate-x-1 transition-transform inline-block"
+                style={{ color: '#c88a3e' }}
+              >
+                {channel.contact} →
+              </span>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ── LocationMap ─────────────────────────────────────────────── */
+const LocationMap = () => {
+  return (
+    <section className="container-padding pb-12 sm:pb-16 lg:pb-20 relative z-10">
+      <div className="max-w-[1100px] mx-auto">
+        <div className="text-center mb-10">
+          <p className="fl-slash">/ Find us</p>
+          <h4 className="fl1 !text-white">Three offices. One standard.</h4>
+        </div>
+        <div
+          className="grid grid-cols-1 lg:grid-cols-[1fr_1.5fr] rounded-[20px] overflow-hidden"
+          style={{ border: '1px solid rgba(200,138,62,0.22)' }}
+        >
+          <div
+            className="p-7 sm:p-8 lg:p-10 flex flex-col justify-between gap-8"
+            style={{ background: 'linear-gradient(154.11deg,#0C142D 20%,#1a2d5a 100%)' }}
+          >
+            <div>
+              <span
+                className="inline-block font-reddit-sans text-11 uppercase tracking-widest mb-5"
+                style={{ color: '#c88a3e', letterSpacing: '0.12em' }}
+              >
+                Global headquarters
+              </span>
+              <h5 className="fl1 !text-white mb-3">Pune, India</h5>
+              <p className="font-reddit-sans text-[#8a9bb3] text-14 leading-relaxed mb-5">
+                UElement Technologies Pvt. Ltd.<br />
+                9th Floor, Pride Gateway, Sr. No. 112,<br />
+                Baner, Pune, Maharashtra 411045.
+              </p>
+              <Link
+                href="https://www.google.com/maps/search/?api=1&query=Pride+Gateway+Baner+Pune"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-reddit-sans text-13 font-semibold inline-flex items-center gap-2 hover:gap-3 transition-all"
+                style={{ color: '#c88a3e' }}
+              >
+                Get directions →
+              </Link>
+            </div>
+            <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 20 }}>
+              <p className="font-reddit-sans text-11 uppercase tracking-widest text-[#6b809a] mb-4">Also in</p>
+              <div className="flex flex-col gap-3">
+                {[{ city: 'Singapore', role: 'JAPAC Operations' }, { city: 'UAE', role: 'Middle East' }].map((o) => (
+                  <div key={o.city} className="flex items-center justify-between">
+                    <span className="font-reddit-sans text-14 text-white font-medium">{o.city}</span>
+                    <span className="font-reddit-sans text-12 text-[#6b809a]">{o.role}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="min-h-[300px] lg:min-h-[420px]">
+            <iframe
+              title="UElement Technologies office location — Baner, Pune"
+              src="https://www.google.com/maps?q=Pride+Gateway,+Baner,+Pune&output=embed"
+              width="100%"
+              height="100%"
+              style={{ border: 0, minHeight: '300px', display: 'block' }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ── ContactFAQ ─────────────────────────────────────────────── */
+const faqItems = [
+  {
+    q: 'How soon will someone get back to me?',
+    a: 'Our monitoring desk logs every enquiry the moment it lands. A specialist in the relevant practice — quantum security, enterprise platforms, or edge autonomy — typically responds within one business day, and sooner for flagged incidents.',
+  },
+  {
+    q: 'Do you sign an NDA before discussing our environment?',
+    a: 'Yes. All scoping conversations are covered under a mutual NDA by default, so you can speak openly about your architecture and constraints from the first call.',
+  },
+  {
+    q: 'What does a first engagement usually look like?',
+    a: 'Most engagements start with a short discovery call to understand your environment and goals, followed by a scoped proposal. There is no obligation to continue past discovery.',
+  },
+  {
+    q: 'Do you work with teams outside India?',
+    a: 'Yes, we support clients across time zones — from Pune HQ, Singapore, and UAE — with a mix of remote delivery and on-site visits where the engagement calls for it.',
+  },
+  {
+    q: 'Can you support an ongoing retainer, not just one-off projects?',
+    a: 'Yes — many clients move from a fixed-scope project into an ongoing monitoring or advisory retainer once the initial engagement is delivered.',
+  },
+];
+
+const ContactFAQ = () => {
+  const [openIndex, setOpenIndex] = useState(0);
+
+  return (
+    <section className="container-padding pb-16 sm:pb-20 lg:pb-24 relative z-10">
+      <div className="max-w-[800px] mx-auto">
+        <div className="text-center mb-8 sm:mb-10">
+          <p className="fl-slash">/ FAQ</p>
+          <h4 className="fl1 !text-white">Before you reach out</h4>
+        </div>
+        <div className="flex flex-col divide-y divide-white/10 border-t border-b border-white/10">
+          {faqItems.map((item, index) => {
+            const isOpen = openIndex === index;
+            return (
+              <div key={item.q}>
+                <button
+                  type="button"
+                  onClick={() => setOpenIndex(isOpen ? -1 : index)}
+                  aria-expanded={isOpen}
+                  className="w-full flex items-center justify-between gap-4 py-5 sm:py-6 text-left"
+                >
+                  <span className="font-reddit-sans font-medium text-white text-14 sm:text-16">
+                    {item.q}
+                  </span>
+                  <span
+                    className={`shrink-0 w-6 h-6 rounded-full border border-white/30 flex items-center justify-center text-white text-14 transition-transform duration-300 ${isOpen ? 'rotate-45' : ''}`}
+                  >
+                    +
+                  </span>
+                </button>
+                <div
+                  className={`grid transition-all duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
+                >
+                  <div className="overflow-hidden">
+                    <p className="font-reddit-sans text-[#C9C9C9] text-13 sm:text-14 leading-relaxed pb-5 sm:pb-6 pr-10">
+                      {item.a}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -686,11 +909,10 @@ const FooterContent = () => {
 
               {newsletterStatus.message && (
                 <div
-                  className={`mb-3 rounded-full px-3 py-2 text-13 sm:text-14 ${
-                    newsletterStatus.type === 'success'
-                      ? 'bg-green-100 text-green-700 border border-green-300'
-                      : 'bg-red-100 text-red-700 border border-red-300'
-                  }`}
+                  className={`mb-3 rounded-full px-3 py-2 text-13 sm:text-14 ${newsletterStatus.type === 'success'
+                    ? 'bg-green-100 text-green-700 border border-green-300'
+                    : 'bg-red-100 text-red-700 border border-red-300'
+                    }`}
                 >
                   {newsletterStatus.message}
                 </div>
@@ -848,11 +1070,10 @@ const FooterContent = () => {
 
               {newsletterStatus.message && (
                 <div
-                  className={`mb-3 rounded-full px-3 py-2 text-13 sm:text-14 ${
-                    newsletterStatus.type === 'success'
-                      ? 'bg-green-100 text-green-700 border border-green-300'
-                      : 'bg-red-100 text-red-700 border border-red-300'
-                  }`}
+                  className={`mb-3 rounded-full px-3 py-2 text-13 sm:text-14 ${newsletterStatus.type === 'success'
+                    ? 'bg-green-100 text-green-700 border border-green-300'
+                    : 'bg-red-100 text-red-700 border border-red-300'
+                    }`}
                 >
                   {newsletterStatus.message}
                 </div>

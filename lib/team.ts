@@ -16,9 +16,9 @@ export interface Advisor {
 
 export const teamMembers: TeamMember[] = [
   {
-    name: 'Chaitanya Vijay Ghate (CVG)',
+    name: 'Chaitanya Vijay',
     initials: 'CG',
-    title: 'Co-founder & Chief Executive Officer',
+    title: 'Co-founder & CEO',
     description:
       "Leads UElement's strategy and programs, and represents the company's quantum security and deeptech narrative in public forums and national media.",
     photo: '/images/team/cvg.jpg',
@@ -27,7 +27,7 @@ export const teamMembers: TeamMember[] = [
   {
     name: 'Kaustubh Narwade',
     initials: 'KN',
-    title: 'Co-founder & Chief Product Officer',
+    title: 'Co-founder & CPO',
     description:
       'Owns the MainSTAY product line, including the Vizor observability, security and GRC fabric.',
     photo: '/images/team/kaustubh.jpg',
@@ -37,22 +37,32 @@ export const teamMembers: TeamMember[] = [
     name: 'Rohit Shrivastava',
     initials: 'RS',
     title: 'President',
-    description: 'Drives company operations and go-to-market execution across regions.',
+    description:
+      'Drives company operations and go-to-market execution across regions.',
     photo: '/images/team/rohit.jpg',
     linkedIn: 'https://www.linkedin.com',
   },
   {
     name: 'Niraj Sanghvi',
     initials: 'NS',
-    title: 'Chief Financial Officer',
+    title: 'CFO',
     description: 'Leads finance, governance, and corporate structuring.',
     photo: '/images/team/niraj.jpg',
     linkedIn: 'https://www.linkedin.com',
   },
   {
+    name: 'Saurabh Laddha',
+    initials: 'SL',
+    title: 'CGO',
+    description:
+      'Leads growth strategy, market expansion, and revenue generation.',
+    photo: '/images/team/saurabh.jpg',
+    linkedIn: 'https://www.linkedin.com',
+  },
+  {
     name: 'Bhagyashree Pancholi',
     initials: 'BP',
-    title: 'General Counsel',
+    title: 'CHRO & General Counsel',
     description: 'Leads legal affairs, contracts, and regulatory alignment.',
     photo: '/images/team/bhagyashree.jpg',
     linkedIn: 'https://www.linkedin.com',
@@ -68,19 +78,56 @@ export const teamMembers: TeamMember[] = [
   {
     name: 'Uday Wad',
     initials: 'UW',
-    title: 'VP R&D, Quantum & AI',
+    title: 'Consultant (R&D - Quantum & AI)',
     description: 'Leads research across quantum technologies and applied AI.',
     photo: '/images/team/uday.jpg',
     linkedIn: 'https://www.linkedin.com',
   },
-  // {
-  //   name: 'Hiren Mehta',
-  //   initials: 'HM',
-  //   title: 'Chairman',
-  //   description: "Chairs the board and leads UDTechs, UElement's parent group.",
-  //   photo: '/images/team/hiren.jpg',
-  //   linkedIn: 'https://www.linkedin.com',
-  // },
+  {
+    name: 'Nehal Randive',
+    initials: 'NR',
+    title: 'Software Lead (Data Platform)',
+    description:
+      'Leads data pipelines, system architecture, and platform development.',
+    photo: '/images/team/nehal.jpg',
+    linkedIn: 'https://www.linkedin.com',
+  },
+  {
+    name: 'Vinay Khairnar',
+    initials: 'VK',
+    title: 'Software Lead (Fullstack)',
+    description:
+      'Leads frontend interfaces, backend services, and application architecture.',
+    photo: '/images/team/vinay.jpg',
+    linkedIn: 'https://www.linkedin.com',
+  },
+  {
+    name: 'Sanket Mandavgade',
+    initials: 'SM',
+    title: 'Software Lead (AI Platform)',
+    description:
+      'Leads AI platform engineering, scalable architecture, and intelligent systems.',
+    photo: '/images/team/sanket.jpg',
+    linkedIn: 'https://www.linkedin.com',
+  },
+  {
+    name: 'Anand Satpute',
+    initials: 'AS',
+    title: 'Software Engineer (AI Platform)',
+    description:
+      'Develops machine learning pipelines, model serving, and AI integration.',
+    photo: '/images/team/anand.jpg',
+    linkedIn: 'https://www.linkedin.com',
+  },
+  {
+    name: 'Shivansh Malviya',
+    initials: 'SM',
+    title: 'Consultant (Quantum Security)',
+    description:
+      'Advisor on quantum resilience, cryptographic transitions, and enterprise security.',
+    photo: '/images/team/shivansh.jpg',
+    linkedIn: 'https://www.linkedin.com',
+  },
 ];
 
 export const advisors: Advisor[] = [

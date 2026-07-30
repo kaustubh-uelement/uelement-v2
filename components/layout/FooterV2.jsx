@@ -19,11 +19,16 @@ const FooterV2 = () => {
       <FooterContent />
       <div
         className="bg-hero-gradient container-padding py-3 sm:py-4"
-        style={{ borderTop: '1px solid transparent', borderImage: 'linear-gradient(90deg, transparent, rgba(224, 167, 105, 0.4), transparent) 1' }}
+        style={{
+          borderTop: '1px solid transparent',
+          borderImage:
+            'linear-gradient(90deg, transparent, rgba(224, 167, 105, 0.4), transparent) 1',
+        }}
       >
         <div className="max-w-[1100px] mx-auto w-full flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="font-heading text-[#808080] text-[15px] text-center sm:text-left">
-            &copy; {new Date().getFullYear()}{' '}UElement Technologies Private Limited&nbsp; |&nbsp; All Rights Reserved.
+            &copy; {new Date().getFullYear()} UElement Technologies Private
+            Limited&nbsp; |&nbsp; All Rights Reserved.
           </p>
           <p
             className=" text-[15px] tracking-wider text-center sm:text-right"
@@ -277,19 +282,27 @@ const ContactUs = () => {
 
       <div className="container-padding py-10 sm:py-12 lg:py-16">
         <div className="title-div text-primary-blue text-center mb-8 sm:mb-10 lg:mb-12">
-          <p className="font-family-[--font-heading] text-center text-xl mb-2"> / Contact Us</p>
+          <p className="font-family-[--font-heading] text-center text-xl mb-2">
+            {' '}
+            / Contact Us
+          </p>
           <h4 className="fl1 leading-tight mb-10 md:mb-14">
-            Ready to Transform Your Enterprise Security?
+            Ready to Transform Your Enterprise?
           </h4>
-          <p className="fl3 md:max-w-1/2 mx-auto leading-relaxed">
-            Empower your enterprise with smarter, scalable security that adapts
-            to new threats keeping your business safe, agile, and resilient.
+          <p className="fl3 md:max-w-9/12 mx-auto leading-relaxed">
+            Empower your enterprise with sovereign DeepTech & Quantum-secure
+            solutions. Implement state-of-the-art encryption, resilient
+            infrastructure and strong observability; making your enterprise
+            Secure, Flexible and Completely under your control.
           </p>
         </div>
 
         <div className="max-w-[1100px] mx-auto bg-white rounded-[20px] p-[8px] sm:p-[10px] grid grid-cols-1 lg:grid-cols-[40%_60%] shadow-[0px_4px_72.2px_0px_rgba(0,0,0,0.25)]">
           <div className="bg-[linear-gradient(154.11deg,#0C142D_20%,#274193_100%)] rounded-[18px] p-6 sm:p-8 lg:p-10 xl:p-12 text-white flex flex-col justify-start gap-8 lg:gap-16 relative overflow-hidden min-h-[350px]">
-            <div className="absolute -bottom-8 -right-3 text-[160px] sm:text-[180px] lg:text-[200px] xl:text-[250px] font-bold text-[#488bf0]/8 select-none pointer-events-none leading-none font-heading!">
+            <div
+              className="absolute -bottom-8 -right-3 text-[160px] sm:text-[180px] lg:text-[200px] xl:text-[250px] font-bold text-[#488bf0]/8 select-none pointer-events-none leading-none"
+              style={{ fontFamily: 'var(--font-reddit-sans)' }}
+            >
               92
             </div>
 
@@ -324,10 +337,11 @@ const ContactUs = () => {
             {/* Success/Error Message */}
             {submitStatus.message && (
               <div
-                className={`mb-6 p-4 rounded-[4px] ${submitStatus.type === 'success'
-                  ? 'bg-green-100 text-green-700 border border-green-300'
-                  : 'bg-red-100 text-red-700 border border-red-300'
-                  }`}
+                className={`mb-6 p-4 rounded-[4px] ${
+                  submitStatus.type === 'success'
+                    ? 'bg-green-100 text-green-700 border border-green-300'
+                    : 'bg-red-100 text-red-700 border border-red-300'
+                }`}
               >
                 {submitStatus.message}
               </div>
@@ -410,7 +424,19 @@ const ContactUs = () => {
                 </h6>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <Checkbox
-                    label="Cyber security"
+                    label="OT Observability"
+                    id="digitalTransformation"
+                    checked={formData.subjects.digitalTransformation}
+                    onChange={handleCheckboxChange}
+                  />
+                  <Checkbox
+                    label="Quantum Security"
+                    id="digitalTransformation"
+                    checked={formData.subjects.digitalTransformation}
+                    onChange={handleCheckboxChange}
+                  />
+                  <Checkbox
+                    label="Enterprise Resilience"
                     id="cyberSecurity"
                     checked={formData.subjects.cyberSecurity}
                     onChange={handleCheckboxChange}
@@ -447,8 +473,9 @@ const ContactUs = () => {
                   onBlur={handleBlur}
                   placeholder="Write your message.."
                   rows="1"
-                  className={`w-full bg-transparent placeholder:text-[#808080] border-b outline-none focus:border-black font-heading text-[14px] text-[#232223] py-2 px-0 resize-none transition-colors ${errors.message ? 'border-b-red-600' : 'border-b-[#D7D7D7]'
-                    }`}
+                  className={`w-full bg-transparent placeholder:text-[#808080] border-b outline-none focus:border-black font-heading text-[14px] text-[#232223] py-2 px-0 resize-none transition-colors ${
+                    errors.message ? 'border-b-red-600' : 'border-b-[#D7D7D7]'
+                  }`}
                 ></textarea>
                 {errors.message && (
                   <p className="text-red-600 text-12 mt-1 font-heading">
@@ -528,13 +555,13 @@ const FooterContent = () => {
   return (
     <>
       <footer className="hidden md:block bg-hero-gradient pt-2 lg:pt-4 pb-0 md:pb-2 container-padding -mt-px">
-        <div className="max-w-[1100px] mx-auto">
+        <div className="max-w-[1100px] mx-auto relative">
           <div className="flex flex-col lg:flex-row lg:justify-between gap-6 sm:gap-8 lg:gap-10 xl:gap-14 pb-4 md:pb-10">
             {/* Company Details */}
             <div className="company-details flex flex-col gap-12 sm:gap-16 lg:w-[220px] xl:w-[230px] shrink-0">
               <div>
                 <img
-                  src='/icons/global/UElement_Tech_Logo_White.png'
+                  src="/icons/global/UElement_Tech_Logo_White.png"
                   alt="UElement logo"
                   className=" w-auto md:mb-3"
                 />
@@ -584,10 +611,11 @@ const FooterContent = () => {
 
                 {newsletterStatus.message && (
                   <div
-                    className={`mb-3 rounded-full px-3 py-2 text-13 sm:text-14 ${newsletterStatus.type === 'success'
-                      ? 'bg-green-100 text-green-700 border border-green-300'
-                      : 'bg-red-100 text-red-700 border border-red-300'
-                      }`}
+                    className={`mb-3 rounded-full px-3 py-2 text-13 sm:text-14 ${
+                      newsletterStatus.type === 'success'
+                        ? 'bg-green-100 text-green-700 border border-green-300'
+                        : 'bg-red-100 text-red-700 border border-red-300'
+                    }`}
                   >
                     {newsletterStatus.message}
                   </div>
@@ -629,18 +657,38 @@ const FooterContent = () => {
                     MainSTAY
                   </h6>
                   <div className="flex flex-col gap-3 sm:gap-4 font-heading font-light">
-                    <Link href="/mainstay" className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:!text-white transition-colors">Program overview</Link>
-                    <Link href="/mainstay#nexus" className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors">
+                    <Link
+                      href="/mainstay"
+                      className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:!text-white transition-colors"
+                    >
+                      Program overview
+                    </Link>
+                    <Link
+                      href="/mainstay#nexus"
+                      className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
+                    >
                       <span className="!text-[14px] !font-heading">Nexus</span>
-                      <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">The Enterprise Digital Fabric</span>
+                      <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
+                        The Enterprise Digital Fabric
+                      </span>
                     </Link>
-                    <Link href="/mainstay#vizor" className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors">
+                    <Link
+                      href="/mainstay#vizor"
+                      className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
+                    >
                       <span className="!text-[14px] !font-heading">Vizor</span>
-                      <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">Observability · Security · GRC</span>
+                      <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
+                        Observability · Security · GRC
+                      </span>
                     </Link>
-                    <Link href="/mainstay#kayak" className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors">
+                    <Link
+                      href="/mainstay#kayak"
+                      className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
+                    >
                       <span className="!text-[14px] !font-heading">Kayak</span>
-                      <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">Everything as a Service</span>
+                      <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
+                        Everything as a Service
+                      </span>
                     </Link>
                   </div>
                 </div>
@@ -650,18 +698,44 @@ const FooterContent = () => {
                     MainSPAR
                   </h6>
                   <div className="flex flex-col gap-3 sm:gap-4 font-heading font-light">
-                    <Link href="/mainspar" className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:!text-white transition-colors">Program overview</Link>
-                    <Link href="/mainspar#merlinos" className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors">
-                      <span className="!text-[14px] !font-heading">MerlinOS</span>
-                      <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">Sovereign edge AI OS</span>
+                    <Link
+                      href="/mainspar"
+                      className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:!text-white transition-colors"
+                    >
+                      Program overview
                     </Link>
-                    <Link href="/mainspar#mustangc3" className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors">
-                      <span className="!text-[14px] !font-heading">MustangC3</span>
-                      <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">Agentic command & control</span>
+                    <Link
+                      href="/mainspar#merlinos"
+                      className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
+                    >
+                      <span className="!text-[14px] !font-heading">
+                        MerlinOS
+                      </span>
+                      <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
+                        Sovereign edge AI OS
+                      </span>
                     </Link>
-                    <Link href="/mainspar#mesogrid" className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors">
-                      <span className="!text-[14px] !font-heading">MesoGRID</span>
-                      <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">Resilient decentralised mesh</span>
+                    <Link
+                      href="/mainspar#mustangc3"
+                      className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
+                    >
+                      <span className="!text-[14px] !font-heading">
+                        MustangC3
+                      </span>
+                      <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
+                        Agentic command & control
+                      </span>
+                    </Link>
+                    <Link
+                      href="/mainspar#mesogrid"
+                      className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
+                    >
+                      <span className="!text-[14px] !font-heading">
+                        MesoGRID
+                      </span>
+                      <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
+                        Resilient decentralised mesh
+                      </span>
                     </Link>
                   </div>
                 </div>
@@ -672,18 +746,40 @@ const FooterContent = () => {
                   U92 Quantum
                 </h6>
                 <div className="flex flex-col gap-3 sm:gap-4 font-heading font-light">
-                  <Link href="/u92" className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:!text-white transition-colors">Practice overview</Link>
-                  <Link href="/u92#pqc" className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors">
+                  <Link
+                    href="/u92"
+                    className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:!text-white transition-colors"
+                  >
+                    Practice overview
+                  </Link>
+                  <Link
+                    href="/u92#pqc"
+                    className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
+                  >
                     <span className="!text-[14px] !font-heading">PQC</span>
-                    <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">Post-quantum cryptography</span>
+                    <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
+                      Post-quantum cryptography
+                    </span>
                   </Link>
-                  <Link href="/u92#qkd" className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors">
+                  <Link
+                    href="/u92#qkd"
+                    className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
+                  >
                     <span className="!text-[14px] !font-heading">QKD</span>
-                    <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">Quantum key distribution</span>
+                    <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
+                      Quantum key distribution
+                    </span>
                   </Link>
-                  <Link href="/u92#crypto-agility" className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors">
-                    <span className="!text-[14px] !font-heading">Crypto-Agility</span>
-                    <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">Axis · Codex · Crucible</span>
+                  <Link
+                    href="/u92#crypto-agility"
+                    className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
+                  >
+                    <span className="!text-[14px] !font-heading">
+                      Crypto-Agility
+                    </span>
+                    <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
+                      Axis · Codex · Crucible
+                    </span>
                   </Link>
                 </div>
               </div>
@@ -693,20 +789,63 @@ const FooterContent = () => {
                   COMPANY
                 </h6>
                 <div className="flex flex-col gap-3 sm:gap-4 font-heading font-light">
-                  <Link href="/company" className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors">About Us</Link>
-                  <Link href="/news" className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors">News Room</Link>
-                  <Link href="/success-stories" className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors">Success Stories</Link>
-                  <Link href="/our-partners" className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors">Partnerships</Link>
-                  <Link href="/blogs" className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors">Blogs</Link>
-                  <Link href="/investor-relations" className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors">Investor Relations</Link>
-                  <Link href="/industries" className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors">Industries</Link>
-                  <Link href="/careers" className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors">Careers</Link>
-                  <Link href="/contact-us" className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors">Contact</Link>
+                  <Link
+                    href="/company"
+                    className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
+                  >
+                    About Us
+                  </Link>
+                  <Link
+                    href="/news"
+                    className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
+                  >
+                    News Room
+                  </Link>
+                  <Link
+                    href="/success-stories"
+                    className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
+                  >
+                    Success Stories
+                  </Link>
+                  <Link
+                    href="/our-partners"
+                    className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
+                  >
+                    Partnerships
+                  </Link>
+                  <Link
+                    href="/blogs"
+                    className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
+                  >
+                    Blogs
+                  </Link>
+                  <Link
+                    href="/investor-relations"
+                    className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
+                  >
+                    Investor Relations
+                  </Link>
+                  <Link
+                    href="/industries"
+                    className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
+                  >
+                    Industries
+                  </Link>
+                  <Link
+                    href="/careers"
+                    className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
+                  >
+                    Careers
+                  </Link>
+                  <Link
+                    href="/contact-us"
+                    className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
+                  >
+                    Contact
+                  </Link>
                 </div>
               </div>
             </div>
-
-
           </div>
         </div>
       </footer>
@@ -736,8 +875,7 @@ const FooterContent = () => {
                   </Link>
                   <Link
                     href="https://facebook.com/uelement.technologies"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    target="_blank"fl
                     className="  hover:translate-y-[-3px] duration-300 ease-in-out transition-all hover:text-white/70"
                   >
                     <Icon name="facebook3" size={35} />
@@ -768,10 +906,11 @@ const FooterContent = () => {
 
                 {newsletterStatus.message && (
                   <div
-                    className={`mb-3 rounded-full px-3 py-2 text-13 sm:text-14 ${newsletterStatus.type === 'success'
-                      ? 'bg-green-100 text-green-700 border border-green-300'
-                      : 'bg-red-100 text-red-700 border border-red-300'
-                      }`}
+                    className={`mb-3 rounded-full px-3 py-2 text-13 sm:text-14 ${
+                      newsletterStatus.type === 'success'
+                        ? 'bg-green-100 text-green-700 border border-green-300'
+                        : 'bg-red-100 text-red-700 border border-red-300'
+                    }`}
                   >
                     {newsletterStatus.message}
                   </div>
@@ -813,18 +952,38 @@ const FooterContent = () => {
                     MAINSTAY
                   </h6>
                   <div className="flex flex-col gap-3 sm:gap-4 font-heading font-light">
-                    <Link href="/mainstay" className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:!text-white transition-colors">Program overview</Link>
-                    <Link href="/mainstay#nexus" className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors">
+                    <Link
+                      href="/mainstay"
+                      className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:!text-white transition-colors"
+                    >
+                      Program overview
+                    </Link>
+                    <Link
+                      href="/mainstay#nexus"
+                      className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
+                    >
                       <span className="!text-[14px] !font-heading">Nexus</span>
-                      <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">The Enterprise Digital Fabric</span>
+                      <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
+                        The Enterprise Digital Fabric
+                      </span>
                     </Link>
-                    <Link href="/mainstay#vizor" className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors">
+                    <Link
+                      href="/mainstay#vizor"
+                      className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
+                    >
                       <span className="!text-[14px] !font-heading">Vizor</span>
-                      <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">Observability · Security · GRC</span>
+                      <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
+                        Observability · Security · GRC
+                      </span>
                     </Link>
-                    <Link href="/mainstay#kayak" className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors">
+                    <Link
+                      href="/mainstay#kayak"
+                      className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
+                    >
                       <span className="!text-[14px] !font-heading">Kayak</span>
-                      <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">Everything as a Service</span>
+                      <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
+                        Everything as a Service
+                      </span>
                     </Link>
                   </div>
                 </div>
@@ -834,18 +993,44 @@ const FooterContent = () => {
                     MAINSPAR
                   </h6>
                   <div className="flex flex-col gap-3 sm:gap-4 font-heading font-light">
-                    <Link href="/mainspar" className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:!text-white transition-colors">Program overview</Link>
-                    <Link href="/mainspar#merlinos" className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors">
-                      <span className="!text-[14px] !font-heading">MerlinOS</span>
-                      <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">Sovereign edge AI OS</span>
+                    <Link
+                      href="/mainspar"
+                      className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:!text-white transition-colors"
+                    >
+                      Program overview
                     </Link>
-                    <Link href="/mainspar#mustangc3" className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors">
-                      <span className="!text-[14px] !font-heading">MustangC3</span>
-                      <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">Agentic command & control</span>
+                    <Link
+                      href="/mainspar#merlinos"
+                      className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
+                    >
+                      <span className="!text-[14px] !font-heading">
+                        MerlinOS
+                      </span>
+                      <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
+                        Sovereign edge AI OS
+                      </span>
                     </Link>
-                    <Link href="/mainspar#mesogrid" className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors">
-                      <span className="!text-[14px] !font-heading">MesoGRID</span>
-                      <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">Resilient decentralised mesh</span>
+                    <Link
+                      href="/mainspar#mustangc3"
+                      className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
+                    >
+                      <span className="!text-[14px] !font-heading">
+                        MustangC3
+                      </span>
+                      <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
+                        Agentic command & control
+                      </span>
+                    </Link>
+                    <Link
+                      href="/mainspar#mesogrid"
+                      className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
+                    >
+                      <span className="!text-[14px] !font-heading">
+                        MesoGRID
+                      </span>
+                      <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
+                        Resilient decentralised mesh
+                      </span>
                     </Link>
                   </div>
                 </div>
@@ -857,18 +1042,40 @@ const FooterContent = () => {
                     U92 QUANTUM
                   </h6>
                   <div className="flex flex-col gap-3 sm:gap-4 font-heading font-light">
-                    <Link href="/u92" className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:!text-white transition-colors">Practice overview</Link>
-                    <Link href="/u92#pqc" className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors">
+                    <Link
+                      href="/u92"
+                      className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:!text-white transition-colors"
+                    >
+                      Practice overview
+                    </Link>
+                    <Link
+                      href="/u92#pqc"
+                      className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
+                    >
                       <span className="!text-[14px] !font-heading">PQC</span>
-                      <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">Post-quantum cryptography</span>
+                      <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
+                        Post-quantum cryptography
+                      </span>
                     </Link>
-                    <Link href="/u92#qkd" className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors">
+                    <Link
+                      href="/u92#qkd"
+                      className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
+                    >
                       <span className="!text-[14px] !font-heading">QKD</span>
-                      <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">Quantum key distribution</span>
+                      <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
+                        Quantum key distribution
+                      </span>
                     </Link>
-                    <Link href="/u92#crypto-agility" className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors">
-                      <span className="!text-[14px] !font-heading">Crypto-Agility</span>
-                      <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">Axis · Codex · Crucible</span>
+                    <Link
+                      href="/u92#crypto-agility"
+                      className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
+                    >
+                      <span className="!text-[14px] !font-heading">
+                        Crypto-Agility
+                      </span>
+                      <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
+                        Axis · Codex · Crucible
+                      </span>
                     </Link>
                   </div>
                 </div>
@@ -878,21 +1085,64 @@ const FooterContent = () => {
                     COMPANY
                   </h6>
                   <div className="flex flex-col gap-3 sm:gap-4 font-heading font-light">
-                    <Link href="/company" className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors">About Us</Link>
-                    <Link href="/news" className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors">News Room</Link>
-                    <Link href="/success-stories" className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors">Success Stories</Link>
-                    <Link href="/our-partners" className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors">Partnerships</Link>
-                    <Link href="/blogs" className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors">Blogs</Link>
-                    <Link href="/investor-relations" className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors">Investor Relations</Link>
-                    <Link href="/industries" className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors">Industries</Link>
-                    <Link href="/careers" className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors">Careers</Link>
-                    <Link href="/contact-us" className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors">Contact</Link>
+                    <Link
+                      href="/company"
+                      className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
+                    >
+                      About Us
+                    </Link>
+                    <Link
+                      href="/news"
+                      className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
+                    >
+                      News Room
+                    </Link>
+                    <Link
+                      href="/success-stories"
+                      className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
+                    >
+                      Success Stories
+                    </Link>
+                    <Link
+                      href="/our-partners"
+                      className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
+                    >
+                      Partnerships
+                    </Link>
+                    <Link
+                      href="/blogs"
+                      className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
+                    >
+                      Blogs
+                    </Link>
+                    <Link
+                      href="/investor-relations"
+                      className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
+                    >
+                      Investor Relations
+                    </Link>
+                    <Link
+                      href="/industries"
+                      className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
+                    >
+                      Industries
+                    </Link>
+                    <Link
+                      href="/careers"
+                      className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
+                    >
+                      Careers
+                    </Link>
+                    <Link
+                      href="/contact-us"
+                      className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
+                    >
+                      Contact
+                    </Link>
                   </div>
                 </div>
               </div>
             </div>
-
-
           </div>
         </div>
       </footer>
