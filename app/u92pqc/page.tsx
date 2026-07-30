@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function U92PQCPage() {
   return (
     <>
-      <div className="hero"><div className="hero-fabric" /><div className="wrap">
+      <div className="hero hero-half"><div className="hero-fabric" /><div className="wrap">
         <div className="crumb"><Link href="/">Home</Link> / <Link href="/u92">U92</Link> / PQC</div>
         <div className="tag">U92 · Post-Quantum Cryptography</div>
         <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>U92 PQC</h1>

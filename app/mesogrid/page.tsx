@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function MesogridPage() {
   return (
     <>
-      <div className="hero"><div className="hero-fabric" /><div className="wrap">
+      <div className="hero hero-half"><div className="hero-fabric" /><div className="wrap">
         <div className="crumb"><Link href="/">Home</Link> / <Link href="/mainspar">MainSPAR</Link> / MesoGRID</div>
         <div className="tag slate">MainSPAR · The Fabric</div>
         <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>MesoGRID</h1>

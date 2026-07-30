@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function MerlinOSPage() {
   return (
     <>
-      <div className="hero"><div className="hero-fabric" /><div className="wrap">
+      <div className="hero hero-half"><div className="hero-fabric" /><div className="wrap">
         <div className="crumb"><Link href="/">Home</Link> / <Link href="/mainspar">MainSPAR</Link> / MerlinOS</div>
         <div className="tag slate">MainSPAR · The Brain</div>
         <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>MerlinOS</h1>

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function IndustriesPage() {
   return (
     <>
-      <div className="hero"><div className="hero-fabric" /><div className="wrap">
+      <div className="hero hero-half"><div className="hero-fabric" /><div className="wrap">
         <div className="crumb"><Link href="/">Home</Link> / Industries</div>
         <div className="kicker">Industries</div>
         <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>Where we operate.</h1>

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function U92QKDPage() {
   return (
     <>
-      <div className="hero"><div className="hero-fabric" /><div className="wrap">
+      <div className="hero hero-half"><div className="hero-fabric" /><div className="wrap">
         <div className="crumb"><Link href="/">Home</Link> / <Link href="/u92">U92</Link> / QKD</div>
         <div className="tag">U92 · Quantum Key Distribution</div>
         <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>U92 QKD</h1>
