@@ -1960,13 +1960,41 @@ table.spec td:first-child {
 
 .hero-art {
   position: absolute;
-  top: -65%;
-  right: -25%;
-  width: 720px;
-  height: 720px;
   pointer-events: none;
   z-index: 0;
   opacity: 0.18;
+}
+
+/* Desktop (≥1024px): large, top-right, quarter visible */
+@media (min-width: 1024px) {
+  .hero-art {
+    top: -45%;
+    right: -25%;
+    width: 720px;
+    height: 720px;
+  }
+}
+
+/* Tablet (768–1023px): slightly smaller, pulled in so it frames the text */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .hero-art {
+    top: -45%;
+    right: -10%;
+    width: 520px;
+    height: 520px;
+  }
+}
+
+/* Mobile (<768px): even smaller, shifted up so it doesn’t crush the hero */
+@media (max-width: 767px) {
+  .hero-art {
+    top: -35%;
+    right: -50%;
+    width: 420px;
+    height: 420px;
+  }
+  /* if you want it *off* on mobile instead, use display:none instead of sizes */
+  /* .hero-art { display: none; } */
 }
 
 .hero-art img {
@@ -1974,6 +2002,7 @@ table.spec td:first-child {
   height: 100%;
   object-fit: contain;
   filter: drop-shadow(0 24px 40px rgba(0, 0, 0, 0.45));
+  animation: hero-spin 210s linear infinite;
 }
 
 @keyframes hero-spin {
@@ -1985,23 +2014,42 @@ table.spec td:first-child {
   }
 }
 
-.hero-art img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  filter: drop-shadow(0 24px 40px rgba(0, 0, 0, 0.45));
-  animation: hero-spin 210s linear infinite;
-}
-
 .footer-flower {
   position: absolute;
-  bottom: -20%;
-  left: -25%;
-  width: 720px;
-  height: 720px;
   pointer-events: none;
   z-index: 0;
   opacity: 0.18;
+}
+
+/* Desktop (≥1024px): big, bottom-left, quarter visible */
+@media (min-width: 1024px) {
+  .footer-flower {
+    bottom: -20%;
+    left: -25%;
+    width: 720px;
+    height: 720px;
+  }
+}
+
+/* Tablet (768–1023px): smaller, pulled in */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .footer-flower {
+    bottom: -15%;
+    left: -20%;
+    width: 520px;
+    height: 520px;
+  }
+}
+
+/* Mobile (<768px): either much smaller or hidden */
+@media (max-width: 767px) {
+  /* option A: very subtle */
+  .footer-flower {
+    bottom: -8%;
+    left: -35%;
+    width: 360px;
+    height: 360px;
+  }
 }
 
 .footer-flower img {
