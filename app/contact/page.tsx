@@ -264,7 +264,7 @@ export default function ContactPage() {
       {/* ══════════════════════════════════════
           HERO
       ══════════════════════════════════════ */}
-      <div className="hero">
+      <div className="hero hero-half">
         <div className="hero-fabric" />
         <div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
           <div className="crumb">
@@ -302,7 +302,7 @@ export default function ContactPage() {
       {/* ══════════════════════════════════════
           DIRECT CHANNELS
       ══════════════════════════════════════ */}
-      <div className="section">
+      <div className="section alt">
         <div className="wrap">
           <div className="kicker">Direct channels</div>
           <h2 className="display" style={{ fontSize: 'clamp(26px,3.2vw,38px)', marginBottom: 14 }}>
