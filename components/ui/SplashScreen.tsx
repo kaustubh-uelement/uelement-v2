@@ -46,7 +46,7 @@ export default function SplashScreen() {
           alt="Splash Background"
           width={800}
           height={800}
-          className="w-[400px] h-[400px] md:w-[700px] md:h-[700px] object-contain opacity-25 animate-[spin_60s_linear_infinite]"
+          className="w-[360px] h-[360px] md:w-[630px] md:h-[630px] object-contain opacity-25 animate-[spin_60s_linear_infinite]"
           priority
         />
       </div>
