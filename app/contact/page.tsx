@@ -163,11 +163,11 @@ const channels = [
   },
   {
     id: 'incidents',
-    label: 'Connect over Whatsapp',
-    desc: 'Active incident or urgent vulnerability report.',
+    label: 'Connect over WhatsApp',
+    desc: 'Message us directly — fastest way to reach the team.',
     value: '+91 762 069 0561',
-    href: 'tel:+917620690561',
-    icon: '☎',
+    href: 'https://wa.me/917620690561',
+    icon: '💬',
   },
   {
     id: 'careers',
@@ -325,12 +325,7 @@ export default function ContactPage() {
               marginTop: 36,
             }}
           >
-            <a href="mailto:contact@uelement.in" className="btn btn-gold">
-              Email us
-            </a>
-            <a href="tel:+917620690561" className="btn btn-line">
-              +91 762 069 0561
-            </a>
+            
           </div>
         </div>
       </div>
