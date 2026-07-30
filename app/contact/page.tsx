@@ -271,7 +271,7 @@ export default function ContactPage() {
             <Link href="/">Home</Link> / Contact
           </div>
 
-      
+
 
           <div className="kicker">Contact</div>
           <h1 className="display" style={{ fontSize: 'var(--text-display)', maxWidth: 620 }}>
@@ -295,9 +295,9 @@ export default function ContactPage() {
         </div>
       </div>
 
-    
 
-     
+
+
 
       {/* ══════════════════════════════════════
           DIRECT CHANNELS
@@ -305,7 +305,15 @@ export default function ContactPage() {
       <div className="section alt">
         <div className="wrap">
           <div className="kicker">Direct channels</div>
-          <h2 className="display" style={{ fontSize: 'clamp(26px,3.2vw,38px)', marginBottom: 14 }}>
+          <h2
+            className="display"
+            style={{
+              fontSize: 'clamp(26px,3.2vw,38px)',
+              marginBottom: 14,
+              color: '#000',
+              display: 'inline-block',
+            }}
+          >
             Know what you need?
           </h2>
           <p className="lede" style={{ marginBottom: 44 }}>
@@ -481,7 +489,7 @@ export default function ContactPage() {
         </div>
       </div>
 
-    
+
 
       {/* ── Form field styles (scoped) ─────── */}
       <style>{`
