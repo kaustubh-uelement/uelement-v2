@@ -192,73 +192,127 @@ export default function CareersPage() {
       {/* ═══════ CULTURE PRINCIPLES ═══════ */}
       <div className="section cream">
         <div className="wrap">
-          <div className="grid2">
-            <ul style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-              <li className="mut">
-                <b style={{ color: 'var(--ink-900)' }}>Async by default.</b>{' '}
-                That meeting <em>was</em> a message. We sent the message.
-              </li>
-              <li className="mut">
-                <b style={{ color: 'var(--ink-900)' }}>
-                  Memes are a valid PR comment.
-                </b>{' '}
-                A well-placed reaction gif has closed more design debates than
-                any RFC.
-              </li>
-              <li className="mut">
-                <b style={{ color: 'var(--ink-900)' }}>
-                  No &quot;we&apos;re a family.&quot;
-                </b>{' '}
-                We&apos;re a team. Teams have standards, families have
-                obligations. You can leave a team on good terms.
-              </li>
-              <li className="mut">
-                <b style={{ color: 'var(--ink-900)' }}>
-                  Radical transparency, actual version.
-                </b>{' '}
-                Roadmaps, wins, and the losses. Especially the losses.
-              </li>
-            </ul>
-            <ul style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-              <li className="mut">
-                <b style={{ color: 'var(--ink-900)' }}>
-                  Delulu is allowed, receipts are mandatory.
-                </b>{' '}
-                Pitch the impossible thing — then show the benchmark.
-              </li>
-              <li className="mut">
-                <b style={{ color: 'var(--ink-900)' }}>
-                  Your setup, your rules.
-                </b>{' '}
-                Vim or VS Code, dark mode or feral light mode, 6am or 6pm. We
-                care about the artifact.
-              </li>
-              <li className="mut">
-                <b style={{ color: 'var(--ink-900)' }}>
-                  Mental health isn&apos;t a perk slide.
-                </b>{' '}
-                Burnout is a reactor failure, not a badge. We staff for
-                sustainable output.
-              </li>
-              <li className="mut">
-                <b style={{ color: 'var(--ink-900)' }}>
-                  Learning budget that&apos;s actually spent.
-                </b>{' '}
-                Quantum papers, conferences, that course you keep bookmarked.
-                Go.
-              </li>
-            </ul>
+          {/* GenZ Compliant Container with Gold Theme Border */}
+          <div
+            className="rounded-[20px] p-6 sm:p-8 lg:p-10 relative overflow-hidden"
+            style={{
+              background: 'transparent',
+              border: '1px solid rgba(200, 138, 62, 0.5)',
+            }}
+          >
+            {/* Top Badge & Certified Subtext */}
+            <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-8">
+              <div
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full font-mono text-12 font-bold tracking-wider uppercase"
+                style={{
+                  background: 'rgba(200, 138, 62, 0.12)',
+                  border: '1px solid rgba(200, 138, 62, 0.65)',
+                  color: '#9c621d',
+                  boxShadow: 'inset 0 0 10px rgba(200, 138, 62, 0.1)',
+                }}
+              >
+                <span style={{ color: '#9c621d' }}>✓</span> GENZ COMPLIANT
+              </div>
+              <span className="font-mono text-12 sm:text-13 text-[#8c8275] tracking-wide">
+                certified by us, audited by nobody
+              </span>
+            </div>
+
+            {/* Bullet Principles Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-8">
+              <ul className="flex flex-col gap-4">
+                <li className="flex items-start gap-2.5 text-14 leading-relaxed">
+                  <span className="text-[#c88a3e] shrink-0 font-bold text-16">•</span>
+                  <span>
+                    <strong className="text-[#1a202c] font-semibold">Async by default.</strong>{' '}
+                    <span className="text-[#718096]">
+                      That meeting <em>was</em> a message. We sent the message.
+                    </span>
+                  </span>
+                </li>
+                <li className="flex items-start gap-2.5 text-14 leading-relaxed">
+                  <span className="text-[#c88a3e] shrink-0 font-bold text-16">•</span>
+                  <span>
+                    <strong className="text-[#1a202c] font-semibold">Memes are a valid PR comment.</strong>{' '}
+                    <span className="text-[#718096]">
+                      A well-placed reaction gif has closed more design debates than any RFC.
+                    </span>
+                  </span>
+                </li>
+                <li className="flex items-start gap-2.5 text-14 leading-relaxed">
+                  <span className="text-[#c88a3e] shrink-0 font-bold text-16">•</span>
+                  <span>
+                    <strong className="text-[#1a202c] font-semibold">No &quot;we&apos;re a family.&quot;</strong>{' '}
+                    <span className="text-[#718096]">
+                      We&apos;re a team. Teams have standards, families have obligations. You can leave a team on good terms.
+                    </span>
+                  </span>
+                </li>
+                <li className="flex items-start gap-2.5 text-14 leading-relaxed">
+                  <span className="text-[#c88a3e] shrink-0 font-bold text-16">•</span>
+                  <span>
+                    <strong className="text-[#1a202c] font-semibold">Radical transparency, actual version.</strong>{' '}
+                    <span className="text-[#718096]">
+                      Roadmaps, wins, and the losses. Especially the losses.
+                    </span>
+                  </span>
+                </li>
+              </ul>
+
+              <ul className="flex flex-col gap-4">
+                <li className="flex items-start gap-2.5 text-14 leading-relaxed">
+                  <span className="text-[#c88a3e] shrink-0 font-bold text-16">•</span>
+                  <span>
+                    <strong className="text-[#1a202c] font-semibold">Delulu is allowed, receipts are mandatory.</strong>{' '}
+                    <span className="text-[#718096]">
+                      Pitch the impossible thing — then show the benchmark.
+                    </span>
+                  </span>
+                </li>
+                <li className="flex items-start gap-2.5 text-14 leading-relaxed">
+                  <span className="text-[#c88a3e] shrink-0 font-bold text-16">•</span>
+                  <span>
+                    <strong className="text-[#1a202c] font-semibold">Your setup, your rules.</strong>{' '}
+                    <span className="text-[#718096]">
+                      Vim or VS Code, dark mode or feral light mode, 6am or 6pm. We care about the artifact.
+                    </span>
+                  </span>
+                </li>
+                <li className="flex items-start gap-2.5 text-14 leading-relaxed">
+                  <span className="text-[#c88a3e] shrink-0 font-bold text-16">•</span>
+                  <span>
+                    <strong className="text-[#1a202c] font-semibold">Mental health isn&apos;t a perk slide.</strong>{' '}
+                    <span className="text-[#718096]">
+                      Burnout is a reactor failure, not a badge. We staff for sustainable output.
+                    </span>
+                  </span>
+                </li>
+                <li className="flex items-start gap-2.5 text-14 leading-relaxed">
+                  <span className="text-[#c88a3e] shrink-0 font-bold text-16">•</span>
+                  <span>
+                    <strong className="text-[#1a202c] font-semibold">Learning budget that&apos;s actually spent.</strong>{' '}
+                    <span className="text-[#718096]">
+                      Quantum papers, conferences, that course you keep bookmarked. Go.
+                    </span>
+                  </span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Divider Line */}
+            <div className="border-t border-[#c88a3e]/25 my-6 lg:my-8" />
+
+            {/* Footer Disclaimer */}
+            <p className="font-mono text-12 sm:text-13 text-[#8c8275] leading-relaxed">
+              Not compliant with: performative standups, &quot;quick syncs&quot; that aren&apos;t, LinkedIn-voice, unpaid overtime cosplaying as passion.
+            </p>
           </div>
 
-          <p className="mut" style={{ marginTop: 32, fontSize: 13.5 }}>
-            Not compliant with: performative standups, &quot;quick syncs&quot;
-            that aren&apos;t, LinkedIn-voice, unpaid overtime cosplaying as
-            passion.
-          </p>
-
-          <p className="serif-line" style={{ marginTop: 28, maxWidth: 620 }}>
-            Stability is overrated. Bring your instability — we&apos;ll build
-            the reactor around it.
+          <p
+            className="serif-line mt-10 text-left sm:text-center max-w-[680px] mx-auto text-22 sm:text-26 font-normal leading-snug"
+            style={{ color: '#b87a2d' }}
+          >
+            Stability is overrated. Bring your instability — we&apos;ll build the reactor around it.
           </p>
         </div>
       </div>
