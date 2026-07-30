@@ -343,11 +343,10 @@ const ContactUs = () => {
             {/* Success/Error Message */}
             {submitStatus.message && (
               <div
-                className={`mb-6 p-4 rounded-[4px] ${
-                  submitStatus.type === 'success'
-                    ? 'bg-green-100 text-green-700 border border-green-300'
-                    : 'bg-red-100 text-red-700 border border-red-300'
-                }`}
+                className={`mb-6 p-4 rounded-[4px] ${submitStatus.type === 'success'
+                  ? 'bg-green-100 text-green-700 border border-green-300'
+                  : 'bg-red-100 text-red-700 border border-red-300'
+                  }`}
               >
                 {submitStatus.message}
               </div>
@@ -467,9 +466,8 @@ const ContactUs = () => {
                   onBlur={handleBlur}
                   placeholder="Write your message.."
                   rows="1"
-                  className={`w-full placeholder:text-gray-8080 border-b ${
-                    errors.message ? 'border-b-red-600' : 'border-b-[#D7D7D7]'
-                  } font-reddit-sans text-14 py-2 resize-none focus:border-primary-blue transition-colors`}
+                  className={`w-full placeholder:text-gray-8080 border-b ${errors.message ? 'border-b-red-600' : 'border-b-[#D7D7D7]'
+                    } font-reddit-sans text-14 py-2 resize-none focus:border-primary-blue transition-colors`}
                 ></textarea>
                 {errors.message && (
                   <p className="text-red-600 text-12 mt-1 font-reddit-sans">
@@ -686,11 +684,10 @@ const FooterContent = () => {
 
               {newsletterStatus.message && (
                 <div
-                  className={`mb-3 rounded-full px-3 py-2 text-13 sm:text-14 ${
-                    newsletterStatus.type === 'success'
-                      ? 'bg-green-100 text-green-700 border border-green-300'
-                      : 'bg-red-100 text-red-700 border border-red-300'
-                  }`}
+                  className={`mb-3 rounded-full px-3 py-2 text-13 sm:text-14 ${newsletterStatus.type === 'success'
+                    ? 'bg-green-100 text-green-700 border border-green-300'
+                    : 'bg-red-100 text-red-700 border border-red-300'
+                    }`}
                 >
                   {newsletterStatus.message}
                 </div>
@@ -848,11 +845,10 @@ const FooterContent = () => {
 
               {newsletterStatus.message && (
                 <div
-                  className={`mb-3 rounded-full px-3 py-2 text-13 sm:text-14 ${
-                    newsletterStatus.type === 'success'
-                      ? 'bg-green-100 text-green-700 border border-green-300'
-                      : 'bg-red-100 text-red-700 border border-red-300'
-                  }`}
+                  className={`mb-3 rounded-full px-3 py-2 text-13 sm:text-14 ${newsletterStatus.type === 'success'
+                    ? 'bg-green-100 text-green-700 border border-green-300'
+                    : 'bg-red-100 text-red-700 border border-red-300'
+                    }`}
                 >
                   {newsletterStatus.message}
                 </div>
