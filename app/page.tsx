@@ -146,7 +146,10 @@ export default function HomePage() {
 
       {/* ═══════ WHY UELEMENT ═══════ */}
       <div className="section navy">
-        <div className="wrap grid2" style={{ alignItems: 'center' }}>
+        <div
+          className="wrap grid2"
+          style={{ alignItems: 'center', columnGap: '60px' }}
+        >
           <div>
             <div className="kicker">Why UElement</div>
             <p className="serif-line">
@@ -160,10 +163,17 @@ export default function HomePage() {
               as operational exhaust — not reconstructed for audit season.
             </p>
           </div>
-          <div className="grid2">
+          <div className="grid2 relative">
+            {/* Vertical divider */}
+            <div className="hidden md:block absolute inset-y-0 left-1/2 border-l border-dotted border-[#c5d0dc]/40" />
+            {/* Horizontal divider */}
+            <div className="hidden md:block absolute inset-x-0 top-1/2 border-t border-dotted border-[#c5d0dc]/40" />
+
             <div className="stat">
               <b>13</b>
-              <span>Global customers across USA, Europe, Middle-east & JPAC</span>
+              <span>
+                Global customers across USA, Europe, Middle-east &amp; JPAC
+              </span>
             </div>
             <div className="stat">
               <b>2 + 1</b>
@@ -264,7 +274,10 @@ export default function HomePage() {
       {/* ═══════ CREAM QUOTE ═══════ */}
       <div className="section cream">
         <div className="wrap" style={{ textAlign: 'center' }}>
-          <p className="serif-line" style={{ maxWidth: 760, margin: '0 auto' }}>
+          <p
+            className="serif-line serif-line--quote"
+            style={{ maxWidth: 760, margin: '0 auto' }}
+          >
             &quot;We don&apos;t connect the edge to the cloud.
             <br />
             We turn the edge into the cloud.&quot;

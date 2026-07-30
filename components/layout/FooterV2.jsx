@@ -289,15 +289,20 @@ const ContactUs = () => {
           <h4 className="fl1 leading-tight mb-10 md:mb-14">
             Ready to Transform Your Enterprise?
           </h4>
-          <p className="fl3 md:max-w-1/2 mx-auto leading-relaxed">
-            Empower your enterprise with smarter, scalable security that adapts
-            to new threats keeping your business safe, agile, and resilient.
+          <p className="fl3 md:max-w-9/12 mx-auto leading-relaxed">
+            Empower your enterprise with sovereign DeepTech & Quantum-secure
+            solutions. Implement state-of-the-art encryption, resilient
+            infrastructure and strong observability; making your enterprise
+            Secure, Flexible and Completely under your control.
           </p>
         </div>
 
         <div className="max-w-[1100px] mx-auto bg-white rounded-[20px] p-[8px] sm:p-[10px] grid grid-cols-1 lg:grid-cols-[40%_60%] shadow-[0px_4px_72.2px_0px_rgba(0,0,0,0.25)]">
           <div className="bg-[linear-gradient(154.11deg,#0C142D_20%,#274193_100%)] rounded-[18px] p-6 sm:p-8 lg:p-10 xl:p-12 text-white flex flex-col justify-start gap-8 lg:gap-16 relative overflow-hidden min-h-[350px]">
-            <div className="absolute -bottom-8 -right-3 text-[160px] sm:text-[180px] lg:text-[200px] xl:text-[250px] font-bold text-[#488bf0]/8 select-none pointer-events-none leading-none font-heading!">
+            <div
+              className="absolute -bottom-8 -right-3 text-[160px] sm:text-[180px] lg:text-[200px] xl:text-[250px] font-bold text-[#488bf0]/8 select-none pointer-events-none leading-none"
+              style={{ fontFamily: 'var(--font-reddit-sans)' }}
+            >
               92
             </div>
 
