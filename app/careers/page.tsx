@@ -5,7 +5,7 @@ import OpenPositions from '@/components/careers/OpenPositions';
 export const metadata: Metadata = {
   title: 'Careers — UElement Technologies',
   description:
-    'Do the work your grandkids will brag about. Quantum-safe banking rails, autonomy that survives when the network dies, machines that keep nations running.',
+    'Do the work your FAMILY will brag about. Quantum-safe banking rails, autonomy that survives when the network dies, machines that keep nations running.',
 };
 
 export default function CareersPage() {
@@ -20,7 +20,7 @@ export default function CareersPage() {
           </div>
           <div className="kicker">Careers</div>
           <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>
-            Do the work your grandkids will brag about.
+            Do the work your FAMILY will brag about.
           </h1>
           <p className="lede" style={{ marginTop: 20 }}>
             Quantum-safe banking rails. Autonomy that survives when the network

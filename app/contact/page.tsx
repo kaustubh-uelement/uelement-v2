@@ -4,16 +4,24 @@ import Link from 'next/link';
 import { useState } from 'react';
 import type { Metadata } from 'next';
 
-
 /* ─── Inline contact form ─────────────────────────────────────── */
 /* The form logic is intentionally kept minimal — wire to your CRM */
 /* or email endpoint without touching the layout around it.        */
 function ContactForm() {
-  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
-  const [data, setData] = useState({ name: '', email: '', interest: '', message: '' });
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>(
+    'idle'
+  );
+  const [data, setData] = useState({
+    name: '',
+    email: '',
+    interest: '',
+    message: '',
+  });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => setData((p) => ({ ...p, [e.target.name]: e.target.value }));
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -52,7 +60,13 @@ function ContactForm() {
         >
           ✓
         </div>
-        <h4 style={{ fontFamily: 'var(--font-heading)', color: 'var(--cream-100)', fontSize: 18 }}>
+        <h4
+          style={{
+            fontFamily: 'var(--font-heading)',
+            color: 'var(--cream-100)',
+            fontSize: 18,
+          }}
+        >
           Message received
         </h4>
         <p style={{ color: 'var(--grey-350)', fontSize: 13.5 }}>
@@ -143,13 +157,13 @@ const channels = [
     id: 'sales',
     label: 'New business',
     desc: 'Scoping a project or evaluating a partner.',
-    value: 'contact@uelement.in',
-    href: 'mailto:contact@uelement.in',
+    value: 'info@uelement.in',
+    href: 'mailto:info@uelement.in',
     icon: '✉',
   },
   {
     id: 'incidents',
-    label: 'Security incidents',
+    label: 'Connect over Whatsapp',
     desc: 'Active incident or urgent vulnerability report.',
     value: '+91 762 069 0561',
     href: 'tel:+917620690561',
@@ -192,7 +206,17 @@ const faqs = [
 ];
 
 /* ─── FAQ accordion item ─────────────────────────────────────── */
-function FAQItem({ q, a, open, onToggle }: { q: string; a: string; open: boolean; onToggle: () => void }) {
+function FAQItem({
+  q,
+  a,
+  open,
+  onToggle,
+}: {
+  q: string;
+  a: string;
+  open: boolean;
+  onToggle: () => void;
+}) {
   return (
     <div style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}>
       <button
@@ -246,7 +270,15 @@ function FAQItem({ q, a, open, onToggle }: { q: string; a: string; open: boolean
         }}
       >
         <div style={{ overflow: 'hidden' }}>
-          <p style={{ color: 'var(--grey-350)', fontSize: 13.5, lineHeight: 1.72, paddingBottom: 22, paddingRight: 40 }}>
+          <p
+            style={{
+              color: 'var(--grey-350)',
+              fontSize: 13.5,
+              lineHeight: 1.72,
+              paddingBottom: 22,
+              paddingRight: 40,
+            }}
+          >
             {a}
           </p>
         </div>
@@ -271,22 +303,30 @@ export default function ContactPage() {
             <Link href="/">Home</Link> / Contact
           </div>
 
-
-
           <div className="kicker">Contact</div>
-          <h1 className="display" style={{ fontSize: 'var(--text-display)', maxWidth: 620 }}>
-            Start the{' '}
-            <span className="au">conversation.</span>
+          <h1
+            className="display"
+            style={{ fontSize: 'var(--text-display)', maxWidth: 620 }}
+          >
+            Start the <span className="au">conversation.</span>
           </h1>
           <p className="lede" style={{ marginTop: 20, maxWidth: 560 }}>
-            Whether it&apos;s a quantum risk assessment, a 45-day MainSTAY proof of value,
-            a tactical-edge briefing, or a partnership — tell us what you&apos;re solving for.
+            Whether it&apos;s a quantum risk assessment, a 45-day MainSTAY proof
+            of value, a tactical-edge briefing, or a partnership — tell us what
+            you&apos;re solving for.
           </p>
 
           {/* Quick-action pills */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 36 }}>
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: 12,
+              marginTop: 36,
+            }}
+          >
             <a href="mailto:contact@uelement.in" className="btn btn-gold">
-              Email directly
+              Email us
             </a>
             <a href="tel:+917620690561" className="btn btn-line">
               +91 762 069 0561
@@ -294,10 +334,6 @@ export default function ContactPage() {
           </div>
         </div>
       </div>
-
-
-
-
 
       {/* ══════════════════════════════════════
           DIRECT CHANNELS
@@ -325,7 +361,11 @@ export default function ContactPage() {
                 key={ch.id}
                 href={ch.href}
                 className="card link"
-                style={{ textDecoration: 'none', position: 'relative', overflow: 'hidden' }}
+                style={{
+                  textDecoration: 'none',
+                  position: 'relative',
+                  overflow: 'hidden',
+                }}
               >
                 {/* icon badge */}
                 <div
@@ -354,142 +394,6 @@ export default function ContactPage() {
           </div>
         </div>
       </div>
-
-      {/* ══════════════════════════════════════
-          MAP + ADDRESS
-      ══════════════════════════════════════ */}
-      <div className="section navy" style={{ padding: '80px 0' }}>
-        <div className="wrap">
-          <div className="kicker">Find us</div>
-          <h2 className="display" style={{ fontSize: 'clamp(26px,3.2vw,38px)', marginBottom: 44 }}>
-            Three offices. One standard.
-          </h2>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1.6fr',
-              gap: 32,
-              borderRadius: 'var(--radius-lg)',
-              overflow: 'hidden',
-              border: '1px solid rgba(255,255,255,0.08)',
-            }}
-          >
-            {/* Address panel */}
-            <div
-              className="card"
-              style={{
-                borderRadius: 0,
-                border: 'none',
-                background: 'rgba(12,20,62,0.75)',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                gap: 28,
-              }}
-            >
-              {[
-                {
-                  city: 'Pune, India',
-                  role: 'Global HQ',
-                  addr: '9th Floor, Pride Gateway, Sr. No. 112, Baner, Pune 411045.',
-                  maps: 'https://www.google.com/maps/search/?api=1&query=Pride+Gateway+Baner+Pune',
-                },
-                {
-                  city: 'Singapore',
-                  role: 'JAPAC Operations',
-                  addr: 'Partnerships & regional pursuits.',
-                  maps: undefined,
-                },
-                {
-                  city: 'UAE',
-                  role: 'Middle East Operations',
-                  addr: 'Regional engagements and pursuits.',
-                  maps: undefined,
-                },
-              ].map((o) => (
-                <div key={o.city}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
-                    <h4 style={{ margin: 0 }}>{o.city}</h4>
-                    <span
-                      style={{
-                        fontFamily: 'var(--font-mono)',
-                        fontSize: 9,
-                        letterSpacing: '0.08em',
-                        padding: '3px 8px',
-                        borderRadius: 'var(--radius-pill)',
-                        background: 'rgba(224,167,105,0.08)',
-                        border: '1px solid rgba(224,167,105,0.22)',
-                        color: 'var(--gold-500)',
-                        textTransform: 'uppercase',
-                      }}
-                    >
-                      {o.role}
-                    </span>
-                  </div>
-                  <p style={{ fontSize: 13, marginBottom: o.maps ? 10 : 0 }}>{o.addr}</p>
-                  {o.maps && (
-                    <a
-                      href={o.maps}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        fontFamily: 'var(--font-heading)',
-                        fontSize: 12,
-                        color: 'var(--gold-500)',
-                        fontWeight: 600,
-                        letterSpacing: '0.04em',
-                      }}
-                    >
-                      Get directions →
-                    </a>
-                  )}
-                </div>
-              ))}
-            </div>
-
-            {/* Map embed */}
-            <div style={{ minHeight: 380 }}>
-              <iframe
-                title="UElement Technologies — Baner, Pune"
-                src="https://www.google.com/maps?q=Pride+Gateway,+Baner,+Pune&output=embed"
-                width="100%"
-                height="100%"
-                style={{ border: 0, minHeight: 380, display: 'block' }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* ══════════════════════════════════════
-          FAQ
-      ══════════════════════════════════════ */}
-      <div className="section">
-        <div className="wrap" style={{ maxWidth: 760, marginLeft: 'auto', marginRight: 'auto' }}>
-          <div className="kicker" style={{ justifyContent: 'center' }}>
-            Before you reach out
-          </div>
-          <h2 className="display" style={{ fontSize: 'clamp(26px,3.2vw,38px)', textAlign: 'center', marginBottom: 48 }}>
-            Common questions.
-          </h2>
-          <div style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
-            {faqs.map((f, i) => (
-              <FAQItem
-                key={f.q}
-                q={f.q}
-                a={f.a}
-                open={openFaq === i}
-                onToggle={() => setOpenFaq(openFaq === i ? -1 : i)}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-
-
 
       {/* ── Form field styles (scoped) ─────── */}
       <style>{`

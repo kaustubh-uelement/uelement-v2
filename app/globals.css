@@ -360,6 +360,11 @@
   letter-spacing: 0.03em;
 }
 
+.fl4-1 {
+  @apply font-serif italic text-12 md:text-14 xl:text-18 font-medium text-white;
+  letter-spacing: 0.03em;
+}
+
 @utility bg-hero-gradient {
   background-image: linear-gradient(
     97.27deg,

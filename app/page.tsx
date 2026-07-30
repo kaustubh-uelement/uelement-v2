@@ -37,9 +37,10 @@ export default function HomePage() {
             <p className="lede mt-6 md:mt-8">
               Engineering{' '}
               <span className="italic font-medium">Quantum-secure</span> and{' '}
-              <span className="italic font-medium">resilient </span> autonomous
-              systems <br className="hidden md:block" />
-              that create a seamless Digital Fabric for the tactical edge.
+              resilient autonomous systems <br className="hidden md:block" />
+              that create a seamless{' '}
+              <span className="italic font-medium">Digital-fabric</span> for the
+              tactical edge.
             </p>
 
             {/* CTA Buttons — re-enable pointer events just here */}
@@ -161,8 +162,8 @@ export default function HomePage() {
           </div>
           <div className="grid2">
             <div className="stat">
-              <b>3</b>
-              <span>Global offices — Pune HQ, Singapore, UAE</span>
+              <b>13</b>
+              <span>Global customers across USA, Europe, Middle-east & JPAC</span>
             </div>
             <div className="stat">
               <b>2 + 1</b>
