@@ -4,8 +4,6 @@ import Link from 'next/link';
 import { useState } from 'react';
 import type { Metadata } from 'next';
 
-/* ─── Live status dot ─────────────────────────────────────────── */
-
 
 /* ─── Inline contact form ─────────────────────────────────────── */
 /* The form logic is intentionally kept minimal — wire to your CRM */
@@ -297,12 +295,10 @@ export default function ContactPage() {
         </div>
       </div>
 
-      {/* ══════════════════════════════════════
-          TRUST STATS STRIP
-      ══════════════════════════════════════ */}
     
 
      
+
       {/* ══════════════════════════════════════
           DIRECT CHANNELS
       ══════════════════════════════════════ */}
@@ -485,7 +481,7 @@ export default function ContactPage() {
         </div>
       </div>
 
-      
+    
 
       {/* ── Form field styles (scoped) ─────── */}
       <style>{`
