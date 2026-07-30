@@ -1930,3 +1930,12 @@ table.spec td:first-child {
 .animate-dot-slide {
   animation: dot-slide 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
+
+.nav-slash svg {
+  width: 18px;
+  height: 18px;
+}
+
+.nav-slash svg path {
+  stroke-width: 2.6 !important;
+}

@@ -64,7 +64,9 @@ function NavDropdown({
     <div className={isOpen ? 'open' : ''}>
       <span className="navlink" onClick={onClick}>
         <span
-          className={`transition-all duration-500 text-[#c88a3e] ${isOpen ? 'rotate-0' : 'rotate-45'}`}
+          className={`nav-slash transition-all duration-500 text-[#c88a3e] ${
+            isOpen ? 'rotate-0' : 'rotate-45'
+          }`}
         >
           {ReactIcons.slash}
         </span>
