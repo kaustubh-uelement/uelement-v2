@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function StoriesPage() {
   return (
     <>
-      <div className="hero"><div className="hero-fabric" /><div className="wrap">
+      <div className="hero hero-half"><div className="hero-fabric" /><div className="wrap">
         <div className="crumb"><Link href="/">Home</Link> / Company / Success Stories</div>
         <div className="kicker">Success Stories</div>
         <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>Measured in outcomes.</h1>

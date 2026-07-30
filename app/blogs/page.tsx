@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function BlogsPage() {
   return (
     <>
-      <div className="hero"><div className="hero-fabric" /><div className="wrap">
+      <div className="hero hero-half"><div className="hero-fabric" /><div className="wrap">
         <div className="crumb"><Link href="/">Home</Link> / Company / Blogs</div>
         <div className="kicker">Blogs</div>
         <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>Perspectives worth your time.</h1>

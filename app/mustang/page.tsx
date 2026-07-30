@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function MustangPage() {
   return (
     <>
-      <div className="hero"><div className="hero-fabric" /><div className="wrap">
+      <div className="hero hero-half"><div className="hero-fabric" /><div className="wrap">
         <div className="crumb"><Link href="/">Home</Link> / <Link href="/mainspar">MainSPAR</Link> / MustangC3</div>
         <div className="tag slate">MainSPAR · The Commander</div>
         <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>MustangC3</h1>

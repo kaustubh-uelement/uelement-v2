@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function PartnershipsPage() {
   return (
     <>
-      <div className="hero"><div className="hero-fabric" /><div className="wrap">
+      <div className="hero hero-half"><div className="hero-fabric" /><div className="wrap">
         <div className="crumb"><Link href="/">Home</Link> / Company / Partnerships</div>
         <div className="kicker">Partnerships</div>
         <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>Stronger through alliances.</h1>

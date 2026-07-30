@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function InvestorsPage() {
   return (
     <>
-      <div className="hero"><div className="hero-fabric" /><div className="wrap">
+      <div className="hero hero-half"><div className="hero-fabric" /><div className="wrap">
         <div className="crumb"><Link href="/">Home</Link> / Company / Investor Relations</div>
         <div className="kicker">Investor Relations</div>
         <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>Built for the long horizon.</h1>

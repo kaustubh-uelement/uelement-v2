@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function U92AgilityPage() {
   return (
     <>
-      <div className="hero"><div className="hero-fabric" /><div className="wrap">
+      <div className="hero hero-half"><div className="hero-fabric" /><div className="wrap">
         <div className="crumb"><Link href="/">Home</Link> / <Link href="/u92">U92</Link> / Crypto-Agility</div>
         <div className="tag">U92 · Crypto-Agility</div>
         <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>U92 Crypto-Agility</h1>
