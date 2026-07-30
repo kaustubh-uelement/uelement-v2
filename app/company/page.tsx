@@ -46,6 +46,9 @@ export default function CompanyPage() {
   return (
     <>
       <div className="hero hero-half">
+        <div className="hero-art">
+          <img src="/u92-flower.png" alt="" aria-hidden="true" />
+        </div>
         <div className="hero-fabric" />
         <div className="wrap">
           <div className="crumb">
@@ -72,7 +75,13 @@ export default function CompanyPage() {
         <div className="wrap grid2" style={{ alignItems: 'start' }}>
           <div>
             <div className="kicker">Mission</div>
-            <h2 className="display" style={{ fontSize: 28 }}>
+            <h2
+              className="display"
+              style={{
+                fontSize: 28,
+                color: 'var(--ink-800)',
+              }}
+            >
               Make critical systems sovereign, quantum-safe, and self-healing.
             </h2>
             <p className="mut" style={{ marginTop: 16 }}>
@@ -84,7 +93,13 @@ export default function CompanyPage() {
           </div>
           <div>
             <div className="kicker">Vision</div>
-            <h2 className="display" style={{ fontSize: 28 }}>
+            <h2
+              className="display text-navy-gradient"
+              style={{
+                fontSize: 28,
+                color: 'var(--ink-800)',
+              }}
+            >
               The trusted deeptech partner of the quantum decade.
             </h2>
             <p className="mut" style={{ marginTop: 16 }}>

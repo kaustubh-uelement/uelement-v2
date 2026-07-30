@@ -172,7 +172,7 @@ export default function HomePage() {
             <div className="stat">
               <b>13</b>
               <span>
-                Global customers across USA, Europe, Middle-east &amp; JPAC
+                Global customers across USA, Europe, Middle-east &amp; JAPAC
               </span>
             </div>
             <div className="stat">

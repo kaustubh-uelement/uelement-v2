@@ -555,7 +555,7 @@ const FooterContent = () => {
   return (
     <>
       <footer className="hidden md:block bg-hero-gradient pt-2 lg:pt-4 pb-0 md:pb-2 container-padding -mt-px">
-        <div className="max-w-[1100px] mx-auto">
+        <div className="max-w-[1100px] mx-auto relative">
           <div className="flex flex-col lg:flex-row lg:justify-between gap-6 sm:gap-8 lg:gap-10 xl:gap-14 pb-4 md:pb-10">
             {/* Company Details */}
             <div className="company-details flex flex-col gap-12 sm:gap-16 lg:w-[220px] xl:w-[230px] shrink-0">
@@ -875,8 +875,7 @@ const FooterContent = () => {
                   </Link>
                   <Link
                     href="https://facebook.com/uelement.technologies"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    target="_blank"fl
                     className="  hover:translate-y-[-3px] duration-300 ease-in-out transition-all hover:text-white/70"
                   >
                     <Icon name="facebook3" size={35} />

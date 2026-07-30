@@ -11,7 +11,8 @@ const mediaHighlights = [
   {
     type: 'Media',
     outlet: 'All India Radio',
-    headline: 'Leadership commentary on quantum security and India deeptech moment.',
+    headline:
+      'Leadership commentary on quantum security and India deeptech moment.',
     detail:
       'Broadcast nationally — our founders spoke on the urgency of post-quantum cryptography for Indian banks and critical infrastructure.',
     date: '2025',
@@ -19,7 +20,8 @@ const mediaHighlights = [
   {
     type: 'Commentary',
     outlet: 'LinkedIn Thought Leadership',
-    headline: 'Professional insights on sovereign platforms and the deeptech economy.',
+    headline:
+      'Professional insights on sovereign platforms and the deeptech economy.',
     detail:
       'Ongoing perspectives on quantum-safe migration timelines, crypto-agility architectures, and building for denied-network environments.',
     date: 'Ongoing',
@@ -27,7 +29,8 @@ const mediaHighlights = [
   {
     type: 'Forums',
     outlet: 'BFSI & Defence Forums',
-    headline: 'Briefings and talks across BFSI, defence, and public-sector technology forums.',
+    headline:
+      'Briefings and talks across BFSI, defence, and public-sector technology forums.',
     detail:
       'Keynotes and technical briefings covering OT/IT convergence, zero-trust postures, and quantum readiness roadmaps for regulators.',
     date: '2024 – 2025',
@@ -62,12 +65,30 @@ const milestones = [
 ];
 
 const topics = [
-  { label: 'Quantum Security', desc: 'PQC migration, QKD deployment, crypto-agility mandates.' },
-  { label: 'Sovereign Platforms', desc: 'Air-gap first architectures, CERT-In compliance, Make-in-India.' },
-  { label: 'DDIL Operations', desc: 'Autonomous MLOps at the tactical edge — denied, degraded, intermittent.' },
-  { label: 'BFSI Resilience', desc: 'Quantum-safe transactions, RBI/SEBI compliance fabric, UPI journey observability.' },
-  { label: 'OT / ICS Security', desc: 'Purdue-native monitoring, 40+ protocol parsers, passive-by-architecture.' },
-  { label: 'Defence & Aerospace', desc: 'Air-gapped deployment, ITAR-free eligibility, sovereign cloud for tactical systems.' },
+  {
+    label: 'Quantum Security',
+    desc: 'PQC migration, QKD deployment, crypto-agility mandates.',
+  },
+  {
+    label: 'Sovereign Platforms',
+    desc: 'Air-gap first architectures, CERT-In compliance, Make-in-India.',
+  },
+  {
+    label: 'DDIL Operations',
+    desc: 'Autonomous MLOps at the tactical edge — denied, degraded, intermittent.',
+  },
+  {
+    label: 'BFSI Resilience',
+    desc: 'Quantum-safe transactions, RBI/SEBI compliance fabric, UPI journey observability.',
+  },
+  {
+    label: 'OT / ICS Security',
+    desc: 'Purdue-native monitoring, 40+ protocol parsers, passive-by-architecture.',
+  },
+  {
+    label: 'Defence & Aerospace',
+    desc: 'Air-gapped deployment, ITAR-free eligibility, sovereign cloud for tactical systems.',
+  },
 ];
 
 export default function NewsPage() {
@@ -75,7 +96,18 @@ export default function NewsPage() {
     <>
       {/* ═══════ HERO ═══════ */}
       <div className="hero hero-half">
-        <div className="" />
+        {/* background art */}
+        <div className="hero-art ">
+          <img
+            src="/u92-flower.png" // adjust path
+            alt=""
+            aria-hidden="true"
+          />
+        </div>
+
+        {/* fabric if you use it */}
+        <div className="hero-fabric" />
+
         <div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
           <div className="crumb">
             <Link href="/">Home</Link> / Company / News Room
@@ -89,7 +121,14 @@ export default function NewsPage() {
             <span className="italic font-medium">quantum security</span> and{' '}
             <span className="italic font-medium">sovereign technology</span>.
           </p>
-          <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginTop: 36 }}>
+          <div
+            style={{
+              display: 'flex',
+              gap: 14,
+              flexWrap: 'wrap',
+              marginTop: 36,
+            }}
+          >
             <a href="#coverage" className="btn btn-gold">
               Coverage &amp; commentary
             </a>
@@ -104,9 +143,7 @@ export default function NewsPage() {
       <div className="section alt">
         <div className="wrap">
           <div className="kicker">Featured</div>
-          <div
-            className="card"
-          >
+          <div className="card">
             {/* decorative glow */}
             <div
               style={{
@@ -116,7 +153,8 @@ export default function NewsPage() {
                 width: 280,
                 height: 280,
                 borderRadius: '50%',
-                background: 'radial-gradient(circle, rgba(200,138,62,0.12) 0%, transparent 70%)',
+                background:
+                  'radial-gradient(circle, rgba(200,138,62,0.12) 0%, transparent 70%)',
                 pointerEvents: 'none',
               }}
             />
@@ -149,10 +187,12 @@ export default function NewsPage() {
                 marginBottom: 28,
               }}
             >
-              UElement leadership joined All India Radio for a nationally broadcast discussion on
-              the urgency of post-quantum cryptography — why the harvest-now-decrypt-later threat
-              is already a procurement line item in adversary budgets, and what sovereign
-              technology means for India&apos;s critical infrastructure in the quantum decade.
+              UElement leadership joined All India Radio for a nationally
+              broadcast discussion on the urgency of post-quantum cryptography —
+              why the harvest-now-decrypt-later threat is already a procurement
+              line item in adversary budgets, and what sovereign technology
+              means for India&apos;s critical infrastructure in the quantum
+              decade.
             </p>
             <div
               style={{
@@ -181,7 +221,10 @@ export default function NewsPage() {
       <div className="section alt" id="coverage">
         <div className="wrap">
           <div className="kicker">Coverage &amp; commentary</div>
-          <h2 className="display text-navy-gradient" style={{ fontSize: 'clamp(26px,3.2vw,40px)' }}>
+          <h2
+            className="display text-navy-gradient"
+            style={{ fontSize: 'clamp(26px,3.2vw,40px)' }}
+          >
             Where we show up.
           </h2>
           <p
@@ -193,8 +236,9 @@ export default function NewsPage() {
               maxWidth: 580,
             }}
           >
-            From national broadcasts to industry forums — UElement engages where the conversation
-            on deeptech, sovereignty, and quantum resilience is happening.
+            From national broadcasts to industry forums — UElement engages where
+            the conversation on deeptech, sovereignty, and quantum resilience is
+            happening.
           </p>
           <div className="grid3">
             {mediaHighlights.map((item) => (
@@ -221,11 +265,22 @@ export default function NewsPage() {
                     {item.date}
                   </span>
                 </div>
-                <h4 style={{ fontSize: 15, marginBottom: 10 }}>{item.outlet}</h4>
-                <p style={{ fontWeight: 500, fontSize: 13, color: 'var(--slate-200)', marginBottom: 10 }}>
+                <h4 style={{ fontSize: 15, marginBottom: 10 }}>
+                  {item.outlet}
+                </h4>
+                <p
+                  style={{
+                    fontWeight: 500,
+                    fontSize: 13,
+                    color: 'var(--slate-200)',
+                    marginBottom: 10,
+                  }}
+                >
                   {item.headline}
                 </p>
-                <p style={{ fontSize: 12.5, lineHeight: 1.65 }}>{item.detail}</p>
+                <p style={{ fontSize: 12.5, lineHeight: 1.65 }}>
+                  {item.detail}
+                </p>
               </div>
             ))}
           </div>
@@ -236,12 +291,15 @@ export default function NewsPage() {
       <div className="section">
         <div className="wrap">
           <div className="kicker">Topics</div>
-          <h2 className="display" style={{ fontSize: 'clamp(26px,3.2vw,40px)', marginBottom: 14 }}>
+          <h2
+            className="display"
+            style={{ fontSize: 'clamp(26px,3.2vw,40px)', marginBottom: 14 }}
+          >
             What we speak about.
           </h2>
           <p className="lede" style={{ marginBottom: 48 }}>
-            Our commentary spans the full surface area of sovereign deeptech — from
-            cryptographic primitives to edge autonomy.
+            Our commentary spans the full surface area of sovereign deeptech —
+            from cryptographic primitives to edge autonomy.
           </p>
           <div className="grid3">
             {topics.map((t, i) => (
@@ -253,7 +311,6 @@ export default function NewsPage() {
                   borderLeft: '2px solid var(--gold-500)',
                 }}
               >
-
                 {String(i + 1).padStart(2, '0')}
 
                 <h4>{t.label}</h4>
@@ -268,11 +325,15 @@ export default function NewsPage() {
       <div className="section navy">
         <div className="wrap">
           <div className="kicker">Timeline</div>
-          <h2 className="display" style={{ fontSize: 'clamp(26px,3.2vw,40px)', marginBottom: 14 }}>
+          <h2
+            className="display"
+            style={{ fontSize: 'clamp(26px,3.2vw,40px)', marginBottom: 14 }}
+          >
             How we got here.
           </h2>
           <p className="lede" style={{ marginBottom: 52 }}>
-            Key moments in UElement&apos;s public journey — from incorporation to national broadcast.
+            Key moments in UElement&apos;s public journey — from incorporation
+            to national broadcast.
           </p>
           <div
             style={{
@@ -330,10 +391,27 @@ export default function NewsPage() {
                       background: 'var(--metal-gold)',
                     }}
                   />
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 16,
+                    }}
+                  >
                     {block.items.map((item) => (
-                      <div className="card" key={item} style={{ padding: '20px 24px' }}>
-                        <p style={{ fontSize: 13.5, color: 'var(--grey-350)', margin: 0, lineHeight: 1.65 }}>
+                      <div
+                        className="card"
+                        key={item}
+                        style={{ padding: '20px 24px' }}
+                      >
+                        <p
+                          style={{
+                            fontSize: 13.5,
+                            color: 'var(--grey-350)',
+                            margin: 0,
+                            lineHeight: 1.65,
+                          }}
+                        >
                           {item}
                         </p>
                       </div>
@@ -365,8 +443,9 @@ export default function NewsPage() {
               lineHeight: 1.7,
             }}
           >
-            Our team regularly publishes perspectives on LinkedIn, engages in industry forums,
-            and participates in briefings for BFSI, defence, and public-sector technology leaders.
+            Our team regularly publishes perspectives on LinkedIn, engages in
+            industry forums, and participates in briefings for BFSI, defence,
+            and public-sector technology leaders.
           </p>
           <div className="grid2">
             <a
@@ -379,8 +458,9 @@ export default function NewsPage() {
               <div className="tag">LinkedIn</div>
               <h4>Professional commentary</h4>
               <p>
-                Follow UElement Technologies on LinkedIn for ongoing perspectives on
-                quantum-safe migration, sovereign platforms, and the deeptech economy.
+                Follow UElement Technologies on LinkedIn for ongoing
+                perspectives on quantum-safe migration, sovereign platforms, and
+                the deeptech economy.
               </p>
               <p
                 className="mono"
@@ -393,9 +473,9 @@ export default function NewsPage() {
               <div className="tag">Briefings</div>
               <h4>Industry engagements</h4>
               <p>
-                We participate in technical briefings and forums across BFSI, defence,
-                and public-sector technology — from regulatory roundtables to CERT-In
-                advisory discussions.
+                We participate in technical briefings and forums across BFSI,
+                defence, and public-sector technology — from regulatory
+                roundtables to CERT-In advisory discussions.
               </p>
               <p
                 className="mono"
@@ -421,7 +501,10 @@ export default function NewsPage() {
           >
             <div>
               <div className="kicker">Press &amp; media</div>
-              <h2 className="display" style={{ fontSize: 'clamp(24px,3vw,38px)', marginBottom: 14 }}>
+              <h2
+                className="display"
+                style={{ fontSize: 'clamp(24px,3vw,38px)', marginBottom: 14 }}
+              >
                 Working on a story?
               </h2>
               <p
@@ -432,16 +515,33 @@ export default function NewsPage() {
                   maxWidth: 520,
                 }}
               >
-                For interviews, expert commentary, press material, and background on quantum
-                security and sovereign technology — reach the UElement communications desk.
-                We respond to credentialed journalists and analysts.
+                For interviews, expert commentary, press material, and
+                background on quantum security and sovereign technology — reach
+                the UElement communications desk. We respond to credentialed
+                journalists and analysts.
               </p>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'flex-end', flexShrink: 0 }}>
-              <Link href="/contact" className="btn btn-gold" id="news-press-cta">
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 14,
+                alignItems: 'flex-end',
+                flexShrink: 0,
+              }}
+            >
+              <Link
+                href="/contact"
+                className="btn btn-gold"
+                id="news-press-cta"
+              >
                 Contact communications
               </Link>
-              <Link href="/company" className="btn btn-line" id="news-about-link">
+              <Link
+                href="/company"
+                className="btn btn-line"
+                id="news-about-link"
+              >
                 About UElement
               </Link>
             </div>

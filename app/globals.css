@@ -1055,7 +1055,9 @@ h2.display .au-blue {
   color: transparent;
 }
 
-.serif-line--quote { font-style: italic; }
+.serif-line--quote {
+  font-style: italic;
+}
 
 .light .serif-line,
 .cream .serif-line {
@@ -1477,9 +1479,9 @@ h3.h {
 .stat {
   display: flex;
   flex-direction: column;
-  align-items: center;      /* center horizontally */
-  justify-content: center;  /* center vertically within each grid cell */
-  text-align: center;       /* center text lines */
+  align-items: center; /* center horizontally */
+  justify-content: center; /* center vertically within each grid cell */
+  text-align: center; /* center text lines */
   padding: 22px 24px;
 }
 
@@ -1954,4 +1956,39 @@ table.spec td:first-child {
 
 .nav-slash svg path {
   stroke-width: 2.6 !important;
+}
+
+.hero-art {
+  position: absolute;
+  top: -65%; 
+  right: -25%; 
+  width: 720px; 
+  height: 720px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.18;
+}
+
+.hero-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 24px 40px rgba(0, 0, 0, 0.45));
+}
+
+@keyframes hero-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.hero-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 24px 40px rgba(0, 0, 0, 0.45));
+  animation: hero-spin 210s linear infinite;
 }

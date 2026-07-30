@@ -297,6 +297,9 @@ export default function ContactPage() {
           HERO
       ══════════════════════════════════════ */}
       <div className="hero hero-half">
+        <div className="hero-art">
+          <img src="/u92-flower.png" alt="" aria-hidden="true" />
+        </div>
         <div className="hero-fabric" />
         <div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
           <div className="crumb">
@@ -324,9 +327,7 @@ export default function ContactPage() {
               gap: 12,
               marginTop: 36,
             }}
-          >
-            
-          </div>
+          ></div>
         </div>
       </div>
 

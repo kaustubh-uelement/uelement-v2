@@ -5,7 +5,7 @@ import OpenPositions from '@/components/careers/OpenPositions';
 export const metadata: Metadata = {
   title: 'Careers — UElement Technologies',
   description:
-    'Do the work your FAMILY will brag about. Quantum-safe banking rails, autonomy that survives when the network dies, machines that keep nations running.',
+    'Do the work your family will brag about. Quantum-safe banking rails, autonomy that survives when the network dies, machines that keep nations running.',
 };
 
 export default function CareersPage() {
@@ -13,6 +13,9 @@ export default function CareersPage() {
     <>
       {/* ═══════ HERO ═══════ */}
       <div className="hero hero-half">
+        <div className="hero-art">
+          <img src="/u92-flower.png" alt="" aria-hidden="true" />
+        </div>
         <div className="hero-fabric" />
         <div className="wrap">
           <div className="crumb">
@@ -20,7 +23,7 @@ export default function CareersPage() {
           </div>
           <div className="kicker">Careers</div>
           <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>
-            Do the work your FAMILY will brag about.
+            Do the work your <span className="au">Family</span> will brag about.
           </h1>
           <p className="lede" style={{ marginTop: 20 }}>
             Quantum-safe banking rails. Autonomy that survives when the network
@@ -55,7 +58,7 @@ export default function CareersPage() {
       {/* ═══════ REASONS TO JOIN ═══════ */}
       <div className="section alt">
         <div className="wrap">
-          <div className="kicker" style={{ color: 'var(--navy-800)' }}>
+          <div className="kicker">
             Why join
           </div>
           <h2 className="display text-navy-gradient">
@@ -222,36 +225,54 @@ export default function CareersPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-8">
               <ul className="flex flex-col gap-4">
                 <li className="flex items-start gap-2.5 text-14 leading-relaxed">
-                  <span className="text-[#c88a3e] shrink-0 font-bold text-16">•</span>
+                  <span className="text-[#c88a3e] shrink-0 font-bold text-16">
+                    •
+                  </span>
                   <span>
-                    <strong className="text-[#1a202c] font-semibold">Async by default.</strong>{' '}
+                    <strong className="text-[#1a202c] font-semibold">
+                      Async by default.
+                    </strong>{' '}
                     <span className="text-[#718096]">
                       That meeting <em>was</em> a message. We sent the message.
                     </span>
                   </span>
                 </li>
                 <li className="flex items-start gap-2.5 text-14 leading-relaxed">
-                  <span className="text-[#c88a3e] shrink-0 font-bold text-16">•</span>
+                  <span className="text-[#c88a3e] shrink-0 font-bold text-16">
+                    •
+                  </span>
                   <span>
-                    <strong className="text-[#1a202c] font-semibold">Memes are a valid PR comment.</strong>{' '}
+                    <strong className="text-[#1a202c] font-semibold">
+                      Memes are a valid PR comment.
+                    </strong>{' '}
                     <span className="text-[#718096]">
-                      A well-placed reaction gif has closed more design debates than any RFC.
+                      A well-placed reaction gif has closed more design debates
+                      than any RFC.
                     </span>
                   </span>
                 </li>
                 <li className="flex items-start gap-2.5 text-14 leading-relaxed">
-                  <span className="text-[#c88a3e] shrink-0 font-bold text-16">•</span>
+                  <span className="text-[#c88a3e] shrink-0 font-bold text-16">
+                    •
+                  </span>
                   <span>
-                    <strong className="text-[#1a202c] font-semibold">No &quot;we&apos;re a family.&quot;</strong>{' '}
+                    <strong className="text-[#1a202c] font-semibold">
+                      No &quot;we&apos;re a family.&quot;
+                    </strong>{' '}
                     <span className="text-[#718096]">
-                      We&apos;re a team. Teams have standards, families have obligations. You can leave a team on good terms.
+                      We&apos;re a team. Teams have standards, families have
+                      obligations. You can leave a team on good terms.
                     </span>
                   </span>
                 </li>
                 <li className="flex items-start gap-2.5 text-14 leading-relaxed">
-                  <span className="text-[#c88a3e] shrink-0 font-bold text-16">•</span>
+                  <span className="text-[#c88a3e] shrink-0 font-bold text-16">
+                    •
+                  </span>
                   <span>
-                    <strong className="text-[#1a202c] font-semibold">Radical transparency, actual version.</strong>{' '}
+                    <strong className="text-[#1a202c] font-semibold">
+                      Radical transparency, actual version.
+                    </strong>{' '}
                     <span className="text-[#718096]">
                       Roadmaps, wins, and the losses. Especially the losses.
                     </span>
@@ -261,38 +282,57 @@ export default function CareersPage() {
 
               <ul className="flex flex-col gap-4">
                 <li className="flex items-start gap-2.5 text-14 leading-relaxed">
-                  <span className="text-[#c88a3e] shrink-0 font-bold text-16">•</span>
+                  <span className="text-[#c88a3e] shrink-0 font-bold text-16">
+                    •
+                  </span>
                   <span>
-                    <strong className="text-[#1a202c] font-semibold">Delulu is allowed, receipts are mandatory.</strong>{' '}
+                    <strong className="text-[#1a202c] font-semibold">
+                      Delulu is allowed, receipts are mandatory.
+                    </strong>{' '}
                     <span className="text-[#718096]">
                       Pitch the impossible thing — then show the benchmark.
                     </span>
                   </span>
                 </li>
                 <li className="flex items-start gap-2.5 text-14 leading-relaxed">
-                  <span className="text-[#c88a3e] shrink-0 font-bold text-16">•</span>
+                  <span className="text-[#c88a3e] shrink-0 font-bold text-16">
+                    •
+                  </span>
                   <span>
-                    <strong className="text-[#1a202c] font-semibold">Your setup, your rules.</strong>{' '}
+                    <strong className="text-[#1a202c] font-semibold">
+                      Your setup, your rules.
+                    </strong>{' '}
                     <span className="text-[#718096]">
-                      Vim or VS Code, dark mode or feral light mode, 6am or 6pm. We care about the artifact.
+                      Vim or VS Code, dark mode or feral light mode, 6am or 6pm.
+                      We care about the artifact.
                     </span>
                   </span>
                 </li>
                 <li className="flex items-start gap-2.5 text-14 leading-relaxed">
-                  <span className="text-[#c88a3e] shrink-0 font-bold text-16">•</span>
+                  <span className="text-[#c88a3e] shrink-0 font-bold text-16">
+                    •
+                  </span>
                   <span>
-                    <strong className="text-[#1a202c] font-semibold">Mental health isn&apos;t a perk slide.</strong>{' '}
+                    <strong className="text-[#1a202c] font-semibold">
+                      Mental health isn&apos;t a perk slide.
+                    </strong>{' '}
                     <span className="text-[#718096]">
-                      Burnout is a reactor failure, not a badge. We staff for sustainable output.
+                      Burnout is a reactor failure, not a badge. We staff for
+                      sustainable output.
                     </span>
                   </span>
                 </li>
                 <li className="flex items-start gap-2.5 text-14 leading-relaxed">
-                  <span className="text-[#c88a3e] shrink-0 font-bold text-16">•</span>
+                  <span className="text-[#c88a3e] shrink-0 font-bold text-16">
+                    •
+                  </span>
                   <span>
-                    <strong className="text-[#1a202c] font-semibold">Learning budget that&apos;s actually spent.</strong>{' '}
+                    <strong className="text-[#1a202c] font-semibold">
+                      Learning budget that&apos;s actually spent.
+                    </strong>{' '}
                     <span className="text-[#718096]">
-                      Quantum papers, conferences, that course you keep bookmarked. Go.
+                      Quantum papers, conferences, that course you keep
+                      bookmarked. Go.
                     </span>
                   </span>
                 </li>
@@ -304,7 +344,9 @@ export default function CareersPage() {
 
             {/* Footer Disclaimer */}
             <p className="font-mono text-12 sm:text-13 text-[#8c8275] leading-relaxed">
-              Not compliant with: performative standups, &quot;quick syncs&quot; that aren&apos;t, LinkedIn-voice, unpaid overtime cosplaying as passion.
+              Not compliant with: performative standups, &quot;quick syncs&quot;
+              that aren&apos;t, LinkedIn-voice, unpaid overtime cosplaying as
+              passion.
             </p>
           </div>
 
@@ -312,7 +354,8 @@ export default function CareersPage() {
             className="serif-line mt-10 text-left sm:text-center max-w-[680px] mx-auto text-22 sm:text-26 font-normal leading-snug"
             style={{ color: '#b87a2d' }}
           >
-            Stability is overrated. Bring your instability — we&apos;ll build the reactor around it.
+            Stability is overrated. Bring your instability — we&apos;ll build
+            the reactor around it.
           </p>
         </div>
       </div>
