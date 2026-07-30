@@ -94,7 +94,7 @@ export default function CompanyPage() {
           <div>
             <div className="kicker">Vision</div>
             <h2
-              className="display text-navy-gradient"
+              className="display"
               style={{
                 fontSize: 28,
                 color: 'var(--ink-800)',
