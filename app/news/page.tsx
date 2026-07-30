@@ -106,13 +106,6 @@ export default function NewsPage() {
           <div className="kicker">Featured</div>
           <div
             className="card"
-            style={{
-              background:
-                'linear-gradient(135deg, rgba(12,20,62,0.92) 0%, rgba(22,48,104,0.75) 100%) padding-box, var(--metal-edge) border-box',
-              padding: '48px',
-              position: 'relative',
-              overflow: 'hidden',
-            }}
           >
             {/* decorative glow */}
             <div
