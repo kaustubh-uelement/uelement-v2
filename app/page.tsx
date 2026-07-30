@@ -20,7 +20,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div className="wrap relative z-10">
+        <div className="wrap relative z-10 pointer-events-none">
           <div className="flex flex-col items-center md:items-start max-w-full md:max-w-[65%] gap-0 text-center md:text-left mx-auto md:mx-0">
             {/* Kicker */}
             <div className="text-(--gold-500) mb-2 text-[13px] tracking-[1px]">
@@ -34,7 +34,6 @@ export default function HomePage() {
               <span className="au">Resilience</span>.
             </h1>
 
-            {/* Description */}
             <p className="lede mt-6 md:mt-8">
               Engineering{' '}
               <span className="italic font-medium">Quantum-secure</span> and{' '}
@@ -43,8 +42,8 @@ export default function HomePage() {
               that create a seamless Digital Fabric for the tactical edge.
             </p>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col md:flex-row items-center md:items-start justify-center md:justify-start gap-4 mt-10 md:mt-16 w-full md:w-auto">
+            {/* CTA Buttons — re-enable pointer events just here */}
+            <div className="flex flex-col md:flex-row items-center md:items-start justify-center md:justify-start gap-4 mt-10 md:mt-16 w-full md:w-auto pointer-events-auto">
               <Link href="/company" className="btn btn-gold">
                 About Us
               </Link>

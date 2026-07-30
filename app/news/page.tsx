@@ -101,7 +101,7 @@ export default function NewsPage() {
       </div>
 
       {/* ═══════ FEATURED STORY ═══════ */}
-      <div className="section navy">
+      <div className="section alt">
         <div className="wrap">
           <div className="kicker">Featured</div>
           <div
