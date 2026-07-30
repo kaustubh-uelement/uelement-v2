@@ -36,11 +36,13 @@ export default function CareersPage() {
             style={{ marginTop: 44, gridTemplateColumns: 'repeat(4, 1fr)' }}
           >
             <div className="stat">
-              <b>3</b>
-              <span>Countries — Pune HQ, Singapore, UAE</span>
+              <b>13</b>
+              <span>
+                Global customers across USA, Europe, Middle-east &amp; JAPAC
+              </span>
             </div>
             <div className="stat">
-              <b>2+1</b>
+              <b>2 + 1</b>
               <span>DeepTech programs and a quantum practice to build in</span>
             </div>
             <div className="stat">
@@ -58,9 +60,7 @@ export default function CareersPage() {
       {/* ═══════ REASONS TO JOIN ═══════ */}
       <div className="section alt">
         <div className="wrap">
-          <div className="kicker">
-            Why join
-          </div>
+          <div className="kicker">Why join</div>
           <h2 className="display text-navy-gradient">
             Reasons this beats <span className="au">your current job.</span>
           </h2>
