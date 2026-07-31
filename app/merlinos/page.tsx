@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'MerlinOS — Sovereign Edge AI OS — UElement',
+  title: 'MerlinOS | Sovereign Edge AI OS | UElement',
   description:
     'A sovereign edge AI operating system that brings model inference, orchestration, and lifecycle management to nodes that may never see a datacenter.',
 };
@@ -40,7 +40,7 @@ export default function MerlinOSPage() {
           <div className="card">
             <h4>Light build</h4>
             <p>
-              Minimal footprint for constrained sensors and disposable nodes —
+              Minimal footprint for constrained sensors and disposable nodes;
               inference where every milliwatt counts.
             </p>
           </div>

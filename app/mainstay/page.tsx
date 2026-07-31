@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'MainSTAY — UElement Technologies',
+  title: 'MainSTAY | UElement Technologies',
   description: 'One program. Three planes of the enterprise. Nexus · Vizor · Kayak.',
 };
 
@@ -24,7 +24,7 @@ export default function MainstayPage() {
           <p className="lede" style={{ marginTop: 26 }}>
             Every enterprise lives in three worlds at once: the outward-facing digital surfaces its
             customers touch, the internal signals its operations emit, and the physical assets it
-            actually owns. MainSTAY is one platform family that governs all three — with shared
+            actually owns. MainSTAY is one platform family that governs all three, with shared
             tenant identity, shared RBAC, and one audit trail.
           </p>
         </div>
@@ -51,7 +51,7 @@ export default function MainstayPage() {
             </p>
             <p>
               Unified observability, security and compliance fabric for enterprise IT and industrial
-              OT — from business KPIs down to packet level.
+              OT, from business KPIs down to packet level.
             </p>
           </Link>
           <Link href="/kayak" className="card link" style={{ textDecoration: 'none' }}>
@@ -85,7 +85,7 @@ export default function MainstayPage() {
             <div className="step">
               <b>Nexus fronts Kayak</b>
               <p>
-                Customer-facing surfaces — billing subscriptions, partner portals, support — for
+                Customer-facing surfaces: billing subscriptions, partner portals, and support for
                 Kayak&apos;s as-a-service offerings run on Nexus.
               </p>
             </div>

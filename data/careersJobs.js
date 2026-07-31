@@ -11,7 +11,7 @@ export const careersJobs = [
     shortDescription:
       'CBOM tooling, hybrid key exchange, FIPS 203/204/205 rollouts for BFSI estates.',
     aboutRole:
-      'You will own the engineering side of U92 PQC migration engagements — building the cryptographic bill-of-materials (CBOM) tooling that discovers every RSA, ECC, and DH exposure across a client estate, then designing and executing the hybrid key-exchange rollout that gets them onto NIST-standardized post-quantum algorithms without breaking production. This is hands-on migration engineering for banks operating under RBI quantum-safe guidance — every line you ship has a countdown clock attached to it.',
+      'You will own the engineering side of U92 PQC migration engagements, building the cryptographic bill-of-materials (CBOM) tooling that discovers every RSA, ECC, and DH exposure across a client estate, then designing and executing the hybrid key-exchange rollout that gets them onto NIST-standardized post-quantum algorithms without breaking production. This is hands-on migration engineering for banks operating under RBI quantum-safe guidance. Every line you ship has a countdown clock attached to it.',
     responsibilities: [
       'Build and maintain CBOM discovery tooling across codebases, TLS configs, certificates, and APIs',
       'Design hybrid key-exchange rollouts (e.g. X25519MLKEM768) that stay secure through the classical-to-PQC transition',
@@ -24,7 +24,7 @@ export const careersJobs = [
       'Working knowledge of TLS, PKI, and public-key cryptography internals (RSA, ECC, DH)',
       'Comfortable reading and instrumenting large, unfamiliar codebases to find crypto usage',
       'Familiarity with NIST PQC standards (ML-KEM, ML-DSA, SLH-DSA) or willingness to go deep fast',
-      "Strong written communication — migration plans need to survive an auditor's read",
+      "Strong written communication; migration plans need to survive an auditor's read",
     ],
     niceToHave: [
       'Prior BFSI or regulated-industry engineering experience',
@@ -42,7 +42,7 @@ export const careersJobs = [
     shortDescription:
       'End-to-end quantum-safe architectures across application, network, and storage domains.',
     aboutRole:
-      'As Quantum Security Architect, you design the target-state architecture that PQC migration engineers build toward. You will sit across U92 PQC, QKD, and Crypto-Agility engagements, translating a client\'s threat model and infrastructure reality into a concrete quantum-safe blueprint — covering application-layer crypto, network transport, and data-at-rest. You will be the person in the room when a bank\'s CISO asks "what does secure actually mean after Q-Day," and you will have an answer with a rollout plan attached.',
+      'As Quantum Security Architect, you design the target-state architecture that PQC migration engineers build toward. You will sit across U92 PQC, QKD, and Crypto-Agility engagements, translating a client\'s threat model and infrastructure reality into a concrete quantum-safe blueprint covering application-layer crypto, network transport, and data-at-rest. You will be the person in the room when a bank\'s CISO asks "what does secure actually mean after Q-Day," and you will have an answer with a rollout plan attached.',
     responsibilities: [
       'Author end-to-end quantum-safe architecture blueprints spanning app, network, and storage layers',
       'Define crypto-agility abstraction points so future algorithm swaps are config changes, not re-architectures',
@@ -66,7 +66,7 @@ export const careersJobs = [
   },
   {
     id: 'edge-ai-engineer-merlinos',
-    title: 'Edge AI Engineer — MerlinOS',
+    title: 'Edge AI Engineer | MerlinOS',
     department: 'MainSPAR',
     location: 'Pune, India',
     type: 'Full-time',
@@ -74,7 +74,7 @@ export const careersJobs = [
     shortDescription:
       'Sovereign MLOps on constrained hardware. Inference where every milliwatt counts.',
     aboutRole:
-      'MerlinOS is the sovereign edge AI operating system that brings model inference and lifecycle management to nodes that may never see a datacenter. You will build and optimize the Light and Standard builds — squeezing usable inference out of constrained sensors on one end, and running full node-level MLOps for vehicle-class hardware on the other. Every decision you make is bounded by power, thermal, and connectivity constraints that a cloud engineer never has to think about.',
+      'MerlinOS is the sovereign edge AI operating system that brings model inference and lifecycle management to nodes that may never see a datacenter. You will build and optimize the Light and Standard builds, squeezing usable inference out of constrained sensors on one end and running full node-level MLOps for vehicle-class hardware on the other. Every decision you make is bounded by power, thermal, and connectivity constraints that a cloud engineer never has to think about.',
     responsibilities: [
       'Optimize model inference for extreme resource-constrained hardware (Light build)',
       'Build fleet orchestration, model serving, and retraining hooks for station/vehicle-class nodes (Standard build)',
@@ -86,7 +86,7 @@ export const careersJobs = [
       '3+ years building ML systems for embedded, edge, or resource-constrained environments',
       'Strong grasp of model quantization, pruning, and inference optimization techniques',
       'Comfortable with C/C++ or Rust alongside Python for performance-critical paths',
-      'Experience with MLOps concepts — versioning, serving, monitoring — applied outside the cloud',
+      'Experience with MLOps concepts: versioning, serving, monitoring, applied outside the cloud',
       'Understanding of air-gapped or offline-first system design',
     ],
     niceToHave: [
@@ -97,7 +97,7 @@ export const careersJobs = [
   },
   {
     id: 'mesh-networking-engineer-mesogrid',
-    title: 'Mesh Networking Engineer — MesoGRID',
+    title: 'Mesh Networking Engineer | MesoGRID',
     department: 'MainSPAR',
     location: 'Pune, India',
     type: 'Full-time',
@@ -105,7 +105,7 @@ export const careersJobs = [
     shortDescription:
       'Stochastic routing, partition tolerance, self-healing topology for DDIL environments.',
     aboutRole:
-      'MesoGRID is the mesh that refuses to die — a decentralised network built for denied, degraded, intermittent, and limited (DDIL) environments where jamming and partition are the operating condition, not the exception. You will design and implement stochastic path-selection algorithms, self-healing topology logic, and partition-tolerant reconciliation so that islands of the network keep functioning independently and merge cleanly when links return.',
+      'MesoGRID is the mesh that refuses to die. A decentralised network built for denied, degraded, intermittent, and limited (DDIL) environments where jamming and partition are the operating condition, not the exception. You will design and implement stochastic path-selection algorithms, self-healing topology logic, and partition-tolerant reconciliation so that islands of the network keep functioning independently and merge cleanly when links return.',
     responsibilities: [
       'Design and implement stochastic routing algorithms resistant to adversarial prediction',
       'Build self-healing topology reformation logic that operates without central coordination',
@@ -129,7 +129,7 @@ export const careersJobs = [
   },
   {
     id: 'observability-platform-engineer-vizor',
-    title: 'Observability Platform Engineer — Vizor',
+    title: 'Observability Platform Engineer | Vizor',
     department: 'MainSTAY',
     location: 'Pune, India',
     type: 'Full-time',
@@ -137,7 +137,7 @@ export const careersJobs = [
     shortDescription:
       'High-throughput telemetry pipelines, topology graphs, and causal AI at 28B+ events/month scale.',
     aboutRole:
-      'Vizor unifies observability, security, and compliance into one fabric — one data lake, one topology graph, one AI engine, from board-level KPIs down to the packet on the wire. As an Observability Platform Engineer, you will build the ingestion and processing pipelines that make this possible at scale: 28B+ monitored events per month, with a target of ≤30 seconds to causal root cause. This is core platform engineering, not dashboard-building.',
+      'Vizor unifies observability, security, and compliance into one fabric: one data lake, one topology graph, one AI engine, from board-level KPIs down to the packet on the wire. As an Observability Platform Engineer, you will build the ingestion and processing pipelines that make this possible at scale: 28B+ monitored events per month, with a target of ≤30 seconds to causal root cause. This is core platform engineering, not dashboard-building.',
     responsibilities: [
       'Design and scale high-throughput telemetry ingestion pipelines across IT and OT sources',
       'Build and maintain the topology graph that underpins causal root-cause analysis',
@@ -161,7 +161,7 @@ export const careersJobs = [
   },
   {
     id: 'ot-protocol-engineer-vizor',
-    title: 'OT Protocol Engineer — Vizor',
+    title: 'OT Protocol Engineer | Vizor',
     department: 'MainSTAY',
     location: 'Pune, India',
     type: 'Full-time',
@@ -169,10 +169,10 @@ export const careersJobs = [
     shortDescription:
       'Deep parsers for Modbus, DNP3, IEC 61850, PROFINET, and the languages of industry.',
     aboutRole:
-      "Vizor's OT observability is passive-by-architecture at Purdue Levels 0–2, which means every insight has to come from correctly and safely parsing industrial protocols without ever touching the control loop. You will build and maintain deep protocol parsers — Modbus, DNP3, IEC 61850, PROFINET, and dozens more — that turn raw plant-floor traffic into the zone/conduit graph Vizor uses for IEC 62443 conformance and threat detection.",
+      "Vizor's OT observability is passive-by-architecture at Purdue Levels 0-2, which means every insight has to come from correctly and safely parsing industrial protocols without ever touching the control loop. You will build and maintain deep protocol parsers: Modbus, DNP3, IEC 61850, PROFINET, and dozens more, turning raw plant-floor traffic into the zone/conduit graph Vizor uses for IEC 62443 conformance and threat detection.",
     responsibilities: [
       'Build and maintain deep packet parsers for industrial protocols (Modbus, DNP3, IEC 61850, PROFINET, and others)',
-      'Ensure all monitoring remains strictly passive at Purdue Levels 0–2 — zero write-path risk',
+      'Ensure all monitoring remains strictly passive at Purdue Levels 0-2, with zero write-path risk',
       "Map parsed traffic into Vizor's zone/conduit graph for IEC 62443 conformance reporting",
       'Work with hardware tap and sensor teams to validate protocol coverage on new client sites',
       'Support incident investigations by reconstructing OT traffic timelines from parsed telemetry',
@@ -193,7 +193,7 @@ export const careersJobs = [
   },
   {
     id: 'blockchain-engineer-kayak',
-    title: 'Blockchain Engineer — Kayak',
+    title: 'Blockchain Engineer | Kayak',
     department: 'MainSTAY',
     location: 'Pune, India',
     type: 'Full-time',
@@ -201,7 +201,7 @@ export const careersJobs = [
     shortDescription:
       'Chain-of-custody on Hyperledger Fabric/Besu, smart-contract lifecycle for physical assets.',
     aboutRole:
-      'Kayak turns every physical asset, inventory unit, and unit of movement into a metered, queryable, blockchain-verified service. You will build the chain-of-custody layer — actor, action, location, timestamp, and sensor hash, recorded on Hyperledger Fabric or Besu — and the smart contracts that govern asset lifecycle, quality gates, compliance oracles, and recall management for physical goods.',
+      'Kayak turns every physical asset, inventory unit, and unit of movement into a metered, queryable, blockchain-verified service. You will build the chain-of-custody layer: actor, action, location, timestamp, and sensor hash, recorded on Hyperledger Fabric or Besu, along with the smart contracts that govern asset lifecycle, quality gates, compliance oracles, and recall management for physical goods.',
     responsibilities: [
       'Design and implement chain-of-custody smart contracts on Hyperledger Fabric or Besu',
       'Build asset-lifecycle, quality-gate, and recall-management contract logic',
@@ -224,7 +224,7 @@ export const careersJobs = [
   },
   {
     id: 'enterprise-sales-bfsi',
-    title: 'Enterprise Sales — BFSI',
+    title: 'Enterprise Sales | BFSI',
     department: 'Go-to-Market',
     location: 'Pune / Singapore, India',
     type: 'Full-time',
@@ -232,7 +232,7 @@ export const careersJobs = [
     shortDescription:
       'Carry the U92 and Vizor story into banks and financial institutions across India and JAPAC.',
     aboutRole:
-      'You will own enterprise sales into banking and financial services — carrying the U92 quantum security and Vizor observability story into institutions operating under RBI quantum-safe directions and SEBI compliance mandates. This is a consultative, technically-literate sales role: you will be scoping 45-day proofs of value, not pushing a generic deck. Coverage spans India and JAPAC.',
+      'You will own enterprise sales into banking and financial services, carrying the U92 quantum security and Vizor observability story into institutions operating under RBI quantum-safe directions and SEBI compliance mandates. This is a consultative, technically-literate sales role: you will be scoping 45-day proofs of value, not pushing a generic deck. Coverage spans India and JAPAC.',
     responsibilities: [
       'Build and manage a pipeline of BFSI enterprise accounts across India and JAPAC',
       'Scope and close 45-day Vizor proofs of value and U92 quantum-readiness assessments',
@@ -263,7 +263,7 @@ export const careersJobs = [
     shortDescription:
       'Build the SI, cloud, and OEM alliance network across regions.',
     aboutRole:
-      'UElement delivers alongside systems integrators, cloud and infrastructure providers, and regional operations partners across India, JAPAC, and the Middle East. You will build and manage this alliance network from the ground up in your region — recruiting SI co-delivery partners, negotiating OEM embedding and royalty terms, and establishing the operational alliances that let UElement scale without direct headcount in every market.',
+      'UElement delivers alongside systems integrators, cloud and infrastructure providers, and regional operations partners across India, JAPAC, and the Middle East. You will build and manage this alliance network from the ground up in your region, recruiting SI co-delivery partners, negotiating OEM embedding and royalty terms, and establishing the operational alliances that let UElement scale without direct headcount in every market.',
     responsibilities: [
       'Identify, recruit, and onboard systems integrator and cloud/infrastructure partners in-region',
       'Negotiate OEM embedding agreements and per-unit royalty structures',

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Kayak — Everything as a Service — UElement',
+  title: 'Kayak | Everything as a Service | UElement',
   description:
     'Every physical asset, inventory unit, cubic foot of space, and unit of movement becomes a metered, queryable, blockchain-verified service.',
 };
@@ -62,7 +62,7 @@ export default function KayakPage() {
             <div className="card">
               <h4>Warehouse</h4>
               <p>
-                SKUs, pallets, dock doors, AGVs, and fulfillment operations —
+                SKUs, pallets, dock doors, AGVs, and fulfillment operations;
                 live, verified, and billable.
               </p>
             </div>
@@ -122,7 +122,7 @@ export default function KayakPage() {
             </h2>
             <p style={{ color: 'var(--slate-300)', marginTop: 16 }}>
               Chain-of-custody entries record actor, action, location,
-              timestamp, and a sensor hash — on Hyperledger Fabric or Besu.
+              timestamp, and a sensor hash, on Hyperledger Fabric or Besu.
               Smart contracts govern asset lifecycle, quality gates, compliance
               oracles, recall management, and audit trails.
             </p>

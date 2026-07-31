@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'News Room — UElement Technologies',
+  title: 'News Room | UElement Technologies',
   description:
     'Announcements, media coverage, and the public conversation on quantum security and sovereign technology.',
 };
@@ -14,7 +14,7 @@ const mediaHighlights = [
     headline:
       'Leadership commentary on quantum security and India deeptech moment.',
     detail:
-      'Broadcast nationally — our founders spoke on the urgency of post-quantum cryptography for Indian banks and critical infrastructure.',
+      'Broadcast nationally. Our founders spoke on the urgency of post-quantum cryptography for Indian banks and critical infrastructure.',
     date: '2025',
   },
   {
@@ -49,16 +49,16 @@ const milestones = [
   {
     year: '2024',
     items: [
-      'Established MainSPAR program — autonomous MLOps for DDIL edge environments.',
+      'Established MainSPAR program: autonomous MLOps for DDIL edge environments.',
       'Launched MainSTAY enterprise platform trio (Nexus · Vizor · Kayak).',
-      'Expanded to Singapore and UAE — first international engagements in defence and BFSI.',
+      'Expanded to Singapore and UAE. First international engagements in defence and BFSI.',
     ],
   },
   {
     year: '2023',
     items: [
       'UElement Technologies incorporated in Pune, India.',
-      'U92 Quantum Security program initiated — PQC and QKD stack foundational research.',
+      'U92 Quantum Security program initiated: PQC and QKD stack foundational research.',
       'Seed partnerships with national-level defence and infrastructure stakeholders.',
     ],
   },
@@ -75,7 +75,7 @@ const topics = [
   },
   {
     label: 'DDIL Operations',
-    desc: 'Autonomous MLOps at the tactical edge — denied, degraded, intermittent.',
+    desc: 'Autonomous MLOps at the tactical edge: denied, degraded, intermittent.',
   },
   {
     label: 'BFSI Resilience',
@@ -188,7 +188,7 @@ export default function NewsPage() {
               }}
             >
               UElement leadership joined All India Radio for a nationally
-              broadcast discussion on the urgency of post-quantum cryptography —
+              broadcast discussion on the urgency of post-quantum cryptography:
               why the harvest-now-decrypt-later threat is already a procurement
               line item in adversary budgets, and what sovereign technology
               means for India&apos;s critical infrastructure in the quantum
@@ -236,7 +236,7 @@ export default function NewsPage() {
               maxWidth: 580,
             }}
           >
-            From national broadcasts to industry forums — UElement engages where
+             From national broadcasts to industry forums, UElement engages where
             the conversation on deeptech, sovereignty, and quantum resilience is
             happening.
           </p>
@@ -298,7 +298,7 @@ export default function NewsPage() {
             What we speak about.
           </h2>
           <p className="lede" style={{ marginBottom: 48 }}>
-            Our commentary spans the full surface area of sovereign deeptech —
+            Our commentary spans the full surface area of sovereign deeptech:
             from cryptographic primitives to edge autonomy.
           </p>
           <div className="grid3">
@@ -332,7 +332,7 @@ export default function NewsPage() {
             How we got here.
           </h2>
           <p className="lede" style={{ marginBottom: 52 }}>
-            Key moments in UElement&apos;s public journey — from incorporation
+            Key moments in UElement&apos;s public journey, from incorporation
             to national broadcast.
           </p>
           <div
@@ -474,7 +474,7 @@ export default function NewsPage() {
               <h4>Industry engagements</h4>
               <p>
                 We participate in technical briefings and forums across BFSI,
-                defence, and public-sector technology — from regulatory
+                 defence, and public-sector technology, from regulatory
                 roundtables to CERT-In advisory discussions.
               </p>
               <p
@@ -516,7 +516,7 @@ export default function NewsPage() {
                 }}
               >
                 For interviews, expert commentary, press material, and
-                background on quantum security and sovereign technology — reach
+                background on quantum security and sovereign technology, reach
                 the UElement communications desk. We respond to credentialed
                 journalists and analysts.
               </p>

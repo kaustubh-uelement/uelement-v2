@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Blogs — UElement Technologies',
+  title: 'Blogs | UElement Technologies',
   description:
     'Insights, trends, and expert perspectives from the UElement team.',
 };
@@ -39,7 +39,7 @@ export default function BlogsPage() {
               <div className="tag">Quantum</div>
               <h4>Why harvest-now-decrypt-later changes your migration math</h4>
               <p>
-                The quantum threat to today&apos;s encrypted archives — and what
+                The quantum threat to today&apos;s encrypted archives, and what
                 a CBOM-first response looks like.
               </p>
               <p
