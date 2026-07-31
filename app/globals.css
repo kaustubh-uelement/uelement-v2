@@ -1958,53 +1958,51 @@ table.spec td:first-child {
   stroke-width: 2.6 !important;
 }
 
+/* ══════════════ HERO ART (responsive to width AND height) ══════════════ */
+
 .hero-art {
   position: absolute;
   pointer-events: none;
   z-index: 0;
   opacity: 0.18;
+
+  /* size driven by whichever dimension is smaller, so short/wide viewports don't blow up */
+  width: var(--hero-art-size);
+  height: var(--hero-art-size);
+
+  /* offsets scale proportionally to size, so the visible "quarter" stays consistent */
+  top: calc(var(--hero-art-size) * -0.55);
+  right: calc(var(--hero-art-size) * -0.45);
 }
 
-/* Desktop (≥1024px): large, top-right, quarter visible */
-@media (min-width: 1024px) {
-  .hero-art {
-    top: -75%;
-    right: -25%;
-    width: 720px;
-    height: 720px;
-  }
+/* base size for desktop */
+.hero {
+  --hero-art-size: min(50vw, 85vh);
 }
 
-/* Tablet (768–1023px): slightly smaller, pulled in so it frames the text */
+/* Tablet (768–1023px) */
 @media (min-width: 768px) and (max-width: 1023px) {
-  .hero-art {
-    top: -60%;
-    right: -25%;
-    width: 520px;
-    height: 520px;
+  .hero {
+    --hero-art-size: min(55vw, 75vh);
   }
 }
 
-/* Mobile‑L (480–767px): larger phones / portrait tablets */
+/* Mobile‑L (480–767px) */
 @media (min-width: 480px) and (max-width: 767px) {
+  .hero {
+    --hero-art-size: min(65vw, 60vh);
+  }
   .hero-art {
-    top: -40%;
-    right: -30%;
-    width: 440px;
-    height: 440px;
+    top: calc(var(--hero-art-size) * -0.45);
+    right: calc(var(--hero-art-size) * -0.35);
   }
 }
 
-/* Mobile‑S (<480px): small phones */
+/* Mobile‑S (<480px) */
 @media (max-width: 479px) {
-  .hero-art {
-    top: -35%;
-    right: -50%;
-    width: 420px;
-    height: 420px;
+  .hero {
+    --hero-art-size: min(75vw, 55vh);
   }
-  /* if you want it *off* on mobile instead, use display:none instead of sizes */
-  /* .hero-art { display: none; } */
 }
 
 .hero-art img {
@@ -2024,41 +2022,37 @@ table.spec td:first-child {
   }
 }
 
+/* ══════════════ FOOTER FLOWER (responsive to width AND height) ══════════════ */
+
 .footer-flower {
   position: absolute;
   pointer-events: none;
   z-index: 0;
   opacity: 0.18;
+
+  width: var(--footer-art-size);
+  height: var(--footer-art-size);
+
+  bottom: calc(var(--footer-art-size) * -0.35);
+  left: calc(var(--footer-art-size) * -0.45);
 }
 
-/* Desktop (≥1024px): big, bottom-left, quarter visible */
-@media (min-width: 1024px) {
-  .footer-flower {
-    bottom: -20%;
-    left: -25%;
-    width: 720px;
-    height: 720px;
-  }
+/* base size for desktop — set --footer-art-size on whatever outer wrapper you gave `relative` to */
+.footer-outer {
+  --footer-art-size: min(50vw, 85vh);
 }
 
-/* Tablet (768–1023px): smaller, pulled in */
+/* Tablet (768–1023px) */
 @media (min-width: 768px) and (max-width: 1023px) {
-  .footer-flower {
-    bottom: -15%;
-    left: -20%;
-    width: 520px;
-    height: 520px;
+  .footer-outer {
+    --footer-art-size: min(55vw, 75vh);
   }
 }
 
-/* Mobile (<768px): either much smaller or hidden */
+/* Mobile (<768px) */
 @media (max-width: 767px) {
-  /* option A: very subtle */
-  .footer-flower {
-    bottom: -8%;
-    left: -35%;
-    width: 360px;
-    height: 360px;
+  .footer-outer {
+    --footer-art-size: min(65vw, 55vh);
   }
 }
 

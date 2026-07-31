@@ -14,7 +14,7 @@ const FooterV2 = () => {
   if (pathname === '/contact-us/') return null;
 
   return (
-    <div className="relative overflow-hidden">
+    <div className="relative overflow-hidden footer-outer">
       <div className="footer-flower">
         <img src="/u92-flower.png" alt="" aria-hidden="true" />
       </div>
