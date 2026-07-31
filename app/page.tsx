@@ -43,7 +43,7 @@ export default function HomePage() {
               tactical edge.
             </p>
 
-            {/* CTA Buttons — re-enable pointer events just here */}
+            {/* CTA Buttons: re-enable pointer events just here */}
             <div className="flex flex-col md:flex-row items-center md:items-start justify-center md:justify-start gap-4 mt-10 md:mt-16 w-full md:w-auto pointer-events-auto">
               <Link href="/company" className="btn btn-gold">
                 About Us
@@ -130,7 +130,7 @@ export default function HomePage() {
               <p>
                 Autonomous resilience for the tactical edge. A sovereign MLOps
                 ecosystem for denied, degraded, intermittent and limited
-                environments — we don&apos;t connect the edge to the cloud, we
+                environments. We don&apos;t connect the edge to the cloud; we
                 turn the edge into the cloud.
               </p>
               <p
@@ -160,7 +160,7 @@ export default function HomePage() {
               Every platform we ship is built on the same convictions:
               cryptography must survive the quantum transition, systems must
               operate when networks are denied, and evidence must be generated
-              as operational exhaust — not reconstructed for audit season.
+              as operational exhaust, not reconstructed for audit season.
             </p>
           </div>
           <div className="grid2 relative">

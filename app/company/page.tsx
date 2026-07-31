@@ -63,8 +63,8 @@ export default function CompanyPage() {
           </p>
           <p className="lede" style={{ marginTop: 22 }}>
             UElement Technologies Private Limited is a deeptech company
-            headquartered in Pune, India, with offices in Singapore and the UAE
-            — operating globally. We build the platforms critical enterprises
+            headquartered in Pune, India, with offices in Singapore and the UAE,
+            operating globally. We build the platforms critical enterprises
             and nations depend on when the stakes are absolute.
           </p>
         </div>
@@ -85,7 +85,7 @@ export default function CompanyPage() {
               Make critical systems sovereign, quantum-safe, and self-healing.
             </h2>
             <p className="mut" style={{ marginTop: 16 }}>
-              Every platform we ship answers to the operator who runs it — never
+              Every platform we ship answers to the operator who runs it, never
               to a mandatory external dependency. That is what sovereignty means
               in engineering terms, and it is the thread through everything we
               build.
@@ -105,8 +105,8 @@ export default function CompanyPage() {
             <p className="mut" style={{ marginTop: 16 }}>
               As quantum computing rewrites the rules of security and autonomy
               rewrites the rules of operations, we intend to be the partner that
-              critical sectors — defence, banking, industry, government —
-              already trust when the transition arrives.
+              critical sectors: defence, banking, industry, government.
+              We intend to be their trusted partner when the transition arrives.
             </p>
           </div>
         </div>
@@ -141,8 +141,8 @@ export default function CompanyPage() {
             <div className="card">
               <h4>Resilience by construction</h4>
               <p>
-                Systems should degrade predictably and heal autonomously — not
-                fail loudly.
+                Systems should degrade predictably and heal autonomously.
+                They must not fail loudly.
               </p>
             </div>
           </div>
@@ -202,7 +202,7 @@ export default function CompanyPage() {
             <div className="card">
               <h4>Pune, India</h4>
               <p>
-                Global headquarters — engineering, research, and program
+                Global headquarters: engineering, research, and program
                 leadership.
               </p>
             </div>

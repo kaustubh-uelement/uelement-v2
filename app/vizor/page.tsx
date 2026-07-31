@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Vizor — One Platform. Seven Dimensions. Zero Blind Spots. — UElement',
+  title: 'Vizor | One Platform. Seven Dimensions. Zero Blind Spots. | UElement',
   description:
     'Unified observability, security and compliance fabric for enterprise IT and industrial OT.',
 };
@@ -30,7 +30,7 @@ export default function VizorPage() {
           <p className="lede" style={{ marginTop: 22 }}>
             A unified observability, security and compliance fabric for
             enterprise IT and industrial OT. One data lake, one topology graph,
-            one AI engine — from board-level KPIs down to the packet on the
+            one AI engine, from board-level KPIs down to the packet on the
             wire.
           </p>
           <div
@@ -156,8 +156,8 @@ export default function VizorPage() {
               <div className="card">
                 <h4>Causal AI</h4>
                 <p>
-                  Deterministic root-cause analysis grounded in live topology —
-                  ≤30 seconds to root cause.
+                  Deterministic root-cause analysis grounded in live topology;
+                  analysis to root cause in 30 seconds or less.
                 </p>
               </div>
               <div className="card">
@@ -177,7 +177,7 @@ export default function VizorPage() {
               <div className="card">
                 <h4>Five-agent fleet</h4>
                 <p>
-                  SecOps, SRE, GRC, FinOps and Developer agents — triage,
+                  SecOps, SRE, GRC, FinOps and Developer agents: triage,
                   diagnose, evidence, right-size, fix.
                 </p>
               </div>

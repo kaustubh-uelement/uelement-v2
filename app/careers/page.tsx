@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import OpenPositions from '@/components/careers/OpenPositions';
 
 export const metadata: Metadata = {
-  title: 'Careers — UElement Technologies',
+  title: 'Careers | UElement Technologies',
   description:
     'Do the work your family will brag about. Quantum-safe banking rails, autonomy that survives when the network dies, machines that keep nations running.',
 };
@@ -28,7 +28,7 @@ export default function CareersPage() {
           <p className="lede" style={{ marginTop: 20 }}>
             Quantum-safe banking rails. Autonomy that survives when the network
             dies. Machines that keep nations running. This is not another SaaS
-            job — this is sovereign DeepTech, and it needs you.
+            job. This is sovereign DeepTech, and it needs you.
           </p>
 
           <div
@@ -76,15 +76,15 @@ export default function CareersPage() {
             <div className="card">
               <h4>Quantum decade, front row</h4>
               <p>
-                Post-quantum migration, QKD, tactical-edge autonomy, agentic AI
-                — you&apos;ll work on the problems the rest of the industry will
+                Post-quantum migration, QKD, tactical-edge autonomy, agentic AI:
+                you&apos;ll work on the problems the rest of the industry will
                 discover in five years.
               </p>
             </div>
             <div className="card">
               <h4>Small teams, real authority</h4>
               <p>
-                Program-level ownership from early. You won&apos;t be a cog —
+                Program-level ownership from early. You won&apos;t be a cog;
                 you&apos;ll be the person whose name is on the architecture
                 document.
               </p>
@@ -107,7 +107,7 @@ export default function CareersPage() {
             <div className="card">
               <h4>Three offices, one team</h4>
               <p>
-                Build from Pune, Singapore, or the UAE — with customers and
+                Build from Pune, Singapore, or the UAE, with customers and
                 deployments across regions.
               </p>
             </div>
@@ -128,7 +128,7 @@ export default function CareersPage() {
             Stable elements sit in the ground doing nothing for a billion years.
             Isotopes are the ones that actually <em>emit</em>. Same atomic
             number as everyone else, different energy entirely. That&apos;s the
-            hiring bar — not &quot;culture fit,&quot; culture{' '}
+            hiring bar: not &quot;culture fit,&quot; culture{' '}
             <em>reactivity</em>.
           </p>
 
@@ -138,7 +138,7 @@ export default function CareersPage() {
               <h4>Short by design</h4>
               <p>
                 If you&apos;re doing the same job in 18 months, we failed you.
-                Roles here decay into bigger roles. That&apos;s not attrition —
+                Roles here decay into bigger roles. That&apos;s not attrition;
                 that&apos;s the decay chain working as intended.
               </p>
             </div>
@@ -165,7 +165,7 @@ export default function CareersPage() {
               <div className="proglabel slate">Containment</div>
               <h4>We shield, we don&apos;t suppress</h4>
               <p>
-                Strong opinions are the fuel — we just build the reactor around
+                Strong opinions are the fuel; we just build the reactor around
                 them. Disagree with the CEO in the thread. Bring receipts. Best
                 argument wins, seniority doesn&apos;t.
               </p>
@@ -174,7 +174,7 @@ export default function CareersPage() {
               <div className="proglabel slate">Atomic number</div>
               <h4>Same element, different mass</h4>
               <p>
-                We all share the same core — sovereignty, craft, receipts over
+                We all share the same core: sovereignty, craft, receipts over
                 vibes. Everything else about you can and should be different.
                 Homogeneous teams are inert.
               </p>
@@ -184,7 +184,7 @@ export default function CareersPage() {
               <h4>Measured in output, not hours</h4>
               <p>
                 Nobody&apos;s counting your seat time. We count decays per
-                second. Ship the thing, then go touch grass — genuinely, please,
+                second. Ship the thing, then go touch grass. Genuinely, please,
                 the grass is right there.
               </p>
             </div>
@@ -290,7 +290,7 @@ export default function CareersPage() {
                       Delulu is allowed, receipts are mandatory.
                     </strong>{' '}
                     <span className="text-[#718096]">
-                      Pitch the impossible thing — then show the benchmark.
+                      Pitch the impossible thing, then show the benchmark.
                     </span>
                   </span>
                 </li>
@@ -354,7 +354,7 @@ export default function CareersPage() {
             className="serif-line mt-10 text-left sm:text-center max-w-[680px] mx-auto text-22 sm:text-26 font-normal leading-snug"
             style={{ color: '#b87a2d' }}
           >
-            Stability is overrated. Bring your instability — we&apos;ll build
+            Stability is overrated. Bring your instability; we&apos;ll build
             the reactor around it.
           </p>
         </div>
@@ -380,7 +380,7 @@ export default function CareersPage() {
             <div className="step">
               <b>01 · Conversation</b>
               <p>
-                A real discussion about your work and what you want to build —
+                A real discussion about your work and what you want to build,
                 not a screening script.
               </p>
             </div>
@@ -394,7 +394,7 @@ export default function CareersPage() {
             <div className="step">
               <b>03 · Program fit</b>
               <p>
-                Meet the people you&apos;d build with — leadership included. Ask
+                Meet the people you&apos;d build with, leadership included. Ask
                 us the hard questions.
               </p>
             </div>

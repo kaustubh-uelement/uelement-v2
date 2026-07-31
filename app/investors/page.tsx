@@ -2,9 +2,9 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Investor Relations — UElement Technologies',
+  title: 'Investor Relations | UElement Technologies',
   description:
-    'UElement Technologies Private Limited — structure, governance, and investor inquiries.',
+    'UElement Technologies Private Limited: structure, governance, and investor inquiries.',
 };
 
 export default function InvestorsPage() {

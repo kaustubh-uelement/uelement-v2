@@ -5,7 +5,7 @@ import { useState } from 'react';
 import type { Metadata } from 'next';
 
 /* ─── Inline contact form ─────────────────────────────────────── */
-/* The form logic is intentionally kept minimal — wire to your CRM */
+/* The form logic is intentionally kept minimal; wire to your CRM */
 /* or email endpoint without touching the layout around it.        */
 function ContactForm() {
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>(
@@ -132,7 +132,7 @@ function ContactForm() {
           value={data.message}
           onChange={handleChange}
           rows={4}
-          placeholder="Tell us what you're solving for — the more context, the better."
+          placeholder="Tell us what you're solving for; the more context, the better."
           className="form-input"
           style={{ resize: 'vertical' }}
         />
@@ -164,7 +164,7 @@ const channels = [
   {
     id: 'incidents',
     label: 'Connect over WhatsApp',
-    desc: 'Message us directly — fastest way to reach the team.',
+    desc: 'Message us directly. Fastest way to reach the team.',
     value: '+91 762 069 0561',
     href: 'https://wa.me/917620690561',
     icon: '💬',
@@ -189,11 +189,11 @@ const stats = [
 const faqs = [
   {
     q: 'How quickly will someone respond?',
-    a: 'Our monitoring desk logs every enquiry immediately. A specialist in the relevant practice — quantum security, enterprise platforms, or edge autonomy — typically replies within one business day. Flagged incidents are prioritised.',
+    a: 'Our monitoring desk logs every enquiry immediately. A specialist in the relevant practice (quantum security, enterprise platforms, or edge autonomy) typically replies within one business day. Flagged incidents are prioritised.',
   },
   {
     q: 'Do you sign an NDA before scoping?',
-    a: 'Yes — all scoping conversations are covered by a mutual NDA by default, so you can speak openly about your architecture, constraints, and risk posture from the first call.',
+    a: 'Yes, all scoping conversations are covered by a mutual NDA by default, so you can speak openly about your architecture, constraints, and risk posture from the first call.',
   },
   {
     q: 'What does a first engagement look like?',
@@ -315,7 +315,7 @@ export default function ContactPage() {
           </h1>
           <p className="lede" style={{ marginTop: 20, maxWidth: 560 }}>
             Whether it&apos;s a quantum risk assessment, a 45-day MainSTAY proof
-            of value, a tactical-edge briefing, or a partnership — tell us what
+             of value, a tactical-edge briefing, or a partnership. Tell us what
             you&apos;re solving for.
           </p>
 
@@ -349,7 +349,7 @@ export default function ContactPage() {
             Know what you need?
           </h2>
           <p className="lede" style={{ marginBottom: 44 }}>
-            Route straight to the right inbox — no generic form required.
+            Route straight to the right inbox; no generic form required.
           </p>
           <div className="grid3">
             {channels.map((ch) => (

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Industries — UElement Technologies',
+  title: 'Industries | UElement Technologies',
   description:
     'UElement builds for sectors where downtime is measured in consequences, not minutes.',
 };
@@ -125,7 +125,7 @@ export default function IndustriesPage() {
               <div>
                 <h4>Datacenter &amp; Warehouse</h4>
                 <p>
-                  Rack space, hardware, power, cooling, SKUs, and movement —
+                  Rack space, hardware, power, cooling, SKUs, and movement:
                   metered, digital-twinned, and billed as services on a verified
                   fabric.
                 </p>

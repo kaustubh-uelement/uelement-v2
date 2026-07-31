@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'U92 QKD — Quantum Key Distribution — UElement',
+  title: 'U92 QKD | Quantum Key Distribution | UElement',
   description:
     'Quantum key distribution for links where physics, not mathematics, guarantees secrecy.',
 };
@@ -51,7 +51,7 @@ export default function U92QKDPage() {
           <div className="card">
             <h4>Hybrid assurance</h4>
             <p>
-              QKD layered with PQC for defense in depth — physics and
+              QKD layered with PQC for defense in depth: physics and
               mathematics, together.
             </p>
           </div>

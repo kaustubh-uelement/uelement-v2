@@ -2,9 +2,9 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Nexus — The Enterprise Digital Fabric — UElement',
+  title: 'Nexus | The Enterprise Digital Fabric | UElement',
   description:
-    "Nexus is the platform for building your enterprise's outward-facing online properties — every digital surface, channel, and workflow.",
+    "Nexus is the platform for building your enterprise's outward-facing online properties: every digital surface, channel, and workflow.",
 };
 
 export default function NexusPage() {
@@ -27,7 +27,7 @@ export default function NexusPage() {
           <p className="serif-line">The Enterprise Digital Fabric.</p>
           <p className="lede" style={{ marginTop: 22 }}>
             Nexus is the platform for building your enterprise&apos;s
-            outward-facing online properties — every digital surface, channel,
+            outward-facing online properties: every digital surface, channel,
             and workflow your customers, partners, and candidates touch.
           </p>
           <Link
@@ -48,7 +48,7 @@ export default function NexusPage() {
               <h4>Web platforms</h4>
               <p>
                 Websites, Google search presence, GenAI search optimization, SEO
-                and SEM — engineered as one discipline, not four vendors.
+                and SEM, engineered as one discipline, not four vendors.
               </p>
             </div>
             <div className="card">
@@ -61,7 +61,7 @@ export default function NexusPage() {
             <div className="card">
               <h4>Workflow portal</h4>
               <p>
-                A scalable portal to design application workflows — public
+                A scalable portal to design application workflows: public
                 sites, e-commerce, help centers, and careers portals composed
                 from one system.
               </p>
@@ -95,7 +95,7 @@ export default function NexusPage() {
               <div className="card">
                 <h4>GenAI &amp; OpenLM</h4>
                 <p>
-                  Generative experiences and open LLM operations — deploy,
+                  Generative experiences and open LLM operations: deploy,
                   monitor, and govern the models behind every AI touchpoint.
                 </p>
               </div>
