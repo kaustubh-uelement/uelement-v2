@@ -739,7 +739,7 @@ const FooterContent = () => {
                   Careers
                 </Link>
                 <Link
-                  href="/contact-us"
+                  href="/contact"
                   className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
                 >
                   Contact
@@ -980,7 +980,7 @@ const FooterContent = () => {
                   Careers
                 </Link>
                 <Link
-                  href="/contact-us"
+                  href="/contact"
                   className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
                 >
                   Contact

@@ -26,7 +26,7 @@ const Footer = () => {
             About us
           </Link>
           <Link
-            href="/contact-us"
+            href="/contact"
             className="font-reddit-sans text-[#808080] text-13 sm:text-16 hover:text-white transition-colors"
           >
             Contact

@@ -342,7 +342,7 @@ export default function ContactPage() {
             style={{
               fontSize: 'clamp(26px,3.2vw,38px)',
               marginBottom: 14,
-           
+              color: '#000',
               display: 'inline-block',
             }}
           >

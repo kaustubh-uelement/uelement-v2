@@ -26,7 +26,7 @@ const servicesData = [
     id: '03',
     title: 'AI & Machine Learning',
     img: '/images/service/service-three.png',
-    heading: 'Operationalize AI for Real-Time Business Intelligence',
+    heading: 'Operationalize AI for Real Time Business Intelligence',
     desc: 'Deploy specialized AI models (Edge AI, Computer Vision, Conversational AI) for everything from customer engagement to sophisticated Predictive Analysis. We use AIOps/MLOps frameworks to seamlessly build, train, and scale reliable production systems using the latest LLMs & NLP.',
     bg: 'md:bg-[#F3F3F3] bg-white',
     badgeBg: 'bg-[#D7D7D7]',
@@ -101,7 +101,7 @@ const ServicesList = () => {
 
                 <button
                   className="btn-blue md:self-start self-center my-4 md:mb-0 md:mt-4"
-                  onClick={() => router.push('/contact-us')}
+                  onClick={() => router.push('/contact')}
                 >
                   Schedule a Demo
                 </button>

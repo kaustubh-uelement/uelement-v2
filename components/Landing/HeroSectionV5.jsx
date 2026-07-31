@@ -35,7 +35,7 @@ const HeroSectionV5 = () => {
   const prevSlide = () =>
     setIndex((prev) => (prev - 1 + slides.length) % slides.length);
 
-  const handleContactus = () => router.push('/contact-us');
+  const handleContactus = () => router.push('/contact');
   const handlePauseStart = () => setIsPaused(true);
   const handlePauseEnd = () => setIsPaused(false);
 

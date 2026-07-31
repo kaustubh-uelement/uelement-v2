@@ -142,7 +142,7 @@ const MobileNav = ({
         {/* CTA */}
         <div className="flex items-center justify-end">
           <Link
-            href="/contact-us"
+            href="/contact"
             onClick={closeMobileNav}
             className="bg-white text-primary-blue rounded-[40px]
               font-reddit-sans text-16 px-8 py-2 h-fit hover:shadow-hover"
