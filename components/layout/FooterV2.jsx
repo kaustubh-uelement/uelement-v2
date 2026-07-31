@@ -55,7 +55,9 @@ const ContactUs = () => {
     phone: '',
     message: '',
     subjects: {
-      cyberSecurity: false,
+      otObservability: false,
+      quantumSecurity: false,
+      enterpriseResilience: false,
       enterpriseCloud: false,
       artificialIntelligence: false,
       digitalTransformation: false,
@@ -227,7 +229,9 @@ const ContactUs = () => {
       phone: '',
       message: '',
       subjects: {
-        cyberSecurity: false,
+        otObservability: false,
+        quantumSecurity: false,
+        enterpriseResilience: false,
         enterpriseCloud: false,
         artificialIntelligence: false,
         digitalTransformation: false,
@@ -427,20 +431,20 @@ const ContactUs = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <Checkbox
                     label="OT Observability"
-                    id="digitalTransformation"
-                    checked={formData.subjects.digitalTransformation}
+                    id="otObservability"
+                    checked={formData.subjects.otObservability}
                     onChange={handleCheckboxChange}
                   />
                   <Checkbox
                     label="Quantum Security"
-                    id="digitalTransformation"
-                    checked={formData.subjects.digitalTransformation}
+                    id="quantumSecurity"
+                    checked={formData.subjects.quantumSecurity}
                     onChange={handleCheckboxChange}
                   />
                   <Checkbox
                     label="Enterprise Resilience"
-                    id="cyberSecurity"
-                    checked={formData.subjects.cyberSecurity}
+                    id="enterpriseResilience"
+                    checked={formData.subjects.enterpriseResilience}
                     onChange={handleCheckboxChange}
                   />
                   <Checkbox
