@@ -71,7 +71,7 @@ export default function HomePage() {
       {/* ═══════ THE PORTFOLIO ═══════ */}
       <div className="section alt">
         <div className="wrap">
-          <div className="kicker" style={{ color: 'var(--navy-800)' }}>
+          <div className="kicker" >
             The portfolio
           </div>
           <h2 className="display text-navy-gradient">

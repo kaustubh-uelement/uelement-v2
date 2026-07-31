@@ -175,7 +175,7 @@ const ContactUs = () => {
 
       <div className="container-padding py-10 sm:py-12 lg:py-16">
         <div className="title-div text-primary-blue text-center mb-8 sm:mb-10 lg:mb-12">
-          <p className="fl-slash">/ Contact Us</p>
+          <p className="kicker">/ Contact Us</p>
           <h4 className="fl1 leading-tight mb-10 md:mb-14">
             Ready to Transform Your Enterprise Security?
           </h4>

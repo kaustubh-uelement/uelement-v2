@@ -269,7 +269,7 @@ export default function OpenPositions() {
       <div className="wrap">
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
           <div>
-            <div className="kicker" style={{ color: 'var(--navy-800)' }}>
+            <div className="kicker">
               Open roles
             </div>
             <h2 className="display text-navy-gradient">
