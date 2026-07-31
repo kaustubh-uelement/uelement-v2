@@ -1968,7 +1968,7 @@ table.spec td:first-child {
 /* Desktop (≥1024px): large, top-right, quarter visible */
 @media (min-width: 1024px) {
   .hero-art {
-    top: -45%;
+    top: -75%;
     right: -25%;
     width: 720px;
     height: 720px;
@@ -1978,15 +1978,25 @@ table.spec td:first-child {
 /* Tablet (768–1023px): slightly smaller, pulled in so it frames the text */
 @media (min-width: 768px) and (max-width: 1023px) {
   .hero-art {
-    top: -45%;
-    right: -10%;
+    top: -60%;
+    right: -25%;
     width: 520px;
     height: 520px;
   }
 }
 
-/* Mobile (<768px): even smaller, shifted up so it doesn’t crush the hero */
-@media (max-width: 767px) {
+/* Mobile‑L (480–767px): larger phones / portrait tablets */
+@media (min-width: 480px) and (max-width: 767px) {
+  .hero-art {
+    top: -40%;
+    right: -30%;
+    width: 440px;
+    height: 440px;
+  }
+}
+
+/* Mobile‑S (<480px): small phones */
+@media (max-width: 479px) {
   .hero-art {
     top: -35%;
     right: -50%;
