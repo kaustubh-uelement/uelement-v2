@@ -286,17 +286,16 @@ const ContactUs = () => {
       </div>
 
       <div className="container-padding py-10 sm:py-12 lg:py-16">
-        <div className="title-div text-primary-blue text-center mb-8 sm:mb-10 lg:mb-12">
-          <p className="font-family-[--font-heading] text-center text-xl mb-2">
-            {' '}
-            / Contact Us
-          </p>
-          <h4 className="fl1 leading-tight mb-10 md:mb-14">
-            Ready to Transform Your Enterprise?
-          </h4>
-          <p className="fl3 md:max-w-1/2 mx-auto leading-relaxed">
+        <div className="wrap text-center !mb-8 !sm:mb-10 !lg:mb-12">
+          <div className="kicker justify-center mx-auto">Contact Us</div>
+
+          <h2 className="display mx-auto" style={{ color: 'var(--navy-800)' }}>
+            Ready to Transform Your <span className="au">Enterprise?</span>
+          </h2>
+
+          <p className="lede mx-auto" style={{ marginTop: 20, maxWidth: 760 }}>
             Empower your enterprise with smarter, scalable security that adapts
-            to new threats keeping your business safe, agile, and resilient.
+            to new threats, keeping your business safe, agile, and resilient.
           </p>
         </div>
 

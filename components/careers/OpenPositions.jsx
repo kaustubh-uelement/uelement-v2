@@ -273,7 +273,7 @@ export default function OpenPositions() {
               Open roles
             </div>
             <h2 className="display text-navy-gradient">
-              Find your <span className="au">program.</span>
+              Find your <span className="au">program</span>
             </h2>
           </div>
           <p className="mono" style={{ color: 'var(--gold-500)' }}>
