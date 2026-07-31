@@ -12,7 +12,7 @@ export default function CareersPage() {
   return (
     <>
       {/* ═══════ HERO ═══════ */}
-      <div className="hero hero-half">
+      <div className="hero hero-half hero-careers">
         <div className="hero-art">
           <img src="/u92-flower.png" alt="" aria-hidden="true" />
         </div>
