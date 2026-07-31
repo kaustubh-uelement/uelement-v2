@@ -562,6 +562,49 @@ const FooterContent = () => {
           <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 xl:gap-14">
             <div className="footer-links-group">
               <h6 className="font-semibold text-13 sm:text-14 font-heading text-[var(--gold-500)] mb-4 sm:mb-5 tracking-wider uppercase">
+                U92 Quantum
+              </h6>
+              <div className="flex flex-col gap-3 sm:gap-4 font-heading font-light">
+                <Link
+                  href="/u92"
+                  className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:!text-white transition-colors"
+                >
+                  Practice overview
+                </Link>
+                <Link
+                  href="/u92pqc"
+                  className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
+                >
+                  <span className="!text-[14px] !font-heading">PQC</span>
+                  <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
+                    Post-quantum cryptography
+                  </span>
+                </Link>
+                <Link
+                  href="/u92qkd"
+                  className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
+                >
+                  <span className="!text-[14px] !font-heading">QKD</span>
+                  <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
+                    Quantum key distribution
+                  </span>
+                </Link>
+                <Link
+                  href="/u92agility"
+                  className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
+                >
+                  <span className="!text-[14px] !font-heading">
+                    Crypto-Agility
+                  </span>
+                  <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
+                    Axis · Codex · Crucible
+                  </span>
+                </Link>
+              </div>
+            </div>
+
+            <div className="footer-links-group">
+              <h6 className="font-semibold text-13 sm:text-14 font-heading text-[var(--gold-500)] mb-4 sm:mb-5 tracking-wider uppercase">
                 MainSTAY
               </h6>
               <div className="flex flex-col gap-3 sm:gap-4 font-heading font-light">
@@ -637,49 +680,6 @@ const FooterContent = () => {
                   <span className="!text-[14px] !font-heading">MesoGRID</span>
                   <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
                     Resilient decentralised mesh
-                  </span>
-                </Link>
-              </div>
-            </div>
-
-            <div className="footer-links-group">
-              <h6 className="font-semibold text-13 sm:text-14 font-heading text-[var(--gold-500)] mb-4 sm:mb-5 tracking-wider uppercase">
-                U92 Quantum
-              </h6>
-              <div className="flex flex-col gap-3 sm:gap-4 font-heading font-light">
-                <Link
-                  href="/u92"
-                  className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:!text-white transition-colors"
-                >
-                  Practice overview
-                </Link>
-                <Link
-                  href="/u92pqc"
-                  className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
-                >
-                  <span className="!text-[14px] !font-heading">PQC</span>
-                  <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
-                    Post-quantum cryptography
-                  </span>
-                </Link>
-                <Link
-                  href="/u92qkd"
-                  className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
-                >
-                  <span className="!text-[14px] !font-heading">QKD</span>
-                  <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
-                    Quantum key distribution
-                  </span>
-                </Link>
-                <Link
-                  href="/u92agility"
-                  className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
-                >
-                  <span className="!text-[14px] !font-heading">
-                    Crypto-Agility
-                  </span>
-                  <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
-                    Axis · Codex · Crucible
                   </span>
                 </Link>
               </div>
