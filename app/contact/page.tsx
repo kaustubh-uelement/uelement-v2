@@ -315,7 +315,7 @@ export default function ContactPage() {
           </h1>
           <p className="lede" style={{ marginTop: 20, maxWidth: 560 }}>
             Whether it&apos;s a quantum risk assessment, a 45-day MainSTAY proof
-             of value, a tactical-edge briefing, or a partnership. Tell us what
+            of value, a tactical-edge briefing, or a partnership. Tell us what
             you&apos;re solving for.
           </p>
 
@@ -342,7 +342,7 @@ export default function ContactPage() {
             style={{
               fontSize: 'clamp(26px,3.2vw,38px)',
               marginBottom: 14,
-              color: '#000',
+              color: 'var(--navy-800)',
               display: 'inline-block',
             }}
           >

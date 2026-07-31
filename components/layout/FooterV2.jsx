@@ -572,7 +572,7 @@ const FooterContent = () => {
                   Program overview
                 </Link>
                 <Link
-                  href="/mainstay#nexus"
+                  href="/nexus"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
                   <span className="!text-[14px] !font-heading">Nexus</span>
@@ -581,7 +581,7 @@ const FooterContent = () => {
                   </span>
                 </Link>
                 <Link
-                  href="/mainstay#vizor"
+                  href="/vizor"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
                   <span className="!text-[14px] !font-heading">Vizor</span>
@@ -590,7 +590,7 @@ const FooterContent = () => {
                   </span>
                 </Link>
                 <Link
-                  href="/mainstay#kayak"
+                  href="/kayak"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
                   <span className="!text-[14px] !font-heading">Kayak</span>
@@ -613,7 +613,7 @@ const FooterContent = () => {
                   Program overview
                 </Link>
                 <Link
-                  href="/mainspar#merlinos"
+                  href="/merlinos"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
                   <span className="!text-[14px] !font-heading">MerlinOS</span>
@@ -622,7 +622,7 @@ const FooterContent = () => {
                   </span>
                 </Link>
                 <Link
-                  href="/mainspar#mustangc3"
+                  href="/mustang"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
                   <span className="!text-[14px] !font-heading">MustangC3</span>
@@ -631,7 +631,7 @@ const FooterContent = () => {
                   </span>
                 </Link>
                 <Link
-                  href="/mainspar#mesogrid"
+                  href="/mesogrid"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
                   <span className="!text-[14px] !font-heading">MesoGRID</span>
@@ -654,7 +654,7 @@ const FooterContent = () => {
                   Practice overview
                 </Link>
                 <Link
-                  href="/u92#pqc"
+                  href="/u92pqc"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
                   <span className="!text-[14px] !font-heading">PQC</span>
@@ -663,7 +663,7 @@ const FooterContent = () => {
                   </span>
                 </Link>
                 <Link
-                  href="/u92#qkd"
+                  href="/u92qkd"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
                   <span className="!text-[14px] !font-heading">QKD</span>
@@ -672,7 +672,7 @@ const FooterContent = () => {
                   </span>
                 </Link>
                 <Link
-                  href="/u92#crypto-agility"
+                  href="/u92agility"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
                   <span className="!text-[14px] !font-heading">
@@ -703,13 +703,13 @@ const FooterContent = () => {
                   News Room
                 </Link>
                 <Link
-                  href="/success-stories"
+                  href="/stories"
                   className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
                 >
                   Success Stories
                 </Link>
                 <Link
-                  href="/our-partners"
+                  href="/partnerships"
                   className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
                 >
                   Partnerships
@@ -721,7 +721,7 @@ const FooterContent = () => {
                   Blogs
                 </Link>
                 <Link
-                  href="/investor-relations"
+                  href="/investors"
                   className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
                 >
                   Investor Relations
