@@ -286,23 +286,25 @@ const ContactUs = () => {
       </div>
 
       <div className="container-padding py-10 sm:py-12 lg:py-16">
-        <div className="title-div text-primary-blue text-center mb-8 sm:mb-10 lg:mb-12">
-          <p className="font-family-[--font-heading] text-center text-xl mb-2">
-            {' '}
-            / Contact Us
-          </p>
-          <h4 className="fl1 leading-tight mb-10 md:mb-14">
-            Ready to Transform Your Enterprise?
-          </h4>
-          <p className="fl3 md:max-w-1/2 mx-auto leading-relaxed">
+        <div className="wrap text-center !mb-8 !sm:mb-10 !lg:mb-12">
+          <div className="kicker justify-center mx-auto">Contact Us</div>
+
+          <h2 className="display mx-auto" style={{ color: 'var(--navy-800)' }}>
+            Ready to Transform Your <span className="au">Enterprise?</span>
+          </h2>
+
+          <p className="lede mx-auto" style={{ marginTop: 20, maxWidth: 760 }}>
             Empower your enterprise with smarter, scalable security that adapts
-            to new threats keeping your business safe, agile, and resilient.
+            to new threats, keeping your business safe, agile, and resilient.
           </p>
         </div>
 
         <div className="max-w-[1100px] mx-auto bg-white rounded-[20px] p-[8px] sm:p-[10px] grid grid-cols-1 lg:grid-cols-[40%_60%] shadow-[0px_4px_72.2px_0px_rgba(0,0,0,0.25)]">
           <div className="bg-[linear-gradient(154.11deg,#0C142D_20%,#274193_100%)] rounded-[18px] p-6 sm:p-8 lg:p-10 xl:p-12 text-white flex flex-col justify-start gap-8 lg:gap-16 relative overflow-hidden min-h-[350px]">
-            <div className="absolute -bottom-8 -right-3 text-[160px] sm:text-[180px] lg:text-[200px] xl:text-[250px] font-bold text-[#488bf0]/8 select-none pointer-events-none leading-none font-heading!">
+            <div
+              className="absolute -bottom-8 -right-3 text-[160px] sm:text-[180px] lg:text-[200px] xl:text-[250px] font-bold text-[#488bf0]/8 select-none pointer-events-none leading-none"
+              style={{ fontFamily: 'var(--font-reddit-sans)' }}
+            >
               92
             </div>
 
@@ -560,6 +562,49 @@ const FooterContent = () => {
           <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 xl:gap-14">
             <div className="footer-links-group">
               <h6 className="font-semibold text-13 sm:text-14 font-heading text-[var(--gold-500)] mb-4 sm:mb-5 tracking-wider uppercase">
+                U92 Quantum
+              </h6>
+              <div className="flex flex-col gap-3 sm:gap-4 font-heading font-light">
+                <Link
+                  href="/u92"
+                  className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:!text-white transition-colors"
+                >
+                  Practice overview
+                </Link>
+                <Link
+                  href="/u92pqc"
+                  className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
+                >
+                  <span className="!text-[14px] !font-heading">PQC</span>
+                  <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
+                    Post-quantum cryptography
+                  </span>
+                </Link>
+                <Link
+                  href="/u92qkd"
+                  className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
+                >
+                  <span className="!text-[14px] !font-heading">QKD</span>
+                  <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
+                    Quantum key distribution
+                  </span>
+                </Link>
+                <Link
+                  href="/u92agility"
+                  className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
+                >
+                  <span className="!text-[14px] !font-heading">
+                    Crypto-Agility
+                  </span>
+                  <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
+                    Axis · Codex · Crucible
+                  </span>
+                </Link>
+              </div>
+            </div>
+
+            <div className="footer-links-group">
+              <h6 className="font-semibold text-13 sm:text-14 font-heading text-[var(--gold-500)] mb-4 sm:mb-5 tracking-wider uppercase">
                 MainSTAY
               </h6>
               <div className="flex flex-col gap-3 sm:gap-4 font-heading font-light">
@@ -570,7 +615,7 @@ const FooterContent = () => {
                   Program overview
                 </Link>
                 <Link
-                  href="/mainstay#nexus"
+                  href="/nexus"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
                   <span className="!text-[14px] !font-heading">Nexus</span>
@@ -579,7 +624,7 @@ const FooterContent = () => {
                   </span>
                 </Link>
                 <Link
-                  href="/mainstay#vizor"
+                  href="/vizor"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
                   <span className="!text-[14px] !font-heading">Vizor</span>
@@ -588,7 +633,7 @@ const FooterContent = () => {
                   </span>
                 </Link>
                 <Link
-                  href="/mainstay#kayak"
+                  href="/kayak"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
                   <span className="!text-[14px] !font-heading">Kayak</span>
@@ -611,7 +656,7 @@ const FooterContent = () => {
                   Program overview
                 </Link>
                 <Link
-                  href="/mainspar#merlinos"
+                  href="/merlinos"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
                   <span className="!text-[14px] !font-heading">MerlinOS</span>
@@ -620,7 +665,7 @@ const FooterContent = () => {
                   </span>
                 </Link>
                 <Link
-                  href="/mainspar#mustangc3"
+                  href="/mustang"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
                   <span className="!text-[14px] !font-heading">MustangC3</span>
@@ -629,55 +674,12 @@ const FooterContent = () => {
                   </span>
                 </Link>
                 <Link
-                  href="/mainspar#mesogrid"
+                  href="/mesogrid"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
                   <span className="!text-[14px] !font-heading">MesoGRID</span>
                   <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
                     Resilient decentralised mesh
-                  </span>
-                </Link>
-              </div>
-            </div>
-
-            <div className="footer-links-group">
-              <h6 className="font-semibold text-13 sm:text-14 font-heading text-[var(--gold-500)] mb-4 sm:mb-5 tracking-wider uppercase">
-                U92 Quantum
-              </h6>
-              <div className="flex flex-col gap-3 sm:gap-4 font-heading font-light">
-                <Link
-                  href="/u92"
-                  className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:!text-white transition-colors"
-                >
-                  Practice overview
-                </Link>
-                <Link
-                  href="/u92#pqc"
-                  className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
-                >
-                  <span className="!text-[14px] !font-heading">PQC</span>
-                  <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
-                    Post-quantum cryptography
-                  </span>
-                </Link>
-                <Link
-                  href="/u92#qkd"
-                  className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
-                >
-                  <span className="!text-[14px] !font-heading">QKD</span>
-                  <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
-                    Quantum key distribution
-                  </span>
-                </Link>
-                <Link
-                  href="/u92#crypto-agility"
-                  className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
-                >
-                  <span className="!text-[14px] !font-heading">
-                    Crypto-Agility
-                  </span>
-                  <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
-                    Axis · Codex · Crucible
                   </span>
                 </Link>
               </div>
@@ -701,13 +703,13 @@ const FooterContent = () => {
                   News Room
                 </Link>
                 <Link
-                  href="/success-stories"
+                  href="/stories"
                   className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
                 >
                   Success Stories
                 </Link>
                 <Link
-                  href="/our-partners"
+                  href="/partnerships"
                   className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
                 >
                   Partnerships
@@ -719,7 +721,7 @@ const FooterContent = () => {
                   Blogs
                 </Link>
                 <Link
-                  href="/investor-relations"
+                  href="/investors"
                   className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
                 >
                   Investor Relations
@@ -737,7 +739,7 @@ const FooterContent = () => {
                   Careers
                 </Link>
                 <Link
-                  href="/contact-us"
+                  href="/contact"
                   className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
                 >
                   Contact
@@ -978,7 +980,7 @@ const FooterContent = () => {
                   Careers
                 </Link>
                 <Link
-                  href="/contact-us"
+                  href="/contact"
                   className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
                 >
                   Contact

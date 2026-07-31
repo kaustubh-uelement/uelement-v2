@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'MesoGRID — Resilient Decentralised Mesh — UElement',
+  title: 'MesoGRID | Resilient Decentralised Mesh | UElement',
   description:
     'A resilient decentralised mesh network with stochastic path optimisation.',
 };
@@ -28,7 +28,7 @@ export default function MesogridPage() {
           <p className="lede" style={{ marginTop: 22 }}>
             A resilient decentralised mesh network with stochastic path
             optimisation. MesoGRID treats disruption as the operating condition,
-            not the exception — routing around jamming, loss, and partition
+            not the exception, routing around jamming, loss, and partition
             without central coordination.
           </p>
         </div>
@@ -45,7 +45,7 @@ export default function MesogridPage() {
           <div className="card">
             <h4>Self-healing topology</h4>
             <p>
-              The mesh reforms around node loss in real time — no operator
+              The mesh reforms around node loss in real time, with no operator
               intervention.
             </p>
           </div>

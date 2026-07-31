@@ -50,7 +50,7 @@ const UelementRoot = () => {
 
           <button
             className="btn-arrow block mt-6 mx-auto "
-            onClick={() => router.push('/contact-us')}
+            onClick={() => router.push('/contact')}
           >
             <span
               className="btn-arrow-circle bg-hero-gradient"

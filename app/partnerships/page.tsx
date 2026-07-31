@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Partnerships — UElement Technologies',
+  title: 'Partnerships | UElement Technologies',
   description:
     'Strategic alliances that extend our technology across India, JAPAC, and the Middle East.',
 };

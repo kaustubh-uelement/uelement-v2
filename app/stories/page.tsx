@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Success Stories — UElement Technologies',
+  title: 'Success Stories | UElement Technologies',
   description:
     'How our platforms deliver for the sectors where downtime is measured in consequences.',
 };
@@ -45,7 +45,7 @@ export default function StoriesPage() {
               <div className="tag">Industrial OT</div>
               <h4>Zero blind spots on the plant floor</h4>
               <p>
-                Purdue-native observability proofs of value spanning IT and OT —
+                Purdue-native observability proofs of value spanning IT and OT:
                 one topology, one evidence trail.
               </p>
             </div>

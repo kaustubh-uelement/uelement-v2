@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'U92 PQC — Post-Quantum Cryptography — UElement',
+  title: 'U92 PQC | Post-Quantum Cryptography | UElement',
   description:
     'A complete post-quantum migration practice: discover every cryptographic asset, prioritize by exposure, and migrate on NIST-standardized algorithms.',
 };
@@ -27,7 +27,7 @@ export default function U92PQCPage() {
           <p className="lede" style={{ marginTop: 22 }}>
             A complete post-quantum migration practice: discover every
             cryptographic asset you own, prioritize by exposure, and migrate on
-            NIST-standardized algorithms — without breaking production.
+            NIST-standardized algorithms, without breaking production.
           </p>
         </div>
       </div>
@@ -40,7 +40,7 @@ export default function U92PQCPage() {
                 <b>CBOM discovery</b>
                 <p>
                   A cryptographic bill of materials across codebases, TLS
-                  configurations, certificates, and APIs — surfacing every RSA,
+                  configurations, certificates, and APIs, surfacing every RSA,
                   ECC, and DH exposure.
                 </p>
               </div>
@@ -55,13 +55,13 @@ export default function U92PQCPage() {
                 <b>Hybrid rollout</b>
                 <p>
                   Hybrid key exchange (X25519MLKEM768) bridges classical and
-                  post-quantum — secure against both worlds during transition.
+                  post-quantum, secure against both worlds during transition.
                 </p>
               </div>
               <div className="step">
                 <b>Standards alignment</b>
                 <p>
-                  NIST FIPS 203 (ML-KEM), 204 (ML-DSA), 205 (SLH-DSA), and 206 —
+                  NIST FIPS 203 (ML-KEM), 204 (ML-DSA), 205 (SLH-DSA), and 206,
                   mapped to your estate with compliance evidence.
                 </p>
               </div>

@@ -19,7 +19,7 @@ const ResourcesHero = () => {
           </div>
           <button
             className="btn-arrow block mt-6 mx-auto md:mx-0 "
-            onClick={() => router.push('/contact-us')}
+            onClick={() => router.push('/contact')}
           >
             <span
               className="btn-arrow-circle bg-hero-gradient"

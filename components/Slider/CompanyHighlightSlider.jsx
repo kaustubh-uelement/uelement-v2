@@ -79,7 +79,7 @@ const CompanyHighlightSlider = ({ data }) => {
                 <div>
                   <button
                     className="btn-arrow mt-4 !hidden lg:!block"
-                    onClick={() => router.push('/contact-us')}
+                    onClick={() => router.push('/contact')}
                   >
                     <span
                       className="btn-arrow-circle bg-hero-gradient"
