@@ -55,7 +55,9 @@ const ContactUs = () => {
     phone: '',
     message: '',
     subjects: {
-      cyberSecurity: false,
+      otObservability: false,
+      quantumSecurity: false,
+      enterpriseResilience: false,
       enterpriseCloud: false,
       artificialIntelligence: false,
       digitalTransformation: false,
@@ -227,7 +229,9 @@ const ContactUs = () => {
       phone: '',
       message: '',
       subjects: {
-        cyberSecurity: false,
+        otObservability: false,
+        quantumSecurity: false,
+        enterpriseResilience: false,
         enterpriseCloud: false,
         artificialIntelligence: false,
         digitalTransformation: false,
@@ -427,20 +431,20 @@ const ContactUs = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <Checkbox
                     label="OT Observability"
-                    id="digitalTransformation"
-                    checked={formData.subjects.digitalTransformation}
+                    id="otObservability"
+                    checked={formData.subjects.otObservability}
                     onChange={handleCheckboxChange}
                   />
                   <Checkbox
                     label="Quantum Security"
-                    id="digitalTransformation"
-                    checked={formData.subjects.digitalTransformation}
+                    id="quantumSecurity"
+                    checked={formData.subjects.quantumSecurity}
                     onChange={handleCheckboxChange}
                   />
                   <Checkbox
                     label="Enterprise Resilience"
-                    id="cyberSecurity"
-                    checked={formData.subjects.cyberSecurity}
+                    id="enterpriseResilience"
+                    checked={formData.subjects.enterpriseResilience}
                     onChange={handleCheckboxChange}
                   />
                   <Checkbox
@@ -697,12 +701,6 @@ const FooterContent = () => {
                   About Us
                 </Link>
                 <Link
-                  href="/news"
-                  className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
-                >
-                  News Room
-                </Link>
-                <Link
                   href="/stories"
                   className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
                 >
@@ -721,28 +719,10 @@ const FooterContent = () => {
                   Blogs
                 </Link>
                 <Link
-                  href="/investors"
-                  className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
-                >
-                  Investor Relations
-                </Link>
-                <Link
                   href="/industries"
                   className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
                 >
                   Industries
-                </Link>
-                <Link
-                  href="/careers"
-                  className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
-                >
-                  Careers
-                </Link>
-                <Link
-                  href="/contact"
-                  className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
-                >
-                  Contact
                 </Link>
               </div>
             </div>
@@ -937,12 +917,7 @@ const FooterContent = () => {
                 >
                   About Us
                 </Link>
-                <Link
-                  href="/news"
-                  className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
-                >
-                  News Room
-                </Link>
+
                 <Link
                   href="/success-stories"
                   className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
@@ -962,28 +937,10 @@ const FooterContent = () => {
                   Blogs
                 </Link>
                 <Link
-                  href="/investor-relations"
-                  className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
-                >
-                  Investor Relations
-                </Link>
-                <Link
                   href="/industries"
                   className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
                 >
                   Industries
-                </Link>
-                <Link
-                  href="/careers"
-                  className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
-                >
-                  Careers
-                </Link>
-                <Link
-                  href="/contact"
-                  className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
-                >
-                  Contact
                 </Link>
               </div>
             </div>
