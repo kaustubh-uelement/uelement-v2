@@ -64,8 +64,8 @@ export default function CompanyPage() {
           <p className="lede" style={{ marginTop: 22 }}>
             UElement Technologies Private Limited is a deeptech company
             headquartered in Pune, India, with offices in Singapore and the UAE,
-            operating globally. We build the platforms critical enterprises
-            and nations depend on when the stakes are absolute.
+            operating globally. We build the platforms critical enterprises and
+            nations depend on when the stakes are absolute.
           </p>
         </div>
       </div>
@@ -105,8 +105,8 @@ export default function CompanyPage() {
             <p className="mut" style={{ marginTop: 16 }}>
               As quantum computing rewrites the rules of security and autonomy
               rewrites the rules of operations, we intend to be the partner that
-              critical sectors: defence, banking, industry, government.
-              We intend to be their trusted partner when the transition arrives.
+              critical sectors: defence, banking, industry, government. We
+              intend to be their trusted partner when the transition arrives.
             </p>
           </div>
         </div>
@@ -141,8 +141,8 @@ export default function CompanyPage() {
             <div className="card">
               <h4>Resilience by construction</h4>
               <p>
-                Systems should degrade predictably and heal autonomously.
-                They must not fail loudly.
+                Systems should degrade predictably and heal autonomously. They
+                must not fail loudly.
               </p>
             </div>
           </div>
@@ -183,7 +183,7 @@ export default function CompanyPage() {
                       <LinkedInIcon />
                     </a>
                   </div>
-                  <p>Advisor</p>
+                  <p>{advisor.title}</p>
                 </div>
               ))}
             </div>
