@@ -118,8 +118,8 @@ function ContactForm() {
           <option value="">Select a topic</option>
           <option value="pqc">Post-Quantum Cryptography (U92)</option>
           <option value="qkd">Quantum Key Distribution (U92)</option>
-          <option value="mainstay">MainSTAY enterprise platforms</option>
-          <option value="mainspar">MainSPAR edge autonomy</option>
+          <option value="mainstay">StamBH enterprise fabric</option>
+          <option value="mainspar">TRIpura edge autonomy</option>
           <option value="pilot">Running a 45-day pilot / PoV</option>
           <option value="partnership">Partnership or investment</option>
           <option value="other">Something else</option>
@@ -197,7 +197,7 @@ const faqs = [
   },
   {
     q: 'What does a first engagement look like?',
-    a: 'Most start with a short discovery call, followed by a scoped proposal. There is no obligation past discovery. Many clients use a 45-day pilot to validate MainSTAY or U92 in their environment before committing to a full deployment.',
+    a: 'Most start with a short discovery call, followed by a scoped proposal. There is no obligation past discovery. Many clients use a 45-day pilot to validate StamBH or AdviQ in their environment before committing to a full deployment.',
   },
   {
     q: 'Do you work with teams outside India?',
@@ -314,7 +314,7 @@ export default function ContactPage() {
             Start the <span className="au">conversation.</span>
           </h1>
           <p className="lede" style={{ marginTop: 20, maxWidth: 560 }}>
-            Whether it&apos;s a quantum risk assessment, a 45-day MainSTAY proof
+            Whether it&apos;s a quantum risk assessment, a 45-day StamBH proof
             of value, a tactical-edge briefing, or a partnership. Tell us what
             you&apos;re solving for.
           </p>

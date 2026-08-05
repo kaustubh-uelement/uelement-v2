@@ -17,10 +17,10 @@ export default function VizorPage() {
         <div className="hero-fabric" />
         <div className="wrap">
           <div className="crumb">
-            <Link href="/">Home</Link> / <Link href="/mainstay">MainSTAY</Link>{' '}
+            <Link href="/">Home</Link> / <Link href="/mainstay">StamBH</Link>{' '}
             / Vizor
           </div>
-          <div className="tag">MainSTAY · Watches the digital</div>
+          <div className="tag">StamBH · Watches the digital</div>
           <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>
             Vizor
           </h1>

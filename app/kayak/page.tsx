@@ -17,10 +17,10 @@ export default function KayakPage() {
         <div className="hero-fabric" />
         <div className="wrap">
           <div className="crumb">
-            <Link href="/">Home</Link> / <Link href="/mainstay">MainSTAY</Link>{' '}
+            <Link href="/">Home</Link> / <Link href="/mainstay">StamBH</Link>{' '}
             / Kayak
           </div>
-          <div className="tag">MainSTAY · Commands the physical</div>
+          <div className="tag">StamBH · Commands the physical</div>
           <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>
             Kayak
           </h1>

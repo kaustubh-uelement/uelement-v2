@@ -11,13 +11,14 @@ export interface TeamMember {
 
 export interface Advisor {
   name: string;
+  title: string;
   linkedIn: string;
 }
 
 export const teamMembers: TeamMember[] = [
   {
     name: 'Chaitanya Vijay',
-    initials: 'CG',
+    initials: 'CV',
     title: 'Co-founder & CEO',
     description:
       "Leads UElement's strategy and programs, and represents the company's quantum security and deeptech narrative in public forums and national media.",
@@ -29,8 +30,16 @@ export const teamMembers: TeamMember[] = [
     initials: 'KN',
     title: 'Co-founder & CPO',
     description:
-      'Owns the MainSTAY product line, including the Vizor observability, security and GRC fabric.',
+      'Owns the StamBH product line, including the Vizor observability, security and GRC fabric.',
     photo: '/images/team/kaustubh.jpg',
+    linkedIn: 'https://www.linkedin.com',
+  },
+  {
+    name: 'Niraj Sanghvi',
+    initials: 'NS',
+    title: 'CFO',
+    description: 'Leads finance, governance, and corporate structuring.',
+    photo: '/images/team/niraj.jpg',
     linkedIn: 'https://www.linkedin.com',
   },
   {
@@ -43,20 +52,21 @@ export const teamMembers: TeamMember[] = [
     linkedIn: 'https://www.linkedin.com',
   },
   {
-    name: 'Niraj Sanghvi',
-    initials: 'NS',
-    title: 'CFO',
-    description: 'Leads finance, governance, and corporate structuring.',
-    photo: '/images/team/niraj.jpg',
-    linkedIn: 'https://www.linkedin.com',
-  },
-  {
     name: 'Saurabh Laddha',
     initials: 'SL',
     title: 'CGO',
     description:
       'Leads growth strategy, market expansion, and revenue generation.',
     photo: '/images/team/saurabh.jpg',
+    linkedIn: 'https://www.linkedin.com',
+  },
+  {
+    name: 'Ashutosh Singh',
+    initials: 'AS',
+    title: 'VP (technology)',
+    description:
+      'Drives enterprise technology strategy, platform architecture, and scalable digital solutions across telecom and industrial sectors',
+    photo: '/images/team/ashutosh.jpg',
     linkedIn: 'https://www.linkedin.com',
   },
   {
@@ -76,7 +86,7 @@ export const teamMembers: TeamMember[] = [
   //   linkedIn: 'https://www.linkedin.com',
   // },
   {
-    name: 'Uday Wad',
+    name: 'Dr. Uday Wad',
     initials: 'UW',
     title: 'Consultant (R&D - Quantum & AI)',
     description: 'Leads research across quantum technologies and applied AI.',
@@ -131,7 +141,24 @@ export const teamMembers: TeamMember[] = [
 ];
 
 export const advisors: Advisor[] = [
-  // { name: 'Urbasi Sinha', linkedIn: 'https://www.linkedin.com' },
-  { name: 'Utsav Banerjee', linkedIn: 'https://www.linkedin.com' },
-  { name: 'Raajat Agarwal', linkedIn: 'https://www.linkedin.com' },
+  {
+    name: 'Deepak Sharma',
+    title: 'Business Advisor',
+    linkedIn: 'https://www.linkedin.com',
+  },
+  {
+    name: 'Utsav Banerjee',
+    title: 'Research Advisor',
+    linkedIn: 'https://www.linkedin.com',
+  },
+  {
+    name: 'Raajat Agarwal',
+    title: 'Startup Advisor',
+    linkedIn: 'https://www.linkedin.com',
+  },
+  {
+    name: 'Rtd. Major Hemant Kamboj',
+    title: 'Sales Advisor',
+    linkedIn: 'https://www.linkedin.com',
+  },
 ];

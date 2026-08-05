@@ -17,10 +17,10 @@ export default function MustangPage() {
         <div className="hero-fabric" />
         <div className="wrap">
           <div className="crumb">
-            <Link href="/">Home</Link> / <Link href="/mainspar">MainSPAR</Link>{' '}
-            / MustangC3
+            <Link href="/">Home</Link> / <Link href="/mainspar">TRIpura</Link> /
+            MustangC3
           </div>
-          <div className="tag slate">MainSPAR · The Commander</div>
+          <div className="tag slate">TRIpura · The Commander</div>
           <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>
             MustangC3
           </h1>
@@ -54,8 +54,8 @@ export default function MustangPage() {
           <div className="card">
             <h4>Zero-trust command</h4>
             <p>
-              Every order verified end-to-end with post-quantum signatures;
-              no spoofed hierarchy.
+              Every order verified end-to-end with post-quantum signatures; no
+              spoofed hierarchy.
             </p>
           </div>
         </div>

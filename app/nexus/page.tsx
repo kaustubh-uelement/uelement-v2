@@ -17,10 +17,10 @@ export default function NexusPage() {
         <div className="hero-fabric" />
         <div className="wrap">
           <div className="crumb">
-            <Link href="/">Home</Link> / <Link href="/mainstay">MainSTAY</Link>{' '}
+            <Link href="/">Home</Link> / <Link href="/mainstay">StamBH</Link>{' '}
             / Nexus
           </div>
-          <div className="tag">MainSTAY · Projects outward</div>
+          <div className="tag">StamBH · Projects outward</div>
           <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>
             Nexus
           </h1>

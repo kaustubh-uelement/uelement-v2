@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'U92 PQC | Post-Quantum Cryptography | UElement',
+  title: 'AdviQ PQC | Post-Quantum Cryptography | UElement',
   description:
     'A complete post-quantum migration practice: discover every cryptographic asset, prioritize by exposure, and migrate on NIST-standardized algorithms.',
 };
@@ -17,11 +17,11 @@ export default function U92PQCPage() {
         <div className="hero-fabric" />
         <div className="wrap">
           <div className="crumb">
-            <Link href="/">Home</Link> / <Link href="/u92">U92</Link> / PQC
+            <Link href="/">Home</Link> / <Link href="/u92">AdviQ</Link> / PQC
           </div>
-          <div className="tag">U92 · Post-Quantum Cryptography</div>
+          <div className="tag">AdviQ · Post-Quantum Cryptography</div>
           <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>
-            U92 PQC
+            AdviQ PQC
           </h1>
           <p className="serif-line">Migrate before the countdown ends.</p>
           <p className="lede" style={{ marginTop: 22 }}>

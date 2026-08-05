@@ -49,8 +49,8 @@ const milestones = [
   {
     year: '2024',
     items: [
-      'Established MainSPAR program: autonomous MLOps for DDIL edge environments.',
-      'Launched MainSTAY enterprise platform trio (Nexus · Vizor · Kayak).',
+      'Established TRIpura program: autonomous MLOps for DDIL edge environments.',
+      'Launched StamBH enterprise fabric trio (Nexus · Vizor · Kayak).',
       'Expanded to Singapore and UAE. First international engagements in defence and BFSI.',
     ],
   },
@@ -58,7 +58,7 @@ const milestones = [
     year: '2023',
     items: [
       'UElement Technologies incorporated in Pune, India.',
-      'U92 Quantum Security program initiated: PQC and QKD stack foundational research.',
+      'AdviQ Quantum Security program initiated: PQC and QKD stack foundational research.',
       'Seed partnerships with national-level defence and infrastructure stakeholders.',
     ],
   },

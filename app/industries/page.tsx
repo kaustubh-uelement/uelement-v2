@@ -46,8 +46,8 @@ export default function IndustriesPage() {
                 </p>
               </div>
               <div className="chips">
-                <span className="chip">MainSPAR</span>
-                <span className="chip">U92 PQC</span>
+                <span className="chip">TRIpura</span>
+                <span className="chip">AdviQ PQC</span>
                 <span className="chip">Kayak custody</span>
               </div>
             </div>
@@ -63,8 +63,8 @@ export default function IndustriesPage() {
                 </p>
               </div>
               <div className="chips">
-                <span className="chip">U92 PQC</span>
-                <span className="chip">U92 Crypto-Agility</span>
+                <span className="chip">AdviQ PQC</span>
+                <span className="chip">AdviQ Crypto-Agility</span>
                 <span className="chip">Vizor</span>
                 <span className="chip">Nexus</span>
               </div>
@@ -99,8 +99,8 @@ export default function IndustriesPage() {
               </div>
               <div className="chips">
                 <span className="chip">Vizor</span>
-                <span className="chip">MainSPAR</span>
-                <span className="chip">U92 QKD</span>
+                <span className="chip">TRIpura</span>
+                <span className="chip">AdviQ QKD</span>
               </div>
             </div>
           </div>

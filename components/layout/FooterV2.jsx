@@ -565,8 +565,8 @@ const FooterContent = () => {
           {/* 4 Columns spanning full width in 1 row */}
           <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 xl:gap-14">
             <div className="footer-links-group">
-              <h6 className="font-semibold text-13 sm:text-14 font-heading text-[var(--gold-500)] mb-4 sm:mb-5 tracking-wider uppercase">
-                U92 Quantum
+              <h6 className="font-semibold text-13 sm:text-14 font-heading text-[var(--gold-500)] mb-4 sm:mb-5 tracking-wider">
+                AdviQ
               </h6>
               <div className="flex flex-col gap-3 sm:gap-4 font-heading font-light">
                 <Link
@@ -608,8 +608,8 @@ const FooterContent = () => {
             </div>
 
             <div className="footer-links-group">
-              <h6 className="font-semibold text-13 sm:text-14 font-heading text-[var(--gold-500)] mb-4 sm:mb-5 tracking-wider uppercase">
-                MainSTAY
+              <h6 className="font-semibold text-13 sm:text-14 font-heading text-[var(--gold-500)] mb-4 sm:mb-5 tracking-wider">
+                StamBH
               </h6>
               <div className="flex flex-col gap-3 sm:gap-4 font-heading font-light">
                 <Link
@@ -649,8 +649,8 @@ const FooterContent = () => {
             </div>
 
             <div className="footer-links-group">
-              <h6 className="font-semibold text-13 sm:text-14 font-heading text-[var(--gold-500)] mb-4 sm:mb-5 tracking-wider uppercase">
-                MainSPAR
+              <h6 className="font-semibold text-13 sm:text-14 font-heading text-[var(--gold-500)] mb-4 sm:mb-5 tracking-wider">
+                TRIpura
               </h6>
               <div className="flex flex-col gap-3 sm:gap-4 font-heading font-light">
                 <Link
@@ -783,7 +783,7 @@ const FooterContent = () => {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 container-padding w-full">
             <div className="footer-links-group">
               <h6 className="font-semibold text-13 sm:text-14 font-heading text-[var(--gold-500)] uppercase mb-4 sm:mb-5 tracking-wider">
-                MAINSTAY
+                StamBH
               </h6>
               <div className="flex flex-col gap-3 sm:gap-4 font-heading font-light">
                 <Link
@@ -824,7 +824,7 @@ const FooterContent = () => {
 
             <div className="footer-links-group">
               <h6 className="font-semibold text-13 sm:text-14 font-heading text-[var(--gold-500)] uppercase mb-4 sm:mb-5 tracking-wider">
-                MAINSPAR
+                TRIpura
               </h6>
               <div className="flex flex-col gap-3 sm:gap-4 font-heading font-light">
                 <Link
@@ -865,7 +865,7 @@ const FooterContent = () => {
 
             <div className="footer-links-group">
               <h6 className="font-semibold text-13 sm:text-14 font-heading text-[var(--gold-500)] uppercase mb-4 sm:mb-5 tracking-wider">
-                U92 QUANTUM
+                AdviQ
               </h6>
               <div className="flex flex-col gap-3 sm:gap-4 font-heading font-light">
                 <Link
