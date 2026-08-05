@@ -143,7 +143,15 @@ export default function NewsPage() {
       <div className="section alt">
         <div className="wrap">
           <div className="kicker">Featured</div>
-          <div className="card">
+
+          <div
+            className="card"
+            style={{
+              position: 'relative',
+              overflow: 'hidden',
+              minHeight: 0,
+            }}
+          >
             {/* decorative glow */}
             <div
               style={{
@@ -158,60 +166,103 @@ export default function NewsPage() {
                 pointerEvents: 'none',
               }}
             />
-            <div className="tag" style={{ marginBottom: 24 }}>
-              Media Coverage
-            </div>
-            <h2
-              style={{
-                fontFamily: 'var(--font-hero)',
-                fontWeight: 800,
-                fontSize: 'clamp(22px, 3vw, 36px)',
-                lineHeight: 1.1,
-                letterSpacing: '-0.03em',
-                background: 'linear-gradient(180deg, #ffffff 0%, #c5d0dc 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-                marginBottom: 20,
-                maxWidth: 700,
-              }}
-            >
-              All India Radio: Quantum Security and India&apos;s Deeptech Moment
-            </h2>
-            <p
-              style={{
-                fontSize: 15,
-                color: 'var(--grey-350)',
-                lineHeight: 1.72,
-                maxWidth: 680,
-                marginBottom: 28,
-              }}
-            >
-              UElement leadership joined All India Radio for a nationally
-              broadcast discussion on the urgency of post-quantum cryptography:
-              why the harvest-now-decrypt-later threat is already a procurement
-              line item in adversary budgets, and what sovereign technology
-              means for India&apos;s critical infrastructure in the quantum
-              decade.
-            </p>
+
             <div
+              className=""
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 20,
-                flexWrap: 'wrap',
+                position: 'relative',
+                zIndex: 1,
+
+                marginInline: 'auto',
+                textAlign: 'left',
               }}
             >
-              <span
+              <div className="tag" style={{ marginBottom: 24 }}>
+                Media Coverage
+              </div>
+
+              <h2
                 style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: 11,
-                  color: 'var(--grey-450)',
-                  letterSpacing: '0.08em',
+                  fontFamily: 'var(--font-hero)',
+                  fontWeight: 800,
+                  fontSize: 'clamp(22px, 3vw, 36px)',
+                  lineHeight: 1.1,
+                  letterSpacing: '-0.03em',
+                  background:
+                    'linear-gradient(180deg, #ffffff 0%, #c5d0dc 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                  marginBottom: 20,
                 }}
               >
-                All India Radio · National Broadcast · 2025
-              </span>
+                All India Radio: Quantum Security and India&apos;s Deeptech
+                Moment
+              </h2>
+
+              <p
+                style={{
+                  fontSize: 15,
+                  color: 'var(--grey-350)',
+                  lineHeight: 1.72,
+                  marginBottom: 28,
+                }}
+              >
+                UElement leadership joined All India Radio for a nationally
+                broadcast discussion on the urgency of post-quantum
+                cryptography: why the harvest-now-decrypt-later threat is
+                already a procurement line item in adversary budgets, and what
+                sovereign technology means for India&apos;s critical
+                infrastructure in the quantum decade.
+              </p>
+
+              <div
+                style={{
+                  width: '100%',
+                  aspectRatio: '16 / 9',
+                  borderRadius: 'var(--radius-md)',
+                  overflow: 'hidden',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  maxWidth: 560,
+                  marginBottom: 28,
+                  background: '#000',
+                }}
+              >
+                <iframe
+                  src="https://www.youtube-nocookie.com/embed/Jf22Y7veM1Q"
+                  title="All India Radio: Quantum Security and India's Deeptech Moment"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    border: 0,
+                    display: 'block',
+                  }}
+                  loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
+              </div>
+
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 20,
+                  flexWrap: 'wrap',
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: 11,
+                    color: 'var(--grey-450)',
+                    letterSpacing: '0.08em',
+                  }}
+                >
+                  All India Radio · National Broadcast · 13 June 2026
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -236,7 +287,7 @@ export default function NewsPage() {
               maxWidth: 580,
             }}
           >
-             From national broadcasts to industry forums, UElement engages where
+            From national broadcasts to industry forums, UElement engages where
             the conversation on deeptech, sovereignty, and quantum resilience is
             happening.
           </p>
@@ -332,8 +383,8 @@ export default function NewsPage() {
             How we got here.
           </h2>
           <p className="lede" style={{ marginBottom: 52 }}>
-            Key moments in UElement&apos;s public journey, from incorporation
-            to national broadcast.
+            Key moments in UElement&apos;s public journey, from incorporation to
+            national broadcast.
           </p>
           <div
             style={{
@@ -474,7 +525,7 @@ export default function NewsPage() {
               <h4>Industry engagements</h4>
               <p>
                 We participate in technical briefings and forums across BFSI,
-                 defence, and public-sector technology, from regulatory
+                defence, and public-sector technology, from regulatory
                 roundtables to CERT-In advisory discussions.
               </p>
               <p

@@ -39,7 +39,7 @@ function JobRow({ job, isOpen, onToggle }) {
         onClick={() => onToggle(job.id, job.status)}
         aria-expanded={isOpen}
         disabled={isFilled}
-        className="w-full flex items-center justify-between gap-6 text-left"
+        className="w-full flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-6 text-left"
         style={{
           padding: '24px 28px',
           background: 'transparent',
@@ -47,7 +47,7 @@ function JobRow({ job, isOpen, onToggle }) {
           cursor: isFilled ? 'default' : 'pointer',
         }}
       >
-        <div>
+        <div className="w-full">
           <div
             className="flex items-center gap-3 flex-wrap"
             style={{ marginBottom: 10 }}
@@ -71,9 +71,15 @@ function JobRow({ job, isOpen, onToggle }) {
         </div>
 
         <span
-          className={isFilled ? 'btn' : 'btn btn-line'}
+          className={
+            isFilled
+              ? 'btn w-full sm:w-auto justify-center'
+              : 'btn btn-line w-full sm:w-auto justify-center'
+          }
           style={{
             flexShrink: 0,
+            display: 'inline-flex',
+            alignItems: 'center',
             ...(isFilled && {
               background: 'rgba(255,255,255,0.06)',
               color: 'var(--grey-450)',
