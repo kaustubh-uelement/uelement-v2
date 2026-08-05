@@ -63,7 +63,7 @@ export const teamMembers: TeamMember[] = [
   {
     name: 'Ashutosh Singh',
     initials: 'AS',
-    title: 'Vice President (technology)',
+    title: 'Vice President (Technology)',
     description:
       'Drives enterprise technology strategy and scalable digital solutions across telecom and industrial sectors.',
     photo: '/images/team/ashutosh.jpg',

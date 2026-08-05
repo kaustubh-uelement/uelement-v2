@@ -71,7 +71,7 @@ export default function HomePage() {
       {/* ═══════ THE PORTFOLIO ═══════ */}
       <div className="section alt">
         <div className="wrap">
-          <div className="kicker">The portfolio</div>
+          <div className="kicker" id="portfolio"  >The portfolio</div>
           <h2 className="display text-navy-gradient">
             Two programs. One practice.
             <br />
@@ -143,7 +143,7 @@ export default function HomePage() {
       </div>
 
       {/* ═══════ WHY UELEMENT ═══════ */}
-      <div className="section navy">
+      <div className="section navy" id="whyuelement">
         <div
           className="wrap grid2"
           style={{ alignItems: 'center', columnGap: '60px' }}
@@ -194,7 +194,7 @@ export default function HomePage() {
       {/* ═══════ INDUSTRIES ═══════ */}
       <div className="section navy">
         <div className="wrap">
-          <div className="kicker">Industries</div>
+          <div className="kicker" id='industries'>Industries</div>
           <h2 className="display">
             Built where failure is <span className="au">not an option</span>.
           </h2>
