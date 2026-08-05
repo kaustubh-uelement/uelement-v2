@@ -57,7 +57,7 @@ export default function InvestorsPage() {
                 </tr>
                 <tr>
                   <td>Programs</td>
-                  <td>MainSTAY · MainSPAR · U92 Quantum</td>
+                  <td>AdviQ · StamBH · TRIpura</td>
                 </tr>
                 <tr>
                   <td>Revenue model</td>

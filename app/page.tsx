@@ -71,9 +71,7 @@ export default function HomePage() {
       {/* ═══════ THE PORTFOLIO ═══════ */}
       <div className="section alt">
         <div className="wrap">
-          <div className="kicker" >
-            The portfolio
-          </div>
+          <div className="kicker">The portfolio</div>
           <h2 className="display text-navy-gradient">
             Two programs. One practice.
             <br />
@@ -85,8 +83,8 @@ export default function HomePage() {
               className="card link"
               style={{ textDecoration: 'none' }}
             >
-              <div className="proglabel">U92</div>
-              <h4>U92 Quantum Security</h4>
+              <div className="proglabel">Quantum Security</div>
+              <h4>AdviQ</h4>
               <p>
                 Named for uranium&apos;s atomic number, engineered for the
                 quantum decade. Post-quantum cryptography, quantum key
@@ -105,8 +103,8 @@ export default function HomePage() {
               className="card link"
               style={{ textDecoration: 'none' }}
             >
-              <div className="proglabel slate">MainSTAY</div>
-              <h4>MainSTAY</h4>
+              <div className="proglabel slate">Enterpirse Fabric</div>
+              <h4>StamBH</h4>
               <p>
                 The enterprise platform trio. Nexus projects your business
                 outward, Vizor watches every digital signal, Kayak commands the
@@ -125,8 +123,8 @@ export default function HomePage() {
               className="card link"
               style={{ textDecoration: 'none' }}
             >
-              <div className="proglabel slate">MainSPAR</div>
-              <h4>MainSPAR</h4>
+              <div className="proglabel slate">Edge Platform</div>
+              <h4>TRIpura</h4>
               <p>
                 Autonomous resilience for the tactical edge. A sovereign MLOps
                 ecosystem for denied, degraded, intermittent and limited
@@ -292,7 +290,7 @@ export default function HomePage() {
               textTransform: 'uppercase',
             }}
           >
-            The MainSPAR thesis
+            The TRIpura thesis
           </p>
           <Link
             href="/mainspar"

@@ -100,7 +100,7 @@ export default function CareersPage() {
             <div className="card">
               <h4>Grow with the programs</h4>
               <p>
-                U234 MainSTAY, U235 MainSPAR, and U92 are compounding. Join
+                U234 StamBH, U235 TRIpura, and AdviQ are compounding. Join
                 while the story is being written, not after.
               </p>
             </div>

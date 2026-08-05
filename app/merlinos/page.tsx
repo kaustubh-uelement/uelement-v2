@@ -17,10 +17,10 @@ export default function MerlinOSPage() {
         <div className="hero-fabric" />
         <div className="wrap">
           <div className="crumb">
-            <Link href="/">Home</Link> / <Link href="/mainspar">MainSPAR</Link>{' '}
+            <Link href="/">Home</Link> / <Link href="/mainspar">TRIpura</Link>{' '}
             / MerlinOS
           </div>
-          <div className="tag slate">MainSPAR · The Brain</div>
+          <div className="tag slate">TRIpura · The Brain</div>
           <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>
             MerlinOS
           </h1>

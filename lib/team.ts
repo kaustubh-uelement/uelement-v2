@@ -30,7 +30,7 @@ export const teamMembers: TeamMember[] = [
     initials: 'KN',
     title: 'Co-founder & CPO',
     description:
-      'Owns the MainSTAY product line, including the Vizor observability, security and GRC fabric.',
+      'Owns the StamBH product line, including the Vizor observability, security and GRC fabric.',
     photo: '/images/team/kaustubh.jpg',
     linkedIn: 'https://www.linkedin.com',
   },

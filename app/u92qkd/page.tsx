@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'U92 QKD | Quantum Key Distribution | UElement',
+  title: 'AdviQ QKD | Quantum Key Distribution | UElement',
   description:
     'Quantum key distribution for links where physics, not mathematics, guarantees secrecy.',
 };
@@ -17,17 +17,17 @@ export default function U92QKDPage() {
         <div className="hero-fabric" />
         <div className="wrap">
           <div className="crumb">
-            <Link href="/">Home</Link> / <Link href="/u92">U92</Link> / QKD
+            <Link href="/">Home</Link> / <Link href="/u92">AdviQ</Link> / QKD
           </div>
-          <div className="tag">U92 · Quantum Key Distribution</div>
+          <div className="tag">AdviQ · Quantum Key Distribution</div>
           <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>
-            U92 QKD
+            AdviQ QKD
           </h1>
           <p className="serif-line">Secrecy guaranteed by physics.</p>
           <p className="lede" style={{ marginTop: 22 }}>
             For the links that matter most, quantum key distribution offers what
             no algorithm can: keys whose interception is detectable by the laws
-            of quantum mechanics themselves. U92 designs, integrates, and
+            of quantum mechanics themselves. AdviQ designs, integrates, and
             operates QKD for sovereign and financial backbones.
           </p>
         </div>

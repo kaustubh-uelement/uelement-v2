@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'U92 Crypto-Agility | Axis · Codex · Crucible | UElement',
+  title: 'AdviQ Crypto-Agility | Axis · Codex · Crucible | UElement',
   description:
     'The last migration you do by hand. Three products that make crypto-agility real.',
 };
@@ -17,12 +17,12 @@ export default function U92AgilityPage() {
         <div className="hero-fabric" />
         <div className="wrap">
           <div className="crumb">
-            <Link href="/">Home</Link> / <Link href="/u92">U92</Link> /
+            <Link href="/">Home</Link> / <Link href="/u92">AdviQ</Link> /
             Crypto-Agility
           </div>
-          <div className="tag">U92 · Crypto-Agility</div>
+          <div className="tag">AdviQ · Crypto-Agility</div>
           <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>
-            U92 Crypto-Agility
+            AdviQ Crypto-Agility
           </h1>
           <p className="serif-line">The last migration you do by hand.</p>
           <p className="lede" style={{ marginTop: 22 }}>
@@ -36,7 +36,7 @@ export default function U92AgilityPage() {
         <div className="wrap grid3">
           <div className="card">
             <div className="tag">Product</div>
-            <h4>U92 Axis</h4>
+            <h4>AdviQ Axis</h4>
             <p>
               A crypto-abstraction layer between your applications and their
               algorithms; swap primitives without touching application code.
@@ -44,7 +44,7 @@ export default function U92AgilityPage() {
           </div>
           <div className="card">
             <div className="tag">Product</div>
-            <h4>U92 Codex</h4>
+            <h4>AdviQ Codex</h4>
             <p>
               The algorithm registry and policy control plane: declare which
               algorithms are approved, where, and until when.
@@ -52,7 +52,7 @@ export default function U92AgilityPage() {
           </div>
           <div className="card">
             <div className="tag">Product</div>
-            <h4>U92 Crucible</h4>
+            <h4>AdviQ Crucible</h4>
             <p>
               A rotation drill harness: rehearse algorithm swaps in
               production-like conditions until migration is muscle memory.

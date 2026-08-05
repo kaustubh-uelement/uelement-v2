@@ -25,7 +25,7 @@ export const navItems: NavItem[] = [
     megaVariant: 'prod',
     groups: [
       {
-        heading: 'U92 Quantum',
+        heading: 'AdviQ',
         headingHref: '/u92',
         items: [
           {
@@ -46,7 +46,7 @@ export const navItems: NavItem[] = [
         ],
       },
       {
-        heading: 'MainSTAY',
+        heading: 'StamBH',
         headingHref: '/mainstay',
         items: [
           {
@@ -67,7 +67,7 @@ export const navItems: NavItem[] = [
         ],
       },
       {
-        heading: 'MainSPAR',
+        heading: 'TRIpura',
         headingHref: '/mainspar',
         items: [
           {
