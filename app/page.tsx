@@ -49,7 +49,7 @@ export default function HomePage() {
                 About Us
               </Link>
               <Link href="/mainstay" className="btn btn-line">
-                Explore the platforms
+                Explore the Platforms
               </Link>
             </div>
           </div>

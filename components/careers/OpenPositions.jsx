@@ -233,13 +233,15 @@ function JobRow({ job, isOpen, onToggle }) {
 
           <div
             style={{
-              background: 'rgba(255,255,255,0.03)',
-              border: '1px solid rgba(255,255,255,0.08)',
+              background: '#ffffff',
+              border: '1px solid rgba(0,0,0,0.08)',
               borderRadius: 'var(--radius-md)',
               padding: 20,
             }}
           >
-            <h5 style={{ marginBottom: 4 }}>Submit application</h5>
+            <h5 style={{ marginBottom: 4, color: '#111111' }}>
+              Submit application
+            </h5>
             <p className="mut" style={{ fontSize: 12.5, marginBottom: 16 }}>
               Applying for {job.title}
             </p>
@@ -269,9 +271,7 @@ export default function OpenPositions() {
       <div className="wrap">
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
           <div>
-            <div className="kicker">
-              Open roles
-            </div>
+            <div className="kicker">Open roles</div>
             <h2 className="display text-navy-gradient">
               Find your <span className="au">program</span>
             </h2>
