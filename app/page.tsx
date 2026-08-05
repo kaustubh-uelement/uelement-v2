@@ -75,7 +75,7 @@ export default function HomePage() {
           <h2 className="display text-navy-gradient">
             Two programs. One practice.
             <br />
-            Every layer of <span className="au">sovereignty.</span>
+            Every layer of <span className="au">Sovereignty.</span>
           </h2>
           <div className="grid3" style={{ marginTop: 44 }}>
             <Link
