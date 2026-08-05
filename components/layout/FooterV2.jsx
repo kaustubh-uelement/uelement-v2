@@ -8,6 +8,7 @@ import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import useWeb3Forms from '@web3forms/react';
 import { imgUrl } from '@/lib/imageUrl';
+import { FaGithub, FaLinkedin, FaInstagram, FaXTwitter } from 'react-icons/fa6';
 
 const FooterV2 = () => {
   const pathname = usePathname();
@@ -32,8 +33,8 @@ const FooterV2 = () => {
       >
         <div className="max-w-[1100px] mx-auto w-full grid grid-cols-1 sm:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 xl:gap-14 items-center relative z-10">
           <p className="sm:col-span-3 font-heading text-[#808080] text-[14px] text-center sm:text-left">
-            &copy; 2026 UElement Technologies Private
-            Limited&nbsp; |&nbsp; All Rights Reserved.
+            &copy; 2026 UElement Technologies Private Limited&nbsp; |&nbsp; All
+            Rights Reserved.
           </p>
           <p
             className="sm:col-start-4 text-[15px] font-medium tracking-wider text-center sm:text-left sm:ml-3"
@@ -746,15 +747,15 @@ const FooterContent = () => {
                   rel="noopener noreferrer"
                   className="hover:translate-y-[-3px] duration-300 ease-in-out transition-all hover:text-white/70"
                 >
-                  <Icon name="linkedin2" size={32} />
+                  <FaLinkedin size={20} />
                 </Link>
                 <Link
-                  href="https://facebook.com/uelement.technologies"
+                  href="https://github.com/UElement"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:translate-y-[-3px] duration-300 ease-in-out transition-all hover:text-white/70"
                 >
-                  <Icon name="facebook3" size={32} />
+                  <FaGithub size={20} />
                 </Link>
                 <Link
                   href="https://www.instagram.com/uelement_technologies/"
@@ -762,7 +763,7 @@ const FooterContent = () => {
                   rel="noopener noreferrer"
                   className="hover:translate-y-[-3px] duration-300 ease-in-out transition-all hover:text-white/70"
                 >
-                  <Icon name="instagram2" size={32} />
+                  <FaInstagram size={20} />
                 </Link>
                 <Link
                   href="https://x.com/uelement_tech"
@@ -770,7 +771,7 @@ const FooterContent = () => {
                   rel="noopener noreferrer"
                   className="hover:translate-y-[-3px] duration-300 ease-in-out transition-all hover:text-white/70"
                 >
-                  <Icon name="facebook2" size={32} />
+                  <FaXTwitter size={20} />
                 </Link>
               </div>
             </div>
@@ -965,15 +966,15 @@ const FooterContent = () => {
                   rel="noopener noreferrer"
                   className="hover:translate-y-[-3px] duration-300 ease-in-out transition-all hover:text-white/70"
                 >
-                  <Icon name="linkedin2" size={32} />
+                  <FaLinkedin size={20} />
                 </Link>
                 <Link
-                  href="https://facebook.com/uelement.technologies"
+                  href="https://github.com/UElement"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:translate-y-[-3px] duration-300 ease-in-out transition-all hover:text-white/70"
                 >
-                  <Icon name="facebook3" size={32} />
+                  <FaGithub size={20} />
                 </Link>
                 <Link
                   href="https://www.instagram.com/uelement_technologies/"
@@ -981,7 +982,7 @@ const FooterContent = () => {
                   rel="noopener noreferrer"
                   className="hover:translate-y-[-3px] duration-300 ease-in-out transition-all hover:text-white/70"
                 >
-                  <Icon name="instagram2" size={32} />
+                  <FaInstagram size={20} />
                 </Link>
                 <Link
                   href="https://x.com/uelement_tech"
@@ -989,7 +990,7 @@ const FooterContent = () => {
                   rel="noopener noreferrer"
                   className="hover:translate-y-[-3px] duration-300 ease-in-out transition-all hover:text-white/70"
                 >
-                  <Icon name="facebook2" size={32} />
+                  <FaXTwitter size={20} />
                 </Link>
               </div>
             </div>
