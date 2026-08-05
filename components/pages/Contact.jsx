@@ -853,13 +853,13 @@ const FooterContent = () => {
                     About us
                   </Link>
                   <Link
-                    href="/our-partners"
+                    href="/partnerships"
                     className="fl3 !text-[#e2e2e2] text-13 sm:text-16 hover:text-white transition-colors"
                   >
                     Partnerships
                   </Link>
                   {/* <Link
-                  href="/our-partners"
+                  href="/partnerships"
                   className="fl3 !text-[#e2e2e2] text-13 sm:text-16 hover:text-white transition-colors"
                 >
                   Partners
@@ -1014,13 +1014,13 @@ const FooterContent = () => {
                     About us
                   </Link>
                   <Link
-                    href="/our-partners"
+                    href="/partnerships"
                     className="fl3 !text-[#e2e2e2] text-13 sm:text-16 hover:text-white transition-colors"
                   >
                     Partnerships
                   </Link>
                   {/* <Link
-                  href="/our-partners"
+                  href="/partnerships"
                   className="fl3 !text-[#e2e2e2] text-13 sm:text-16 hover:text-white transition-colors"
                 >
                   Partners

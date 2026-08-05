@@ -32,7 +32,7 @@ const FooterV2 = () => {
       >
         <div className="max-w-[1100px] mx-auto w-full grid grid-cols-1 sm:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 xl:gap-14 items-center relative z-10">
           <p className="sm:col-span-3 font-heading text-[#808080] text-[14px] text-center sm:text-left">
-            &copy; {new Date().getFullYear()} UElement Technologies Private
+            &copy; 2026 UElement Technologies Private
             Limited&nbsp; |&nbsp; All Rights Reserved.
           </p>
           <p
@@ -919,13 +919,13 @@ const FooterContent = () => {
                 </Link>
 
                 <Link
-                  href="/success-stories"
+                  href="/stories"
                   className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
                 >
                   Success Stories
                 </Link>
                 <Link
-                  href="/our-partners"
+                  href="/partnerships"
                   className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
                 >
                   Partnerships
