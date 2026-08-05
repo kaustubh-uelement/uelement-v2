@@ -154,7 +154,7 @@ export default function CompanyPage() {
         <div className="wrap">
           <div className="kicker">Leadership</div>
           <h2 className="display" style={{ fontSize: 30 }}>
-            The team.
+            The Team.
           </h2>
           <p className="lede" style={{ marginTop: 14 }}>
             Operators, engineers, and researchers who have chosen to build where

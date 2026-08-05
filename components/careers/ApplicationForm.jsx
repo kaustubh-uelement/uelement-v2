@@ -126,8 +126,8 @@ export default function ApplicationForm({ job, onSuccess, isFilled = false }) {
     'w-full bg-transparent border-b outline-none focus:outline-none focus:ring-0 transition-colors disabled:opacity-40 disabled:cursor-not-allowed';
 
   const inputStyle = {
-    borderBottomColor: 'rgba(255,255,255,0.14)',
-    color: 'var(--cream-100)',
+    borderBottomColor: 'rgba(0,0,0,0.12)',
+    color: '#111111',
     fontSize: 13.5,
     padding: '10px 0',
   };
@@ -137,7 +137,7 @@ export default function ApplicationForm({ job, onSuccess, isFilled = false }) {
     fontSize: 11.5,
     fontWeight: 600,
     letterSpacing: '0.4px',
-    color: 'var(--grey-450)',
+    color: '#333333',
     marginBottom: 6,
     display: 'block',
   };
@@ -316,17 +316,14 @@ export default function ApplicationForm({ job, onSuccess, isFilled = false }) {
               border: `1px dashed ${
                 validationError && !resumeFile && !isFilled
                   ? 'rgba(220,38,38,0.5)'
-                  : 'rgba(255,255,255,0.18)'
+                  : 'rgba(0,0,0,0.16)'
               }`,
-              background: 'rgba(255,255,255,0.03)',
+              background: '#f8f8f8',
               cursor: isFilled ? 'not-allowed' : 'pointer',
             }}
           >
-            <Paperclip
-              className="w-4 h-4"
-              style={{ color: 'var(--grey-450)' }}
-            />
-            <span style={{ color: 'var(--grey-350)', fontSize: 13.5 }}>
+            <Paperclip className="w-4 h-4" style={{ color: '#555555' }} />
+            <span style={{ color: '#555555', fontSize: 13.5 }}>
               {isFilled
                 ? 'Applications Closed'
                 : resumeFile

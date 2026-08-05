@@ -903,7 +903,7 @@ h2.display.text-black-gradient {
   font-family: var(--font-heading);
   font-size: 14px;
   font-weight: 600;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
   text-transform: capitalize;
   color: var(--gold-500);
   margin-bottom: 16px;
@@ -1436,7 +1436,7 @@ h3.h {
   font-family: var(--font-heading);
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 2.2px;
+  letter-spacing: 1px;
   margin-bottom: 18px;
   padding: 7px 16px;
   border-radius: var(--radius-pill);

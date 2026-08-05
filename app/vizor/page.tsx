@@ -55,7 +55,12 @@ export default function VizorPage() {
       <div className="section alt">
         <div className="wrap">
           <div className="kicker">The seven dimensions</div>
-          <h2 className="display" style={{ fontSize: 30 }}>
+          <h2 className="display" style={{
+              fontSize: 'clamp(26px,3.2vw,38px)',
+              marginBottom: 14,
+              color: 'var(--navy-800)',
+              display: 'inline-block',
+            }}>
             Everything that can fail, watched.
           </h2>
           <div className="grid4" style={{ marginTop: 36 }}>

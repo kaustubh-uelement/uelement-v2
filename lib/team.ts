@@ -63,9 +63,9 @@ export const teamMembers: TeamMember[] = [
   {
     name: 'Ashutosh Singh',
     initials: 'AS',
-    title: 'VP (technology)',
+    title: 'Vice President (technology)',
     description:
-      'Drives enterprise technology strategy, platform architecture, and scalable digital solutions across telecom and industrial sectors',
+      'Drives enterprise technology strategy and scalable digital solutions across telecom and industrial sectors.',
     photo: '/images/team/ashutosh.jpg',
     linkedIn: 'https://www.linkedin.com',
   },
