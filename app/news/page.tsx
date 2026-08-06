@@ -167,55 +167,75 @@ export default function NewsPage() {
               }}
             />
 
+            {/* two-column layout */}
             <div
-              className=""
               style={{
                 position: 'relative',
                 zIndex: 1,
-
-                marginInline: 'auto',
-                textAlign: 'left',
+                display: 'grid',
+                gridTemplateColumns: 'minmax(0, 1.2fr) minmax(0, 1fr)',
+                gap: 32,
+                alignItems: 'flex-start',
               }}
+              className="featured-grid"
             >
-              <div className="tag" style={{ marginBottom: 24 }}>
-                Media Coverage
+              {/* Left column: text */}
+              <div style={{ textAlign: 'left' }}>
+                <div className="tag" style={{ marginBottom: 24 }}>
+                  Media Coverage
+                </div>
+
+                <h2
+                  style={{
+                    fontFamily: 'var(--font-hero)',
+                    fontWeight: 800,
+                    fontSize: 'clamp(22px, 3vw, 36px)',
+                    lineHeight: 1.1,
+                    letterSpacing: '-0.03em',
+                    background:
+                      'linear-gradient(180deg, #ffffff 0%, #c5d0dc 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    marginBottom: 20,
+                    maxWidth: 540,
+                  }}
+                >
+                  All India Radio: Quantum Security and India&apos;s Deeptech
+                  Moment
+                </h2>
+
+                <p
+                  style={{
+                    fontSize: 15,
+                    color: 'var(--grey-350)',
+                    lineHeight: 1.72,
+                    marginBottom: 24,
+                    maxWidth: 540,
+                  }}
+                >
+                  UElement leadership joined All India Radio for a nationally
+                  broadcast discussion on the urgency of post-quantum
+                  cryptography: why the harvest-now-decrypt-later threat is
+                  already a procurement line item in adversary budgets, and what
+                  sovereign technology means for India&apos;s critical
+                  infrastructure in the quantum decade.
+                </p>
+
+                <span
+                  style={{
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: 11,
+                    color: 'var(--grey-450)',
+                    letterSpacing: '0.08em',
+                    display: 'inline-block',
+                  }}
+                >
+                  All India Radio · National Broadcast · 13 June 2026
+                </span>
               </div>
 
-              <h2
-                style={{
-                  fontFamily: 'var(--font-hero)',
-                  fontWeight: 800,
-                  fontSize: 'clamp(22px, 3vw, 36px)',
-                  lineHeight: 1.1,
-                  letterSpacing: '-0.03em',
-                  background:
-                    'linear-gradient(180deg, #ffffff 0%, #c5d0dc 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                  marginBottom: 20,
-                }}
-              >
-                All India Radio: Quantum Security and India&apos;s Deeptech
-                Moment
-              </h2>
-
-              <p
-                style={{
-                  fontSize: 15,
-                  color: 'var(--grey-350)',
-                  lineHeight: 1.72,
-                  marginBottom: 28,
-                }}
-              >
-                UElement leadership joined All India Radio for a nationally
-                broadcast discussion on the urgency of post-quantum
-                cryptography: why the harvest-now-decrypt-later threat is
-                already a procurement line item in adversary budgets, and what
-                sovereign technology means for India&apos;s critical
-                infrastructure in the quantum decade.
-              </p>
-
+              {/* Right column: video */}
               <div
                 style={{
                   width: '100%',
@@ -223,9 +243,8 @@ export default function NewsPage() {
                   borderRadius: 'var(--radius-md)',
                   overflow: 'hidden',
                   border: '1px solid rgba(255,255,255,0.08)',
-                  maxWidth: 560,
-                  marginBottom: 28,
                   background: '#000',
+                  alignSelf: 'center',
                 }}
               >
                 <iframe
@@ -242,26 +261,6 @@ export default function NewsPage() {
                   referrerPolicy="strict-origin-when-cross-origin"
                   allowFullScreen
                 />
-              </div>
-
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 20,
-                  flexWrap: 'wrap',
-                }}
-              >
-                <span
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: 11,
-                    color: 'var(--grey-450)',
-                    letterSpacing: '0.08em',
-                  }}
-                >
-                  All India Radio · National Broadcast · 13 June 2026
-                </span>
               </div>
             </div>
           </div>
@@ -339,7 +338,7 @@ export default function NewsPage() {
       </div>
 
       {/* ═══════ TOPICS WE SPEAK ON ═══════ */}
-      <div className="section">
+      <div className="section cream">
         <div className="wrap">
           <div className="kicker">Topics</div>
           <h2
