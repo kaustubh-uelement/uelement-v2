@@ -34,37 +34,42 @@ export default function InvestorsPage() {
         </div>
       </div>
       <div className="section alt">
+        <div className=""></div>
         <div className="wrap grid2" style={{ alignItems: 'start' }}>
-          <div>
-            <div className="kicker">Structure &amp; governance</div>
-            <table className="spec" style={{ marginTop: 20 }}>
-              <tbody>
-                <tr>
-                  <td>Entity</td>
-                  <td>UElement Technologies Private Limited</td>
-                </tr>
-                <tr>
-                  <td>Group</td>
-                  <td>Part of the UDTechs group</td>
-                </tr>
-                <tr>
-                  <td>Headquarters</td>
-                  <td>Pune, Maharashtra, India</td>
-                </tr>
-                <tr>
-                  <td>Regional offices</td>
-                  <td>Singapore · UAE</td>
-                </tr>
-                <tr>
-                  <td>Programs</td>
-                  <td>AdviQ · StamBH · TRIpura</td>
-                </tr>
-                <tr>
-                  <td>Revenue model</td>
-                  <td>Licensing · AMC · Engineering services · OEM royalty</td>
-                </tr>
-              </tbody>
-            </table>
+          <div className="light">
+            <div>
+              <div className="kicker">Structure &amp; governance</div>
+              <table className="spec" style={{ marginTop: 20 }}>
+                <tbody>
+                  <tr>
+                    <td>Entity</td>
+                    <td>UElement Technologies Private Limited</td>
+                  </tr>
+                  <tr>
+                    <td>Group</td>
+                    <td>Part of the UDTechs group</td>
+                  </tr>
+                  <tr>
+                    <td>Headquarters</td>
+                    <td>Pune, Maharashtra, India</td>
+                  </tr>
+                  <tr>
+                    <td>Regional offices</td>
+                    <td>Singapore · UAE</td>
+                  </tr>
+                  <tr>
+                    <td>Programs</td>
+                    <td>AdviQ · StamBH · TRIpura</td>
+                  </tr>
+                  <tr>
+                    <td>Revenue model</td>
+                    <td>
+                      Licensing · AMC · Engineering services · OEM royalty
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
           <div className="card">
             <h4>Investor inquiries</h4>
