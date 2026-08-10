@@ -48,27 +48,42 @@ const dmSerifText = DM_Serif_Text({
 });
 
 export const metadata: Metadata = {
-  title: 'UElement Technologies - Sovereign DeepTech, Quantum Security & Enterprise Fabric',
+  title:
+    'UElement Technologies - Sovereign DeepTech, Quantum Security & Enterprise Fabric',
   description:
     'UElement builds sovereign deeptech for the tactical edge, quantum-safe security for BFSI and critical infrastructure, and the enterprise digital fabric. Pune · Singapore · UAE, operating globally.',
+  metadataBase: new URL('https://uelement.in'),
   openGraph: {
-    title: 'UElement Technologies - Sovereign DeepTech, Quantum Security & Enterprise Fabric',
+    title:
+      'UElement Technologies - Sovereign DeepTech, Quantum Security & Enterprise Fabric',
     description:
       'UElement builds sovereign deeptech for the tactical edge, quantum-safe security for BFSI and critical infrastructure, and the enterprise digital fabric.',
     url: 'https://uelement.in/',
     siteName: 'UElement',
     locale: 'en_US',
     type: 'website',
+    images: [
+      {
+        url: '/ue-website-og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'UElement Technologies - Sovereign DeepTech, Quantum Security & Enterprise Fabric',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'UElement Technologies',
-    description:
-      'Sovereign deeptech for the systems that cannot fail.',
+    description: 'Sovereign deeptech for the systems that cannot fail.',
+    images: ['/ue-website-og-image.png'],
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html
       lang="en"
