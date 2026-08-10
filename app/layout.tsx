@@ -51,13 +51,13 @@ export const metadata: Metadata = {
   title:
     'UElement Technologies - Sovereign DeepTech, Quantum Security & Enterprise Fabric',
   description:
-    'UElement builds sovereign deeptech for the tactical edge, quantum-safe security for BFSI and critical infrastructure, and the enterprise digital fabric. Pune · Singapore · UAE, operating globally.',
+    'UElement builds next-generation DeepTech technology to empower the tactical edge. We provide Quantum-safe Security for BFSI & Critical Infrastructure and also build the resilient Digital Fabric that drives modern Enterprises.',
   metadataBase: new URL('https://uelement.in'),
   openGraph: {
     title:
       'UElement Technologies - Sovereign DeepTech, Quantum Security & Enterprise Fabric',
     description:
-      'UElement builds sovereign deeptech for the tactical edge, quantum-safe security for BFSI and critical infrastructure, and the enterprise digital fabric.',
+      'UElement builds next-generation DeepTech technology to empower the tactical edge. We provide Quantum-safe Security for BFSI & Critical Infrastructure and also build the resilient Digital Fabric that drives modern Enterprises.',
     url: 'https://uelement.in/',
     siteName: 'UElement',
     locale: 'en_US',
