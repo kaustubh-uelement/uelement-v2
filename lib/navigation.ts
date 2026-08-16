@@ -26,7 +26,7 @@ export const navItems: NavItem[] = [
     groups: [
       {
         heading: 'AdviQ',
-        headingHref: '/u92',
+        headingHref: '/adviq',
         items: [
           {
             label: 'PQC',
@@ -47,7 +47,7 @@ export const navItems: NavItem[] = [
       },
       {
         heading: 'StamBH',
-        headingHref: '/mainstay',
+        headingHref: '/stambh',
         items: [
           {
             label: 'Nexus',
@@ -68,7 +68,7 @@ export const navItems: NavItem[] = [
       },
       {
         heading: 'TRIpura',
-        headingHref: '/mainspar',
+        headingHref: '/tripura',
         items: [
           {
             label: 'MerlinOS',
@@ -152,7 +152,7 @@ export const navItems: NavItem[] = [
           {
             label: 'Tactical Edge Briefing',
             description: 'Autonomy for DDIL environments',
-            href: '/mainspar',
+            href: '/tripura',
           },
         ],
       },
