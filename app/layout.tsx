@@ -49,15 +49,15 @@ const dmSerifText = DM_Serif_Text({
 
 export const metadata: Metadata = {
   title:
-    'UElement Technologies - Sovereign DeepTech, Quantum Security & Enterprise Fabric',
+    'UElement Technologies | Building Sovereign DeepTech & Quantum Secure Enterprise Fabric',
   description:
-    'UElement builds next-generation DeepTech technology to empower the tactical edge. We provide Quantum-safe Security for BFSI & Critical Infrastructure and also build the resilient Digital Fabric that drives modern Enterprises.',
+    'A Global DeepTech company engineering Quantum-safe security, Autonomous systems and Enterprise-scale digital infrastructure.',
   metadataBase: new URL('https://uelement.in'),
   openGraph: {
     title:
-      'UElement Technologies - Sovereign DeepTech, Quantum Security & Enterprise Fabric',
+      'UElement Technologies | Building Sovereign DeepTech & Quantum Secure Enterprise Fabric',
     description:
-      'UElement builds next-generation DeepTech technology to empower the tactical edge. We provide Quantum-safe Security for BFSI & Critical Infrastructure and also build the resilient Digital Fabric that drives modern Enterprises.',
+      'A Global DeepTech company engineering Quantum-safe security, Autonomous systems and Enterprise-scale digital infrastructure.',
     url: 'https://uelement.in/',
     siteName: 'UElement',
     locale: 'en_US',
@@ -67,7 +67,7 @@ export const metadata: Metadata = {
         url: '/ue-website-og-image.png',
         width: 1200,
         height: 630,
-        alt: 'UElement Technologies - Sovereign DeepTech, Quantum Security & Enterprise Fabric',
+        alt: 'UElement Technologies | Building Sovereign DeepTech & Quantum Secure Enterprise Fabric',
       },
     ],
   },
