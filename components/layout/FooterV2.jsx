@@ -574,7 +574,7 @@ const FooterContent = () => {
                   href="/u92"
                   className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:!text-white transition-colors"
                 >
-                  Practice overview
+                  Practice Overview
                 </Link>
                 <Link
                   href="/u92pqc"
@@ -617,7 +617,7 @@ const FooterContent = () => {
                   href="/mainstay"
                   className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:!text-white transition-colors"
                 >
-                  Program overview
+                  Platform Overview
                 </Link>
                 <Link
                   href="/nexus"
@@ -658,7 +658,7 @@ const FooterContent = () => {
                   href="/mainspar"
                   className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:!text-white transition-colors"
                 >
-                  Program overview
+                  Solution Overview
                 </Link>
                 <Link
                   href="/merlinos"
@@ -791,7 +791,7 @@ const FooterContent = () => {
                   href="/mainstay"
                   className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:!text-white transition-colors"
                 >
-                  Program overview
+                  Platform Overview
                 </Link>
                 <Link
                   href="/mainstay#nexus"
@@ -832,7 +832,7 @@ const FooterContent = () => {
                   href="/mainspar"
                   className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:!text-white transition-colors"
                 >
-                  Program overview
+                  Solution Overview
                 </Link>
                 <Link
                   href="/mainspar#merlinos"
@@ -873,7 +873,7 @@ const FooterContent = () => {
                   href="/u92"
                   className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:!text-white transition-colors"
                 >
-                  Practice overview
+                  Practice Overview
                 </Link>
                 <Link
                   href="/u92#pqc"
