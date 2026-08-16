@@ -2,9 +2,29 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'TRIpura | Autonomous Resilience for the Tactical Edge | UElement',
+  title: 'UElement - TRIpura | Autonomous Resilience for the Tactical Edge.',
   description:
-    'A sovereign MLOps ecosystem for DDIL environments. MerlinOS · MustangC3 · MesoGRID.',
+    'A sovereign MLOps ecosystem for D3 & DDIL. When the network goes dark, TRIpura keeps thinking; turning the Edge into Cloud',
+  openGraph: {
+    title: 'UElement - TRIpura | Autonomous Resilience for the Tactical Edge.',
+    description:
+      'A sovereign MLOps ecosystem for D3 & DDIL. When the network goes dark, TRIpura keeps thinking; turning the Edge into Cloud',
+    images: [
+      {
+        url: '/ue-tripura-og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'UElement - TRIpura | Autonomous Resilience for the Tactical Edge.',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'UElement - TRIpura | Autonomous Resilience for the Tactical Edge.',
+    description:
+      'A sovereign MLOps ecosystem for D3 & DDIL. When the network goes dark, TRIpura keeps thinking; turning the Edge into Cloud',
+    images: ['/ue-tripura-og-image.png'],
+  },
 };
 
 export default function MainsparPage() {
@@ -25,8 +45,8 @@ export default function MainsparPage() {
           <p className="lede" style={{ marginTop: 26 }}>
             A sovereign MLOps ecosystem for D3 and DDIL environments: denied,
             degraded, intermittent, limited. When the network goes dark and the
-            cloud is a memory, TRIpura keeps thinking. We don&apos;t connect
-            the edge to the cloud. We turn the edge into the cloud.
+            cloud is a memory, TRIpura keeps thinking. We don&apos;t connect the
+            edge to the cloud. We turn the edge into the cloud.
           </p>
           <div
             style={{
