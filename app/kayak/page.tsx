@@ -17,7 +17,7 @@ export default function KayakPage() {
         <div className="hero-fabric" />
         <div className="wrap">
           <div className="crumb">
-            <Link href="/">Home</Link> / <Link href="/mainstay">StamBH</Link>{' '}
+            <Link href="/">Home</Link> / <Link href="/stambh">StamBH</Link>{' '}
             / Kayak
           </div>
           <div className="tag">StamBH · Commands the physical</div>

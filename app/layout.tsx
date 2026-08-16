@@ -51,13 +51,13 @@ export const metadata: Metadata = {
   title:
     'UElement Technologies | Building Sovereign DeepTech & Quantum Secure Enterprise Fabric',
   description:
-    'A Global DeepTech company engineering Quantum-safe security, Autonomous systems and Enterprise-scale digital infrastructure.',
+    'a Global DeepTech company engineering Quantum-safe security, Autonomous systems and Enterprise-scale digital infrastructure.',
   metadataBase: new URL('https://uelement.in'),
   openGraph: {
     title:
       'UElement Technologies | Building Sovereign DeepTech & Quantum Secure Enterprise Fabric',
     description:
-      'A Global DeepTech company engineering Quantum-safe security, Autonomous systems and Enterprise-scale digital infrastructure.',
+      'a Global DeepTech company engineering Quantum-safe security, Autonomous systems and Enterprise-scale digital infrastructure.',
     url: 'https://uelement.in/',
     siteName: 'UElement',
     locale: 'en_US',

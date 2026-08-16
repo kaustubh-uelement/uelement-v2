@@ -5,12 +5,12 @@ export const metadata: Metadata = {
   title:
     'UElement - StamBH | Enterprise Digital Fabric for Managing, Monitoring and Building the next big Company',
   description:
-    'A single platform governing Digital touchpoints, Internal operations and Physical assets with unified Identity, RBAC and Audit..',
+    'a single platform governing Digital touchpoints, Internal operations and Physical assets with unified Identity, RBAC and Audit..',
   openGraph: {
     title:
       'UElement - StamBH | Enterprise Digital Fabric for Managing, Monitoring and Building the next big Company',
     description:
-      'A single platform governing Digital touchpoints, Internal operations and Physical assets with unified Identity, RBAC and Audit..',
+      'a single platform governing Digital touchpoints, Internal operations and Physical assets with unified Identity, RBAC and Audit..',
     images: [
       {
         url: '/ue-stambh-og-image.png',
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     title:
       'UElement - StamBH | Enterprise Digital Fabric for Managing, Monitoring and Building the next big Company',
     description:
-      'A single platform governing Digital touchpoints, Internal operations and Physical assets with unified Identity, RBAC and Audit..',
+      'a single platform governing Digital touchpoints, Internal operations and Physical assets with unified Identity, RBAC and Audit..',
     images: ['/ue-stambh-og-image.png'],
   },
 };

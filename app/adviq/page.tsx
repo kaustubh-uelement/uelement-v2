@@ -4,11 +4,11 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'UElement - AdviQ | Securing Enterprises for the Quantum decade',
   description:
-    'A Quantum Security Program guiding enterprises to Discover, Prioritize and Migrate cryptography for Quantum resilience.',
+    'a Quantum Security Program guiding enterprises to Discover, Prioritize and Migrate cryptography for Quantum resilience.',
   openGraph: {
     title: 'UElement - AdviQ | Securing Enterprises for the Quantum decade',
     description:
-      'A Quantum Security Program guiding enterprises to Discover, Prioritize and Migrate cryptography for Quantum resilience.',
+      'a Quantum Security Program guiding enterprises to Discover, Prioritize and Migrate cryptography for Quantum resilience.',
     images: [
       {
         url: '/ue-adviq-og-image.png',
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'UElement - AdviQ | Securing Enterprises for the Quantum decade',
     description:
-      'A Quantum Security Program guiding enterprises to Discover, Prioritize and Migrate cryptography for Quantum resilience.',
+      'a Quantum Security Program guiding enterprises to Discover, Prioritize and Migrate cryptography for Quantum resilience.',
     images: ['/ue-adviq-og-image.png'],
   },
 };

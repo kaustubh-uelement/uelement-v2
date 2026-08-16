@@ -91,7 +91,7 @@ export default function SitemapContent() {
         <SitemapLink href="/kayak">Everything as a  Service</SitemapLink>
         <SitemapLink href="/vizor">45-Day Proof of Value</SitemapLink>
         <SitemapLink href="/ioet">Crypto-Agility Program</SitemapLink>
-        <SitemapLink href="/mainspar">Tactical Edge Briefing</SitemapLink>
+        <SitemapLink href="/tripura">Tactical Edge Briefing</SitemapLink>
         <SitemapLink href="/nexus">Digital Presence Build-Out</SitemapLink>
       </SitemapSection>
 

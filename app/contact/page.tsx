@@ -118,8 +118,8 @@ function ContactForm() {
           <option value="">Select a topic</option>
           <option value="pqc">Post-Quantum Cryptography (U92)</option>
           <option value="qkd">Quantum Key Distribution (U92)</option>
-          <option value="mainstay">StamBH enterprise fabric</option>
-          <option value="mainspar">TRIpura edge autonomy</option>
+          <option value="stambh">StamBH enterprise fabric</option>
+          <option value="tripura">TRIpura edge autonomy</option>
           <option value="pilot">Running a 45-day pilot / PoV</option>
           <option value="partnership">Partnership or investment</option>
           <option value="other">Something else</option>

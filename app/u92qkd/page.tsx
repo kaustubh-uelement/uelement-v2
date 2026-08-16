@@ -17,7 +17,7 @@ export default function U92QKDPage() {
         <div className="hero-fabric" />
         <div className="wrap">
           <div className="crumb">
-            <Link href="/">Home</Link> / <Link href="/u92">AdviQ</Link> / QKD
+            <Link href="/">Home</Link> / <Link href="/adviq">AdviQ</Link> / QKD
           </div>
           <div className="tag">AdviQ · Quantum Key Distribution</div>
           <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>

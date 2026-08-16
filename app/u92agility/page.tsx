@@ -17,7 +17,7 @@ export default function U92AgilityPage() {
         <div className="hero-fabric" />
         <div className="wrap">
           <div className="crumb">
-            <Link href="/">Home</Link> / <Link href="/u92">AdviQ</Link> /
+            <Link href="/">Home</Link> / <Link href="/adviq">AdviQ</Link> /
             Crypto-Agility
           </div>
           <div className="tag">AdviQ · Crypto-Agility</div>

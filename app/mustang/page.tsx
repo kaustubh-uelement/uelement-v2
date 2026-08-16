@@ -17,7 +17,7 @@ export default function MustangPage() {
         <div className="hero-fabric" />
         <div className="wrap">
           <div className="crumb">
-            <Link href="/">Home</Link> / <Link href="/mainspar">TRIpura</Link> /
+            <Link href="/">Home</Link> / <Link href="/tripura">TRIpura</Link> /
             MustangC3
           </div>
           <div className="tag slate">TRIpura · The Commander</div>

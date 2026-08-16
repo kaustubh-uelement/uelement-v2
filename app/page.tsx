@@ -48,7 +48,7 @@ export default function HomePage() {
               <Link href="/company" className="btn btn-gold">
                 About Us
               </Link>
-              <Link href="/mainstay" className="btn btn-line">
+              <Link href="/stambh" className="btn btn-line">
                 Explore the Platforms
               </Link>
             </div>
@@ -79,7 +79,7 @@ export default function HomePage() {
           </h2>
           <div className="grid3" style={{ marginTop: 44 }}>
             <Link
-              href="/u92"
+              href="/adviq"
               className="card link"
               style={{ textDecoration: 'none' }}
             >
@@ -99,7 +99,7 @@ export default function HomePage() {
               </p>
             </Link>
             <Link
-              href="/mainstay"
+              href="/stambh"
               className="card link"
               style={{ textDecoration: 'none' }}
             >
@@ -119,7 +119,7 @@ export default function HomePage() {
               </p>
             </Link>
             <Link
-              href="/mainspar"
+              href="/tripura"
               className="card link"
               style={{ textDecoration: 'none' }}
             >
@@ -293,7 +293,7 @@ export default function HomePage() {
             The TRIpura thesis
           </p>
           <Link
-            href="/mainspar"
+            href="/tripura"
             className="btn btn-gold"
             style={{ marginTop: 28 }}
           >

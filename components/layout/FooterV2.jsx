@@ -571,7 +571,7 @@ const FooterContent = () => {
               </h6>
               <div className="flex flex-col gap-3 sm:gap-4 font-heading font-light">
                 <Link
-                  href="/u92"
+                  href="/adviq"
                   className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:!text-white transition-colors"
                 >
                   Practice Overview
@@ -614,7 +614,7 @@ const FooterContent = () => {
               </h6>
               <div className="flex flex-col gap-3 sm:gap-4 font-heading font-light">
                 <Link
-                  href="/mainstay"
+                  href="/stambh"
                   className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:!text-white transition-colors"
                 >
                   Platform Overview
@@ -655,7 +655,7 @@ const FooterContent = () => {
               </h6>
               <div className="flex flex-col gap-3 sm:gap-4 font-heading font-light">
                 <Link
-                  href="/mainspar"
+                  href="/tripura"
                   className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:!text-white transition-colors"
                 >
                   Solution Overview
@@ -788,13 +788,13 @@ const FooterContent = () => {
               </h6>
               <div className="flex flex-col gap-3 sm:gap-4 font-heading font-light">
                 <Link
-                  href="/mainstay"
+                  href="/stambh"
                   className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:!text-white transition-colors"
                 >
                   Platform Overview
                 </Link>
                 <Link
-                  href="/mainstay#nexus"
+                  href="/stambh#nexus"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
                   <span className="!text-[14px] !font-heading">Nexus</span>
@@ -803,7 +803,7 @@ const FooterContent = () => {
                   </span>
                 </Link>
                 <Link
-                  href="/mainstay#vizor"
+                  href="/stambh#vizor"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
                   <span className="!text-[14px] !font-heading">Vizor</span>
@@ -812,7 +812,7 @@ const FooterContent = () => {
                   </span>
                 </Link>
                 <Link
-                  href="/mainstay#kayak"
+                  href="/stambh#kayak"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
                   <span className="!text-[14px] !font-heading">Kayak</span>
@@ -829,13 +829,13 @@ const FooterContent = () => {
               </h6>
               <div className="flex flex-col gap-3 sm:gap-4 font-heading font-light">
                 <Link
-                  href="/mainspar"
+                  href="/tripura"
                   className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:!text-white transition-colors"
                 >
                   Solution Overview
                 </Link>
                 <Link
-                  href="/mainspar#merlinos"
+                  href="/tripura#merlinos"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
                   <span className="!text-[14px] !font-heading">MerlinOS</span>
@@ -844,7 +844,7 @@ const FooterContent = () => {
                   </span>
                 </Link>
                 <Link
-                  href="/mainspar#mustangc3"
+                  href="/tripura#mustangc3"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
                   <span className="!text-[14px] !font-heading">MustangC3</span>
@@ -853,7 +853,7 @@ const FooterContent = () => {
                   </span>
                 </Link>
                 <Link
-                  href="/mainspar#mesogrid"
+                  href="/tripura#mesogrid"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
                   <span className="!text-[14px] !font-heading">MesoGRID</span>
@@ -870,13 +870,13 @@ const FooterContent = () => {
               </h6>
               <div className="flex flex-col gap-3 sm:gap-4 font-heading font-light">
                 <Link
-                  href="/u92"
+                  href="/adviq"
                   className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:!text-white transition-colors"
                 >
                   Practice Overview
                 </Link>
                 <Link
-                  href="/u92#pqc"
+                  href="/adviq#pqc"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
                   <span className="!text-[14px] !font-heading">PQC</span>
@@ -885,7 +885,7 @@ const FooterContent = () => {
                   </span>
                 </Link>
                 <Link
-                  href="/u92#qkd"
+                  href="/adviq#qkd"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
                   <span className="!text-[14px] !font-heading">QKD</span>
@@ -894,7 +894,7 @@ const FooterContent = () => {
                   </span>
                 </Link>
                 <Link
-                  href="/u92#crypto-agility"
+                  href="/adviq#crypto-agility"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
                   <span className="!text-[14px] !font-heading">

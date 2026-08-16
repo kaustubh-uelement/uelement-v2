@@ -17,7 +17,7 @@ export default function MerlinOSPage() {
         <div className="hero-fabric" />
         <div className="wrap">
           <div className="crumb">
-            <Link href="/">Home</Link> / <Link href="/mainspar">TRIpura</Link>{' '}
+            <Link href="/">Home</Link> / <Link href="/tripura">TRIpura</Link>{' '}
             / MerlinOS
           </div>
           <div className="tag slate">TRIpura · The Brain</div>

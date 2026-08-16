@@ -17,7 +17,7 @@ export default function VizorPage() {
         <div className="hero-fabric" />
         <div className="wrap">
           <div className="crumb">
-            <Link href="/">Home</Link> / <Link href="/mainstay">StamBH</Link>{' '}
+            <Link href="/">Home</Link> / <Link href="/stambh">StamBH</Link>{' '}
             / Vizor
           </div>
           <div className="tag">StamBH · Watches the digital</div>

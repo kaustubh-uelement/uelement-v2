@@ -68,7 +68,7 @@ export default function BlogsPage() {
               </p>
             </Link>
             <Link
-              href="/mainspar"
+              href="/tripura"
               className="card link"
               style={{ textDecoration: 'none' }}
             >

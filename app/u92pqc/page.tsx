@@ -17,7 +17,7 @@ export default function U92PQCPage() {
         <div className="hero-fabric" />
         <div className="wrap">
           <div className="crumb">
-            <Link href="/">Home</Link> / <Link href="/u92">AdviQ</Link> / PQC
+            <Link href="/">Home</Link> / <Link href="/adviq">AdviQ</Link> / PQC
           </div>
           <div className="tag">AdviQ · Post-Quantum Cryptography</div>
           <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>

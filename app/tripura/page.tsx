@@ -2,27 +2,27 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'UElement - TRIpura | Autonomous Resilience for the Tactical Edge.',
+  title: 'UElement - TRIpura | Autonomous Resilience for the Tactical Edge',
   description:
-    'A sovereign MLOps ecosystem for D3 & DDIL. When the network goes dark, TRIpura keeps thinking; turning the Edge into Cloud',
+    'a sovereign MLOps ecosystem for D3 & DDIL. When the network goes dark, TRIpura keeps thinking; turning the Edge into Cloud',
   openGraph: {
-    title: 'UElement - TRIpura | Autonomous Resilience for the Tactical Edge.',
+    title: 'UElement - TRIpura | Autonomous Resilience for the Tactical Edge',
     description:
-      'A sovereign MLOps ecosystem for D3 & DDIL. When the network goes dark, TRIpura keeps thinking; turning the Edge into Cloud',
+      'a sovereign MLOps ecosystem for D3 & DDIL. When the network goes dark, TRIpura keeps thinking; turning the Edge into Cloud',
     images: [
       {
         url: '/ue-tripura-og-image.png',
         width: 1200,
         height: 630,
-        alt: 'UElement - TRIpura | Autonomous Resilience for the Tactical Edge.',
+        alt: 'UElement - TRIpura | Autonomous Resilience for the Tactical Edge',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'UElement - TRIpura | Autonomous Resilience for the Tactical Edge.',
+    title: 'UElement - TRIpura | Autonomous Resilience for the Tactical Edge',
     description:
-      'A sovereign MLOps ecosystem for D3 & DDIL. When the network goes dark, TRIpura keeps thinking; turning the Edge into Cloud',
+      'a sovereign MLOps ecosystem for D3 & DDIL. When the network goes dark, TRIpura keeps thinking; turning the Edge into Cloud',
     images: ['/ue-tripura-og-image.png'],
   },
 };
