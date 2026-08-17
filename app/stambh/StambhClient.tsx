@@ -2,14 +2,17 @@
 
 import Link from 'next/link';
 import PillarCard from '../../components/PillarCard';
-import ConvergenceCanvas from '../../components/ConvergenceCanvas';
+import DataTunnelCanvas from '@/components/Datatunnelcanvas';
 
 export default function StambhClient() {
   return (
     <>
       {/* ═══════ HERO ═══════ */}
-      <div className="hero" style={{ position: 'relative', overflow: 'hidden' }}>
-        <ConvergenceCanvas />
+      <div
+        className="hero"
+        style={{ position: 'relative', overflow: 'hidden' }}
+      >
+        <DataTunnelCanvas />
         <div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
           <div className="crumb">
             <Link href="/">Home</Link> / StamBH
@@ -121,10 +124,12 @@ export default function StambhClient() {
         <div className="wrap">
           <div className="kicker">What is shared</div>
           <h2 className="display">
-            Six things you decide, build, and <span className="au">audit once.</span>
+            Six things you decide, build, and{' '}
+            <span className="au">audit once.</span>
           </h2>
           <p className="lede" style={{ marginTop: 20 }}>
-            Everything below the product line is common. The products differ in what they observe and act upon, not in how they are governed.
+            Everything below the product line is common. The products differ in
+            what they observe and act upon, not in how they are governed.
           </p>
 
           <div className="grid3" style={{ marginTop: 44 }}>
@@ -132,42 +137,55 @@ export default function StambhClient() {
               <div className="proglabel slate">Layer 01</div>
               <h4>Tenancy & isolation</h4>
               <p>
-                A single tenant model with workspace isolation, resident data boundaries, and per-region residency rules. One tenant definition serves all three fabrics.
+                A single tenant model with workspace isolation, resident data
+                boundaries, and per-region residency rules. One tenant
+                definition serves all three fabrics.
               </p>
             </div>
             <div className="card">
               <div className="proglabel slate">Layer 02</div>
               <h4>Identity & access</h4>
               <p>
-                RBAC and ABAC with FIDO2 passwordless as the default for administrative surfaces. Roles granted in one fabric are legible to the others; joiners, movers, and leavers are handled in one place.
+                RBAC and ABAC with FIDO2 passwordless as the default for
+                administrative surfaces. Roles granted in one fabric are legible
+                to the others; joiners, movers, and leavers are handled in one
+                place.
               </p>
             </div>
             <div className="card">
               <div className="proglabel slate">Layer 03</div>
               <h4>Evidence & audit</h4>
               <p>
-                A tamper-evident, cryptographically signed ledger shared across products. Consent capture from Nexus, detections from Vizor, and custody entries from Kayak land in the same append-only store.
+                A tamper-evident, cryptographically signed ledger shared across
+                products. Consent capture from Nexus, detections from Vizor, and
+                custody entries from Kayak land in the same append-only store.
               </p>
             </div>
             <div className="card">
               <div className="proglabel slate">Layer 04</div>
               <h4>Interfaces</h4>
               <p>
-                REST, GraphQL, and webhooks with shared conventions, pagination, error shapes, and idempotency semantics. Every capability is exposed through an API before it is exposed through a screen.
+                REST, GraphQL, and webhooks with shared conventions, pagination,
+                error shapes, and idempotency semantics. Every capability is
+                exposed through an API before it is exposed through a screen.
               </p>
             </div>
             <div className="card">
               <div className="proglabel slate">Layer 05</div>
               <h4>Intelligence</h4>
               <p>
-                Shared model routing, prompt versioning, evaluation harnesses, and the option to run entirely on self-hosted open-weights models for sovereign deployments.
+                Shared model routing, prompt versioning, evaluation harnesses,
+                and the option to run entirely on self-hosted open-weights
+                models for sovereign deployments.
               </p>
             </div>
             <div className="card">
               <div className="proglabel slate">Layer 06</div>
               <h4>Cryptography</h4>
               <p>
-                Post-quantum readiness inherited from UElement&apos;s U92 practice — TLS posture, certificate lifecycle, and key management designed for crypto-agility rather than retrofit.
+                Post-quantum readiness inherited from UElement&apos;s U92
+                practice — TLS posture, certificate lifecycle, and key
+                management designed for crypto-agility rather than retrofit.
               </p>
             </div>
           </div>
@@ -179,10 +197,12 @@ export default function StambhClient() {
         <div className="wrap">
           <div className="kicker">The shared spine</div>
           <h2 className="display">
-            What &quot;One Control Plane&quot; actually <span className="au">buys you.</span>
+            What &quot;One Control Plane&quot; actually{' '}
+            <span className="au">buys you.</span>
           </h2>
           <p className="lede" style={{ marginTop: 20 }}>
-            Not a marketing phrase. Four concrete things you only have to decide, build, and audit once.
+            Not a marketing phrase. Four concrete things you only have to
+            decide, build, and audit once.
           </p>
 
           <div className="grid2" style={{ marginTop: 44 }}>
@@ -190,28 +210,36 @@ export default function StambhClient() {
               <div className="proglabel slate">Identity</div>
               <h4>One tenant, one directory</h4>
               <p>
-                A single tenant model, RBAC and ABAC, and FIDO2 passwordless access across all three fabrics. Adopt one product and the second inherits your identity architecture.
+                A single tenant model, RBAC and ABAC, and FIDO2 passwordless
+                access across all three fabrics. Adopt one product and the
+                second inherits your identity architecture.
               </p>
             </div>
             <div className="card">
               <div className="proglabel slate">Evidence</div>
               <h4>One audit trail</h4>
               <p>
-                Compliance evidence from every fabric lands in the same tamper-evident ledger. One artifact satisfies digital, operational, and physical-custody obligations at once.
+                Compliance evidence from every fabric lands in the same
+                tamper-evident ledger. One artifact satisfies digital,
+                operational, and physical-custody obligations at once.
               </p>
             </div>
             <div className="card">
               <div className="proglabel slate">Deployment</div>
               <h4>One topology decision</h4>
               <p>
-                All three deploy air-gapped, on-premise, on sovereign cloud, hybrid-managed, or as hosted SaaS — on a single control plane, with no re-platforming between them.
+                All three deploy air-gapped, on-premise, on sovereign cloud,
+                hybrid-managed, or as hosted SaaS — on a single control plane,
+                with no re-platforming between them.
               </p>
             </div>
             <div className="card">
               <div className="proglabel slate">Interfaces</div>
               <h4>One API surface</h4>
               <p>
-                REST, GraphQL, and webhooks with shared conventions. A Nexus workflow can open a Vizor incident and trigger a Kayak fulfillment without custom integration.
+                REST, GraphQL, and webhooks with shared conventions. A Nexus
+                workflow can open a Vizor incident and trigger a Kayak
+                fulfillment without custom integration.
               </p>
             </div>
           </div>
@@ -230,7 +258,10 @@ export default function StambhClient() {
             works without custom connector development.
           </p>
 
-          <div className="grid3" style={{ marginTop: 44, alignItems: 'stretch' }}>
+          <div
+            className="grid3"
+            style={{ marginTop: 44, alignItems: 'stretch' }}
+          >
             <PillarCard
               label="Nexus &rarr; Vizor"
               title="Nexus feeds Vizor"
