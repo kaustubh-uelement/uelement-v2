@@ -30,12 +30,12 @@ export const navItems: NavItem[] = [
         items: [
           {
             label: 'PQC',
-            description: 'Post-quantum cryptography',
+            description: 'Post-quantum Cryptography',
             href: '/u92pqc',
           },
           {
             label: 'QKD',
-            description: 'Quantum key distribution',
+            description: 'Quantum Key Distribution',
             href: '/u92qkd',
           },
           {
@@ -77,12 +77,12 @@ export const navItems: NavItem[] = [
           },
           {
             label: 'MustangC3',
-            description: 'Agentic command & control',
+            description: 'Agentic Command & Control',
             href: '/mustang',
           },
           {
             label: 'MesoGRID',
-            description: 'Resilient decentralised mesh',
+            description: 'Resilient Decentralised Mesh',
             href: '/mesogrid',
           },
         ],
