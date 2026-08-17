@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import WeaveCanvas from './WeaveCanvas';
+import PillarCard from './PillarCard';
 
 export default function NexusClient() {
   return (
@@ -76,261 +77,47 @@ export default function NexusClient() {
             analytics, and the AI substrate underneath.
           </p>
 
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-              gap: '24px',
-              marginTop: '44px',
-            }}
-          >
-            {/* Pillar 01 */}
-            <div
-              style={{
-                background: 'linear-gradient(180deg, #151828 0%, #213866 100%)',
-                borderRadius: '16px',
-                padding: '36px',
-                color: '#fff',
-                display: 'flex',
-                flexDirection: 'column',
-              }}
-            >
-              <div
-                style={{
-                  display: 'inline-flex',
-                  padding: '6px 16px',
-                  borderRadius: '999px',
-                  border: '1px solid rgba(255,255,255,0.15)',
-                  fontSize: '11px',
-                  fontWeight: 600,
-                  letterSpacing: '0.05em',
-                  color: '#94a3b8',
-                  marginBottom: '24px',
-                  alignSelf: 'flex-start',
-                }}
-              >
-                Pillar 01
-              </div>
-              <h4
-                style={{
-                  fontSize: '18px',
-                  fontWeight: 600,
-                  marginBottom: '24px',
-                  color: '#fff',
-                }}
-              >
-                Web Platform
-              </h4>
-              <p
-                style={{
-                  fontSize: '14px',
-                  lineHeight: 1.6,
-                  color: '#e2e8f0',
-                  marginBottom: '24px',
-                }}
-              >
-                Every site the enterprise runs — corporate, commerce, help
-                centre, careers, community — from one headless core.
-              </p>
-              <ul
-                style={{
-                  paddingLeft: '20px',
-                  color: '#94a3b8',
-                  fontSize: '14px',
-                  lineHeight: 1.6,
-                }}
-              >
-                <li>Visual builder on server-rendered React</li>
-                <li>Multi-brand, multi-region, multi-language on one tenant</li>
-                <li>Accessibility and performance gates enforced at publish</li>
-              </ul>
-            </div>
-
-            {/* Pillar 02 */}
-            <div
-              style={{
-                background: 'linear-gradient(180deg, #151828 0%, #213866 100%)',
-                borderRadius: '16px',
-                padding: '36px',
-                color: '#fff',
-                display: 'flex',
-                flexDirection: 'column',
-              }}
-            >
-              <div
-                style={{
-                  display: 'inline-flex',
-                  padding: '6px 16px',
-                  borderRadius: '999px',
-                  border: '1px solid rgba(255,255,255,0.15)',
-                  fontSize: '11px',
-                  fontWeight: 600,
-                  letterSpacing: '0.05em',
-                  color: '#94a3b8',
-                  marginBottom: '24px',
-                  alignSelf: 'flex-start',
-                }}
-              >
-                Pillar 02
-              </div>
-              <h4
-                style={{
-                  fontSize: '18px',
-                  fontWeight: 600,
-                  marginBottom: '24px',
-                  color: '#fff',
-                }}
-              >
-                Mobile Applications
-              </h4>
-              <p
-                style={{
-                  fontSize: '14px',
-                  lineHeight: 1.6,
-                  color: '#e2e8f0',
-                  marginBottom: '24px',
-                }}
-              >
-                iOS and Android from a single runtime, sharing the web
-                platform&apos;s design system and content model.
-              </p>
-              <ul
-                style={{
-                  paddingLeft: '20px',
-                  color: '#94a3b8',
-                  fontSize: '14px',
-                  lineHeight: 1.6,
-                }}
-              >
-                <li>Normalized native SDK across both platforms</li>
-                <li>Over-the-air updates without store review cycles</li>
-                <li>Store submission pipelines built in</li>
-              </ul>
-            </div>
-
-            {/* Pillar 03 */}
-            <div
-              style={{
-                background: 'linear-gradient(180deg, #151828 0%, #213866 100%)',
-                borderRadius: '16px',
-                padding: '36px',
-                color: '#fff',
-                display: 'flex',
-                flexDirection: 'column',
-              }}
-            >
-              <div
-                style={{
-                  display: 'inline-flex',
-                  padding: '6px 16px',
-                  borderRadius: '999px',
-                  border: '1px solid rgba(255,255,255,0.15)',
-                  fontSize: '11px',
-                  fontWeight: 600,
-                  letterSpacing: '0.05em',
-                  color: '#94a3b8',
-                  marginBottom: '24px',
-                  alignSelf: 'flex-start',
-                }}
-              >
-                Pillar 03
-              </div>
-              <h4
-                style={{
-                  fontSize: '18px',
-                  fontWeight: 600,
-                  marginBottom: '24px',
-                  color: '#fff',
-                }}
-              >
-                Search & Discovery
-              </h4>
-              <p
-                style={{
-                  fontSize: '14px',
-                  lineHeight: 1.6,
-                  color: '#e2e8f0',
-                  marginBottom: '24px',
-                }}
-              >
-                Found on Google, and found by the generative engines your buyers
-                increasingly ask instead of Google.
-              </p>
-              <ul
-                style={{
-                  paddingLeft: '20px',
-                  color: '#94a3b8',
-                  fontSize: '14px',
-                  lineHeight: 1.6,
-                }}
-              >
-                <li>SEO governance on every published surface</li>
-                <li>GEO — generative engine optimization, first-class</li>
-                <li>Semantic in-property search in every language</li>
-              </ul>
-            </div>
-
-            {/* Pillar 04 */}
-            <div
-              style={{
-                background: 'linear-gradient(180deg, #151828 0%, #213866 100%)',
-                borderRadius: '16px',
-                padding: '36px',
-                color: '#fff',
-                display: 'flex',
-                flexDirection: 'column',
-              }}
-            >
-              <div
-                style={{
-                  display: 'inline-flex',
-                  padding: '6px 16px',
-                  borderRadius: '999px',
-                  border: '1px solid rgba(255,255,255,0.15)',
-                  fontSize: '11px',
-                  fontWeight: 600,
-                  letterSpacing: '0.05em',
-                  color: '#94a3b8',
-                  marginBottom: '24px',
-                  alignSelf: 'flex-start',
-                }}
-              >
-                Pillar 04
-              </div>
-              <h4
-                style={{
-                  fontSize: '18px',
-                  fontWeight: 600,
-                  marginBottom: '24px',
-                  color: '#fff',
-                }}
-              >
-                Workflow Studio
-              </h4>
-              <p
-                style={{
-                  fontSize: '14px',
-                  lineHeight: 1.6,
-                  color: '#e2e8f0',
-                  marginBottom: '24px',
-                }}
-              >
-                Visual orchestration with a TypeScript escape hatch — the
-                connective tissue of the whole fabric.
-              </p>
-              <ul
-                style={{
-                  paddingLeft: '20px',
-                  color: '#94a3b8',
-                  fontSize: '14px',
-                  lineHeight: 1.6,
-                }}
-              >
-                <li>Long-running, durable, auditable workflows</li>
-                <li>Human-in-the-loop approvals and escalation</li>
-                <li>Triggered from any surface, webhook, or schedule</li>
-              </ul>
-            </div>
+          <div className="grid2" style={{ marginTop: 44 }}>
+            <PillarCard
+              label="Pillar 01"
+              title="Web Platform"
+              description="Every site the enterprise runs — corporate, commerce, help centre, careers, community — from one headless core."
+              points={[
+                'Visual builder on server-rendered React',
+                'Multi-brand, multi-region, multi-language on one tenant',
+                'Accessibility and performance gates enforced at publish',
+              ]}
+            />
+            <PillarCard
+              label="Pillar 02"
+              title="Mobile Applications"
+              description="iOS and Android from a single runtime, sharing the web platform's design system and content model."
+              points={[
+                'Normalized native SDK across both platforms',
+                'Over-the-air updates without store review cycles',
+                'Store submission pipelines built in',
+              ]}
+            />
+            <PillarCard
+              label="Pillar 03"
+              title="Search & Discovery"
+              description="Found on Google, and found by the generative engines your buyers increasingly ask instead of Google."
+              points={[
+                'SEO governance on every published surface',
+                'GEO — generative engine optimization, first-class',
+                'Semantic in-property search in every language',
+              ]}
+            />
+            <PillarCard
+              label="Pillar 04"
+              title="Workflow Studio"
+              description="Visual orchestration with a TypeScript escape hatch — the connective tissue of the whole fabric."
+              points={[
+                'Long-running, durable, auditable workflows',
+                'Human-in-the-loop approvals and escalation',
+                'Triggered from any surface, webhook, or schedule',
+              ]}
+            />
           </div>
         </div>
       </div>
@@ -388,30 +175,6 @@ export default function NexusClient() {
         </div>
       </div>
 
-      {/* ═══════ GEO SECTION (CREAM) ═══════ */}
-      <div className="section cream">
-        <div className="wrap">
-          <div className="kicker">Generative engine optimization</div>
-          <h2 className="display">
-            Your next customer won&apos;t search.{' '}
-            <span className="au">They&apos;ll ask.</span>
-          </h2>
-          <div style={{ marginTop: 20, maxWidth: '800px' }}>
-            <p className="lede" style={{ marginBottom: 16 }}>
-              Buyers increasingly begin with ChatGPT, Perplexity, Google AI
-              Overviews, or Gemini rather than a search box. Being ranked is no
-              longer the same as being cited.
-            </p>
-            <p className="lede">
-              Nexus ships GEO as a first-class module: structured content,
-              metadata, and grounding designed so generative engines surface and
-              cite your properties. It is a discipline the market has barely
-              named, and the tooling to do it deliberately is close to
-              non-existent.
-            </p>
-          </div>
-        </div>
-      </div>
 
       {/* ═══════ EXTENDED PLATFORM ═══════ */}
       <div className="section navy">
