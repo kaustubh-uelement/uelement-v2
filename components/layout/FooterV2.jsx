@@ -582,7 +582,7 @@ const FooterContent = () => {
                 >
                   <span className="!text-[14px] !font-heading">PQC</span>
                   <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
-                    Post-quantum cryptography
+                    Post-quantum Cryptography
                   </span>
                 </Link>
                 <Link
@@ -591,7 +591,7 @@ const FooterContent = () => {
                 >
                   <span className="!text-[14px] !font-heading">QKD</span>
                   <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
-                    Quantum key distribution
+                    Quantum Key Distribution
                   </span>
                 </Link>
                 <Link
@@ -675,7 +675,7 @@ const FooterContent = () => {
                 >
                   <span className="!text-[14px] !font-heading">MustangC3</span>
                   <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
-                    Agentic command & control
+                    Agentic Command & Control
                   </span>
                 </Link>
                 <Link
@@ -684,7 +684,7 @@ const FooterContent = () => {
                 >
                   <span className="!text-[14px] !font-heading">MesoGRID</span>
                   <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
-                    Resilient decentralised mesh
+                    Resilient Decentralised Mesh
                   </span>
                 </Link>
               </div>
@@ -849,7 +849,7 @@ const FooterContent = () => {
                 >
                   <span className="!text-[14px] !font-heading">MustangC3</span>
                   <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
-                    Agentic command & control
+                    Agentic Command & Control
                   </span>
                 </Link>
                 <Link
@@ -858,7 +858,7 @@ const FooterContent = () => {
                 >
                   <span className="!text-[14px] !font-heading">MesoGRID</span>
                   <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
-                    Resilient decentralised mesh
+                    Resilient Decentralised Mesh
                   </span>
                 </Link>
               </div>
@@ -881,7 +881,7 @@ const FooterContent = () => {
                 >
                   <span className="!text-[14px] !font-heading">PQC</span>
                   <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
-                    Post-quantum cryptography
+                    Post-quantum Cryptography
                   </span>
                 </Link>
                 <Link
@@ -890,7 +890,7 @@ const FooterContent = () => {
                 >
                   <span className="!text-[14px] !font-heading">QKD</span>
                   <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
-                    Quantum key distribution
+                    Quantum Key Distribution
                   </span>
                 </Link>
                 <Link
