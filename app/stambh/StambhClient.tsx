@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import PillarCard from '../../components/PillarCard';
 
 export default function StambhClient() {
   return (
@@ -229,133 +230,33 @@ export default function StambhClient() {
           </p>
 
           <div className="grid3" style={{ marginTop: 44, alignItems: 'stretch' }}>
-            <div
-              style={{
-                background: 'linear-gradient(180deg, #151828 0%, #213866 100%)',
-                borderRadius: '16px',
-                padding: '36px',
-                color: '#fff',
-                display: 'flex',
-                flexDirection: 'column',
-              }}
-            >
-              <div
-                style={{
-                  display: 'inline-flex',
-                  padding: '6px 16px',
-                  borderRadius: '999px',
-                  border: '1px solid rgba(255,255,255,0.15)',
-                  fontSize: '11px',
-                  fontWeight: 600,
-                  letterSpacing: '0.05em',
-                  color: '#94a3b8',
-                  marginBottom: '24px',
-                  alignSelf: 'flex-start',
-                }}
-              >
-                Nexus &rarr; Vizor
-              </div>
-              <h4 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '24px', color: '#fff' }}>
-                Nexus feeds Vizor
-              </h4>
-              <p style={{ fontSize: '14px', lineHeight: 1.6, color: '#e2e8f0', marginBottom: '16px' }}>
-                Business KPIs and customer journeys instrumented natively — no
-                separate agent deployment.
-              </p>
-              <p style={{ fontSize: '14px', lineHeight: 1.6, color: '#e2e8f0', marginBottom: '16px' }}>
-                Consent capture, DPDP rights requests, and GDPR artifacts flow
-                into the evidence plane.
-              </p>
-              <p style={{ fontSize: '14px', lineHeight: 1.6, color: '#e2e8f0' }}>
-                Runtime application security and SIEM correlation cover every
-                published property.
-              </p>
-            </div>
-
-            <div
-              style={{
-                background: 'linear-gradient(180deg, #151828 0%, #213866 100%)',
-                borderRadius: '16px',
-                padding: '36px',
-                color: '#fff',
-                display: 'flex',
-                flexDirection: 'column',
-              }}
-            >
-              <div
-                style={{
-                  display: 'inline-flex',
-                  padding: '6px 16px',
-                  borderRadius: '999px',
-                  border: '1px solid rgba(255,255,255,0.15)',
-                  fontSize: '11px',
-                  fontWeight: 600,
-                  letterSpacing: '0.05em',
-                  color: '#94a3b8',
-                  marginBottom: '24px',
-                  alignSelf: 'flex-start',
-                }}
-              >
-                Nexus &rarr; Kayak
-              </div>
-              <h4 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '24px', color: '#fff' }}>
-                Nexus feeds Kayak
-              </h4>
-              <p style={{ fontSize: '14px', lineHeight: 1.6, color: '#e2e8f0', marginBottom: '16px' }}>
-                A checkout can call fulfillment; a support portal can initiate
-                a recall.
-              </p>
-              <p style={{ fontSize: '14px', lineHeight: 1.6, color: '#e2e8f0', marginBottom: '16px' }}>
-                Provenance widgets embed directly in commerce and support
-                surfaces.
-              </p>
-              <p style={{ fontSize: '14px', lineHeight: 1.6, color: '#e2e8f0' }}>
-                Warranty registration and service history surface as
-                customer-facing flows.
-              </p>
-            </div>
-
-            <div
-              style={{
-                background: 'linear-gradient(180deg, #151828 0%, #213866 100%)',
-                borderRadius: '16px',
-                padding: '36px',
-                color: '#fff',
-                display: 'flex',
-                flexDirection: 'column',
-              }}
-            >
-              <div
-                style={{
-                  display: 'inline-flex',
-                  padding: '6px 16px',
-                  borderRadius: '999px',
-                  border: '1px solid rgba(255,255,255,0.15)',
-                  fontSize: '11px',
-                  fontWeight: 600,
-                  letterSpacing: '0.05em',
-                  color: '#94a3b8',
-                  marginBottom: '24px',
-                  alignSelf: 'flex-start',
-                }}
-              >
-                Kayak &rarr; Vizor
-              </div>
-              <h4 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '24px', color: '#fff' }}>
-                Kayak feeds Vizor
-              </h4>
-              <p style={{ fontSize: '14px', lineHeight: 1.6, color: '#e2e8f0', marginBottom: '16px' }}>
-                Asset telemetry arrives as a first-class collection-plane
-                stream.
-              </p>
-              <p style={{ fontSize: '14px', lineHeight: 1.6, color: '#e2e8f0', marginBottom: '16px' }}>
-                Custody evidence merges with cyber evidence in one GRC ledger.
-              </p>
-              <p style={{ fontSize: '14px', lineHeight: 1.6, color: '#e2e8f0' }}>
-                Physical and digital control drift are correlated on the same
-                topology graph.
-              </p>
-            </div>
+            <PillarCard
+              label="Nexus &rarr; Vizor"
+              title="Nexus feeds Vizor"
+              points={[
+                'Business KPIs and customer journeys instrumented natively — no separate agent deployment.',
+                'Consent capture, DPDP rights requests, and GDPR artifacts flow into the evidence plane.',
+                'Runtime application security and SIEM correlation cover every published property.',
+              ]}
+            />
+            <PillarCard
+              label="Nexus &rarr; Kayak"
+              title="Nexus feeds Kayak"
+              points={[
+                'A checkout can call fulfillment; a support portal can initiate a recall.',
+                'Provenance widgets embed directly in commerce and support surfaces.',
+                'Warranty registration and service history surface as customer-facing flows.',
+              ]}
+            />
+            <PillarCard
+              label="Kayak &rarr; Vizor"
+              title="Kayak feeds Vizor"
+              points={[
+                'Asset telemetry arrives as a first-class collection-plane stream.',
+                'Custody evidence merges with cyber evidence in one GRC ledger.',
+                'Physical and digital control drift are correlated on the same topology graph.',
+              ]}
+            />
           </div>
         </div>
       </div>

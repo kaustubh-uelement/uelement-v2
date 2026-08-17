@@ -1,10 +1,10 @@
 'use client';
 
 interface PillarCardProps {
-  label: string;
-  title: string;
-  description: string;
-  points: string[];
+  label: React.ReactNode;
+  title: React.ReactNode;
+  description?: React.ReactNode;
+  points: React.ReactNode[];
 }
 
 export default function PillarCard({
@@ -22,6 +22,7 @@ export default function PillarCard({
         color: '#fff',
         display: 'flex',
         flexDirection: 'column',
+        height: '100%',
       }}
     >
       <div
@@ -50,50 +51,54 @@ export default function PillarCard({
       >
         {title}
       </h4>
-      <p
-        style={{
-          fontSize: '14px',
-          lineHeight: 1.6,
-          color: '#e2e8f0',
-          marginBottom: '20px',
-        }}
-      >
-        {description}
-      </p>
-      <ul
-        style={{
-          padding: 0,
-          margin: 0,
-          listStyle: 'none',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '12px',
-        }}
-      >
-        {points.map((point, i) => (
-          <li
-            key={i}
-            style={{
-              display: 'flex',
-              alignItems: 'flex-start',
-              fontSize: '14px',
-              lineHeight: 1.6,
-              color: '#94a3b8',
-            }}
-          >
-            <span
+      {description && (
+        <p
+          style={{
+            fontSize: '14px',
+            lineHeight: 1.6,
+            color: '#e2e8f0',
+            marginBottom: '20px',
+          }}
+        >
+          {description}
+        </p>
+      )}
+      {points && points.length > 0 && (
+        <ul
+          style={{
+            padding: 0,
+            margin: 0,
+            listStyle: 'none',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '12px',
+          }}
+        >
+          {points.map((point, i) => (
+            <li
+              key={i}
               style={{
-                color: '#c88a3e',
-                marginRight: '12px',
-                fontWeight: 'bold',
+                display: 'flex',
+                alignItems: 'flex-start',
+                fontSize: '14px',
+                lineHeight: 1.6,
+                color: '#94a3b8',
               }}
             >
-              -
-            </span>
-            <span>{point}</span>
-          </li>
-        ))}
-      </ul>
+              <span
+                style={{
+                  color: '#c88a3e',
+                  marginRight: '12px',
+                  fontWeight: 'bold',
+                }}
+              >
+                -
+              </span>
+              <span>{point}</span>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
