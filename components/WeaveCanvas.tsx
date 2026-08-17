@@ -18,28 +18,51 @@ function weaveLine(
   ctx: CanvasRenderingContext2D,
   w: number,
   h: number,
-  t: number,
+  time: number,
   base: number,
   amp: number,
   freq: number,
   phase: number,
   colorStr: string,
   width: number,
-  glow: boolean
+  glow: boolean,
+  speed = 1
 ) {
   ctx.beginPath();
-  for (let i = 0; i <= 60; i++) {
-    const x = (i / 60) * w;
-    const y =
-      base +
-      Math.sin((x / w) * Math.PI * freq + phase + t) * amp +
-      Math.sin((x / w) * Math.PI * (freq * 0.5) + t * 0.6) * (amp * 0.4);
-    if (i === 0) ctx.moveTo(x, y);
-    else ctx.lineTo(x, y);
+
+  const points = 120;
+
+  for (let i = 0; i <= points; i++) {
+    const x = (i / points) * w;
+    const progress = x / w;
+
+    // Main travelling wave
+    const wave1 =
+      Math.sin(progress * Math.PI * freq + phase + time * speed) * amp;
+
+    // Secondary wave gives the line a more organic shape
+    const wave2 =
+      Math.sin(
+        progress * Math.PI * (freq * 0.55) + phase * 0.7 + time * speed * 0.55
+      ) *
+      amp *
+      0.35;
+
+    // Very subtle amplitude breathing
+    const breathing = 1 + Math.sin(time * speed * 0.35 + phase) * 0.08;
+
+    const y = base + (wave1 + wave2) * breathing;
+
+    if (i === 0) {
+      ctx.moveTo(x, y);
+    } else {
+      ctx.lineTo(x, y);
+    }
   }
 
-  // Create gradient fading from left to right
+  // Fade the wave in from left to right
   const grad = ctx.createLinearGradient(0, 0, w, 0);
+
   if (colorStr === FAINT) {
     grad.addColorStop(0, FAINT_ZERO);
     grad.addColorStop(0.3, FAINT_ZERO);
@@ -52,13 +75,16 @@ function weaveLine(
 
   ctx.strokeStyle = grad;
   ctx.lineWidth = width;
+
   if (glow) {
     ctx.shadowColor = colorStr;
     ctx.shadowBlur = 14;
   } else {
     ctx.shadowBlur = 0;
   }
+
   ctx.stroke();
+
   ctx.shadowBlur = 0;
 }
 
@@ -66,60 +92,100 @@ function drawWeave(
   ctx: CanvasRenderingContext2D,
   w: number,
   h: number,
-  ms: number,
-  reduced: boolean
+  ms: number
 ) {
-  // Speed up the wave animation slightly to make it more noticeable
-  const t = reduced ? 0 : ms * 0.00045;
+  /*
+   * Increase this value for faster movement.
+   *
+   * 0.001 = slow
+   * 0.0015 = noticeable
+   * 0.002 = quite fluid
+   */
+  const time = ms * 0.0015;
+
   ctx.clearRect(0, 0, w, h);
 
   const gap = Math.max(48, w / 26);
-  ctx.lineWidth = 1;
-  
-  // Draw vertical grid lines with gradient fading left
+
+  // --------------------------------------------------
+  // Vertical grid
+  // --------------------------------------------------
+
   for (let x = gap / 2; x < w; x += gap) {
     ctx.beginPath();
     ctx.moveTo(x, 0);
     ctx.lineTo(x, h);
+
     const grad = ctx.createLinearGradient(0, 0, w, 0);
+
     grad.addColorStop(0, FAINT_ZERO);
     grad.addColorStop(0.3, FAINT_ZERO);
     grad.addColorStop(1, FAINT);
+
     ctx.strokeStyle = grad;
+    ctx.lineWidth = 1;
     ctx.stroke();
   }
 
-  // Draw horizontal faint lines
+  // --------------------------------------------------
+  // Faint background waves
+  // --------------------------------------------------
+
   for (let i = 0; i < 16; i++) {
     weaveLine(
       ctx,
       w,
       h,
-      t,
+      time,
       (h / 17) * (i + 1),
+
       14,
+
       2.2 + (i % 3) * 0.6,
+
       i * 1.7,
+
       FAINT,
+
       1,
-      false
+
+      false,
+
+      0.35 + (i % 4) * 0.05
     );
   }
 
-  // Draw colored threads
-  THREADS.forEach(function (c, j) {
+  // --------------------------------------------------
+  // Main colored threads
+  // --------------------------------------------------
+
+  THREADS.forEach((color, index) => {
     weaveLine(
       ctx,
       w,
       h,
-      t,
-      h * (0.42 + j * 0.14),
-      26 + j * 5,
-      1.6 + j * 0.35,
-      j * 2.2,
-      c,
+      time,
+
+      // Vertical position
+      h * (0.42 + index * 0.14),
+
+      // Amplitude
+      26 + index * 5,
+
+      // Frequency
+      1.6 + index * 0.35,
+
+      // Different starting phase
+      index * 2.2,
+
+      color,
+
       2,
-      true
+
+      true,
+
+      // Different speed per thread
+      0.65 + index * 0.12
     );
   });
 }
@@ -134,52 +200,57 @@ export default function WeaveCanvas() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    let rafId: number;
-    let reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let rafId = 0;
+    let frameCount = 0;
 
-    const handleMediaChange = (e: MediaQueryListEvent) => {
-      reduced = e.matches;
-    };
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    mediaQuery.addEventListener('change', handleMediaChange);
+    const dpr = () => Math.min(window.devicePixelRatio || 1, 2);
 
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const scale = dpr();
       const w = canvas.clientWidth;
       const h = canvas.clientHeight;
-      canvas.width = w * dpr;
-      canvas.height = h * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      if (reduced) {
-        drawWeave(ctx, w, h, 16, reduced);
-      }
+      canvas.width = Math.round(w * scale);
+      canvas.height = Math.round(h * scale);
+      ctx.setTransform(scale, 0, 0, scale, 0, 0);
+      console.log('[WeaveCanvas] resize → clientW:', w, 'clientH:', h, 'dpr:', scale);
     };
 
-    window.addEventListener('resize', resize);
+    const render = (timestamp: number) => {
+      frameCount++;
+
+      // Log first 5 frames and then every 60 frames
+      if (frameCount <= 5 || frameCount % 60 === 0) {
+        const w = canvas.clientWidth;
+        const h = canvas.clientHeight;
+        console.log(
+          `[WeaveCanvas] frame=${frameCount} ts=${timestamp.toFixed(0)}ms time=${(timestamp * 0.0015).toFixed(3)} clientW=${w} clientH=${h}`
+        );
+      }
+
+      // Re-apply DPR transform each frame — setting canvas.width/height
+      // (which happens on resize) resets the context transform to identity.
+      const scale = dpr();
+      ctx.setTransform(scale, 0, 0, scale, 0, 0);
+
+      const w = canvas.clientWidth;
+      const h = canvas.clientHeight;
+
+      drawWeave(ctx, w, h, timestamp);
+
+      rafId = requestAnimationFrame(render);
+    };
+
     resize();
 
-    // Use performance.now() to ensure continuous smooth animation
-    const startTime = performance.now();
-    const frame = (timestamp: number) => {
-      const w = canvas.clientWidth;
-      const h = canvas.clientHeight;
-      const ms = timestamp - startTime;
-      drawWeave(ctx, w, h, ms, reduced);
-      if (!reduced) {
-        rafId = requestAnimationFrame(frame);
-      }
-    };
+    window.addEventListener('resize', resize);
 
-    if (reduced) {
-      frame(performance.now());
-    } else {
-      rafId = requestAnimationFrame(frame);
-    }
+    rafId = requestAnimationFrame(render);
+    console.log('[WeaveCanvas] RAF started, rafId:', rafId);
 
     return () => {
       window.removeEventListener('resize', resize);
-      mediaQuery.removeEventListener('change', handleMediaChange);
-      if (rafId) cancelAnimationFrame(rafId);
+      cancelAnimationFrame(rafId);
+      console.log('[WeaveCanvas] cleanup, cancelled rafId:', rafId);
     };
   }, []);
 
