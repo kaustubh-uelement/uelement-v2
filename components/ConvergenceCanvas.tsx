@@ -3,9 +3,9 @@
 import { useEffect, useRef } from 'react';
 
 const STAYS = [
-  { color: '#6d5df5', spread: -0.34 },
-  { color: '#38bdf8', spread: 0.06 },
-  { color: '#f43f5e', spread: 0.42 },
+  { color: '#c88a3e', spread: -0.34 },
+  { color: '#c88a3e', spread: 0.06 },
+  { color: '#c88a3e', spread: 0.42 },
 ];
 
 export default function ConvergenceCanvas() {
@@ -44,8 +44,8 @@ export default function ConvergenceCanvas() {
       const h = canvas.clientHeight;
       const mastX = w * 0.68;
       const headY = h * 0.13;
-      const footY = h * 0.94;
-      const anchorY = h * 0.88;
+      const footY = h;
+      const anchorY = h;
 
       ctx.clearRect(0, 0, w, h);
 
