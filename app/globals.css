@@ -700,12 +700,11 @@ a {
 
 .dhead-arrow {
   display: inline-block;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform;
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .dhead:hover .dhead-arrow {
-  transform: translateX(6px);
+  margin-left: 6px;
 }
 
 .dropdown.mega {
