@@ -179,7 +179,7 @@ export default function StambhClient() {
         <div className="wrap">
           <div className="kicker">The shared spine</div>
           <h2 className="display">
-            What &quot;one control plane&quot; actually <span className="au">buys you.</span>
+            What &quot;One Control Plane&quot; actually <span className="au">buys you.</span>
           </h2>
           <p className="lede" style={{ marginTop: 20 }}>
             Not a marketing phrase. Four concrete things you only have to decide, build, and audit once.

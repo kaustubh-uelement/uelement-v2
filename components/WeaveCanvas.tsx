@@ -10,7 +10,7 @@ function hexToRgba(hex: string, alpha: number) {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
-const THREADS = ['#6d5df5', '#5b8def', '#35c4b5', '#e8b04b'];
+const THREADS = ['#c88a3e', '#38bdf8', '#cbd5e1', '#6d5df5'];
 const FAINT = 'rgba(154, 160, 190, 0.10)';
 const FAINT_ZERO = 'rgba(154, 160, 190, 0)';
 
@@ -212,7 +212,14 @@ export default function WeaveCanvas() {
       canvas.width = Math.round(w * scale);
       canvas.height = Math.round(h * scale);
       ctx.setTransform(scale, 0, 0, scale, 0, 0);
-      console.log('[WeaveCanvas] resize → clientW:', w, 'clientH:', h, 'dpr:', scale);
+      console.log(
+        '[WeaveCanvas] resize → clientW:',
+        w,
+        'clientH:',
+        h,
+        'dpr:',
+        scale
+      );
     };
 
     const render = (timestamp: number) => {
