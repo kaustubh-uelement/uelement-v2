@@ -24,9 +24,11 @@ function DropdownContent({
             <Link
               href={group.headingHref || '#'}
               className="dhead"
+              style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
               onClick={onClose}
             >
-              {group.heading}
+              <span>{group.heading}</span>
+              <span className="dhead-arrow font-sans text-[1.1em]">→</span>
             </Link>
           )}
           {group.items.map((item, ii) => (
