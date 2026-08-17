@@ -2,14 +2,15 @@
 
 import Link from 'next/link';
 import PillarCard from '../../components/PillarCard';
+import ConvergenceCanvas from '../../components/ConvergenceCanvas';
 
 export default function StambhClient() {
   return (
     <>
       {/* ═══════ HERO ═══════ */}
-      <div className="hero">
-        <div className="hero-fabric" />
-        <div className="wrap">
+      <div className="hero" style={{ position: 'relative', overflow: 'hidden' }}>
+        <ConvergenceCanvas />
+        <div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
           <div className="crumb">
             <Link href="/">Home</Link> / StamBH
           </div>
