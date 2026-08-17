@@ -698,6 +698,16 @@ a {
   filter: brightness(1.15);
 }
 
+.dhead-arrow {
+  display: inline-block;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.dhead:hover .dhead-arrow {
+  transform: translateX(6px);
+}
+
 .dropdown.mega {
   min-width: 560px;
   display: grid;
