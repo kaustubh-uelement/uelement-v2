@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Deployment — MainSTAY by UElement</title>
+<meta name="description" content="Five MainSTAY deployment topologies — air-gapped, on-premise connected, sovereign cloud, hybrid managed, and managed SaaS — on one control plane." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav">
+  <div class="container nav-in">
+    <a href="index.html" class="brand" aria-label="MainSTAY home">
+      <span class="brand-mark" aria-hidden="true"><i style="background:var(--nexus)"></i><i style="background:var(--vizor)"></i><i style="background:var(--kayak)"></i></span>
+      <span class="brand-name">MainSTAY</span>
+      <span class="brand-sub">BY UELEMENT</span>
+    </a>
+    <button id="navToggle" class="nav-toggle btn btn--ghost" aria-expanded="false" aria-controls="primaryNav">Menu</button>
+    <nav id="primaryNav" class="nav-links" aria-label="Primary">
+      <div class="nav-drop" id="navDrop" data-open="false">
+        <button id="navDropBtn" aria-expanded="false">Products <span class="chev" aria-hidden="true">&#9662;</span></button>
+        <div class="drop"><a href="nexus.html"><span class="dn"><i style="background:var(--nexus)"></i>Nexus</span><span class="dd">The Enterprise Digital Fabric</span></a><a href="vizor.html"><span class="dn"><i style="background:var(--vizor)"></i>Vizor</span><span class="dd">One Platform. Seven Dimensions.</span></a><a href="kayak.html"><span class="dn"><i style="background:var(--kayak)"></i>Kayak</span><span class="dd">Everything as a Service</span></a></div>
+      </div>
+      <a href="platform.html">Platform</a><a href="deployment.html" aria-current="page">Deployment</a><a href="compliance.html">Compliance</a><a href="company.html">Company</a>
+      <a href="contact.html" class="btn btn--primary">Book a scoping workshop</a>
+    </nav>
+  </div>
+</header>
+<div id="main">
+<main>
+
+<section class="phero phero--product"><div class="container"><div class="rv"><p class="eyebrow">Deployment</p><h1>Five topologies. <span class="hi">One control plane.</span></h1><p class="lede">Every MainSTAY product ships in the same five shapes, sharing one control plane and one API surface. Moving between them is a deployment decision, not a migration project.</p></div></div></section>
+
+<section class="section" aria-labelledby="topo-t">
+  <div class="container">
+    <div class="rv"><p class="eyebrow">The topologies</p><h2 class="s-title" id="topo-t">Pick the shape your regulator, not your vendor, requires.</h2></div>
+    <div class="grid grid-2"><div class="rv"><article class="card"><p class="k">Defence &middot; Nuclear &middot; Sovereign</p><h3>On-Prem Air-Gapped</h3><p>Runs entirely offline inside the customer&rsquo;s secure enclave. Updates, threat-library refreshes, and model weights arrive via controlled physical media on a governed cadence.</p><ul><li>No outbound network dependency of any kind</li><li>Evidence Channel Bridge carries compliance artifacts across data diodes</li><li>OpenLM keeps every AI capability inside the perimeter</li></ul></article></div><div class="rv" style="transition-delay:55ms"><article class="card"><p class="k">Tier-1 BFSI &middot; Government</p><h3>On-Prem Connected</h3><p>Customer-owned infrastructure with controlled, allow-listed egress for updates and threat intelligence. The customer retains physical custody of every plane.</p><ul><li>Allow-listed egress only, with full audit of outbound calls</li><li>Customer-managed keys and certificate lifecycle</li><li>Suits RBI, SEBI, and MeitY infrastructure expectations</li></ul></article></div><div class="rv" style="transition-delay:110ms"><article class="card"><p class="k">Regulated enterprise</p><h3>Sovereign Cloud</h3><p>Deployed inside sovereign-aligned data centres &mdash; CtrlS, Yotta, AWS Asia Pacific, or Azure India &mdash; where data residency is contractual and verifiable.</p><ul><li>In-country residency for data, evidence, and backups</li><li>Regional failover without leaving the jurisdiction</li><li>Shortest path to production for most Indian enterprises</li></ul></article></div><div class="rv" style="transition-delay:165ms"><article class="card"><p class="k">Regulated enterprise</p><h3>Hybrid Managed</h3><p>The customer retains the data and evidence planes; UElement operates the application and platform planes. A split-responsibility model for teams without platform-engineering capacity.</p><ul><li>Sensitive planes never leave customer control</li><li>UElement carries patching, upgrades, and platform SLAs</li><li>Clear responsibility boundary written into the contract</li></ul></article></div><div class="rv" style="transition-delay:220ms"><article class="card"><p class="k">Mid-market &middot; Fintech</p><h3>Managed SaaS</h3><p>Fully hosted in a UElement environment. Zero local infrastructure and the fastest path to first signal for teams without a data-residency mandate.</p><ul><li>Live in days rather than weeks</li><li>Elastic capacity with no procurement cycle</li><li>Upgrade path to sovereign or hybrid without re-platforming</li></ul></article></div></div>
+  </div>
+</section>
+
+<section class="section section--paper" aria-labelledby="gate-t">
+  <div class="container">
+    <div class="rv"><p class="eyebrow">How engagements run</p><h2 class="s-title" id="gate-t">Five gates, each with an outcome you can refuse to sign.</h2><p class="s-lede">Implementation is fixed-price per gate. Nothing proceeds until the previous gate has produced something you can inspect.</p></div>
+    <div class="rv" style="transition-delay:110ms"><div class="rows"><div class="row"><h3><span style="font-family:var(--f-mono);color:var(--accent-dark);margin-right:.7rem">G0</span>Discovery &amp; Scoping</h3><p>A signed scoping pack: asset counts, zone barriers, integration inventory, and the agreed deployment shape.</p><p class="meta">2 weeks</p></div><div class="row"><h3><span style="font-family:var(--f-mono);color:var(--accent-dark);margin-right:.7rem">G1</span>Reference Deployment</h3><p>Live telemetry from the candidate reference site, with any custom protocol parsers or connectors validated against real traffic.</p><p class="meta">4 weeks</p></div><div class="row"><h3><span style="font-family:var(--f-mono);color:var(--accent-dark);margin-right:.7rem">G2</span>Expansion &amp; Enrichment</h3><p>End-to-end identity stitching and data correlation across levels, sites, or business units.</p><p class="meta">6 weeks</p></div><div class="row"><h3><span style="font-family:var(--f-mono);color:var(--accent-dark);margin-right:.7rem">G3</span>Assurance &amp; Tuning</h3><p>Detection and alerting baselines tuned to the environment, operators trained, and final commercial sign-off.</p><p class="meta">4 weeks</p></div><div class="row"><h3><span style="font-family:var(--f-mono);color:var(--accent-dark);margin-right:.7rem">G4</span>Operate &amp; Evolve</h3><p>Governance reviews, threat-library updates, detection refreshes, and roadmap alignment.</p><p class="meta">Continuous</p></div></div></div>
+    <div class="rv" style="transition-delay:150ms"><div class="prose" style="margin-top:2rem">
+      <h3>Licensing</h3>
+      <p>Platform subscription is a modular annual licence sized by active assets and zones under management. Implementation is fixed-price per gate. Managed detection &mdash; where UElement operates the threat library directly &mdash; is an optional annual subscription.</p>
+      <h3>Standard entry</h3>
+      <p>Most engagements begin with a 45-day proof of value scoped to a single critical journey, site, or estate: a two-hour scoping workshop, a fourteen-day deployment, and a day-45 outcome review against agreed benchmarks.</p>
+    </div></div>
+  </div>
+</section>
+
+<section class="section cta" aria-labelledby="cta-t">
+  <div class="container">
+    <div class="rv"><p class="eyebrow">Start here</p><h2 class="s-title" id="cta-t">Two hours to know which shape fits.</h2>
+    <div class="btn-row">
+      <a href="contact.html" class="btn btn--primary">Book a scoping workshop <span class="arr">&rarr;</span></a>
+      <a href="compliance.html" class="btn btn--ghost">Compliance coverage</a>
+    </div></div>
+  </div>
+</section>
+
+</main>
+</div>
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="brand" aria-label="MainSTAY home">
+          <span class="brand-mark" aria-hidden="true"><i style="background:var(--nexus)"></i><i style="background:var(--vizor)"></i><i style="background:var(--kayak)"></i></span><span class="brand-name">MainSTAY</span>
+        </a>
+        <p>Three fabrics on one control plane. Built by UElement Technologies in Pune, India.</p>
+      </div>
+      <div class="fcol"><h4>Products</h4><a href="nexus.html">MainSTAY Nexus</a><a href="vizor.html">MainSTAY Vizor</a><a href="kayak.html">MainSTAY Kayak</a><a href="platform.html">The control plane</a></div><div class="fcol"><h4>Platform</h4><a href="platform.html">Architecture</a><a href="deployment.html">Deployment</a><a href="compliance.html">Compliance</a><a href="legal-security.html">Security</a></div><div class="fcol"><h4>Company</h4><a href="company.html">About UElement</a><a href="company.html#programs">Programs</a><a href="company.html#offices">Offices</a><a href="contact.html">Contact</a></div><div class="fcol"><h4>Legal</h4><a href="legal-privacy.html">Privacy policy</a><a href="legal-terms.html">Terms of use</a><a href="legal-security.html">Responsible disclosure</a></div>
+    </div>
+    <div class="footer-bot">
+      <span>&copy; <span id="yr">2026</span> UElement Technologies Private Limited &middot; Pune, India</span>
+      <span class="fine">MAINSTAY NEXUS &middot; VIZOR &middot; KAYAK &mdash; ONE CONTROL PLANE</span>
+    </div>
+  </div>
+</footer>
+<script src="assets/site.js"></script>
+</body>
+</html>
