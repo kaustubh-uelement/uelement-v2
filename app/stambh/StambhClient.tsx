@@ -114,6 +114,64 @@ export default function StambhClient() {
         </div>
       </div>
 
+      {/* ═══════ WHAT IS SHARED (6 LAYERS) ═══════ */}
+      <div className="section navy">
+        <div className="wrap">
+          <div className="kicker">What is shared</div>
+          <h2 className="display">
+            Six things you decide, build, and <span className="au">audit once.</span>
+          </h2>
+          <p className="lede" style={{ marginTop: 20 }}>
+            Everything below the product line is common. The products differ in what they observe and act upon, not in how they are governed.
+          </p>
+
+          <div className="grid3" style={{ marginTop: 44 }}>
+            <div className="card">
+              <div className="proglabel slate">Layer 01</div>
+              <h4>Tenancy & isolation</h4>
+              <p>
+                A single tenant model with workspace isolation, resident data boundaries, and per-region residency rules. One tenant definition serves all three fabrics.
+              </p>
+            </div>
+            <div className="card">
+              <div className="proglabel slate">Layer 02</div>
+              <h4>Identity & access</h4>
+              <p>
+                RBAC and ABAC with FIDO2 passwordless as the default for administrative surfaces. Roles granted in one fabric are legible to the others; joiners, movers, and leavers are handled in one place.
+              </p>
+            </div>
+            <div className="card">
+              <div className="proglabel slate">Layer 03</div>
+              <h4>Evidence & audit</h4>
+              <p>
+                A tamper-evident, cryptographically signed ledger shared across products. Consent capture from Nexus, detections from Vizor, and custody entries from Kayak land in the same append-only store.
+              </p>
+            </div>
+            <div className="card">
+              <div className="proglabel slate">Layer 04</div>
+              <h4>Interfaces</h4>
+              <p>
+                REST, GraphQL, and webhooks with shared conventions, pagination, error shapes, and idempotency semantics. Every capability is exposed through an API before it is exposed through a screen.
+              </p>
+            </div>
+            <div className="card">
+              <div className="proglabel slate">Layer 05</div>
+              <h4>Intelligence</h4>
+              <p>
+                Shared model routing, prompt versioning, evaluation harnesses, and the option to run entirely on self-hosted open-weights models for sovereign deployments.
+              </p>
+            </div>
+            <div className="card">
+              <div className="proglabel slate">Layer 06</div>
+              <h4>Cryptography</h4>
+              <p>
+                Post-quantum readiness inherited from UElement&apos;s U92 practice — TLS posture, certificate lifecycle, and key management designed for crypto-agility rather than retrofit.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* ═══════ THE SHARED SPINE ═══════ */}
       <div className="section cream">
         <div className="wrap">
