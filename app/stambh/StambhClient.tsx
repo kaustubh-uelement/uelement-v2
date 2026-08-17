@@ -114,73 +114,44 @@ export default function StambhClient() {
         </div>
       </div>
 
-      {/* ═══════ THE CONTROL PLANE ═══════ */}
-      <div className="section navy">
+      {/* ═══════ THE SHARED SPINE ═══════ */}
+      <div className="section cream">
         <div className="wrap">
-          <div className="kicker">The Shared Spine</div>
+          <div className="kicker">The shared spine</div>
           <h2 className="display">
-            Six things you decide, build, and{' '}
-            <span className="au">audit once.</span>
+            What &quot;one control plane&quot; actually <span className="au">buys you.</span>
           </h2>
           <p className="lede" style={{ marginTop: 20 }}>
-            Everything below the product line is common. The products differ in
-            what they observe and act upon, not in how they are governed.
+            Not a marketing phrase. Four concrete things you only have to decide, build, and audit once.
           </p>
 
-          <div className="grid3" style={{ marginTop: 44 }}>
+          <div className="grid2" style={{ marginTop: 44 }}>
             <div className="card">
-              <div className="proglabel slate">Layer 01</div>
-              <h4>Tenancy & isolation</h4>
+              <div className="proglabel slate">Identity</div>
+              <h4>One tenant, one directory</h4>
               <p>
-                A single tenant model with workspace isolation, resident data
-                boundaries, and per-region residency rules. One tenant
-                definition serves all three fabrics.
+                A single tenant model, RBAC and ABAC, and FIDO2 passwordless access across all three fabrics. Adopt one product and the second inherits your identity architecture.
               </p>
             </div>
             <div className="card">
-              <div className="proglabel slate">Layer 02</div>
-              <h4>Identity & access</h4>
+              <div className="proglabel slate">Evidence</div>
+              <h4>One audit trail</h4>
               <p>
-                RBAC and ABAC with FIDO2 passwordless as the default for
-                administrative surfaces. Roles granted in one fabric are legible
-                to the others; joiners, movers, and leavers are handled in one
-                place.
+                Compliance evidence from every fabric lands in the same tamper-evident ledger. One artifact satisfies digital, operational, and physical-custody obligations at once.
               </p>
             </div>
             <div className="card">
-              <div className="proglabel slate">Layer 03</div>
-              <h4>Evidence & audit</h4>
+              <div className="proglabel slate">Deployment</div>
+              <h4>One topology decision</h4>
               <p>
-                A tamper-evident, cryptographically signed ledger shared across
-                products. Consent capture from Nexus, detections from Vizor, and
-                custody entries from Kayak land in the same append-only store.
+                All three deploy air-gapped, on-premise, on sovereign cloud, hybrid-managed, or as hosted SaaS — on a single control plane, with no re-platforming between them.
               </p>
             </div>
             <div className="card">
-              <div className="proglabel slate">Layer 04</div>
-              <h4>Interfaces</h4>
+              <div className="proglabel slate">Interfaces</div>
+              <h4>One API surface</h4>
               <p>
-                REST, GraphQL, and webhooks with shared conventions, pagination,
-                error shapes, and idempotency semantics. Every capability is
-                exposed through an API before it is exposed through a screen.
-              </p>
-            </div>
-            <div className="card">
-              <div className="proglabel slate">Layer 05</div>
-              <h4>Intelligence</h4>
-              <p>
-                Shared model routing, prompt versioning, evaluation harnesses,
-                and the option to run entirely on self-hosted open-weights
-                models for sovereign deployments.
-              </p>
-            </div>
-            <div className="card">
-              <div className="proglabel slate">Layer 06</div>
-              <h4>Cryptography</h4>
-              <p>
-                Post-quantum readiness inherited from UElement&apos;s U92
-                practice — TLS posture, certificate lifecycle, and key
-                management designed for crypto-agility rather than retrofit.
+                REST, GraphQL, and webhooks with shared conventions. A Nexus workflow can open a Vizor incident and trigger a Kayak fulfillment without custom integration.
               </p>
             </div>
           </div>
@@ -199,83 +170,133 @@ export default function StambhClient() {
             works without custom connector development.
           </p>
 
-          <div className="grid3" style={{ marginTop: 44 }}>
-            <div className="card">
-              <div className="proglabel slate">Nexus → Vizor</div>
-              <h4>Nexus feeds Vizor</h4>
-              <ul
+          <div className="grid3" style={{ marginTop: 44, alignItems: 'stretch' }}>
+            <div
+              style={{
+                background: 'linear-gradient(180deg, #151828 0%, #213866 100%)',
+                borderRadius: '16px',
+                padding: '36px',
+                color: '#fff',
+                display: 'flex',
+                flexDirection: 'column',
+              }}
+            >
+              <div
                 style={{
-                  marginTop: 12,
-                  paddingLeft: 20,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '8px',
+                  display: 'inline-flex',
+                  padding: '6px 16px',
+                  borderRadius: '999px',
+                  border: '1px solid rgba(255,255,255,0.15)',
+                  fontSize: '11px',
+                  fontWeight: 600,
+                  letterSpacing: '0.05em',
+                  color: '#94a3b8',
+                  marginBottom: '24px',
+                  alignSelf: 'flex-start',
                 }}
               >
-                <li>
-                  Business KPIs and customer journeys instrumented natively — no
-                  separate agent deployment.
-                </li>
-                <li>
-                  Consent capture, DPDP rights requests, and GDPR artifacts flow
-                  into the evidence plane.
-                </li>
-                <li>
-                  Runtime application security and SIEM correlation cover every
-                  published property.
-                </li>
-              </ul>
+                Nexus &rarr; Vizor
+              </div>
+              <h4 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '24px', color: '#fff' }}>
+                Nexus feeds Vizor
+              </h4>
+              <p style={{ fontSize: '14px', lineHeight: 1.6, color: '#e2e8f0', marginBottom: '16px' }}>
+                Business KPIs and customer journeys instrumented natively — no
+                separate agent deployment.
+              </p>
+              <p style={{ fontSize: '14px', lineHeight: 1.6, color: '#e2e8f0', marginBottom: '16px' }}>
+                Consent capture, DPDP rights requests, and GDPR artifacts flow
+                into the evidence plane.
+              </p>
+              <p style={{ fontSize: '14px', lineHeight: 1.6, color: '#e2e8f0' }}>
+                Runtime application security and SIEM correlation cover every
+                published property.
+              </p>
             </div>
-            <div className="card">
-              <div className="proglabel slate">Nexus → Kayak</div>
-              <h4>Nexus feeds Kayak</h4>
-              <ul
+
+            <div
+              style={{
+                background: 'linear-gradient(180deg, #151828 0%, #213866 100%)',
+                borderRadius: '16px',
+                padding: '36px',
+                color: '#fff',
+                display: 'flex',
+                flexDirection: 'column',
+              }}
+            >
+              <div
                 style={{
-                  marginTop: 12,
-                  paddingLeft: 20,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '8px',
+                  display: 'inline-flex',
+                  padding: '6px 16px',
+                  borderRadius: '999px',
+                  border: '1px solid rgba(255,255,255,0.15)',
+                  fontSize: '11px',
+                  fontWeight: 600,
+                  letterSpacing: '0.05em',
+                  color: '#94a3b8',
+                  marginBottom: '24px',
+                  alignSelf: 'flex-start',
                 }}
               >
-                <li>
-                  A checkout can call fulfillment; a support portal can initiate
-                  a recall.
-                </li>
-                <li>
-                  Provenance widgets embed directly in commerce and support
-                  surfaces.
-                </li>
-                <li>
-                  Warranty registration and service history surface as
-                  customer-facing flows.
-                </li>
-              </ul>
+                Nexus &rarr; Kayak
+              </div>
+              <h4 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '24px', color: '#fff' }}>
+                Nexus feeds Kayak
+              </h4>
+              <p style={{ fontSize: '14px', lineHeight: 1.6, color: '#e2e8f0', marginBottom: '16px' }}>
+                A checkout can call fulfillment; a support portal can initiate
+                a recall.
+              </p>
+              <p style={{ fontSize: '14px', lineHeight: 1.6, color: '#e2e8f0', marginBottom: '16px' }}>
+                Provenance widgets embed directly in commerce and support
+                surfaces.
+              </p>
+              <p style={{ fontSize: '14px', lineHeight: 1.6, color: '#e2e8f0' }}>
+                Warranty registration and service history surface as
+                customer-facing flows.
+              </p>
             </div>
-            <div className="card">
-              <div className="proglabel slate">Kayak → Vizor</div>
-              <h4>Kayak feeds Vizor</h4>
-              <ul
+
+            <div
+              style={{
+                background: 'linear-gradient(180deg, #151828 0%, #213866 100%)',
+                borderRadius: '16px',
+                padding: '36px',
+                color: '#fff',
+                display: 'flex',
+                flexDirection: 'column',
+              }}
+            >
+              <div
                 style={{
-                  marginTop: 12,
-                  paddingLeft: 20,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '8px',
+                  display: 'inline-flex',
+                  padding: '6px 16px',
+                  borderRadius: '999px',
+                  border: '1px solid rgba(255,255,255,0.15)',
+                  fontSize: '11px',
+                  fontWeight: 600,
+                  letterSpacing: '0.05em',
+                  color: '#94a3b8',
+                  marginBottom: '24px',
+                  alignSelf: 'flex-start',
                 }}
               >
-                <li>
-                  Asset telemetry arrives as a first-class collection-plane
-                  stream.
-                </li>
-                <li>
-                  Custody evidence merges with cyber evidence in one GRC ledger.
-                </li>
-                <li>
-                  Physical and digital control drift are correlated on the same
-                  topology graph.
-                </li>
-              </ul>
+                Kayak &rarr; Vizor
+              </div>
+              <h4 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '24px', color: '#fff' }}>
+                Kayak feeds Vizor
+              </h4>
+              <p style={{ fontSize: '14px', lineHeight: 1.6, color: '#e2e8f0', marginBottom: '16px' }}>
+                Asset telemetry arrives as a first-class collection-plane
+                stream.
+              </p>
+              <p style={{ fontSize: '14px', lineHeight: 1.6, color: '#e2e8f0', marginBottom: '16px' }}>
+                Custody evidence merges with cyber evidence in one GRC ledger.
+              </p>
+              <p style={{ fontSize: '14px', lineHeight: 1.6, color: '#e2e8f0' }}>
+                Physical and digital control drift are correlated on the same
+                topology graph.
+              </p>
             </div>
           </div>
         </div>
