@@ -175,8 +175,8 @@ export default function LedgerCanvas() {
         zIndex: 0,
         pointerEvents: 'none',
         // Fade out the left side smoothly using CSS mask
-        WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 40%)',
-        maskImage: 'linear-gradient(to right, transparent 0%, black 40%)',
+        WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 70%)',
+        maskImage: 'linear-gradient(to right, transparent 0%, black 70%)',
       }}
     />
   );
