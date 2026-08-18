@@ -49,11 +49,11 @@ export default function DataTunnelCanvas({
         colorLine: '#373f48',
 
         // Signal Colors
-        colorSignal: '#8fc9ff',
+        colorSignal: '#f5c105',
         useColor2: false,
-        colorSignal2: '#ff0055',
+        colorSignal2: '#ece2c1',
         useColor3: false,
-        colorSignal3: '#ffcc00',
+        colorSignal3: '#bac8f3',
 
         // Global Transform
         lineCount: 80,
