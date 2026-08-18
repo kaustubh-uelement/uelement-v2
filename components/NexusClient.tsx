@@ -24,7 +24,7 @@ export default function NexusClient() {
             className="serif-line"
             style={{ fontSize: 20, marginTop: 8, color: '#c88a3e' }}
           >
-            MainSTAY &middot; the digital fabric
+            StamBH &middot; the digital fabric
           </p>
           <p className="lede" style={{ marginTop: 26 }}>
             One platform to build and run every outward-facing surface your
@@ -242,7 +242,7 @@ export default function NexusClient() {
       {/* ═══════ THE MAINSTAY TRIO ═══════ */}
       <div className="section alt">
         <div className="wrap">
-          <div className="kicker">The MainSTAY trio</div>
+          <div className="kicker">The StamBH trio</div>
           <h2 className="display text-navy-gradient">
             Nexus projects outward.
             <br />

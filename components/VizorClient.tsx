@@ -249,7 +249,7 @@ export default function VizorClient() {
       {/* ═══════ THE MAINSTAY TRIO ═══════ */}
       <div className="section alt">
         <div className="wrap">
-          <div className="kicker">The MainSTAY trio</div>
+          <div className="kicker">The StamBH trio</div>
           <h2 className="display text-navy-gradient">
             Vizor watches what Nexus builds.
             <br />

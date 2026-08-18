@@ -19,7 +19,7 @@ export default function KayakClient() {
             <span className="au">as a service.</span>
           </h1>
           <p className="serif-line" style={{ fontSize: 20, marginTop: 8, color: '#c88a3e' }}>
-            MainSTAY &middot; the asset fabric
+            StamBH &middot; the asset fabric
           </p>
           <p className="lede" style={{ marginTop: 26 }}>
             Kayak turns every physical asset, inventory unit, cubic foot of space,
@@ -224,7 +224,7 @@ export default function KayakClient() {
       {/* ═══════ THE MAINSTAY TRIO ═══════ */}
       <div className="section alt">
         <div className="wrap">
-          <div className="kicker">The MainSTAY trio</div>
+          <div className="kicker">The StamBH trio</div>
           <h2 className="display text-navy-gradient">
             Kayak commands the physical.
             <br />
