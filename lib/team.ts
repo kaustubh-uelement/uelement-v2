@@ -70,7 +70,7 @@ export const teamMembers: TeamMember[] = [
     linkedIn: 'https://www.linkedin.com',
   },
   {
-    name: 'Bhagyashree Pancholi',
+    name: 'Bhagyashree Pancholy',
     initials: 'BP',
     title: 'CHRO & General Counsel',
     description: 'Leads legal affairs, contracts, and regulatory alignment.',
@@ -88,7 +88,7 @@ export const teamMembers: TeamMember[] = [
   {
     name: 'Dr. Uday Wad',
     initials: 'UW',
-    title: 'Consultant (R&D - Quantum & AI)',
+    title: 'Principal Consultant (R&D - Quantum & AI)',
     description: 'Leads research across quantum technologies and applied AI.',
     photo: '/images/team/uday.jpg',
     linkedIn: 'https://www.linkedin.com',
