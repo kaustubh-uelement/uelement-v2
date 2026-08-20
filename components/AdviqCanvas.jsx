@@ -58,8 +58,9 @@ export default function AdviqCanvas() {
         this.containerHeight = container.clientHeight || 700;
         const cardHeight = 400;
         const cardGap = 50;
-        const cardCount = this.cardLine.children.length;
-        this.cardLineHeight = (cardHeight + cardGap) * cardCount;
+        this.unitHeight = cardHeight + cardGap;
+        this.cardsPerSet = 10;
+        this.setHeight = this.cardsPerSet * this.unitHeight;
       }
 
       setupEventListeners() {
@@ -114,8 +115,7 @@ export default function AdviqCanvas() {
         this.mouseVelocity = deltaY * 60;
         this.lastMouseY = e.clientY;
 
-        this.cardLine.style.transform = `translateY(${this.position}px)`;
-        this.updateCardClipping();
+        this.updateCardPosition();
       }
 
       endDrag() {
@@ -159,13 +159,14 @@ export default function AdviqCanvas() {
       }
 
       updateCardPosition() {
-        const containerHeight = this.containerHeight;
-        const cardLineHeight = this.cardLineHeight;
-
-        if (this.position < -cardLineHeight) {
-          this.position = containerHeight;
-        } else if (this.position > containerHeight) {
-          this.position = -cardLineHeight;
+        const setHeight = this.setHeight;
+        if (setHeight && setHeight > 0) {
+          while (this.position <= -setHeight) {
+            this.position += setHeight;
+          }
+          while (this.position > 0) {
+            this.position -= setHeight;
+          }
         }
 
         this.cardLine.style.transform = `translateY(${this.position}px)`;
@@ -182,7 +183,6 @@ export default function AdviqCanvas() {
 
         this.position += delta;
         this.updateCardPosition();
-        this.updateCardClipping();
       }
 
       generateCode(width, height) {
@@ -416,9 +416,11 @@ export default function AdviqCanvas() {
 
       populateCardLine() {
         this.cardLine.innerHTML = "";
-        const cardsCount = 30;
-        for (let i = 0; i < cardsCount; i++) {
-          const cardWrapper = this.createCardWrapper(i);
+        this.cardsPerSet = 10;
+        const totalSets = 3;
+        const totalCards = this.cardsPerSet * totalSets;
+        for (let i = 0; i < totalCards; i++) {
+          const cardWrapper = this.createCardWrapper(i % this.cardsPerSet);
           this.cardLine.appendChild(cardWrapper);
         }
       }
