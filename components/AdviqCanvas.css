@@ -9,27 +9,38 @@
   overflow: hidden;
   z-index: 0;
   pointer-events: none; /* Let clicks pass through to hero text */
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, transparent 10%, black 30%);
-  mask-image: linear-gradient(to right, transparent 0%, transparent 10%, black 30%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
 }
 
-/* Enable pointer events on the card stream for dragging, 
-   but only on the cards themselves to avoid blocking the whole hero */
+/* Position card stream vertically on the right side of the hero */
 .adviq-container .card-stream {
   position: absolute;
-  width: 100%;
-  height: 180px;
+  top: 0;
+  bottom: 0;
+  left: 68%;
+  transform: translateX(-50%);
+  width: 320px;
+  height: 100%;
   display: flex;
+  justify-content: center;
   align-items: center;
   overflow: visible;
-  pointer-events: none; /* Let container be transparent to clicks */
+  pointer-events: none;
+}
+
+@media (max-width: 960px) {
+  .adviq-container .card-stream {
+    left: 50%;
+    opacity: 0.35;
+  }
 }
 
 .adviq-container .card-line {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 60px;
-  white-space: nowrap;
+  gap: 50px;
   cursor: grab;
   user-select: none;
   will-change: transform;
@@ -42,42 +53,54 @@
 
 .adviq-container .card-wrapper {
   position: relative;
-  width: 400px;
-  height: 250px;
+  width: 250px;
+  height: 400px;
   flex-shrink: 0;
-  pointer-events: none; /* Let the line handle dragging, cards are just visual */
+  pointer-events: none;
+  border-radius: 15px;
 }
 
 .adviq-container .card {
   position: absolute;
   top: 0;
   left: 0;
-  width: 400px;
-  height: 250px;
+  width: 100%;
+  height: 100%;
   border-radius: 15px;
   overflow: hidden;
 }
 
 .adviq-container .card-normal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: transparent;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 0;
   color: white;
   z-index: 2;
-  position: relative;
   overflow: hidden;
-  clip-path: inset(0 0 0 var(--clip-right, 0%));
+  border-radius: 15px;
+  clip-path: inset(var(--clip-bottom, 0%) 0 0 0);
 }
 
 .adviq-container .card-image {
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px !important;
+  height: 250px !important;
+  max-width: none !important;
+  max-height: none !important;
+  min-width: 400px !important;
+  min-height: 250px !important;
+  transform: translate(-50%, -50%) rotate(90deg);
+  transform-origin: center center;
   object-fit: cover;
   border-radius: 15px;
-  transition: all 0.3s ease;
+  display: block;
+  pointer-events: none;
   filter: brightness(1.1) contrast(1.1);
   box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
 }
@@ -87,16 +110,16 @@
 }
 
 .adviq-container .card-ascii {
-  background: transparent;
-  z-index: 1;
   position: absolute;
   top: 0;
   left: 0;
-  width: 400px;
-  height: 250px;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 15, 30, 0.95);
+  z-index: 1;
   border-radius: 15px;
   overflow: hidden;
-  clip-path: inset(0 calc(100% - var(--clip-left, 0%)) 0 0);
+  clip-path: inset(0 0 calc(100% - var(--clip-top, 0%)) 0);
 }
 
 .adviq-container .ascii-content {
@@ -118,7 +141,7 @@
   vertical-align: top;
   box-sizing: border-box;
   -webkit-mask-image: linear-gradient(
-    to right,
+    to bottom,
     rgba(0, 0, 0, 1) 0%,
     rgba(0, 0, 0, 0.8) 30%,
     rgba(0, 0, 0, 0.6) 50%,
@@ -126,7 +149,7 @@
     rgba(0, 0, 0, 0.2) 100%
   );
   mask-image: linear-gradient(
-    to right,
+    to bottom,
     rgba(0, 0, 0, 1) 0%,
     rgba(0, 0, 0, 0.8) 30%,
     rgba(0, 0, 0, 0.6) 50%,
@@ -152,7 +175,7 @@
   width: 100%;
   height: 100%;
   background: linear-gradient(
-    90deg,
+    180deg,
     transparent,
     rgba(0, 255, 255, 0.4),
     transparent
@@ -163,29 +186,27 @@
 }
 
 @keyframes scanEffect {
-  0% { transform: translateX(-100%); opacity: 0; }
+  0% { transform: translateY(100%); opacity: 0; }
   50% { opacity: 1; }
-  100% { transform: translateX(100%); opacity: 0; }
+  100% { transform: translateY(-100%); opacity: 0; }
 }
 
 .adviq-container .adviq-particle-canvas {
   position: absolute;
-  top: 50%;
+  top: 0;
   left: 0;
-  transform: translateY(-50%);
   width: 100%;
-  height: 250px;
+  height: 100%;
   z-index: 0;
   pointer-events: none;
 }
 
 .adviq-container .adviq-scanner-canvas {
   position: absolute;
-  top: 50%;
-  left: -3px;
-  transform: translateY(-50%);
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 300px;
+  height: 100%;
   z-index: 15;
   pointer-events: none;
   mix-blend-mode: screen; /* Prevent dark canvas background on hero */

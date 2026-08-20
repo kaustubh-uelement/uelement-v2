@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import * as THREE from 'three';
 import './AdviqCanvas.css';
 
 export default function AdviqCanvas() {
@@ -11,7 +10,7 @@ export default function AdviqCanvas() {
     if (!containerRef.current) return;
     const container = containerRef.current;
     
-    let cardStream, particleSystem, particleScanner;
+    let cardStream, particleScanner;
 
     const codeChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789(){}[]<>;:,._-+=!@#$%^&*|\\/\"'`~?";
 
@@ -28,13 +27,13 @@ export default function AdviqCanvas() {
         this.isDragging = false;
 
         this.lastTime = 0;
-        this.lastMouseX = 0;
+        this.lastMouseY = 0;
         this.mouseVelocity = 0;
         this.friction = 0.95;
         this.minVelocity = 30;
 
-        this.containerWidth = 0;
-        this.cardLineWidth = 0;
+        this.containerHeight = 0;
+        this.cardLineHeight = 0;
         
         // bind methods for cleanup
         this.handleMouseMove = (e) => this.onDrag(e);
@@ -56,11 +55,11 @@ export default function AdviqCanvas() {
       }
 
       calculateDimensions() {
-        this.containerWidth = container.clientWidth;
-        const cardWidth = 400;
-        const cardGap = 60;
+        this.containerHeight = container.clientHeight || 700;
+        const cardHeight = 400;
+        const cardGap = 50;
         const cardCount = this.cardLine.children.length;
-        this.cardLineWidth = (cardWidth + cardGap) * cardCount;
+        this.cardLineHeight = (cardHeight + cardGap) * cardCount;
       }
 
       setupEventListeners() {
@@ -90,13 +89,13 @@ export default function AdviqCanvas() {
 
         this.isDragging = true;
         this.isAnimating = false;
-        this.lastMouseX = e.clientX;
+        this.lastMouseY = e.clientY;
         this.mouseVelocity = 0;
 
         const transform = window.getComputedStyle(this.cardLine).transform;
         if (transform !== "none") {
           const matrix = new DOMMatrix(transform);
-          this.position = matrix.m41;
+          this.position = matrix.m42;
         }
 
         this.cardLine.style.animation = "none";
@@ -110,12 +109,12 @@ export default function AdviqCanvas() {
         if (!this.isDragging) return;
         e.preventDefault();
 
-        const deltaX = e.clientX - this.lastMouseX;
-        this.position += deltaX;
-        this.mouseVelocity = deltaX * 60;
-        this.lastMouseX = e.clientX;
+        const deltaY = e.clientY - this.lastMouseY;
+        this.position += deltaY;
+        this.mouseVelocity = deltaY * 60;
+        this.lastMouseY = e.clientY;
 
-        this.cardLine.style.transform = `translateX(${this.position}px)`;
+        this.cardLine.style.transform = `translateY(${this.position}px)`;
         this.updateCardClipping();
       }
 
@@ -160,16 +159,16 @@ export default function AdviqCanvas() {
       }
 
       updateCardPosition() {
-        const containerWidth = this.containerWidth;
-        const cardLineWidth = this.cardLineWidth;
+        const containerHeight = this.containerHeight;
+        const cardLineHeight = this.cardLineHeight;
 
-        if (this.position < -cardLineWidth) {
-          this.position = containerWidth;
-        } else if (this.position > containerWidth) {
-          this.position = -cardLineWidth;
+        if (this.position < -cardLineHeight) {
+          this.position = containerHeight;
+        } else if (this.position > containerHeight) {
+          this.position = -cardLineHeight;
         }
 
-        this.cardLine.style.transform = `translateX(${this.position}px)`;
+        this.cardLine.style.transform = `translateY(${this.position}px)`;
         this.updateCardClipping();
       }
 
@@ -178,8 +177,6 @@ export default function AdviqCanvas() {
       }
 
       onWheel(e) {
-        // e.preventDefault(); // Don't prevent default on scroll for the whole hero
-
         const scrollSpeed = 20;
         const delta = e.deltaY > 0 ? scrollSpeed : -scrollSpeed;
 
@@ -221,8 +218,8 @@ export default function AdviqCanvas() {
 
         const scannerBlock = [
           "const scanner = {",
-          "  x: Math.floor(window.innerWidth / 2),",
-          "  width: SCAN_WIDTH,",
+          "  y: Math.floor(window.innerHeight / 2),",
+          "  height: SCAN_WIDTH,",
           "  glow: 3.5,",
           "};",
           "",
@@ -288,7 +285,7 @@ export default function AdviqCanvas() {
       calculateCodeDimensions(cardWidth, cardHeight) {
         const fontSize = 11;
         const lineHeight = 13;
-        const charWidth = 6;
+        const charWidth = 6.2;
         const width = Math.floor(cardWidth / charWidth);
         const height = Math.floor(cardHeight / lineHeight);
         return { width, height, fontSize, lineHeight };
@@ -312,7 +309,7 @@ export default function AdviqCanvas() {
         const cardImage = document.createElement("img");
         cardImage.className = "card-image";
         cardImage.src = cardImages[index % cardImages.length];
-        cardImage.alt = "Credit Card";
+        cardImage.alt = "AdviQ Card";
 
         cardImage.onerror = () => {
           const canvas = document.createElement("canvas");
@@ -338,7 +335,7 @@ export default function AdviqCanvas() {
         const asciiContent = document.createElement("div");
         asciiContent.className = "ascii-content";
 
-        const { width, height, fontSize, lineHeight } = this.calculateCodeDimensions(400, 250);
+        const { width, height, fontSize, lineHeight } = this.calculateCodeDimensions(250, 400);
         asciiContent.style.fontSize = fontSize + "px";
         asciiContent.style.lineHeight = lineHeight + "px";
         asciiContent.textContent = this.generateCode(width, height);
@@ -351,33 +348,36 @@ export default function AdviqCanvas() {
       }
 
       updateCardClipping() {
-        const scannerX = container.clientWidth * 0.65;
-        const scannerWidth = 8;
-        const scannerLeft = scannerX - scannerWidth / 2;
-        const scannerRight = scannerX + scannerWidth / 2;
+        const containerRect = container.getBoundingClientRect();
+        const scannerY = containerRect.top + containerRect.height * 0.5;
+        const scannerHeight = 8;
+        const scannerTop = scannerY - scannerHeight / 2;
+        const scannerBottom = scannerY + scannerHeight / 2;
         let anyScanningActive = false;
 
         container.querySelectorAll(".card-wrapper").forEach((wrapper) => {
           const rect = wrapper.getBoundingClientRect();
-          const cardLeft = rect.left;
-          const cardRight = rect.right;
-          const cardWidth = rect.width;
+          const cardTop = rect.top;
+          const cardBottom = rect.bottom;
+          const cardHeight = rect.height || 400;
 
           const normalCard = wrapper.querySelector(".card-normal");
           const asciiCard = wrapper.querySelector(".card-ascii");
 
-          if (cardLeft < scannerRight && cardRight > scannerLeft) {
+          if (!normalCard || !asciiCard) return;
+
+          if (cardTop < scannerBottom && cardBottom > scannerTop) {
             anyScanningActive = true;
-            const scannerIntersectLeft = Math.max(scannerLeft - cardLeft, 0);
-            const scannerIntersectRight = Math.min(scannerRight - cardLeft, cardWidth);
+            const scannerIntersectTop = Math.max(scannerTop - cardTop, 0);
+            const scannerIntersectBottom = Math.min(scannerBottom - cardTop, cardHeight);
 
-            const normalClipRight = (scannerIntersectLeft / cardWidth) * 100;
-            const asciiClipLeft = (scannerIntersectRight / cardWidth) * 100;
+            const normalClipBottom = (scannerIntersectTop / cardHeight) * 100;
+            const asciiClipTop = (scannerIntersectBottom / cardHeight) * 100;
 
-            normalCard.style.setProperty("--clip-right", `${normalClipRight}%`);
-            asciiCard.style.setProperty("--clip-left", `${asciiClipLeft}%`);
+            normalCard.style.setProperty("--clip-bottom", `${normalClipBottom}%`);
+            asciiCard.style.setProperty("--clip-top", `${asciiClipTop}%`);
 
-            if (!wrapper.hasAttribute("data-scanned") && scannerIntersectLeft > 0) {
+            if (!wrapper.hasAttribute("data-scanned") && scannerIntersectTop > 0) {
               wrapper.setAttribute("data-scanned", "true");
               const scanEffect = document.createElement("div");
               scanEffect.className = "scan-effect";
@@ -389,12 +389,12 @@ export default function AdviqCanvas() {
               }, 600);
             }
           } else {
-            if (cardRight < scannerLeft) {
-              normalCard.style.setProperty("--clip-right", "100%");
-              asciiCard.style.setProperty("--clip-left", "100%");
-            } else if (cardLeft > scannerRight) {
-              normalCard.style.setProperty("--clip-right", "0%");
-              asciiCard.style.setProperty("--clip-left", "0%");
+            if (cardBottom < scannerTop) {
+              normalCard.style.setProperty("--clip-bottom", "100%");
+              asciiCard.style.setProperty("--clip-top", "100%");
+            } else if (cardTop > scannerBottom) {
+              normalCard.style.setProperty("--clip-bottom", "0%");
+              asciiCard.style.setProperty("--clip-top", "0%");
             }
             wrapper.removeAttribute("data-scanned");
           }
@@ -408,7 +408,7 @@ export default function AdviqCanvas() {
       updateAsciiContent() {
         container.querySelectorAll(".ascii-content").forEach((content) => {
           if (Math.random() < 0.15) {
-            const { width, height } = this.calculateCodeDimensions(400, 250);
+            const { width, height } = this.calculateCodeDimensions(250, 400);
             content.textContent = this.generateCode(width, height);
           }
         });
@@ -447,194 +447,6 @@ export default function AdviqCanvas() {
       }
     }
 
-    class ParticleSystem {
-      constructor() {
-        this.scene = null;
-        this.camera = null;
-        this.renderer = null;
-        this.particles = null;
-        this.particleCount = 400;
-        this.canvas = container.querySelector(".adviq-particle-canvas");
-        this.handleResize = () => this.onWindowResize();
-
-        this.init();
-      }
-
-      init() {
-        this.scene = new THREE.Scene();
-
-        this.camera = new THREE.OrthographicCamera(
-          -container.clientWidth / 2,
-          container.clientWidth / 2,
-          125,
-          -125,
-          1,
-          1000
-        );
-        this.camera.position.z = 100;
-
-        this.renderer = new THREE.WebGLRenderer({
-          canvas: this.canvas,
-          alpha: true,
-          antialias: true,
-        });
-        this.renderer.setSize(container.clientWidth, 250);
-        this.renderer.setClearColor(0x000000, 0);
-
-        this.createParticles();
-        this.animate();
-
-        window.addEventListener("resize", this.handleResize);
-      }
-
-      createParticles() {
-        const geometry = new THREE.BufferGeometry();
-        const positions = new Float32Array(this.particleCount * 3);
-        const colors = new Float32Array(this.particleCount * 3);
-        const sizes = new Float32Array(this.particleCount);
-        const velocities = new Float32Array(this.particleCount);
-
-        const canvas = document.createElement("canvas");
-        canvas.width = 100;
-        canvas.height = 100;
-        const ctx = canvas.getContext("2d");
-
-        const half = canvas.width / 2;
-        const hue = 217;
-
-        const gradient = ctx.createRadialGradient(half, half, 0, half, half, half);
-        gradient.addColorStop(0.025, "#fff");
-        gradient.addColorStop(0.1, `hsl(${hue}, 61%, 33%)`);
-        gradient.addColorStop(0.25, `hsl(${hue}, 64%, 6%)`);
-        gradient.addColorStop(1, "transparent");
-
-        ctx.fillStyle = gradient;
-        ctx.beginPath();
-        ctx.arc(half, half, half, 0, Math.PI * 2);
-        ctx.fill();
-
-        const texture = new THREE.CanvasTexture(canvas);
-
-        for (let i = 0; i < this.particleCount; i++) {
-          positions[i * 3] = (Math.random() - 0.5) * container.clientWidth * 2;
-          positions[i * 3 + 1] = (Math.random() - 0.5) * 250;
-          positions[i * 3 + 2] = 0;
-
-          colors[i * 3] = 1;
-          colors[i * 3 + 1] = 1;
-          colors[i * 3 + 2] = 1;
-
-          const orbitRadius = Math.random() * 200 + 100;
-          sizes[i] = (Math.random() * (orbitRadius - 60) + 60) / 8;
-
-          velocities[i] = Math.random() * 60 + 30;
-        }
-
-        geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-        geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
-        geometry.setAttribute("size", new THREE.BufferAttribute(sizes, 1));
-
-        this.velocities = velocities;
-
-        const alphas = new Float32Array(this.particleCount);
-        for (let i = 0; i < this.particleCount; i++) {
-          alphas[i] = (Math.random() * 8 + 2) / 10;
-        }
-        geometry.setAttribute("alpha", new THREE.BufferAttribute(alphas, 1));
-        this.alphas = alphas;
-
-        const material = new THREE.ShaderMaterial({
-          uniforms: {
-            pointTexture: { value: texture },
-            size: { value: 15.0 },
-          },
-          vertexShader: `
-            attribute float alpha;
-            varying float vAlpha;
-            varying vec3 vColor;
-            uniform float size;
-            
-            void main() {
-              vAlpha = alpha;
-              vColor = color;
-              vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-              gl_PointSize = size;
-              gl_Position = projectionMatrix * mvPosition;
-            }
-          `,
-          fragmentShader: `
-            uniform sampler2D pointTexture;
-            varying float vAlpha;
-            varying vec3 vColor;
-            
-            void main() {
-              gl_FragColor = vec4(vColor, vAlpha) * texture2D(pointTexture, gl_PointCoord);
-            }
-          `,
-          transparent: true,
-          blending: THREE.AdditiveBlending,
-          depthWrite: false,
-          vertexColors: true,
-        });
-
-        this.particles = new THREE.Points(geometry, material);
-        this.scene.add(this.particles);
-      }
-
-      animate() {
-        this.animationId = requestAnimationFrame(() => this.animate());
-
-        if (this.particles) {
-          const positions = this.particles.geometry.attributes.position.array;
-          const alphas = this.particles.geometry.attributes.alpha.array;
-          const time = Date.now() * 0.001;
-
-          for (let i = 0; i < this.particleCount; i++) {
-            positions[i * 3] += this.velocities[i] * 0.016;
-
-            if (positions[i * 3] > container.clientWidth / 2 + 100) {
-              positions[i * 3] = -container.clientWidth / 2 - 100;
-              positions[i * 3 + 1] = (Math.random() - 0.5) * 250;
-            }
-
-            positions[i * 3 + 1] += Math.sin(time + i * 0.1) * 0.5;
-
-            const twinkle = Math.floor(Math.random() * 10);
-            if (twinkle === 1 && alphas[i] > 0) {
-              alphas[i] -= 0.05;
-            } else if (twinkle === 2 && alphas[i] < 1) {
-              alphas[i] += 0.05;
-            }
-
-            alphas[i] = Math.max(0, Math.min(1, alphas[i]));
-          }
-
-          this.particles.geometry.attributes.position.needsUpdate = true;
-          this.particles.geometry.attributes.alpha.needsUpdate = true;
-        }
-
-        this.renderer.render(this.scene, this.camera);
-      }
-
-      onWindowResize() {
-        this.camera.left = -container.clientWidth / 2;
-        this.camera.right = container.clientWidth / 2;
-        this.camera.updateProjectionMatrix();
-        this.renderer.setSize(container.clientWidth, 250);
-      }
-
-      destroy() {
-        cancelAnimationFrame(this.animationId);
-        window.removeEventListener("resize", this.handleResize);
-        if (this.renderer) this.renderer.dispose();
-        if (this.particles) {
-          this.scene.remove(this.particles);
-          this.particles.geometry.dispose();
-          this.particles.material.dispose();
-        }
-      }
-    }
-
     class ParticleScanner {
       constructor() {
         this.canvas = container.querySelector(".adviq-scanner-canvas");
@@ -642,13 +454,12 @@ export default function AdviqCanvas() {
         this.animationId = null;
 
         this.w = container.clientWidth;
-        this.h = 300;
+        this.h = container.clientHeight || 700;
         this.particles = [];
         this.count = 0;
         this.maxParticles = 800;
         this.intensity = 0.8;
-        this.lightBarX = this.w * 0.65;
-        this.lightBarWidth = 3;
+        this.lightBarHeight = 3;
         this.fadeZone = 60;
 
         this.scanTargetIntensity = 1.8;
@@ -676,7 +487,31 @@ export default function AdviqCanvas() {
         window.addEventListener("resize", this.handleResize);
       }
 
+      getStreamBounds() {
+        const stream = container.querySelector(".card-stream");
+        if (stream) {
+          const streamRect = stream.getBoundingClientRect();
+          const containerRect = container.getBoundingClientRect();
+          const streamLeft = streamRect.left - containerRect.left;
+          const streamWidth = streamRect.width || 320;
+          return {
+            startX: Math.max(0, streamLeft - 40),
+            endX: Math.min(this.w, streamLeft + streamWidth + 40),
+            width: streamWidth + 80,
+            centerY: this.h * 0.5,
+          };
+        }
+        return {
+          startX: this.w * 0.5 - 180,
+          endX: this.w * 0.5 + 180,
+          width: 360,
+          centerY: this.h * 0.5,
+        };
+      }
+
       setupCanvas() {
+        this.w = container.clientWidth;
+        this.h = container.clientHeight || 700;
         this.canvas.width = this.w;
         this.canvas.height = this.h;
         this.canvas.style.width = this.w + "px";
@@ -685,8 +520,6 @@ export default function AdviqCanvas() {
       }
 
       onResize() {
-        this.w = container.clientWidth;
-        this.lightBarX = this.w * 0.65;
         this.setupCanvas();
       }
 
@@ -714,22 +547,23 @@ export default function AdviqCanvas() {
       }
 
       createParticle() {
+        const bounds = this.getStreamBounds();
         const intensityRatio = this.intensity / this.baseIntensity;
         const speedMultiplier = 1 + (intensityRatio - 1) * 1.2;
         const sizeMultiplier = 1 + (intensityRatio - 1) * 0.7;
 
         return {
-          x: this.lightBarX + this.randomFloat(-this.lightBarWidth / 2, this.lightBarWidth / 2),
-          y: this.randomFloat(0, this.h),
-          vx: this.randomFloat(0.2, 1.0) * speedMultiplier,
-          vy: this.randomFloat(-0.15, 0.15) * speedMultiplier,
+          x: this.randomFloat(bounds.startX, bounds.endX),
+          y: bounds.centerY + this.randomFloat(-this.lightBarHeight / 2, this.lightBarHeight / 2),
+          vx: this.randomFloat(-0.15, 0.15) * speedMultiplier,
+          vy: -this.randomFloat(0.2, 1.0) * speedMultiplier,
           radius: this.randomFloat(0.4, 1) * sizeMultiplier,
           alpha: this.randomFloat(0.6, 1),
           decay: this.randomFloat(0.005, 0.025) * (2 - intensityRatio * 0.5),
           originalAlpha: 0,
           life: 1.0,
           time: 0,
-          startX: 0,
+          startY: bounds.centerY,
           twinkleSpeed: this.randomFloat(0.02, 0.08) * speedMultiplier,
           twinkleAmount: this.randomFloat(0.1, 0.25),
         };
@@ -739,13 +573,13 @@ export default function AdviqCanvas() {
         for (let i = 0; i < this.maxParticles; i++) {
           const particle = this.createParticle();
           particle.originalAlpha = particle.alpha;
-          particle.startX = particle.x;
           this.count++;
           this.particles[this.count] = particle;
         }
       }
 
       updateParticle(particle) {
+        const bounds = this.getStreamBounds();
         particle.x += particle.vx;
         particle.y += particle.vy;
         particle.time++;
@@ -753,30 +587,32 @@ export default function AdviqCanvas() {
         particle.alpha = particle.originalAlpha * particle.life + Math.sin(particle.time * particle.twinkleSpeed) * particle.twinkleAmount;
         particle.life -= particle.decay;
 
-        if (particle.x > this.w + 10 || particle.life <= 0) {
+        if (particle.y < 0 || particle.life <= 0 || particle.x < bounds.startX - 30 || particle.x > bounds.endX + 30) {
           this.resetParticle(particle);
         }
       }
 
       resetParticle(particle) {
-        particle.x = this.lightBarX + this.randomFloat(-this.lightBarWidth / 2, this.lightBarWidth / 2);
-        particle.y = this.randomFloat(0, this.h);
-        particle.vx = this.randomFloat(0.2, 1.0);
-        particle.vy = this.randomFloat(-0.15, 0.15);
+        const bounds = this.getStreamBounds();
+        particle.x = this.randomFloat(bounds.startX, bounds.endX);
+        particle.y = bounds.centerY + this.randomFloat(-this.lightBarHeight / 2, this.lightBarHeight / 2);
+        particle.vx = this.randomFloat(-0.15, 0.15);
+        particle.vy = -this.randomFloat(0.2, 1.0);
         particle.alpha = this.randomFloat(0.6, 1);
         particle.originalAlpha = particle.alpha;
         particle.life = 1.0;
         particle.time = 0;
-        particle.startX = particle.x;
+        particle.startY = bounds.centerY;
       }
 
       drawParticle(particle) {
         if (particle.life <= 0) return;
+        const bounds = this.getStreamBounds();
         let fadeAlpha = 1;
-        if (particle.y < this.fadeZone) {
-          fadeAlpha = particle.y / this.fadeZone;
-        } else if (particle.y > this.h - this.fadeZone) {
-          fadeAlpha = (this.h - particle.y) / this.fadeZone;
+        if (particle.x < bounds.startX + this.fadeZone) {
+          fadeAlpha = (particle.x - bounds.startX) / this.fadeZone;
+        } else if (particle.x > bounds.endX - this.fadeZone) {
+          fadeAlpha = (bounds.endX - particle.x) / this.fadeZone;
         }
         fadeAlpha = Math.max(0, Math.min(1, fadeAlpha));
 
@@ -791,11 +627,12 @@ export default function AdviqCanvas() {
       }
 
       drawLightBar() {
-        const verticalGradient = this.ctx.createLinearGradient(0, 0, 0, this.h);
-        verticalGradient.addColorStop(0, "rgba(255, 255, 255, 0)");
-        verticalGradient.addColorStop(this.fadeZone / this.h, "rgba(255, 255, 255, 1)");
-        verticalGradient.addColorStop(1 - this.fadeZone / this.h, "rgba(255, 255, 255, 1)");
-        verticalGradient.addColorStop(1, "rgba(255, 255, 255, 0)");
+        const bounds = this.getStreamBounds();
+        const startX = bounds.startX;
+        const endX = bounds.endX;
+        const barWidth = bounds.width;
+        const lightBarY = bounds.centerY;
+        const lineHeight = this.lightBarHeight;
 
         this.ctx.globalCompositeOperation = "lighter";
 
@@ -804,12 +641,12 @@ export default function AdviqCanvas() {
         this.currentGlowIntensity += (targetGlowIntensity - this.currentGlowIntensity) * this.transitionSpeed;
 
         const glowIntensity = this.currentGlowIntensity;
-        const lineWidth = this.lightBarWidth;
         const glow1Alpha = this.scanningActive ? 1.0 : 0.8;
         const glow2Alpha = this.scanningActive ? 0.8 : 0.6;
         const glow3Alpha = this.scanningActive ? 0.6 : 0.4;
 
-        const coreGradient = this.ctx.createLinearGradient(this.lightBarX - lineWidth / 2, 0, this.lightBarX + lineWidth / 2, 0);
+        // Core line gradient (vertical)
+        const coreGradient = this.ctx.createLinearGradient(0, lightBarY - lineHeight / 2, 0, lightBarY + lineHeight / 2);
         coreGradient.addColorStop(0, "rgba(255, 255, 255, 0)");
         coreGradient.addColorStop(0.3, `rgba(255, 255, 255, ${0.9 * glowIntensity})`);
         coreGradient.addColorStop(0.5, `rgba(255, 255, 255, ${1 * glowIntensity})`);
@@ -818,13 +655,12 @@ export default function AdviqCanvas() {
 
         this.ctx.globalAlpha = 1;
         this.ctx.fillStyle = coreGradient;
-
-        const radius = 15;
         this.ctx.beginPath();
-        this.ctx.roundRect(this.lightBarX - lineWidth / 2, 0, lineWidth, this.h, radius);
+        this.ctx.roundRect(startX, lightBarY - lineHeight / 2, barWidth, lineHeight, 15);
         this.ctx.fill();
 
-        const glow1Gradient = this.ctx.createLinearGradient(this.lightBarX - lineWidth * 2, 0, this.lightBarX + lineWidth * 2, 0);
+        // Glow 1
+        const glow1Gradient = this.ctx.createLinearGradient(0, lightBarY - lineHeight * 2, 0, lightBarY + lineHeight * 2);
         glow1Gradient.addColorStop(0, "rgba(200, 138, 62, 0)");
         glow1Gradient.addColorStop(0.5, `rgba(235, 185, 120, ${0.8 * glowIntensity})`);
         glow1Gradient.addColorStop(1, "rgba(200, 138, 62, 0)");
@@ -832,10 +668,11 @@ export default function AdviqCanvas() {
         this.ctx.globalAlpha = glow1Alpha;
         this.ctx.fillStyle = glow1Gradient;
         this.ctx.beginPath();
-        this.ctx.roundRect(this.lightBarX - lineWidth * 2, 0, lineWidth * 4, this.h, 25);
+        this.ctx.roundRect(startX, lightBarY - lineHeight * 2, barWidth, lineHeight * 4, 25);
         this.ctx.fill();
 
-        const glow2Gradient = this.ctx.createLinearGradient(this.lightBarX - lineWidth * 4, 0, this.lightBarX + lineWidth * 4, 0);
+        // Glow 2
+        const glow2Gradient = this.ctx.createLinearGradient(0, lightBarY - lineHeight * 4, 0, lightBarY + lineHeight * 4);
         glow2Gradient.addColorStop(0, "rgba(200, 138, 62, 0)");
         glow2Gradient.addColorStop(0.5, `rgba(200, 138, 62, ${0.4 * glowIntensity})`);
         glow2Gradient.addColorStop(1, "rgba(200, 138, 62, 0)");
@@ -843,25 +680,32 @@ export default function AdviqCanvas() {
         this.ctx.globalAlpha = glow2Alpha;
         this.ctx.fillStyle = glow2Gradient;
         this.ctx.beginPath();
-        this.ctx.roundRect(this.lightBarX - lineWidth * 4, 0, lineWidth * 8, this.h, 35);
+        this.ctx.roundRect(startX, lightBarY - lineHeight * 4, barWidth, lineHeight * 8, 35);
         this.ctx.fill();
 
         if (this.scanningActive) {
-          const glow3Gradient = this.ctx.createLinearGradient(this.lightBarX - lineWidth * 8, 0, this.lightBarX + lineWidth * 8, 0);
+          const glow3Gradient = this.ctx.createLinearGradient(0, lightBarY - lineHeight * 8, 0, lightBarY + lineHeight * 8);
           glow3Gradient.addColorStop(0, "rgba(200, 138, 62, 0)");
           glow3Gradient.addColorStop(0.5, "rgba(200, 138, 62, 0.2)");
           glow3Gradient.addColorStop(1, "rgba(200, 138, 62, 0)");
           this.ctx.globalAlpha = glow3Alpha;
           this.ctx.fillStyle = glow3Gradient;
           this.ctx.beginPath();
-          this.ctx.roundRect(this.lightBarX - lineWidth * 8, 0, lineWidth * 16, this.h, 45);
+          this.ctx.roundRect(startX, lightBarY - lineHeight * 8, barWidth, lineHeight * 16, 45);
           this.ctx.fill();
         }
 
+        // Horizontal fade at left & right edges
+        const horizontalGradient = this.ctx.createLinearGradient(startX, 0, endX, 0);
+        horizontalGradient.addColorStop(0, "rgba(255, 255, 255, 0)");
+        horizontalGradient.addColorStop(Math.min(0.2, this.fadeZone / barWidth), "rgba(255, 255, 255, 1)");
+        horizontalGradient.addColorStop(Math.max(0.8, 1 - this.fadeZone / barWidth), "rgba(255, 255, 255, 1)");
+        horizontalGradient.addColorStop(1, "rgba(255, 255, 255, 0)");
+
         this.ctx.globalCompositeOperation = "destination-in";
         this.ctx.globalAlpha = 1;
-        this.ctx.fillStyle = verticalGradient;
-        this.ctx.fillRect(0, 0, this.w, this.h);
+        this.ctx.fillStyle = horizontalGradient;
+        this.ctx.fillRect(startX - 10, 0, barWidth + 20, this.h);
       }
 
       render() {
@@ -896,7 +740,6 @@ export default function AdviqCanvas() {
         if (Math.random() < currentIntensity && this.count < currentMaxParticles) {
           const particle = this.createParticle();
           particle.originalAlpha = particle.alpha;
-          particle.startX = particle.x;
           this.count++;
           this.particles[this.count] = particle;
         }
@@ -906,7 +749,6 @@ export default function AdviqCanvas() {
         if (intensityRatio > 1.1 && Math.random() < (intensityRatio - 1.0) * 1.2) {
           const particle = this.createParticle();
           particle.originalAlpha = particle.alpha;
-          particle.startX = particle.x;
           this.count++;
           this.particles[this.count] = particle;
         }
@@ -914,7 +756,6 @@ export default function AdviqCanvas() {
         if (intensityRatio > 1.3 && Math.random() < (intensityRatio - 1.3) * 1.4) {
           const particle = this.createParticle();
           particle.originalAlpha = particle.alpha;
-          particle.startX = particle.x;
           this.count++;
           this.particles[this.count] = particle;
         }
@@ -922,7 +763,6 @@ export default function AdviqCanvas() {
         if (intensityRatio > 1.5 && Math.random() < (intensityRatio - 1.5) * 1.8) {
           const particle = this.createParticle();
           particle.originalAlpha = particle.alpha;
-          particle.startX = particle.x;
           this.count++;
           this.particles[this.count] = particle;
         }
@@ -930,7 +770,6 @@ export default function AdviqCanvas() {
         if (intensityRatio > 2.0 && Math.random() < (intensityRatio - 2.0) * 2.0) {
           const particle = this.createParticle();
           particle.originalAlpha = particle.alpha;
-          particle.startX = particle.x;
           this.count++;
           this.particles[this.count] = particle;
         }
@@ -962,12 +801,10 @@ export default function AdviqCanvas() {
     }
 
     cardStream = new CardStreamController();
-    // particleSystem = new ParticleSystem();
     particleScanner = new ParticleScanner();
 
     return () => {
       if (cardStream) cardStream.destroy();
-      // if (particleSystem) particleSystem.destroy();
       if (particleScanner) particleScanner.destroy();
     };
   }, []);

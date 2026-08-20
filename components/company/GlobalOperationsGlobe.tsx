@@ -425,7 +425,7 @@ export default function GlobalOperationsGlobe() {
     zoomControl.homeButton.set('visible', true);
 
     // Auto-rotate globe until user interaction
-    let rotationAnimation: am5.Animation<any> | null = chart.animate({
+    let rotationAnimation: ReturnType<typeof chart.animate> | null = chart.animate({
       key: 'rotationX',
       from: -75,
       to: -75 + 360,
