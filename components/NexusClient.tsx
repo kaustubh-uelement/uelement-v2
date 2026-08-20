@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import WeaveCanvas from './WeaveCanvas';
+import SpectralCanvas from './SpectralCanvas';
 import PillarCard from './PillarCard';
 
 export default function NexusClient() {
@@ -12,9 +12,9 @@ export default function NexusClient() {
         className="hero"
         style={{ position: 'relative', overflow: 'hidden' }}
       >
-        <WeaveCanvas />
-        <div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
-          <div className="crumb">
+        <SpectralCanvas />
+        <div className="wrap" style={{ position: 'relative', zIndex: 1, pointerEvents: 'none' }}>
+          <div className="crumb" style={{ pointerEvents: 'auto' }}>
             <Link href="/">Home</Link> / Nexus
           </div>
           <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>
@@ -31,7 +31,7 @@ export default function NexusClient() {
             enterprise touches — web, mobile, search, and AI-native experiences
             — governed by a single workflow and analytics fabric.
           </p>
-          <div style={{ marginTop: 28, display: 'flex', gap: '16px' }}>
+          <div style={{ marginTop: 28, display: 'flex', gap: '16px', pointerEvents: 'auto' }}>
             <Link href="/contact" className="btn btn-gold">
               Book a Demo
             </Link>
