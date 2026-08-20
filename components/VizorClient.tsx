@@ -28,7 +28,7 @@ export default function VizorClient() {
           </p>
           <div style={{ marginTop: 28, display: 'flex', gap: '16px' }}>
             <Link href="/contact" className="btn btn-gold">
-              Book a scoping workshop
+              Book a Demo
             </Link>
           </div>
         </div>

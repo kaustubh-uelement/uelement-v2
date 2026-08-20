@@ -38,7 +38,7 @@ export default function StambhClient() {
             className="btn btn-gold"
             style={{ marginTop: 28, display: 'inline-block' }}
           >
-            Book a scoping workshop
+            Book a Demo
           </Link>
         </div>
       </div>
@@ -325,7 +325,7 @@ export default function StambhClient() {
             className="btn btn-gold"
             style={{ marginTop: 28 }}
           >
-            Book a scoping workshop
+            Book a Demo
           </Link>
         </div>
       </div>

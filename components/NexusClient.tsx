@@ -33,7 +33,7 @@ export default function NexusClient() {
           </p>
           <div style={{ marginTop: 28, display: 'flex', gap: '16px' }}>
             <Link href="/contact" className="btn btn-gold">
-              Book a scoping workshop
+              Book a Demo
             </Link>
           </div>
         </div>
@@ -44,8 +44,8 @@ export default function NexusClient() {
         <div className="wrap">
           <div className="kicker">The sprawl problem</div>
           <h2 className="display text-navy-gradient">
-            Ten platforms are telling ten <span className="au">versions</span>{' '}
-            of your story.
+            Ten platforms are telling <br />
+            ten <span className="au"> versions</span> of your story.
           </h2>
           <div style={{ marginTop: 20, maxWidth: '800px' }}>
             <p className="lede" style={{ marginBottom: 16 }}>
@@ -174,7 +174,6 @@ export default function NexusClient() {
           </div>
         </div>
       </div>
-
 
       {/* ═══════ EXTENDED PLATFORM ═══════ */}
       <div className="section navy">
