@@ -36,6 +36,37 @@
   }
 }
 
+/* Dedicated drag zone for unparsed cards (entire region before/below the golden line) */
+.adviq-container .card-drag-zone {
+  position: absolute;
+  top: 50%;
+  bottom: 0;
+  left: -20px;
+  right: -20px;
+  height: 50%;
+  pointer-events: auto;
+  cursor: grab;
+  z-index: 25;
+  touch-action: none;
+}
+
+.adviq-container .card-drag-zone:active,
+.adviq-container .card-drag-zone.dragging {
+  cursor: grabbing;
+}
+
+/* Allow mouse events on hero background to reach the card stream */
+.hero .wrap {
+  pointer-events: none;
+}
+
+.hero .wrap a,
+.hero .wrap button,
+.hero .wrap .btn,
+.hero .wrap .crumb {
+  pointer-events: auto;
+}
+
 .adviq-container .card-line {
   display: flex;
   flex-direction: column;
@@ -44,7 +75,7 @@
   cursor: grab;
   user-select: none;
   will-change: transform;
-  pointer-events: auto; /* Enable dragging on the line */
+  pointer-events: none; /* Let drag-zone handle interaction before the golden line */
 }
 
 .adviq-container .card-line:active, .adviq-container .card-line.dragging {

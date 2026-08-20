@@ -18,6 +18,7 @@ export default function AdviqCanvas() {
       constructor() {
         this.container = container.querySelector(".card-stream");
         this.cardLine = container.querySelector(".card-line");
+        this.dragZone = container.querySelector(".card-drag-zone");
         this.speedIndicator = container.querySelector(".speedValue");
 
         this.position = 0;
@@ -64,10 +65,18 @@ export default function AdviqCanvas() {
       }
 
       setupEventListeners() {
+        const attachTarget = this.dragZone || this.cardLine;
+        attachTarget.addEventListener("mousedown", (e) => this.startDrag(e));
         this.cardLine.addEventListener("mousedown", (e) => this.startDrag(e));
+
         document.addEventListener("mousemove", this.handleMouseMove);
         document.addEventListener("mouseup", this.handleMouseUp);
 
+        attachTarget.addEventListener(
+          "touchstart",
+          (e) => this.startDrag(e.touches[0]),
+          { passive: false }
+        );
         this.cardLine.addEventListener(
           "touchstart",
           (e) => this.startDrag(e.touches[0]),
@@ -78,7 +87,10 @@ export default function AdviqCanvas() {
         });
         document.addEventListener("touchend", this.handleTouchEnd);
 
+        attachTarget.addEventListener("wheel", (e) => this.onWheel(e));
         this.cardLine.addEventListener("wheel", (e) => this.onWheel(e));
+        attachTarget.addEventListener("selectstart", (e) => e.preventDefault());
+        attachTarget.addEventListener("dragstart", (e) => e.preventDefault());
         this.cardLine.addEventListener("selectstart", (e) => e.preventDefault());
         this.cardLine.addEventListener("dragstart", (e) => e.preventDefault());
 
@@ -101,6 +113,7 @@ export default function AdviqCanvas() {
 
         this.cardLine.style.animation = "none";
         this.cardLine.classList.add("dragging");
+        if (this.dragZone) this.dragZone.classList.add("dragging");
 
         document.body.style.userSelect = "none";
         document.body.style.cursor = "grabbing";
@@ -123,6 +136,7 @@ export default function AdviqCanvas() {
 
         this.isDragging = false;
         this.cardLine.classList.remove("dragging");
+        if (this.dragZone) this.dragZone.classList.remove("dragging");
 
         if (Math.abs(this.mouseVelocity) > this.minVelocity) {
           this.velocity = Math.abs(this.mouseVelocity);
@@ -818,6 +832,7 @@ export default function AdviqCanvas() {
       <canvas className="adviq-scanner-canvas"></canvas>
       <div className="card-stream">
         <div className="card-line"></div>
+        <div className="card-drag-zone"></div>
       </div>
     </div>
   );
