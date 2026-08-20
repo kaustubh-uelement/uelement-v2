@@ -1,9 +1,36 @@
 'use client';
 
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { teamMembers, advisors } from '@/lib/team';
 import LinkedInIcon from '@/components/ui/LinkedInIcon';
 import { useState } from 'react';
+
+const GlobalOperationsGlobe = dynamic(
+  () => import('@/components/company/GlobalOperationsGlobe'),
+  {
+    ssr: false,
+    loading: () => (
+      <div
+        style={{
+          width: '100%',
+          maxWidth: 1080,
+          height: 600,
+          margin: '36px auto 0',
+          borderRadius: 16,
+          background: '#f0e6d6',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: '#8b5e3c',
+          fontSize: 14,
+        }}
+      >
+        Loading Global Operations Map...
+      </div>
+    ),
+  }
+);
 
 function TeamCard({ member }: { member: (typeof teamMembers)[0] }) {
   const [imgError, setImgError] = useState(false);
@@ -272,9 +299,12 @@ export default function CompanyPage() {
       </div>
     </div>
 
+    {/* Globe and Map Animation */}
+    <GlobalOperationsGlobe />
+
     <div
       style={{
-        marginTop: 32,
+        marginTop: 36,
         display: 'flex',
         gap: 14,
         flexWrap: 'wrap',
