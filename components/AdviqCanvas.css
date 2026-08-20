@@ -1,0 +1,192 @@
+.adviq-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none; /* Let clicks pass through to hero text */
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, transparent 10%, black 30%);
+  mask-image: linear-gradient(to right, transparent 0%, transparent 10%, black 30%);
+}
+
+/* Enable pointer events on the card stream for dragging, 
+   but only on the cards themselves to avoid blocking the whole hero */
+.adviq-container .card-stream {
+  position: absolute;
+  width: 100%;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  overflow: visible;
+  pointer-events: none; /* Let container be transparent to clicks */
+}
+
+.adviq-container .card-line {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  white-space: nowrap;
+  cursor: grab;
+  user-select: none;
+  will-change: transform;
+  pointer-events: auto; /* Enable dragging on the line */
+}
+
+.adviq-container .card-line:active, .adviq-container .card-line.dragging {
+  cursor: grabbing;
+}
+
+.adviq-container .card-wrapper {
+  position: relative;
+  width: 400px;
+  height: 250px;
+  flex-shrink: 0;
+  pointer-events: none; /* Let the line handle dragging, cards are just visual */
+}
+
+.adviq-container .card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 400px;
+  height: 250px;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.adviq-container .card-normal {
+  background: transparent;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0;
+  color: white;
+  z-index: 2;
+  position: relative;
+  overflow: hidden;
+  clip-path: inset(0 0 0 var(--clip-right, 0%));
+}
+
+.adviq-container .card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 15px;
+  transition: all 0.3s ease;
+  filter: brightness(1.1) contrast(1.1);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.adviq-container .card-image:hover {
+  filter: brightness(1.2) contrast(1.2);
+}
+
+.adviq-container .card-ascii {
+  background: transparent;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 400px;
+  height: 250px;
+  border-radius: 15px;
+  overflow: hidden;
+  clip-path: inset(0 calc(100% - var(--clip-left, 0%)) 0 0);
+}
+
+.adviq-container .ascii-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: rgba(220, 210, 255, 0.6);
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+  line-height: 13px;
+  overflow: hidden;
+  white-space: pre;
+  animation: scanGlitch 0.1s infinite linear alternate-reverse;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  vertical-align: top;
+  box-sizing: border-box;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.8) 30%,
+    rgba(0, 0, 0, 0.6) 50%,
+    rgba(0, 0, 0, 0.4) 80%,
+    rgba(0, 0, 0, 0.2) 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.8) 30%,
+    rgba(0, 0, 0, 0.6) 50%,
+    rgba(0, 0, 0, 0.4) 80%,
+    rgba(0, 0, 0, 0.2) 100%
+  );
+}
+
+@keyframes scanGlitch {
+  0% { opacity: 1; }
+  15% { opacity: 0.9; }
+  16% { opacity: 1; }
+  49% { opacity: 0.8; }
+  50% { opacity: 1; }
+  99% { opacity: 0.9; }
+  100% { opacity: 1; }
+}
+
+.adviq-container .scan-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 255, 255, 0.4),
+    transparent
+  );
+  animation: scanEffect 0.6s ease-out;
+  pointer-events: none;
+  z-index: 5;
+}
+
+@keyframes scanEffect {
+  0% { transform: translateX(-100%); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateX(100%); opacity: 0; }
+}
+
+.adviq-container .adviq-particle-canvas {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: 100%;
+  height: 250px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.adviq-container .adviq-scanner-canvas {
+  position: absolute;
+  top: 50%;
+  left: -3px;
+  transform: translateY(-50%);
+  width: 100%;
+  height: 300px;
+  z-index: 15;
+  pointer-events: none;
+  mix-blend-mode: screen; /* Prevent dark canvas background on hero */
+}
