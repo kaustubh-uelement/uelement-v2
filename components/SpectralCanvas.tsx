@@ -58,24 +58,25 @@ varying float vElevation;
 varying vec2 vUv;
 varying float vDist;
 
-vec3 spectral(float t){
-  t = clamp(t,0.0,1.0);
-  vec3 c1 = vec3(0.40,0.85,0.95);
-  vec3 c2 = vec3(0.75,0.55,0.98);
-  vec3 c3 = vec3(0.98,0.65,0.55);
-  vec3 a = mix(c1,c2, smoothstep(0.0,0.5,t));
-  vec3 b = mix(c2,c3, smoothstep(0.5,1.0,t));
-  return mix(a,b, step(0.5,t));
+vec3 goldenSpectral(float t){
+  t = clamp(t, 0.0, 1.0);
+  // Website theme golden palette: Bronze Gold -> Rich Gold -> Luminous Champagne Gold
+  vec3 c1 = vec3(0.784, 0.541, 0.243); // #c88a3e
+  vec3 c2 = vec3(0.878, 0.655, 0.412); // #e0a769
+  vec3 c3 = vec3(0.984, 0.855, 0.612); // #fde29c
+  vec3 a = mix(c1, c2, smoothstep(0.0, 0.5, t));
+  vec3 b = mix(c2, c3, smoothstep(0.5, 1.0, t));
+  return mix(a, b, step(0.5, t));
 }
 
 void main(){
   float fade = smoothstep(11.0, 2.0, vDist);
-  float e = clamp(vElevation*0.6, 0.0, 1.0);
+  float e = clamp(vElevation * 0.6, 0.0, 1.0);
   vec3 base = mix(uColorBase, uColorPeak, e);
-  float spec = sin(vDist*0.8 - uTime*0.6) * 0.5 + 0.5;
-  vec3 spectralTint = spectral(spec) * smoothstep(0.15, 1.4, vElevation) * 0.5;
+  float spec = sin(vDist * 0.8 - uTime * 0.6) * 0.5 + 0.5;
+  vec3 spectralTint = goldenSpectral(spec) * smoothstep(0.15, 1.4, vElevation) * 0.75;
   vec3 color = base + spectralTint;
-  float alpha = fade * (0.35 + e*0.65);
+  float alpha = fade * (0.38 + e * 0.62);
   gl_FragColor = vec4(color, alpha);
 }
 `;
@@ -87,10 +88,10 @@ uniform vec3 uColorPeak;
 varying float vElevation;
 varying float vDist;
 void main(){
-  float fade = smoothstep(11.0,2.0,vDist);
-  float e = clamp(vElevation*0.7,0.0,1.0);
-  vec3 color = mix(uColorBase*1.4, uColorPeak, e);
-  float alpha = fade * e * 0.9;
+  float fade = smoothstep(11.0, 2.0, vDist);
+  float e = clamp(vElevation * 0.7, 0.0, 1.0);
+  vec3 color = mix(uColorBase * 1.35, uColorPeak, e);
+  float alpha = fade * e * 0.95;
   if(alpha < 0.02) discard;
   gl_FragColor = vec4(color, alpha);
 }
@@ -117,30 +118,49 @@ void main(){
 `;
 
 const compositeFragment = `
-uniform sampler2D tScene; uniform sampler2D tBloom; uniform float uTime; uniform float uGlitch;
+uniform sampler2D tScene;
+uniform sampler2D tBloom;
+uniform float uTime;
+uniform float uGlitch;
 varying vec2 vUv;
+
 float rand(vec2 c){ return fract(sin(dot(c,vec2(12.9898,78.233)))*43758.5453); }
+
 void main(){
   vec2 uv = vUv;
-  float scan = sin(uv.y*800.0)*0.015;
+  float scan = sin(uv.y * 800.0) * 0.01;
   vec3 base;
   float glitchAmt = uGlitch;
   if(glitchAmt > 0.001){
-    float sliceY = floor(uv.y*40.0);
-    float sliceShift = (rand(vec2(sliceY, floor(uTime*8.0)))-0.5) * glitchAmt * 0.06;
-    float r = texture2D(tScene, uv + vec2(sliceShift + glitchAmt*0.004,0.0)).r;
-    float g = texture2D(tScene, uv + vec2(sliceShift,0.0)).g;
-    float b = texture2D(tScene, uv + vec2(sliceShift - glitchAmt*0.004,0.0)).b;
-    base = vec3(r,g,b);
+    float sliceY = floor(uv.y * 40.0);
+    float sliceShift = (rand(vec2(sliceY, floor(uTime * 8.0))) - 0.5) * glitchAmt * 0.06;
+    float r = texture2D(tScene, uv + vec2(sliceShift + glitchAmt * 0.004, 0.0)).r;
+    float g = texture2D(tScene, uv + vec2(sliceShift, 0.0)).g;
+    float b = texture2D(tScene, uv + vec2(sliceShift - glitchAmt * 0.004, 0.0)).b;
+    base = vec3(r, g, b);
   } else {
     base = texture2D(tScene, uv).rgb;
   }
   vec3 bloom = texture2D(tBloom, uv).rgb;
-  vec3 color = base + bloom*1.4 - scan;
+
+  // Website signature navy gradient: #071739 -> #0d2450 -> #163068
+  vec3 navyDeep  = vec3(0.0274, 0.0902, 0.2235); // #071739 (Primary Blue)
+  vec3 navyMid   = vec3(0.0510, 0.1412, 0.3137); // #0d2450 (Mid Hero Blue)
+  vec3 navyLight = vec3(0.0863, 0.1882, 0.4078); // #163068 (Hero Accent Blue)
+  
+  float gradT = uv.x * 0.65 + (1.0 - uv.y) * 0.35;
+  vec3 bgNavy = mix(navyDeep, mix(navyMid, navyLight, uv.x), clamp(gradT, 0.0, 1.0));
+
+  // Blend golden fabric strands & bloom on top of website navy background
+  vec3 color = bgNavy + base * 1.15 + bloom * 1.6 - scan;
+
+  // Subtle vignette for cinematic depth
   vec2 vig = uv - 0.5;
-  float vigAmt = 1.0 - dot(vig,vig)*0.55;
+  float vigAmt = 1.0 - dot(vig, vig) * 0.45;
   color *= vigAmt;
-  color = pow(color, vec3(0.92));
+
+  // Rich contrast curve
+  color = pow(max(color, vec3(0.0)), vec3(0.94));
   gl_FragColor = vec4(color, 1.0);
 }
 `;
@@ -222,11 +242,12 @@ export default function SpectralCanvas() {
     const gridGeo = new THREE.PlaneGeometry(14, 22, 140, 200);
     gridGeo.rotateX(-Math.PI / 2);
 
+    // Theme colors: #c88a3e (Gold-700) to #fbf3e6 (Cream Gold Light)
     const uniforms = {
       uTime: { value: 0 },
       uMouse: { value: new THREE.Vector2(0, 0) },
-      uColorBase: { value: new THREE.Color(0x2a3038) },
-      uColorPeak: { value: new THREE.Color(0xeaf1f4) },
+      uColorBase: { value: new THREE.Color(0xc88a3e) },
+      uColorPeak: { value: new THREE.Color(0xfbf3e6) },
       uPulses: { value: new Float32Array(8) },
       uPulsePos: {
         value: Array.from({ length: 8 }, () => new THREE.Vector2(0, 0)),
@@ -320,10 +341,10 @@ export default function SpectralCanvas() {
     }
     starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
     const starMat = new THREE.PointsMaterial({
-      color: 0xffffff,
-      size: 0.04,
+      color: 0xf5ead8,
+      size: 0.045,
       transparent: true,
-      opacity: 0.5,
+      opacity: 0.45,
       depthWrite: false,
     });
     const stars = new THREE.Points(starGeo, starMat);
