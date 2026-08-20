@@ -305,7 +305,7 @@ export default function StambhClient() {
               fontSize: 24,
             }}
           >
-            A two-hour workshop, then 45 days to something live.
+            A two-hour workshop, then 5 days to something live.
           </p>
           <p
             className="mut"

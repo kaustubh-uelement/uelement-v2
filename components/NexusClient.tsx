@@ -319,7 +319,7 @@ export default function NexusClient() {
               fontSize: 24,
             }}
           >
-            Launch one live property in 45 days.
+            Launch one live property in 5 days.
           </p>
           <p
             className="mut"
@@ -331,7 +331,7 @@ export default function NexusClient() {
               textTransform: 'uppercase',
             }}
           >
-            A two-hour scoping workshop maps your surface area. A 45-day proof
+            A two-hour scoping workshop maps your surface area. A 5-day proof
             of value puts one Nexus property live on the deployment topology you
             choose.
           </p>
