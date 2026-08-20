@@ -699,8 +699,8 @@ export default function AdviqCanvas() {
         const half = this.gradientCanvas.width / 2;
         const gradient = this.gradientCtx.createRadialGradient(half, half, 0, half, half, half);
         gradient.addColorStop(0, "rgba(255, 255, 255, 1)");
-        gradient.addColorStop(0.3, "rgba(196, 181, 253, 0.8)");
-        gradient.addColorStop(0.7, "rgba(139, 92, 246, 0.4)");
+        gradient.addColorStop(0.3, "rgba(235, 185, 120, 0.8)");
+        gradient.addColorStop(0.7, "rgba(200, 138, 62, 0.4)");
         gradient.addColorStop(1, "transparent");
 
         this.gradientCtx.fillStyle = gradient;
@@ -825,9 +825,9 @@ export default function AdviqCanvas() {
         this.ctx.fill();
 
         const glow1Gradient = this.ctx.createLinearGradient(this.lightBarX - lineWidth * 2, 0, this.lightBarX + lineWidth * 2, 0);
-        glow1Gradient.addColorStop(0, "rgba(139, 92, 246, 0)");
-        glow1Gradient.addColorStop(0.5, `rgba(196, 181, 253, ${0.8 * glowIntensity})`);
-        glow1Gradient.addColorStop(1, "rgba(139, 92, 246, 0)");
+        glow1Gradient.addColorStop(0, "rgba(200, 138, 62, 0)");
+        glow1Gradient.addColorStop(0.5, `rgba(235, 185, 120, ${0.8 * glowIntensity})`);
+        glow1Gradient.addColorStop(1, "rgba(200, 138, 62, 0)");
 
         this.ctx.globalAlpha = glow1Alpha;
         this.ctx.fillStyle = glow1Gradient;
@@ -836,9 +836,9 @@ export default function AdviqCanvas() {
         this.ctx.fill();
 
         const glow2Gradient = this.ctx.createLinearGradient(this.lightBarX - lineWidth * 4, 0, this.lightBarX + lineWidth * 4, 0);
-        glow2Gradient.addColorStop(0, "rgba(139, 92, 246, 0)");
-        glow2Gradient.addColorStop(0.5, `rgba(139, 92, 246, ${0.4 * glowIntensity})`);
-        glow2Gradient.addColorStop(1, "rgba(139, 92, 246, 0)");
+        glow2Gradient.addColorStop(0, "rgba(200, 138, 62, 0)");
+        glow2Gradient.addColorStop(0.5, `rgba(200, 138, 62, ${0.4 * glowIntensity})`);
+        glow2Gradient.addColorStop(1, "rgba(200, 138, 62, 0)");
 
         this.ctx.globalAlpha = glow2Alpha;
         this.ctx.fillStyle = glow2Gradient;
@@ -848,9 +848,9 @@ export default function AdviqCanvas() {
 
         if (this.scanningActive) {
           const glow3Gradient = this.ctx.createLinearGradient(this.lightBarX - lineWidth * 8, 0, this.lightBarX + lineWidth * 8, 0);
-          glow3Gradient.addColorStop(0, "rgba(139, 92, 246, 0)");
-          glow3Gradient.addColorStop(0.5, "rgba(139, 92, 246, 0.2)");
-          glow3Gradient.addColorStop(1, "rgba(139, 92, 246, 0)");
+          glow3Gradient.addColorStop(0, "rgba(200, 138, 62, 0)");
+          glow3Gradient.addColorStop(0.5, "rgba(200, 138, 62, 0.2)");
+          glow3Gradient.addColorStop(1, "rgba(200, 138, 62, 0)");
           this.ctx.globalAlpha = glow3Alpha;
           this.ctx.fillStyle = glow3Gradient;
           this.ctx.beginPath();
@@ -962,12 +962,12 @@ export default function AdviqCanvas() {
     }
 
     cardStream = new CardStreamController();
-    particleSystem = new ParticleSystem();
+    // particleSystem = new ParticleSystem();
     particleScanner = new ParticleScanner();
 
     return () => {
       if (cardStream) cardStream.destroy();
-      if (particleSystem) particleSystem.destroy();
+      // if (particleSystem) particleSystem.destroy();
       if (particleScanner) particleScanner.destroy();
     };
   }, []);
