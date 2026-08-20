@@ -83,8 +83,6 @@ export default function DataTunnelCanvas({
         bloomRadius: 0.5,
       };
 
-      params.positionX = (params.curveLength - params.straightLength) / 2;
-
       const CONSTANTS = { segmentCount: 150 };
 
       const getSize = () => ({
@@ -93,9 +91,6 @@ export default function DataTunnelCanvas({
       });
 
       // --- SCENE SETUP ---
-      // No scene.background AND no fog — both would otherwise blend
-      // colorBg into the render and fake a black backdrop even with a
-      // transparent canvas. Fully transparent means fully transparent.
       scene = new THREE.Scene();
 
       const { width, height } = getSize();
@@ -115,7 +110,6 @@ export default function DataTunnelCanvas({
       container.appendChild(renderer.domElement);
 
       contentGroup = new THREE.Group();
-      contentGroup.position.set(params.positionX, params.positionY, 0);
       scene.add(contentGroup);
 
       // --- POST-PROCESSING ---
@@ -134,6 +128,41 @@ export default function DataTunnelCanvas({
       composer.renderToScreen = true;
       composer.addPass(renderScene);
       composer.addPass(bloomPass);
+
+      // --- DYNAMIC GEOMETRY ADAPTATION ---
+      // Dynamically calculate curve and beam length based on visible camera frustum
+      // so the flare always starts from and extends off the right edge of the viewport
+      // regardless of aspect ratio (e.g. ultra-wide screens with short hero height).
+      function updateDimensions() {
+        const { width: w, height: h } = getSize();
+        const aspect = w / h;
+        camera.aspect = aspect;
+        camera.updateProjectionMatrix();
+
+        const vFovRad = (camera.fov * Math.PI) / 180;
+        const visibleHalfHeight = camera.position.z * Math.tan(vFovRad / 2);
+        const visibleHalfWidth = visibleHalfHeight * aspect;
+
+        // Position pinch/convergence point around 65% of screen width
+        params.positionX = -0.30 * visibleHalfWidth;
+        // Curve reaches past the 3D left boundary (which is screen right edge when mirrored)
+        params.curveLength = 0.78 * visibleHalfWidth;
+        // Straight beam reaches past the 3D right boundary (screen left edge)
+        params.straightLength = 1.45 * visibleHalfWidth;
+        params.spreadHeight = Math.max(28, visibleHalfHeight * 0.82);
+
+        if (contentGroup) {
+          contentGroup.position.set(params.positionX, params.positionY, 0);
+        }
+
+        renderer.setSize(w, h);
+        composer.setSize(w, h);
+        if (bloomPass && bloomPass.resolution) {
+          bloomPass.resolution.set(w, h);
+        }
+      }
+
+      updateDimensions();
 
       // --- MATH & PATH CALCULATION ---
       function getPathPoint(t, lineIndex, time) {
@@ -425,11 +454,7 @@ export default function DataTunnelCanvas({
 
       // --- RESIZE (scoped to the container, not window) ---
       const handleResize = () => {
-        const { width: w, height: h } = getSize();
-        camera.aspect = w / h;
-        camera.updateProjectionMatrix();
-        renderer.setSize(w, h);
-        composer.setSize(w, h);
+        updateDimensions();
       };
 
       resizeObserver = new ResizeObserver(handleResize);
