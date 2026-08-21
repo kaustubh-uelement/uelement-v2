@@ -145,11 +145,17 @@ export default function DataTunnelCanvas({
 
         // Position pinch/convergence point around 65% of screen width
         params.positionX = -0.30 * visibleHalfWidth;
+        
+        // Move the beak up slightly to fit perfectly between the headings
+        params.positionY = 3.0; 
+
         // Curve reaches past the 3D left boundary (which is screen right edge when mirrored)
         params.curveLength = 0.78 * visibleHalfWidth;
         // Straight beam reaches past the 3D right boundary (screen left edge)
         params.straightLength = 1.45 * visibleHalfWidth;
-        params.spreadHeight = Math.max(28, visibleHalfHeight * 0.82);
+        
+        // Make the tunnel spread fully top-to-bottom on the right edge
+        params.spreadHeight = visibleHalfHeight * 1.0;
 
         if (contentGroup) {
           contentGroup.position.set(params.positionX, params.positionY, 0);
@@ -171,6 +177,9 @@ export default function DataTunnelCanvas({
 
         let y = 0;
         let z = 0;
+        
+        // spreadFactor goes from -1 to +1. 
+        // -1 is bottom, +1 is top.
         const spreadFactor = (lineIndex / params.lineCount - 0.5) * 2;
 
         if (currentX < 0) {
@@ -178,7 +187,19 @@ export default function DataTunnelCanvas({
           let shapeFactor = (Math.cos(ratio * Math.PI) + 1) / 2;
           shapeFactor = Math.pow(shapeFactor, params.curvePower);
 
-          y = spreadFactor * params.spreadHeight * shapeFactor;
+          // Allow asymmetric stretching for top vs bottom
+          // When we shifted the beak up, the top was getting clipped and bottom had a gap.
+          // By multiplying the bottom spread by 1.6 and top spread by 0.7, we can fill the screen perfectly.
+          let asymmetricSpreadHeight = params.spreadHeight;
+          if (spreadFactor > 0) {
+            // Top half
+            asymmetricSpreadHeight = params.spreadHeight * 0.95; 
+          } else {
+            // Bottom half
+            asymmetricSpreadHeight = params.spreadHeight * 1.1;
+          }
+
+          y = spreadFactor * asymmetricSpreadHeight * shapeFactor;
           z = spreadFactor * params.spreadDepth * shapeFactor;
 
           const waveFactor = shapeFactor;
