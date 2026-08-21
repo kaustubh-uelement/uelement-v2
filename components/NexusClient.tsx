@@ -13,28 +13,55 @@ export default function NexusClient() {
         style={{ position: 'relative', overflow: 'hidden' }}
       >
         <SpectralCanvas />
-        <div className="wrap" style={{ position: 'relative', zIndex: 1, pointerEvents: 'none' }}>
-          <div className="crumb" style={{ pointerEvents: 'auto' }}>
-            <Link href="/">Home</Link> / Nexus
-          </div>
-          <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>
-            The Enterprise <span className="au">Digital Fabric</span>
-          </h1>
-          <p
-            className="serif-line"
-            style={{ fontSize: 20, marginTop: 8, color: '#c88a3e' }}
-          >
-            StamBH &middot; the digital fabric
-          </p>
-          <p className="lede" style={{ marginTop: 26 }}>
-            One platform to build and run every outward-facing surface your
-            enterprise touches — web, mobile, search, and AI-native experiences
-            — governed by a single workflow and analytics fabric.
-          </p>
-          <div style={{ marginTop: 28, display: 'flex', gap: '16px', pointerEvents: 'auto' }}>
-            <Link href="/contact" className="btn btn-gold">
-              Book a Demo
-            </Link>
+        <div
+          className="wrap"
+          style={{ position: 'relative', zIndex: 1, pointerEvents: 'none' }}
+        >
+          <div style={{ maxWidth: '640px' }}>
+            <div className="crumb" style={{ pointerEvents: 'auto' }}>
+              <Link href="/">Home</Link> / Nexus
+            </div>
+            <h1
+              className="display"
+              style={{
+                fontSize: 'var(--text-display)',
+              }}
+            >
+              The Enterprise <span className="au">Digital Fabric</span>
+            </h1>
+            <p
+              className="serif-line"
+              style={{
+                fontSize: 20,
+                marginTop: 8,
+                color: '#c88a3e',
+              }}
+            >
+              StamBH &middot; the digital fabric
+            </p>
+            <p
+              className="lede"
+              style={{
+                marginTop: 26,
+                textShadow: '0 2px 20px rgba(7, 23, 57, 0.85)',
+              }}
+            >
+              One platform to build and run every outward-facing surface your
+              enterprise touches — web, mobile, search, and AI-native
+              experiences — governed by a single workflow and analytics fabric.
+            </p>
+            <div
+              style={{
+                marginTop: 28,
+                display: 'flex',
+                gap: '16px',
+                pointerEvents: 'auto',
+              }}
+            >
+              <Link href="/contact" className="btn btn-gold">
+                Book a Demo
+              </Link>
+            </div>
           </div>
         </div>
       </div>
@@ -331,8 +358,8 @@ export default function NexusClient() {
               textTransform: 'uppercase',
             }}
           >
-            A two-hour scoping workshop maps your surface area. A 5-day proof
-            of value puts one Nexus property live on the deployment topology you
+            A two-hour scoping workshop maps your surface area. A 5-day proof of
+            value puts one Nexus property live on the deployment topology you
             choose.
           </p>
           <div

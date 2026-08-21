@@ -26,7 +26,11 @@ void main(){
   vec3 pos = position;
   float n1 = noise(pos.xz*0.35 + uTime*0.05);
   float n2 = noise(pos.xz*0.9 - uTime*0.08) * 0.4;
-  float elevation = (n1 + n2) * 0.55;
+  float elevation = (n1 + n2) * 0.52;
+
+  // Gently soften mountains on the left side so peaks emerge elegantly on the right
+  float leftSlope = smoothstep(-6.5, -0.5, pos.x);
+  elevation *= (0.35 + 0.65 * leftSlope);
 
   vec2 mouseWorld = uMouse * vec2(7.0, 11.0);
   float md = distance(pos.xz, mouseWorld);
@@ -60,10 +64,10 @@ varying float vDist;
 
 vec3 goldenSpectral(float t){
   t = clamp(t, 0.0, 1.0);
-  // Website theme golden palette: Bronze Gold -> Rich Gold -> Luminous Champagne Gold
+  // Rich golden tones: Bronze Gold -> Warm Amber Gold -> Luminous Champagne Gold
   vec3 c1 = vec3(0.784, 0.541, 0.243); // #c88a3e
   vec3 c2 = vec3(0.878, 0.655, 0.412); // #e0a769
-  vec3 c3 = vec3(0.984, 0.855, 0.612); // #fde29c
+  vec3 c3 = vec3(0.960, 0.820, 0.550); // warm champagne gold
   vec3 a = mix(c1, c2, smoothstep(0.0, 0.5, t));
   vec3 b = mix(c2, c3, smoothstep(0.5, 1.0, t));
   return mix(a, b, step(0.5, t));
@@ -74,9 +78,9 @@ void main(){
   float e = clamp(vElevation * 0.6, 0.0, 1.0);
   vec3 base = mix(uColorBase, uColorPeak, e);
   float spec = sin(vDist * 0.8 - uTime * 0.6) * 0.5 + 0.5;
-  vec3 spectralTint = goldenSpectral(spec) * smoothstep(0.15, 1.4, vElevation) * 0.75;
+  vec3 spectralTint = goldenSpectral(spec) * smoothstep(0.15, 1.4, vElevation) * 0.65;
   vec3 color = base + spectralTint;
-  float alpha = fade * (0.38 + e * 0.62);
+  float alpha = fade * (0.35 + e * 0.65);
   gl_FragColor = vec4(color, alpha);
 }
 `;
@@ -90,8 +94,8 @@ varying float vDist;
 void main(){
   float fade = smoothstep(11.0, 2.0, vDist);
   float e = clamp(vElevation * 0.7, 0.0, 1.0);
-  vec3 color = mix(uColorBase * 1.35, uColorPeak, e);
-  float alpha = fade * e * 0.95;
+  vec3 color = mix(uColorBase * 1.3, uColorPeak, e);
+  float alpha = fade * e * 0.9;
   if(alpha < 0.02) discard;
   gl_FragColor = vec4(color, alpha);
 }
@@ -128,7 +132,7 @@ float rand(vec2 c){ return fract(sin(dot(c,vec2(12.9898,78.233)))*43758.5453); }
 
 void main(){
   vec2 uv = vUv;
-  float scan = sin(uv.y * 800.0) * 0.01;
+  float scan = sin(uv.y * 800.0) * 0.008;
   vec3 base;
   float glitchAmt = uGlitch;
   if(glitchAmt > 0.001){
@@ -151,8 +155,16 @@ void main(){
   float gradT = uv.x * 0.65 + (1.0 - uv.y) * 0.35;
   vec3 bgNavy = mix(navyDeep, mix(navyMid, navyLight, uv.x), clamp(gradT, 0.0, 1.0));
 
-  // Blend golden fabric strands & bloom on top of website navy background
-  vec3 color = bgNavy + base * 1.15 + bloom * 1.6 - scan;
+  // Left-to-right text readability mask:
+  // Fades out dense wireframe over the text zone (left 0% to 50%) so text has dark navy contrast,
+  // while the golden terrain emerges in full glory towards the center and right side!
+  float textFade = smoothstep(0.08, 0.55, uv.x);
+
+  // Softened golden fabric + bloom glow
+  vec3 fabric = (base * 0.95 + bloom * 1.35) * textFade;
+
+  // Composite fabric on top of website navy background
+  vec3 color = bgNavy + fabric - scan;
 
   // Subtle vignette for cinematic depth
   vec2 vig = uv - 0.5;
@@ -194,8 +206,8 @@ export default function SpectralCanvas() {
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, W / H, 0.1, 100);
-    camera.position.set(0, 3.4, 5.2);
-    camera.lookAt(0, 0, -1.5);
+    camera.position.set(-0.6, 3.4, 5.2);
+    camera.lookAt(1.0, 0, -2.0);
 
     const mouse = new THREE.Vector2(0, 0);
     const mouseTarget = new THREE.Vector2(0, 0);
@@ -264,7 +276,7 @@ export default function SpectralCanvas() {
       depthWrite: false,
     });
     const gridMesh = new THREE.Mesh(gridGeo, mat);
-    gridMesh.position.z = -3;
+    gridMesh.position.set(1.5, 0, -3);
     scene.add(gridMesh);
 
     const dotGeo = new THREE.PlaneGeometry(14, 22, 140, 200);
@@ -278,7 +290,7 @@ export default function SpectralCanvas() {
       blending: THREE.AdditiveBlending,
     });
     const dotMesh = new THREE.Points(dotGeo, dotMat);
-    dotMesh.position.z = -3;
+    dotMesh.position.set(1.5, 0, -3);
     scene.add(dotMesh);
 
     let rtScene = new THREE.WebGLRenderTarget(W * DPR, H * DPR, {
@@ -391,9 +403,9 @@ export default function SpectralCanvas() {
       }
       clickPulses = clickPulses.filter((p) => p.t < 1.0);
 
-      camera.position.x = Math.sin(t * 0.08) * 0.6 + mouse.x * 0.4;
+      camera.position.x = -0.6 + Math.sin(t * 0.08) * 0.4 + mouse.x * 0.3;
       camera.position.y = 3.4 + Math.cos(t * 0.06) * 0.2;
-      camera.lookAt(mouse.x * 0.8, 0, -2.5);
+      camera.lookAt(1.0 + mouse.x * 0.6, 0, -2.0);
 
       stars.rotation.y = t * 0.01;
 
