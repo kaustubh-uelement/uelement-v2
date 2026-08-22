@@ -23,7 +23,7 @@ export default function PillarCard({
       style={{
         border: '2px solid transparent',
         backgroundImage:
-          'linear-gradient(154.11deg, #0c142d 20%, #162447 100%), conic-gradient(from 140deg, #b87930 0%, #c88a3e 18%, #fcefdc 28%, #e0a769 38%, #7a5416 50%, #b87930 62%, #c88a3e 74%, #fcefdc 82%, #e0a769 90%, #b87930 100%)',
+          'linear-gradient(154.11deg, #071739 20%, #0d2450 100%), conic-gradient(from 140deg, #c88a3e 0%, #e0a769 18%, #fcefdc 28%, #e0a769 38%, #b87930 50%, #c88a3e 62%, #e0a769 74%, #fcefdc 82%, #e0a769 90%, #c88a3e 100%)',
         backgroundClip: 'padding-box, border-box',
         backgroundOrigin: 'padding-box, border-box',
         borderRadius: '20px',
@@ -33,26 +33,11 @@ export default function PillarCard({
         flexDirection: 'column',
         height: '100%',
         boxShadow:
-          '0 8px 32px rgba(7, 23, 57, 0.4), 0 2px 10px rgba(224, 167, 105, 0.08)',
+          '0 8px 32px rgba(7, 23, 57, 0.5), 0 2px 14px rgba(224, 167, 105, 0.15)',
         ...style,
       }}
     >
-      <div
-        style={{
-          display: 'inline-flex',
-          padding: '6px 14px',
-          borderRadius: '999px',
-          border: '1px solid rgba(200, 138, 62, 0.4)',
-          background:
-            'linear-gradient(105deg, rgba(184, 121, 48, 0.25) 0%, rgba(200, 138, 62, 0.12) 100%)',
-          fontSize: '11px',
-          fontWeight: 600,
-          letterSpacing: '0.06em',
-          color: '#fcefdc',
-          marginBottom: '20px',
-          alignSelf: 'flex-start',
-        }}
-      >
+      <div className="tag" style={{ alignSelf: 'flex-start' }}>
         {label}
       </div>
       <h4
@@ -102,7 +87,7 @@ export default function PillarCard({
             >
               <span
                 style={{
-                  color: '#c88a3e',
+                  color: '#e0a769',
                   marginRight: '12px',
                   fontWeight: 'bold',
                 }}

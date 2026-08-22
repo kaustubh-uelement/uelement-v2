@@ -337,8 +337,8 @@ export default function AdviqCanvas() {
 
       updateCardClipping() {
         const containerRect = container.getBoundingClientRect();
-        const scannerY = containerRect.top + containerRect.height * 0.5;
-        const scannerHeight = 8;
+        const scannerY = containerRect.top + containerRect.height * 0.35;
+        const scannerHeight = 4;
         const scannerTop = scannerY - scannerHeight / 2;
         const scannerBottom = scannerY + scannerHeight / 2;
         let anyScanningActive = false;
@@ -449,7 +449,7 @@ export default function AdviqCanvas() {
         this.count = 0;
         this.maxParticles = 800;
         this.intensity = 0.8;
-        this.lightBarHeight = 3;
+        this.lightBarHeight = 1.0;
         this.fadeZone = 60;
 
         this.scanTargetIntensity = 1.8;
@@ -488,14 +488,14 @@ export default function AdviqCanvas() {
             startX: Math.max(0, streamLeft - 40),
             endX: Math.min(this.w, streamLeft + streamWidth + 40),
             width: streamWidth + 80,
-            centerY: this.h * 0.5,
+            centerY: this.h * 0.35,
           };
         }
         return {
           startX: this.w * 0.5 - 180,
           endX: this.w * 0.5 + 180,
           width: 360,
-          centerY: this.h * 0.5,
+          centerY: this.h * 0.35,
         };
       }
 
