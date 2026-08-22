@@ -39,7 +39,6 @@ export default function GlobalOperationsGlobe() {
 
     root.setThemes([am5themes_Animated.new(root), coffeeTheme]);
 
-    // Remove logo again after themes just in case theme recreation occurs
     if (root._logo) {
       root._logo.dispose();
     }
@@ -52,10 +51,11 @@ export default function GlobalOperationsGlobe() {
     const crema = am5.color(0xe8d5b7);
     const cream = am5.color(0xf5ece0);
 
+    // India (Pune) target coordinates: rotationX = -75, rotationY = -20
+    const INDIA_ROT_X = -75;
+    const INDIA_ROT_Y = -20;
+
     // Create the map chart
-    // Centering on India (Pune): longitude ~74°E, latitude ~19°N -> rotationX: -75, rotationY: -20
-    // Disable wheel zoom on vertical scroll so touchpad scrolling passes through to the webpage
-    // Native pinchZoom is enabled for touch and trackpad pinch gestures
     const chart = root.container.children.push(
       am5map.MapChart.new(root, {
         panX: 'rotateX',
@@ -64,8 +64,8 @@ export default function GlobalOperationsGlobe() {
         wheelY: 'none',
         pinchZoom: true,
         projection: am5map.geoOrthographic(),
-        rotationX: -75,
-        rotationY: -20,
+        rotationX: INDIA_ROT_X,
+        rotationY: INDIA_ROT_Y,
         minZoomLevel: 0.5,
         maxZoomLevel: 16,
         zoomLevel: 0.9,
@@ -299,17 +299,6 @@ export default function GlobalOperationsGlobe() {
 
     titleCont.children.push(
       am5.Label.new(root, {
-        text: 'Global Operations & Enterprise Fabric',
-        fontSize: 18,
-        fontWeight: '600',
-        fill: espresso,
-        x: am5.p50,
-        centerX: am5.p50,
-      })
-    );
-
-    titleCont.children.push(
-      am5.Label.new(root, {
         text: '(Global Deployments · HQ: Pune, India)',
         fontSize: 11,
         fill: mediumRoast,
@@ -350,19 +339,198 @@ export default function GlobalOperationsGlobe() {
     const duration = 1500;
     const fadeDuration = 300;
 
+    // ═══════════════════════════════════════════════════════════
+    // Physics-based Momentum Spin & Auto-Return to India Animation
+    // ═══════════════════════════════════════════════════════════
+    let isDragging = false;
+    let lastPointerX = 0;
+    let lastPointerY = 0;
+    let lastPointerTime = 0;
+    let velocityX = 0; // degrees per frame
+    let velocityY = 0;
+    let inertiaRafId: number | null = null;
+    let returnTimeoutId: NodeJS.Timeout | null = null;
+    let ambientAnimation: ReturnType<typeof chart.animate> | null = null;
+    let returnAnimX: ReturnType<typeof chart.animate> | null = null;
+    let returnAnimY: ReturnType<typeof chart.animate> | null = null;
+
+    function stopAllAnimations() {
+      if (ambientAnimation) {
+        ambientAnimation.stop();
+        ambientAnimation = null;
+      }
+      if (returnAnimX) {
+        returnAnimX.stop();
+        returnAnimX = null;
+      }
+      if (returnAnimY) {
+        returnAnimY.stop();
+        returnAnimY = null;
+      }
+      if (inertiaRafId) {
+        cancelAnimationFrame(inertiaRafId);
+        inertiaRafId = null;
+      }
+      if (returnTimeoutId) {
+        clearTimeout(returnTimeoutId);
+        returnTimeoutId = null;
+      }
+    }
+
+    function startAmbientRotation() {
+      if (switchButton.get('active')) return;
+      stopAllAnimations();
+      const currentRotX = chart.get('rotationX', INDIA_ROT_X);
+      ambientAnimation = chart.animate({
+        key: 'rotationX',
+        from: currentRotX,
+        to: currentRotX + 360,
+        duration: 90000,
+        loops: Infinity,
+        easing: am5.ease.linear,
+      });
+    }
+
+    function scheduleReturnToIndia(delayMs = 2000) {
+      if (switchButton.get('active')) return;
+      if (returnTimeoutId) clearTimeout(returnTimeoutId);
+
+      returnTimeoutId = setTimeout(() => {
+        if (isDragging || switchButton.get('active')) return;
+
+        const currentRotX = chart.get('rotationX', INDIA_ROT_X);
+        const currentRotY = chart.get('rotationY', INDIA_ROT_Y);
+
+        // Find the shortest angular path to face India (-75 degrees)
+        const diff = (((currentRotX - INDIA_ROT_X) % 360) + 540) % 360 - 180;
+        const targetRotX = currentRotX - diff;
+        const targetRotY = INDIA_ROT_Y;
+
+        stopAllAnimations();
+
+        const returnDuration = 2000;
+        const returnEasing = am5.ease.inOut(am5.ease.cubic);
+
+        returnAnimY = chart.animate({
+          key: 'rotationY',
+          to: targetRotY,
+          duration: returnDuration,
+          easing: returnEasing,
+        });
+
+        returnAnimX = chart.animate({
+          key: 'rotationX',
+          to: targetRotX,
+          duration: returnDuration,
+          easing: returnEasing,
+        });
+
+        returnTimeoutId = setTimeout(() => {
+          startAmbientRotation();
+        }, returnDuration + 80);
+      }, delayMs);
+    }
+
+    function startInertia() {
+      stopAllAnimations();
+
+      // If user released with almost no speed, schedule return directly
+      if (Math.abs(velocityX) < 0.08 && Math.abs(velocityY) * 0.6 < 0.08) {
+        scheduleReturnToIndia(1800);
+        return;
+      }
+
+      const friction = 0.962; // Smooth physical glide deceleration
+
+      function step() {
+        if (isDragging || switchButton.get('active')) return;
+
+        velocityX *= friction;
+        velocityY *= friction;
+
+        let currentRotX = chart.get('rotationX', INDIA_ROT_X) + velocityX;
+        let currentRotY = chart.get('rotationY', INDIA_ROT_Y) + velocityY;
+
+        // Keep latitude within safe bounds so globe does not flip
+        currentRotY = Math.max(-60, Math.min(60, currentRotY));
+
+        chart.set('rotationX', currentRotX);
+        chart.set('rotationY', currentRotY);
+
+        if (Math.abs(velocityX) > 0.04 || Math.abs(velocityY) > 0.04) {
+          inertiaRafId = requestAnimationFrame(step);
+        } else {
+          inertiaRafId = null;
+          scheduleReturnToIndia(1800);
+        }
+      }
+
+      inertiaRafId = requestAnimationFrame(step);
+    }
+
+    // Pointer event listeners on container for direct free spinning
+    const onPointerDown = (e: PointerEvent) => {
+      if (switchButton.get('active')) return;
+      isDragging = true;
+      stopAllAnimations();
+      lastPointerX = e.clientX;
+      lastPointerY = e.clientY;
+      lastPointerTime = performance.now();
+      velocityX = 0;
+      velocityY = 0;
+    };
+
+    const onPointerMove = (e: PointerEvent) => {
+      if (!isDragging || switchButton.get('active')) return;
+      const now = performance.now();
+      const dt = now - lastPointerTime;
+      const dx = e.clientX - lastPointerX;
+      const dy = e.clientY - lastPointerY;
+
+      if (dt > 0 && dt < 120) {
+        // Compute angular velocity per frame based on drag displacement
+        const speedFactor = 0.35;
+        const vx = (dx / dt) * 16 * speedFactor;
+        const vy = -(dy / dt) * 16 * speedFactor;
+        velocityX = velocityX * 0.35 + vx * 0.65;
+        velocityY = velocityY * 0.35 + vy * 0.65;
+      }
+
+      lastPointerX = e.clientX;
+      lastPointerY = e.clientY;
+      lastPointerTime = now;
+    };
+
+    const onPointerUp = () => {
+      if (!isDragging) return;
+      isDragging = false;
+      const timeSinceMove = performance.now() - lastPointerTime;
+      if (timeSinceMove > 90) {
+        velocityX = 0;
+        velocityY = 0;
+      }
+      startInertia();
+    };
+
+    container.addEventListener('pointerdown', onPointerDown);
+    window.addEventListener('pointermove', onPointerMove);
+    window.addEventListener('pointerup', onPointerUp);
+    window.addEventListener('pointercancel', onPointerUp);
+
     function zoomToGlobe() {
+      stopAllAnimations();
       chart.set('projection', am5map.geoOrthographic());
       chart.set('panX', 'rotateX');
       chart.set('panY', 'rotateY');
       chart.animate({
         key: 'rotationX',
-        to: -75,
+        to: INDIA_ROT_X,
         duration: duration,
         easing: easing,
       });
       chart.animate({
         key: 'rotationY',
-        to: -20,
+        to: INDIA_ROT_Y,
         duration: duration,
         easing: easing,
       });
@@ -374,9 +542,13 @@ export default function GlobalOperationsGlobe() {
         duration: duration,
         easing: easing,
       });
+      setTimeout(() => {
+        startAmbientRotation();
+      }, duration + 100);
     }
 
     function zoomToMap() {
+      stopAllAnimations();
       chart.set('projection', am5map.geoMercator());
       chart.set('panX', 'translateX');
       chart.set('panY', 'translateY');
@@ -436,28 +608,17 @@ export default function GlobalOperationsGlobe() {
       })
     );
 
-    // Auto-rotate globe until user interaction
-    let rotationAnimation: ReturnType<typeof chart.animate> | null = chart.animate({
-      key: 'rotationX',
-      from: -75,
-      to: -75 + 360,
-      duration: 120000,
-      loops: Infinity,
-      easing: am5.ease.linear,
-    });
-
-    chart.chartContainer.events.on('pointerdown', function () {
-      if (rotationAnimation) {
-        rotationAnimation.stop();
-        rotationAnimation = null;
-      }
-    });
-
     // Initial appearance animation
     chart.appear(1000, 100);
+    startAmbientRotation();
 
     return () => {
+      stopAllAnimations();
       container.removeEventListener('wheel', handleTrackpadPinch);
+      container.removeEventListener('pointerdown', onPointerDown);
+      window.removeEventListener('pointermove', onPointerMove);
+      window.removeEventListener('pointerup', onPointerUp);
+      window.removeEventListener('pointercancel', onPointerUp);
       root.dispose();
     };
   }, []);
@@ -480,6 +641,8 @@ export default function GlobalOperationsGlobe() {
           minHeight: 520,
           maxHeight: 780,
           background: 'transparent',
+          touchAction: 'none',
+          cursor: 'grab',
         }}
       />
       <style jsx global>{`
