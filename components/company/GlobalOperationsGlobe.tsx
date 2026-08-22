@@ -16,6 +16,11 @@ export default function GlobalOperationsGlobe() {
     // Create root element
     const root = am5.Root.new(container);
 
+    // Remove amCharts logo/credit
+    if (root._logo) {
+      root._logo.dispose();
+    }
+
     // Set themes
     const coffeeTheme = am5.Theme.new(root);
     coffeeTheme.rule('InterfaceColors').setAll({
@@ -34,7 +39,10 @@ export default function GlobalOperationsGlobe() {
 
     root.setThemes([am5themes_Animated.new(root), coffeeTheme]);
 
-    // Transparent canvas background (matches section theme color seamlessly)
+    // Remove logo again after themes just in case theme recreation occurs
+    if (root._logo) {
+      root._logo.dispose();
+    }
 
     // Coffee palette
     const espresso = am5.color(0x3c1e0e);
@@ -428,13 +436,6 @@ export default function GlobalOperationsGlobe() {
       })
     );
 
-    // Add zoom controls
-    const zoomControl = chart.set(
-      'zoomControl',
-      am5map.ZoomControl.new(root, {})
-    );
-    zoomControl.homeButton.set('visible', true);
-
     // Auto-rotate globe until user interaction
     let rotationAnimation: ReturnType<typeof chart.animate> | null = chart.animate({
       key: 'rotationX',
@@ -481,6 +482,15 @@ export default function GlobalOperationsGlobe() {
           background: 'transparent',
         }}
       />
+      <style jsx global>{`
+        #chartdiv a[href*='amcharts'],
+        #chartdiv [aria-label*='amCharts'] {
+          display: none !important;
+          opacity: 0 !important;
+          visibility: hidden !important;
+          pointer-events: none !important;
+        }
+      `}</style>
     </div>
   );
 }
