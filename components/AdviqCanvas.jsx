@@ -337,7 +337,7 @@ export default function AdviqCanvas() {
 
       updateCardClipping() {
         const containerRect = container.getBoundingClientRect();
-        const scannerY = containerRect.top + containerRect.height * 0.35;
+        const scannerY = containerRect.top + containerRect.height * 0.42;
         const scannerHeight = 4;
         const scannerTop = scannerY - scannerHeight / 2;
         const scannerBottom = scannerY + scannerHeight / 2;
@@ -488,14 +488,14 @@ export default function AdviqCanvas() {
             startX: Math.max(0, streamLeft - 40),
             endX: Math.min(this.w, streamLeft + streamWidth + 40),
             width: streamWidth + 80,
-            centerY: this.h * 0.35,
+            centerY: this.h * 0.42,
           };
         }
         return {
           startX: this.w * 0.5 - 180,
           endX: this.w * 0.5 + 180,
           width: 360,
-          centerY: this.h * 0.35,
+          centerY: this.h * 0.42,
         };
       }
 

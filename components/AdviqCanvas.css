@@ -39,11 +39,11 @@
 /* Dedicated drag zone for unparsed cards (entire region before/below the golden line) */
 .adviq-container .card-drag-zone {
   position: absolute;
-  top: 50%;
+  top: 42%;
   bottom: 0;
   left: -20px;
   right: -20px;
-  height: 50%;
+  height: 58%;
   pointer-events: auto;
   cursor: grab;
   z-index: 25;
