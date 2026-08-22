@@ -13,13 +13,13 @@ export const CARD_DEFINITIONS = [
   },
   {
     id: "x-gold",
-    name: "Elon",
+    name: "Kaustubh",
     number: "1234 5678 9000 0000",
     theme: "x-gold",
   },
   {
     id: "apple-pastel",
-    name: "Kaustubh",
+    name: "Steve",
     number: "1234 5678 9000 0000",
     theme: "apple-pastel",
   },
@@ -31,7 +31,7 @@ export const CARD_DEFINITIONS = [
   },
   {
     id: "x-titanium",
-    name: "Steve",
+    name: "Elon",
     number: "1234 5678 9000 0000",
     theme: "x-titanium",
   },
@@ -129,14 +129,15 @@ export function createCustomCardElement(cardConfig) {
           <svg class="holo-mesh" viewBox="0 0 400 250" preserveAspectRatio="none">
             <defs>
               <linearGradient id="holoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#00f2fe" />
-                <stop offset="25%" stop-color="#4facfe" />
-                <stop offset="50%" stop-color="#fee140" />
-                <stop offset="75%" stop-color="#f093fb" />
-                <stop offset="100%" stop-color="#667eea" />
+                <stop offset="0%" stop-color="#071739" />
+                <stop offset="25%" stop-color="#0f2b5c" />
+                <stop offset="50%" stop-color="#1b4578" />
+                <stop offset="75%" stop-color="#3d3228" />
+                <stop offset="90%" stop-color="#8a632c" />
+                <stop offset="100%" stop-color="#0a193d" />
               </linearGradient>
-              <pattern id="gridPattern" width="6" height="6" patternUnits="userSpaceOnUse">
-                <rect width="6" height="6" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="0.75" />
+              <pattern id="gridPattern" width="8" height="8" patternUnits="userSpaceOnUse">
+                <rect width="8" height="8" fill="none" stroke="rgba(224,167,105,0.08)" stroke-width="0.75" />
               </pattern>
             </defs>
             <rect width="400" height="250" fill="url(#holoGrad)" />
@@ -151,7 +152,7 @@ export function createCustomCardElement(cardConfig) {
         </div>
         <div class="card-body"></div>
         <div class="card-footer">
-          <div class="brand-mc">${SVG_ICONS.mastercardFilled("#48bb78", "#38b2ac")}</div>
+          <div class="brand-mc">${SVG_ICONS.mastercardFilled("#c88a3e", "#3d5578")}</div>
           <span class="card-number ocr-font">${number}</span>
         </div>
       `;
@@ -173,7 +174,7 @@ export function createCustomCardElement(cardConfig) {
           <div class="card-number ocr-font">${number}</div>
         </div>
         <div class="card-bottom-right">
-          <div class="brand-mc">${SVG_ICONS.mastercardFilled("#30336b", "#130f40")}</div>
+          <div class="brand-mc">${SVG_ICONS.mastercardFilled("#1e293b", "#475569")}</div>
           <div class="chip-icon-bars">${SVG_ICONS.chipBar}</div>
         </div>
       `;
@@ -190,7 +191,7 @@ export function createCustomCardElement(cardConfig) {
         <div class="card-middle-number ocr-font">${number}</div>
         <div class="card-black-banner">
           <div class="card-name-multiline">${name.replace("\n", "<br/>")}</div>
-          <div class="brand-mc">${SVG_ICONS.mastercardOutline}</div>
+          <div class="brand-mc">${SVG_ICONS.mastercardFilled("rgba(200,138,62,0.6)", "rgba(197,208,220,0.4)")}</div>
         </div>
       `;
       break;
