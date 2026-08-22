@@ -7,31 +7,31 @@
 export const CARD_DEFINITIONS = [
   {
     id: "stripe-holo",
-    name: "Esther Howard",
+    name: "Chaitanya",
     number: "1234 5678 9000 0000",
     theme: "stripe-holo",
   },
   {
     id: "x-gold",
-    name: "Elon Musk",
+    name: "Elon",
     number: "1234 5678 9000 0000",
     theme: "x-gold",
   },
   {
     id: "apple-pastel",
-    name: "Steve Jobs",
+    name: "Kaustubh",
     number: "1234 5678 9000 0000",
     theme: "apple-pastel",
   },
   {
     id: "revolut-aurora",
-    name: "Guy\nHawkins",
+    name: "Dipankar",
     number: "1234 5678 9000 0000",
     theme: "revolut-aurora",
   },
   {
     id: "x-titanium",
-    name: "Elon Musk",
+    name: "Steve",
     number: "1234 5678 9000 0000",
     theme: "x-titanium",
   },
