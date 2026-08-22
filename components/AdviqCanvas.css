@@ -412,10 +412,10 @@
   color: #334155;
 }
 
-/* --- Theme 3: Revolut Aurora Sunset --- */
+/* --- Theme 3: Revolut Champagne & Slate Aurora --- */
 .custom-adviq-card.theme-revolut-aurora .revolut-aurora-bg {
   height: 70%;
-  background: linear-gradient(135deg, #071739 0%, #0e2756 40%, #1a3c75 70%, #614620 90%, #b87930 100%);
+  background: linear-gradient(135deg, #faf6ee 0%, #f7ebd9 35%, #eed5b7 70%, #d4a574 100%);
 }
 
 .custom-adviq-card.theme-revolut-aurora .card-top-row {
@@ -432,19 +432,19 @@
 .custom-adviq-card.theme-revolut-aurora .brand-revolut {
   font-size: 22px;
   font-weight: 900;
-  color: #f8fafc;
+  color: #111827;
   letter-spacing: -0.5px;
 }
 
 .custom-adviq-card.theme-revolut-aurora .chip-icon-revolut {
-  color: #e2e8f0;
+  color: #111827;
 }
 
 .custom-adviq-card.theme-revolut-aurora .card-middle-number {
   position: absolute;
   top: 136px;
   left: 22px;
-  color: #fcefdc;
+  color: #1e293b;
   z-index: 2;
   font-weight: 700;
 }
@@ -455,13 +455,13 @@
   left: 0;
   width: 100%;
   height: 30%;
-  background: #090d16;
+  background: #111317;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 22px;
   z-index: 2;
-  border-top: 1px solid rgba(224, 167, 105, 0.15);
+  border-top: 1px solid rgba(224, 167, 105, 0.25);
 }
 
 .custom-adviq-card.theme-revolut-aurora .card-name-multiline {
@@ -472,7 +472,7 @@
 }
 
 .custom-adviq-card.theme-revolut-aurora .brand-mc {
-  color: rgba(224, 167, 105, 0.6);
+  color: rgba(224, 167, 105, 0.85);
 }
 
 /* --- Theme 4: X Dark Titanium --- */

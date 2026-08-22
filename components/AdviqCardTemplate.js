@@ -191,7 +191,7 @@ export function createCustomCardElement(cardConfig) {
         <div class="card-middle-number ocr-font">${number}</div>
         <div class="card-black-banner">
           <div class="card-name-multiline">${name.replace("\n", "<br/>")}</div>
-          <div class="brand-mc">${SVG_ICONS.mastercardFilled("rgba(200,138,62,0.6)", "rgba(197,208,220,0.4)")}</div>
+          <div class="brand-mc">${SVG_ICONS.mastercardFilled("#c88a3e", "#e0a769")}</div>
         </div>
       `;
       break;
