@@ -14,11 +14,10 @@ const GlobalOperationsGlobe = dynamic(
       <div
         style={{
           width: '100%',
-          maxWidth: 1080,
+          maxWidth: 1120,
           height: 600,
-          margin: '36px auto 0',
-          borderRadius: 16,
-          background: '#f0e6d6',
+          margin: '24px auto 0',
+          background: 'transparent',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -220,108 +219,85 @@ export default function CompanyPage() {
 
       {/* Global Operations */}
       <div className="section cream">
-  <div className="wrap">
-    <div style={{ maxWidth: 720, marginInline: 'auto' }}>
-      <div className="kicker">Global Operations</div>
-
-      <h2 className="display" style={{ fontSize: 28, maxWidth: 520 }}>
-        Headquartered in Pune, India.
-      </h2>
-    </div>
-
-    {/* Primary Pune card */}
-    <div
-      className="card"
-      style={{
-        marginTop: 26,
-        maxWidth: 720,
-        marginInline: 'auto',
-      }}
-    >
-      <div className="proglabel">Pune · India</div>
-      <h4 style={{ marginTop: 12, marginBottom: 8 }}>
-        Global Engineering Headquarters
-      </h4>
-      <p style={{ fontSize: 14.5, lineHeight: 1.7, maxWidth: 520 }}>
-        Global engineering operations, offshore research &amp; development
-        center, and program leadership for sovereign DeepTech systems.
-      </p>
-    </div>
-
-    {/* Enterprise Fabric countries */}
-    <div
-      style={{
-        marginTop: 28,
-        maxWidth: 720,
-        marginInline: 'auto',
-      }}
-    >
-      <div className="proglabel slate">Enterprise Fabric</div>
-      <p className="mut" style={{ marginTop: 10, fontSize: 13.5, maxWidth: 560 }}>
-        Programs and deployments across key markets worldwide.
-      </p>
-
-      <div
-        style={{
-          marginTop: 18,
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: 12,
-          alignItems: 'flex-start',
-        }}
-      >
-        {[
-          'UAE',
-          'Singapore',
-          'Malaysia',
-          'USA',
-          'Netherlands',
-          'Australia',
-          'Hongkong',
-          'South Africa',
-          'Vietnam',
-          'Saudi Arabia',
-          'France',
-          'Germany',
-          'Denmark',
-          'United Kingdom',
-          'Canada',
-          'Mauritius',
-        ].map((country) => (
-          <div
-            key={country}
-            className="proglabel slate"
-            style={{ marginBottom: 0, whiteSpace: 'nowrap' }}
-          >
-            {country}
+        <div className="wrap">
+          <div style={{ maxWidth: 720 }}>
+            <div className="kicker">Global Operations</div>
           </div>
-        ))}
+
+          {/* Globe and Map Animation */}
+          <GlobalOperationsGlobe />
+
+          {/* Enterprise Fabric countries */}
+          <div
+            style={{
+              marginTop: 28,
+              
+            }}
+          >
+            <p
+              className="mut"
+              style={{ marginTop: 10, fontSize: 13.5, maxWidth: 560 }}
+            >
+              Programs and deployments across key markets worldwide.
+            </p>
+
+            <div
+              style={{
+                marginTop: 18,
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: 12,
+                alignItems: 'flex-start',
+              }}
+            >
+              {[
+                'UAE',
+                'Singapore',
+                'Malaysia',
+                'USA',
+                'Netherlands',
+                'Australia',
+                'Hongkong',
+                'South Africa',
+                'Vietnam',
+                'Saudi Arabia',
+                'France',
+                'Germany',
+                'Denmark',
+                'United Kingdom',
+                'Canada',
+                'Mauritius',
+              ].map((country) => (
+                <div
+                  key={country}
+                  className="proglabel slate"
+                  style={{ marginBottom: 0, whiteSpace: 'nowrap' }}
+                >
+                  {country}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div
+            style={{
+              marginTop: 36,
+              display: 'flex',
+              gap: 14,
+              flexWrap: 'wrap',
+              alignItems: 'center',
+              maxWidth: 720,
+            }}
+          >
+            <Link href="/careers" className="btn btn-gold">
+              Join the team
+            </Link>
+            <Link href="/contact" className="btn btn-line">
+              Talk to us
+            </Link>
+          </div>
+        </div>
       </div>
-    </div>
-
-    {/* Globe and Map Animation */}
-    <GlobalOperationsGlobe />
-
-    <div
-      style={{
-        marginTop: 36,
-        display: 'flex',
-        gap: 14,
-        flexWrap: 'wrap',
-        alignItems: 'center',
-        maxWidth: 720,
-        marginInline: 'auto',
-      }}
-    >
-      <Link href="/careers" className="btn btn-gold">
-        Join the team
-      </Link>
-      <Link href="/contact" className="btn btn-line">
-        Talk to us
-      </Link>
-    </div>
-  </div>
-</div>
     </>
   );
 }

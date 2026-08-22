@@ -10,10 +10,11 @@ export default function GlobalOperationsGlobe() {
   const chartRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!chartRef.current) return;
+    const container = chartRef.current;
+    if (!container) return;
 
     // Create root element
-    const root = am5.Root.new(chartRef.current);
+    const root = am5.Root.new(container);
 
     // Set themes
     const coffeeTheme = am5.Theme.new(root);
@@ -33,18 +34,7 @@ export default function GlobalOperationsGlobe() {
 
     root.setThemes([am5themes_Animated.new(root), coffeeTheme]);
 
-    // Grainy paper background
-    root.container.set(
-      'background',
-      am5.Rectangle.new(root, {
-        fill: am5.color(0xf0e6d6),
-        fillPattern: am5.GrainPattern.new(root, {
-          density: 0.4,
-          maxOpacity: 0.07,
-          colors: [am5.color(0x000000)],
-        }),
-      })
-    );
+    // Transparent canvas background (matches section theme color seamlessly)
 
     // Coffee palette
     const espresso = am5.color(0x3c1e0e);
@@ -56,23 +46,44 @@ export default function GlobalOperationsGlobe() {
 
     // Create the map chart
     // Centering on India (Pune): longitude ~74°E, latitude ~19°N -> rotationX: -75, rotationY: -20
+    // Disable wheel zoom on vertical scroll so touchpad scrolling passes through to the webpage
+    // Native pinchZoom is enabled for touch and trackpad pinch gestures
     const chart = root.container.children.push(
       am5map.MapChart.new(root, {
         panX: 'rotateX',
         panY: 'rotateY',
+        wheelX: 'none',
+        wheelY: 'none',
+        pinchZoom: true,
         projection: am5map.geoOrthographic(),
         rotationX: -75,
         rotationY: -20,
         minZoomLevel: 0.5,
+        maxZoomLevel: 16,
         zoomLevel: 0.9,
       })
     );
 
-    // Create series for background fill
+    // Trackpad pinch-to-zoom handler (browser fires wheel with ctrlKey=true during pinch gestures on trackpads)
+    const handleTrackpadPinch = (e: WheelEvent) => {
+      if (e.ctrlKey || e.metaKey) {
+        e.preventDefault();
+        const currentZoom = chart.get('zoomLevel', 1);
+        const factor = e.deltaY < 0 ? 1.05 : 0.95;
+        const newZoom = Math.max(
+          chart.get('minZoomLevel', 0.5),
+          Math.min(chart.get('maxZoomLevel', 16), currentZoom * factor)
+        );
+        chart.set('zoomLevel', newZoom);
+      }
+    };
+    container.addEventListener('wheel', handleTrackpadPinch, { passive: false });
+
+    // Create series for globe sphere background fill (soft ocean tint)
     const bgSeries = chart.series.push(am5map.MapPolygonSeries.new(root, {}));
     bgSeries.mapPolygons.template.setAll({
-      fill: am5.color(0xede4d4),
-      fillOpacity: 1,
+      fill: am5.color(0xebe0ce),
+      fillOpacity: 0.55,
       strokeOpacity: 0,
     });
     bgSeries.data.push({
@@ -160,7 +171,7 @@ export default function GlobalOperationsGlobe() {
       tooltipText: '{name}\n{sum}k units',
     });
 
-    // Add animated coffee bean / particle bullets
+    // Add animated bullet markers
     sankeySeries.bullets.push(function () {
       return am5.Bullet.new(root, {
         locationX: 0,
@@ -304,7 +315,7 @@ export default function GlobalOperationsGlobe() {
       am5.Container.new(root, {
         layout: root.horizontalLayout,
         x: 20,
-        y: 40,
+        y: 20,
       })
     );
 
@@ -347,8 +358,8 @@ export default function GlobalOperationsGlobe() {
         duration: duration,
         easing: easing,
       });
-      bgSeries.mapPolygons.template.set('fillOpacity', 1);
-      chart.set('minZoomLevel', 0.9);
+      bgSeries.mapPolygons.template.set('fillOpacity', 0.55);
+      chart.set('minZoomLevel', 0.5);
       chart.animate({
         key: 'zoomLevel',
         to: 0.9,
@@ -445,6 +456,7 @@ export default function GlobalOperationsGlobe() {
     chart.appear(1000, 100);
 
     return () => {
+      container.removeEventListener('wheel', handleTrackpadPinch);
       root.dispose();
     };
   }, []);
@@ -453,13 +465,9 @@ export default function GlobalOperationsGlobe() {
     <div
       style={{
         width: '100%',
-        maxWidth: 1080,
-        margin: '36px auto 0',
-        borderRadius: 16,
-        overflow: 'hidden',
-        boxShadow:
-          '0 20px 45px -10px rgba(60, 30, 14, 0.12), 0 0 0 1px rgba(139, 94, 60, 0.15)',
-        background: '#f0e6d6',
+        maxWidth: 1120,
+        margin: '24px auto 0',
+        background: 'transparent',
       }}
     >
       <div
@@ -470,6 +478,7 @@ export default function GlobalOperationsGlobe() {
           height: '75vh',
           minHeight: 520,
           maxHeight: 780,
+          background: 'transparent',
         }}
       />
     </div>

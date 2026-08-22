@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { createCustomCardElement, CARD_DEFINITIONS } from './AdviqCardTemplate';
 import './AdviqCanvas.css';
 
 export default function AdviqCanvas() {
@@ -312,36 +313,9 @@ export default function AdviqCanvas() {
         const normalCard = document.createElement("div");
         normalCard.className = "card card-normal";
 
-        const cardImages = [
-          "https://cdn.prod.website-files.com/68789c86c8bc802d61932544/689f20b55e654d1341fb06f8_4.1.png",
-          "https://cdn.prod.website-files.com/68789c86c8bc802d61932544/689f20b5a080a31ee7154b19_1.png",
-          "https://cdn.prod.website-files.com/68789c86c8bc802d61932544/689f20b5c1e4919fd69672b8_3.png",
-          "https://cdn.prod.website-files.com/68789c86c8bc802d61932544/689f20b5f6a5e232e7beb4be_2.png",
-          "https://cdn.prod.website-files.com/68789c86c8bc802d61932544/689f20b5bea2f1b07392d936_4.png",
-        ];
-
-        const cardImage = document.createElement("img");
-        cardImage.className = "card-image";
-        cardImage.src = cardImages[index % cardImages.length];
-        cardImage.alt = "AdviQ Card";
-
-        cardImage.onerror = () => {
-          const canvas = document.createElement("canvas");
-          canvas.width = 400;
-          canvas.height = 250;
-          const ctx = canvas.getContext("2d");
-
-          const gradient = ctx.createLinearGradient(0, 0, 400, 250);
-          gradient.addColorStop(0, "#667eea");
-          gradient.addColorStop(1, "#764ba2");
-
-          ctx.fillStyle = gradient;
-          ctx.fillRect(0, 0, 400, 250);
-
-          cardImage.src = canvas.toDataURL();
-        };
-
-        normalCard.appendChild(cardImage);
+        const cardDef = CARD_DEFINITIONS[index % CARD_DEFINITIONS.length];
+        const customCard = createCustomCardElement(cardDef);
+        normalCard.appendChild(customCard);
 
         const asciiCard = document.createElement("div");
         asciiCard.className = "card card-ascii";
