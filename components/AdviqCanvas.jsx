@@ -40,11 +40,24 @@ export default function AdviqCanvas() {
         // bind methods for cleanup
         this.handleMouseMove = (e) => this.onDrag(e);
         this.handleMouseUp = () => this.endDrag();
-        this.handleTouchMove = (e) => this.onDrag(e.touches[0]);
-        this.handleTouchEnd = () => this.endDrag();
+        this.handleTouchMove = (e) => {
+          if (this.isMobile()) return;
+          this.onDrag(e.touches[0]);
+        };
+        this.handleTouchEnd = () => {
+          if (this.isMobile()) return;
+          this.endDrag();
+        };
         this.handleResize = () => this.calculateDimensions();
 
         this.init();
+      }
+
+      isMobile() {
+        return (
+          typeof window !== "undefined" &&
+          (window.innerWidth <= 960 || ("ontouchstart" in window && window.innerWidth <= 1024))
+        );
       }
 
       init() {
@@ -75,31 +88,46 @@ export default function AdviqCanvas() {
 
         attachTarget.addEventListener(
           "touchstart",
-          (e) => this.startDrag(e.touches[0]),
-          { passive: false }
+          (e) => {
+            if (this.isMobile()) return;
+            this.startDrag(e.touches[0]);
+          },
+          { passive: true }
         );
         this.cardLine.addEventListener(
           "touchstart",
-          (e) => this.startDrag(e.touches[0]),
-          { passive: false }
+          (e) => {
+            if (this.isMobile()) return;
+            this.startDrag(e.touches[0]);
+          },
+          { passive: true }
         );
         document.addEventListener("touchmove", this.handleTouchMove, {
-          passive: false,
+          passive: true,
         });
         document.addEventListener("touchend", this.handleTouchEnd);
 
         attachTarget.addEventListener("wheel", (e) => this.onWheel(e));
         this.cardLine.addEventListener("wheel", (e) => this.onWheel(e));
-        attachTarget.addEventListener("selectstart", (e) => e.preventDefault());
-        attachTarget.addEventListener("dragstart", (e) => e.preventDefault());
-        this.cardLine.addEventListener("selectstart", (e) => e.preventDefault());
-        this.cardLine.addEventListener("dragstart", (e) => e.preventDefault());
+        attachTarget.addEventListener("selectstart", (e) => {
+          if (!this.isMobile()) e.preventDefault();
+        });
+        attachTarget.addEventListener("dragstart", (e) => {
+          if (!this.isMobile()) e.preventDefault();
+        });
+        this.cardLine.addEventListener("selectstart", (e) => {
+          if (!this.isMobile()) e.preventDefault();
+        });
+        this.cardLine.addEventListener("dragstart", (e) => {
+          if (!this.isMobile()) e.preventDefault();
+        });
 
         window.addEventListener("resize", this.handleResize);
       }
 
       startDrag(e) {
-        e.preventDefault();
+        if (this.isMobile()) return;
+        if (e.preventDefault) e.preventDefault();
 
         this.isDragging = true;
         this.isAnimating = false;
@@ -121,8 +149,8 @@ export default function AdviqCanvas() {
       }
 
       onDrag(e) {
-        if (!this.isDragging) return;
-        e.preventDefault();
+        if (this.isMobile() || !this.isDragging) return;
+        if (e.preventDefault) e.preventDefault();
 
         const deltaY = e.clientY - this.lastMouseY;
         this.position += deltaY;
@@ -133,7 +161,7 @@ export default function AdviqCanvas() {
       }
 
       endDrag() {
-        if (!this.isDragging) return;
+        if (this.isMobile() || !this.isDragging) return;
 
         this.isDragging = false;
         this.cardLine.classList.remove("dragging");

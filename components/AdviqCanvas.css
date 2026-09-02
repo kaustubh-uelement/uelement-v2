@@ -30,13 +30,57 @@
 }
 
 @media (max-width: 960px) {
+  .hero .wrap {
+    pointer-events: auto !important;
+  }
+
+  .adviq-container,
+  .adviq-container * {
+    cursor: default !important;
+    touch-action: auto !important;
+  }
+
   .adviq-container .card-stream {
     left: 50%;
     opacity: 0.35;
+    pointer-events: none !important;
+    cursor: default !important;
+    touch-action: auto !important;
+  }
+
+  .adviq-container .card-drag-zone {
+    display: none !important;
+    pointer-events: none !important;
+    cursor: default !important;
+    touch-action: auto !important;
+  }
+
+  .adviq-container .card-line,
+  .adviq-container .card-wrapper,
+  .adviq-container .card,
+  .adviq-container .card-normal,
+  .adviq-container .card-ascii,
+  .adviq-container .custom-adviq-card {
+    pointer-events: none !important;
+    cursor: default !important;
+    touch-action: auto !important;
   }
 }
 
-/* Dedicated drag zone for unparsed cards (entire region before/below the golden line) */
+@media (hover: none) and (pointer: coarse) {
+  .adviq-container,
+  .adviq-container * {
+    cursor: default !important;
+    touch-action: auto !important;
+  }
+
+  .adviq-container .card-drag-zone {
+    display: none !important;
+    pointer-events: none !important;
+  }
+}
+
+/* Dedicated drag zone for unparsed cards (entire region before/below the golden line on desktop) */
 .adviq-container .card-drag-zone {
   position: absolute;
   top: 42%;
@@ -55,7 +99,7 @@
   cursor: grabbing;
 }
 
-/* Allow mouse events on hero background to reach the card stream */
+/* Allow mouse events on hero background to reach the card stream on desktop */
 .hero .wrap {
   pointer-events: none;
 }
