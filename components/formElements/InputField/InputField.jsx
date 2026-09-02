@@ -6,9 +6,10 @@ const InputField = ({
   type = "text",
   name = "",
   value,
-  onChangeHandler = () => {},
+  onChangeHandler = (_e) => {},
+  onBlur = (_e) => {},
   placeholder = "",
-  errMsg,
+  errMsg = "",
 }) => {
   return (
     <div className={wrapperClassName}>
@@ -18,6 +19,7 @@ const InputField = ({
         name={name}
         value={value}
         onChange={onChangeHandler}
+        onBlur={onBlur}
         placeholder={placeholder}
         className={inputClassName}
       />

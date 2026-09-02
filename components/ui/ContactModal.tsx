@@ -1,7 +1,9 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import useWeb3Forms from '@web3forms/react';
+import InputField from '../formElements/InputField/InputField';
+import Checkbox from '../formElements/Checkbox/Checkbox';
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -61,7 +63,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
     };
   }, [isOpen, onClose]);
 
-  // Validation functions
+  // Validation functions (exact match with footer form)
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -75,35 +77,40 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 
   const validateField = (name: string, value: string) => {
     let error = '';
+
     switch (name) {
       case 'firstName':
         if (!value.trim()) {
           error = 'First name is required';
         } else if (value.trim().length < 2) {
-          error = 'Must be at least 2 characters';
+          error = 'First name must be at least 2 characters';
         }
         break;
+
       case 'lastName':
         if (!value.trim()) {
           error = 'Last name is required';
         } else if (value.trim().length < 2) {
-          error = 'Must be at least 2 characters';
+          error = 'Last name must be at least 2 characters';
         }
         break;
+
       case 'email':
         if (!value.trim()) {
           error = 'Email is required';
         } else if (!validateEmail(value)) {
-          error = 'Enter a valid email address';
+          error = 'Please enter a valid email address';
         }
         break;
+
       case 'phone':
         if (!value.trim()) {
           error = 'Phone number is required';
         } else if (!validatePhone(value)) {
-          error = 'Enter a valid phone number';
+          error = 'Please enter a valid phone number';
         }
         break;
+
       case 'message':
         if (!value.trim()) {
           error = 'Message is required';
@@ -111,9 +118,11 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
           error = 'Message must be at least 4 characters';
         }
         break;
+
       default:
         break;
     }
+
     return error;
   };
 
@@ -125,6 +134,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
       phone: validateField('phone', formData.phone),
       message: validateField('message', formData.message),
     };
+
     setErrors(newErrors);
     return !Object.values(newErrors).some((error) => error !== '');
   };
@@ -133,17 +143,17 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
   const { submit } = useWeb3Forms({
     access_key: '5f0b55f8-1ed0-46cd-a518-c13ca9686c6f',
     settings: {
-      from_name: 'UElement Modal Contact Form',
-      subject: 'New Modal Contact Form Submission from Website',
+      from_name: 'UElement Contact Form',
+      subject: 'New Contact Form Submission from Website',
     },
     onSuccess: (message: string) => {
       setSubmitStatus({
         type: 'success',
-        message: 'Thank you! Your inquiry has been sent to our team.',
+        message: 'Thank you! Your message has been sent successfully.',
       });
       setIsSubmitting(false);
 
-      // Auto-reset and close after 2.5 seconds
+      // Reset form and close after 2.5 seconds
       setTimeout(() => {
         resetForm();
         setSubmitStatus({ type: '', message: '' });
@@ -159,14 +169,13 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
     },
   });
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
+
     if (errors[name as keyof typeof errors]) {
       setErrors((prev) => ({
         ...prev,
@@ -175,9 +184,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
     }
   };
 
-  const handleBlur = (
-    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleBlur = (e: any) => {
     const { name, value } = e.target;
     const error = validateField(name, value);
     setErrors((prev) => ({
@@ -186,12 +193,13 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
     }));
   };
 
-  const handleCheckboxToggle = (key: keyof typeof formData.subjects) => {
+  const handleCheckboxChange = (e: any) => {
+    const { id, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
       subjects: {
         ...prev.subjects,
-        [key]: !prev.subjects[key],
+        [id]: checked,
       },
     }));
   };
@@ -221,12 +229,14 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const contactFormHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validateForm()) {
+
+    const isValid = validateForm();
+    if (!isValid) {
       setSubmitStatus({
         type: 'error',
-        message: 'Please fill all required fields correctly.',
+        message: 'Please fill all required fields before submitting.',
       });
       return;
     }
@@ -257,9 +267,9 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
     <div
       className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-5 md:p-8 animate-fadeIn"
       style={{
-        backgroundColor: 'rgba(7, 23, 57, 0.75)',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
+        backgroundColor: 'rgba(7, 23, 57, 0.78)',
+        backdropFilter: 'blur(14px)',
+        WebkitBackdropFilter: 'blur(14px)',
       }}
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
@@ -270,267 +280,222 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
     >
       <div
         ref={modalRef}
-        className="relative w-full max-w-[720px] max-h-[92vh] overflow-y-auto rounded-[24px] text-white flex flex-col custom-modal-scrollbar"
-        style={{
-          border: '1px solid rgba(224, 167, 105, 0.35)',
-          background:
-            'linear-gradient(154.11deg, #071739 15%, #0d2450 60%, #162447 100%)',
-          boxShadow:
-            '0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 35px rgba(224, 167, 105, 0.12)',
-        }}
+        className="relative w-full max-w-[740px] max-h-[92vh] overflow-y-auto rounded-[24px] bg-[linear-gradient(165deg,#ffffff_0%,#fbfbfe_100%)] text-black border border-[#c88a3e]/30 shadow-[0px_20px_70px_rgba(7,23,57,0.35),0px_0px_35px_rgba(200,138,62,0.12)] custom-modal-scrollbar p-6 sm:p-8 lg:p-10"
       >
-        {/* Ambient Top Glow Line */}
+        {/* Top Gold Accent Bar */}
         <div
-          className="absolute top-0 left-0 right-0 h-[2px]"
+          className="absolute top-0 left-0 right-0 h-[3px] rounded-t-[24px]"
           style={{
             background:
-              'linear-gradient(90deg, transparent, rgba(224, 167, 105, 0.8) 50%, transparent)',
+              'linear-gradient(90deg, transparent, #c88a3e 20%, #e0a769 50%, #c88a3e 80%, transparent)',
           }}
         />
 
+        {/* Close Button */}
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Close dialog"
+          className="absolute top-5 right-5 sm:top-7 sm:right-7 flex items-center justify-center w-8 h-8 rounded-full bg-[#071739]/[0.05] hover:bg-[#071739]/[0.12] hover:text-[#c88a3e] border border-black/5 hover:border-[#c88a3e]/40 text-[#4a5568] transition-all duration-200 cursor-pointer z-20"
+        >
+          ✕
+        </button>
+
         {/* Modal Header */}
-        <div className="flex items-start justify-between p-6 sm:p-8 pb-4 border-b border-white/[0.08]">
-          <div>
-            <div
-              className="font-heading text-[11px] font-bold tracking-[0.12em] uppercase mb-1"
-              style={{ color: 'var(--gold-500, #c88a3e)' }}
-            >
-              Get in Touch
-            </div>
-            <h3
-              id="contact-modal-title"
-              className="text-20 sm:text-24 font-bold font-heading text-white tracking-tight"
-            >
-              Ready to Transform Your <span className="au">Enterprise?</span>
-            </h3>
-            <p className="text-13 sm:text-14 text-[#8a9bb3] mt-1 font-body">
-              Speak with our quantum, cyber resilience, and cloud specialists.
-            </p>
+        <div className="text-left mb-6 sm:mb-8 pr-8">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-bold font-heading tracking-widest uppercase bg-[#c88a3e]/10 text-[#a86e24] border border-[#c88a3e]/30 mb-2.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#c88a3e] animate-pulse" />
+            <span>Contact Us</span>
           </div>
 
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Close dialog"
-            className="flex items-center justify-center w-9 h-9 rounded-full bg-white/[0.06] hover:bg-white/[0.14] text-[#c5d0dc] hover:text-white border border-white/[0.1] transition-all duration-200 ml-4 flex-shrink-0 cursor-pointer"
+          <h2
+            id="contact-modal-title"
+            className="text-22 sm:text-26 md:text-30 font-bold font-heading text-[#071739] tracking-tight"
           >
-            ✕
-          </button>
+            Ready to Transform Your <span className="au">Enterprise?</span>
+          </h2>
+
+          <p className="text-13 sm:text-14 text-[#556987] mt-1.5 leading-relaxed font-body">
+            Empower your enterprise with smarter, scalable security that adapts
+            to new threats, keeping your business safe, agile, and resilient.
+          </p>
         </div>
 
-        {/* Modal Form Content */}
-        <div className="p-6 sm:p-8 pt-6">
-          {submitStatus.message && (
-            <div
-              className={`mb-6 p-4 rounded-xl text-14 font-medium ${
-                submitStatus.type === 'success'
-                  ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/30'
-                  : 'bg-rose-500/15 text-rose-300 border border-rose-500/30'
-              }`}
-            >
-              {submitStatus.message}
-            </div>
-          )}
+        {/* Success/Error Message */}
+        {submitStatus.message && (
+          <div
+            className={`mb-6 p-4 rounded-xl text-14 font-medium transition-all ${
+              submitStatus.type === 'success'
+                ? 'bg-emerald-50 text-emerald-800 border border-emerald-300'
+                : 'bg-rose-50 text-rose-800 border border-rose-300'
+            }`}
+          >
+            {submitStatus.message}
+          </div>
+        )}
 
-          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-            {/* Name Fields */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block font-heading text-12 font-semibold text-[#c5d0dc] mb-1.5">
-                  First Name *
-                </label>
-                <input
-                  type="text"
-                  name="firstName"
-                  placeholder="John"
-                  value={formData.firstName}
-                  onChange={handleInputChange}
-                  onBlur={handleBlur}
-                  style={{ outline: 'none', boxShadow: 'none' }}
-                  className={`custom-modal-input w-full bg-white/[0.05] border rounded-xl px-4 py-2.5 text-14 text-white placeholder:text-[#8a9bb3]/60 outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0 transition-colors ${
-                    errors.firstName
-                      ? 'border-red-400 focus:border-red-400'
-                      : 'border-white/[0.12] focus:border-[#e0a769]'
-                  }`}
-                />
-                {errors.firstName && (
-                  <p className="text-red-400 text-11 mt-1 font-heading">
-                    {errors.firstName}
-                  </p>
-                )}
-              </div>
-
-              <div>
-                <label className="block font-heading text-12 font-semibold text-[#c5d0dc] mb-1.5">
-                  Last Name *
-                </label>
-                <input
-                  type="text"
-                  name="lastName"
-                  placeholder="Doe"
-                  value={formData.lastName}
-                  onChange={handleInputChange}
-                  onBlur={handleBlur}
-                  style={{ outline: 'none', boxShadow: 'none' }}
-                  className={`custom-modal-input w-full bg-white/[0.05] border rounded-xl px-4 py-2.5 text-14 text-white placeholder:text-[#8a9bb3]/60 outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0 transition-colors ${
-                    errors.lastName
-                      ? 'border-red-400 focus:border-red-400'
-                      : 'border-white/[0.12] focus:border-[#e0a769]'
-                  }`}
-                />
-                {errors.lastName && (
-                  <p className="text-red-400 text-11 mt-1 font-heading">
-                    {errors.lastName}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            {/* Email & Phone Fields */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block font-heading text-12 font-semibold text-[#c5d0dc] mb-1.5">
-                  Work Email *
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="john@company.com"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  onBlur={handleBlur}
-                  style={{ outline: 'none', boxShadow: 'none' }}
-                  className={`custom-modal-input w-full bg-white/[0.05] border rounded-xl px-4 py-2.5 text-14 text-white placeholder:text-[#8a9bb3]/60 outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0 transition-colors ${
-                    errors.email
-                      ? 'border-red-400 focus:border-red-400'
-                      : 'border-white/[0.12] focus:border-[#e0a769]'
-                  }`}
-                />
-                {errors.email && (
-                  <p className="text-red-400 text-11 mt-1 font-heading">
-                    {errors.email}
-                  </p>
-                )}
-              </div>
-
-              <div>
-                <label className="block font-heading text-12 font-semibold text-[#c5d0dc] mb-1.5">
-                  Phone Number *
-                </label>
-                <input
-                  type="tel"
-                  name="phone"
-                  placeholder="+91 98765 43210"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  onBlur={handleBlur}
-                  style={{ outline: 'none', boxShadow: 'none' }}
-                  className={`custom-modal-input w-full bg-white/[0.05] border rounded-xl px-4 py-2.5 text-14 text-white placeholder:text-[#8a9bb3]/60 outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0 transition-colors ${
-                    errors.phone
-                      ? 'border-red-400 focus:border-red-400'
-                      : 'border-white/[0.12] focus:border-[#e0a769]'
-                  }`}
-                />
-                {errors.phone && (
-                  <p className="text-red-400 text-11 mt-1 font-heading">
-                    {errors.phone}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            {/* Subject / Practice Area Pills */}
+        {/* Contact Form */}
+        <form
+          autoComplete="off"
+          className="flex flex-col gap-5 lg:gap-6"
+          onSubmit={contactFormHandler}
+        >
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 lg:gap-6">
             <div>
-              <label className="block font-heading text-12 font-semibold text-[#c5d0dc] mb-2">
-                Select Areas of Interest{' '}
-                <span className="text-[#8a9bb3] font-normal">(Optional)</span>
-              </label>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                {[
-                  { key: 'quantumSecurity', label: 'Quantum Security' },
-                  { key: 'otObservability', label: 'OT Observability' },
-                  { key: 'enterpriseResilience', label: 'Resilience' },
-                  { key: 'enterpriseCloud', label: 'Cloud Fabric' },
-                  { key: 'artificialIntelligence', label: 'Enterprise AI' },
-                  { key: 'digitalTransformation', label: 'Transformation' },
-                ].map((item) => {
-                  const isChecked =
-                    formData.subjects[item.key as keyof typeof formData.subjects];
-                  return (
-                    <button
-                      type="button"
-                      key={item.key}
-                      onClick={() =>
-                        handleCheckboxToggle(
-                          item.key as keyof typeof formData.subjects
-                        )
-                      }
-                      style={{ outline: 'none' }}
-                      className={`px-3 py-2 rounded-xl text-12 font-heading font-medium border text-left flex items-center justify-between transition-all duration-200 cursor-pointer outline-none focus:outline-none focus-visible:outline-none ${
-                        isChecked
-                          ? 'border-[#e0a769] bg-[#c88a3e]/20 text-[#fcefdc]'
-                          : 'border-white/[0.08] bg-white/[0.03] text-[#8a9bb3] hover:border-white/[0.2] hover:text-white'
-                      }`}
-                    >
-                      <span>{item.label}</span>
-                      {isChecked && (
-                        <span className="text-[#e0a769] text-12">✓</span>
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Message Field */}
-            <div>
-              <label className="block font-heading text-12 font-semibold text-[#c5d0dc] mb-1.5">
-                Message *
-              </label>
-              <textarea
-                name="message"
-                rows={3}
-                placeholder="Tell us about your project, timeline, or requirements..."
-                value={formData.message}
-                onChange={handleInputChange}
+              <InputField
+                label="First Name"
+                placeholder="John"
+                name="firstName"
+                value={formData.firstName}
+                onChangeHandler={handleInputChange}
                 onBlur={handleBlur}
-                style={{ outline: 'none', boxShadow: 'none' }}
-                className={`custom-modal-input w-full bg-white/[0.05] border rounded-xl px-4 py-2.5 text-14 text-white placeholder:text-[#8a9bb3]/60 outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0 transition-colors resize-none ${
-                  errors.message
-                    ? 'border-red-400 focus:border-red-400'
-                    : 'border-white/[0.12] focus:border-[#e0a769]'
-                }`}
               />
-              {errors.message && (
-                <p className="text-red-400 text-11 mt-1 font-heading">
-                  {errors.message}
+              {errors.firstName && (
+                <p className="text-red-600 text-12 mt-1 font-heading">
+                  {errors.firstName}
                 </p>
               )}
             </div>
-
-            {/* Footer / Submit CTA */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2 border-t border-white/[0.08]">
-              <div className="text-12 text-[#8a9bb3] font-body flex items-center gap-1.5">
-                
-              </div>
-
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="nav-cta !py-2.5 !px-8 !text-13 sm:w-auto w-full flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
-              >
-                {isSubmitting ? (
-                  <>
-                    <span className="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
-                    <span>Sending...</span>
-                  </>
-                ) : (
-                  <span>Send Message →</span>
-                )}
-              </button>
+            <div>
+              <InputField
+                label="Last Name"
+                placeholder="Doe"
+                name="lastName"
+                value={formData.lastName}
+                onChangeHandler={handleInputChange}
+                onBlur={handleBlur}
+              />
+              {errors.lastName && (
+                <p className="text-red-600 text-12 mt-1 font-heading">
+                  {errors.lastName}
+                </p>
+              )}
             </div>
-          </form>
-        </div>
+            <div>
+              <InputField
+                label="Email"
+                placeholder="john@example.com"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChangeHandler={handleInputChange}
+                onBlur={handleBlur}
+              />
+              {errors.email && (
+                <p className="text-red-600 text-12 mt-1 font-heading">
+                  {errors.email}
+                </p>
+              )}
+            </div>
+            <div>
+              <InputField
+                label="Phone Number"
+                placeholder="+1 012 3456 789"
+                name="phone"
+                type="tel"
+                value={formData.phone}
+                onChangeHandler={handleInputChange}
+                onBlur={handleBlur}
+              />
+              {errors.phone && (
+                <p className="text-red-600 text-12 mt-1 font-heading">
+                  {errors.phone}
+                </p>
+              )}
+            </div>
+          </div>
+
+          <div>
+            <h6 className="font-heading text-[14px] sm:text-[15px] font-semibold text-[#071739] mb-3">
+              Select Subject?{' '}
+              <span className="text-[#808080] font-normal text-13">
+                (Optional)
+              </span>
+            </h6>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <Checkbox
+                label="OT Observability"
+                id="otObservability"
+                checked={formData.subjects.otObservability}
+                onChange={handleCheckboxChange}
+              />
+              <Checkbox
+                label="Quantum Security"
+                id="quantumSecurity"
+                checked={formData.subjects.quantumSecurity}
+                onChange={handleCheckboxChange}
+              />
+              <Checkbox
+                label="Enterprise Resilience"
+                id="enterpriseResilience"
+                checked={formData.subjects.enterpriseResilience}
+                onChange={handleCheckboxChange}
+              />
+              <Checkbox
+                label="Enterprise Cloud"
+                id="enterpriseCloud"
+                checked={formData.subjects.enterpriseCloud}
+                onChange={handleCheckboxChange}
+              />
+              <Checkbox
+                label="Artificial Intelligence"
+                id="artificialIntelligence"
+                checked={formData.subjects.artificialIntelligence}
+                onChange={handleCheckboxChange}
+              />
+              <Checkbox
+                label="Digital Transformation"
+                id="digitalTransformation"
+                checked={formData.subjects.digitalTransformation}
+                onChange={handleCheckboxChange}
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label className="font-heading text-[14px] sm:text-[15px] font-semibold text-[#071739]">
+              Message
+            </label>
+            <textarea
+              name="message"
+              value={formData.message}
+              onChange={handleInputChange}
+              onBlur={handleBlur}
+              placeholder="Write your message.."
+              rows={2}
+              style={{ outline: 'none', boxShadow: 'none' }}
+              className={`w-full bg-transparent placeholder:text-[#808080] border-b outline-none focus:border-[#c88a3e] font-reddit-sans text-[14px] text-[#232223] py-2 px-0 resize-none transition-colors ${
+                errors.message ? 'border-b-red-600' : 'border-b-[#D7D7D7]'
+              }`}
+            ></textarea>
+            {errors.message && (
+              <p className="text-red-600 text-12 mt-1 font-heading">
+                {errors.message}
+              </p>
+            )}
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-3 border-t border-black/[0.06] mt-2">
+            <div className="text-12 text-[#64748b] font-body flex items-center gap-1.5 order-2 sm:order-1">
+             
+            </div>
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="btn btn-gold cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed order-1 sm:order-2 w-full sm:w-auto flex items-center justify-center gap-2"
+            >
+              {isSubmitting ? (
+                <>
+                  <span className="inline-block w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin"></span>
+                  <span>Sending...</span>
+                </>
+              ) : (
+                <span>Request a meeting →</span>
+              )}
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

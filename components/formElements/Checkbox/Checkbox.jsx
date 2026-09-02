@@ -1,13 +1,13 @@
 import React from 'react';
 
 const Checkbox = ({
-  wrapperClassName,
-  inputClassName,
-  labelClassName,
+  wrapperClassName = '',
+  inputClassName = '',
+  labelClassName = '',
   label,
   id = '',
   checked = false,
-  onChange = () => {},
+  onChange = (_e) => {},
 }) => {
   return (
     <div className={`${wrapperClassName} flex items-center gap-2`}>
