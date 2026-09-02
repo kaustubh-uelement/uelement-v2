@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import type { Metadata } from 'next';
+import { FaEnvelope, FaWhatsapp, FaBriefcase } from 'react-icons/fa6';
+import type { IconType } from 'react-icons';
 
 /* ─── Inline contact form ─────────────────────────────────────── */
 /* The form logic is intentionally kept minimal; wire to your CRM */
@@ -152,14 +154,23 @@ function ContactForm() {
 }
 
 /* ─── Data ────────────────────────────────────────────────────── */
-const channels = [
+interface ChannelItem {
+  id: string;
+  label: string;
+  desc: string;
+  value: string;
+  href: string;
+  icon: IconType;
+}
+
+const channels: ChannelItem[] = [
   {
     id: 'sales',
     label: 'New business',
     desc: 'Scoping a project or evaluating a partner.',
     value: 'info@uelement.in',
     href: 'mailto:info@uelement.in',
-    icon: '✉',
+    icon: FaEnvelope,
   },
   {
     id: 'incidents',
@@ -167,7 +178,7 @@ const channels = [
     desc: 'Message us directly. Fastest way to reach the team.',
     value: '+91 762 069 0561',
     href: 'https://wa.me/917620690561',
-    icon: '💬',
+    icon: FaWhatsapp,
   },
   {
     id: 'careers',
@@ -175,9 +186,9 @@ const channels = [
     desc: 'Open roles across quantum, platform, and AI engineering.',
     value: 'careers@uelement.in',
     href: 'mailto:careers@uelement.in',
-    icon: '⬡',
+    icon: FaBriefcase,
   },
-] as const;
+];
 
 const stats = [
   { value: '< 1 day', label: 'First response SLA' },
@@ -352,41 +363,47 @@ export default function ContactPage() {
             Route straight to the right inbox; no generic form required.
           </p>
           <div className="grid3">
-            {channels.map((ch) => (
-              <a
-                key={ch.id}
-                href={ch.href}
-                className="card link"
-                style={{
-                  textDecoration: 'none',
-                  position: 'relative',
-                  overflow: 'hidden',
-                }}
-              >
-                {/* icon badge */}
-                <div
+            {channels.map((ch) => {
+              const IconComponent = ch.icon;
+              const isExternal = ch.href.startsWith('http');
+              return (
+                <a
+                  key={ch.id}
+                  href={ch.href}
+                  target={isExternal ? '_blank' : undefined}
+                  rel={isExternal ? 'noopener noreferrer' : undefined}
+                  className="card link"
                   style={{
-                    width: 42,
-                    height: 42,
-                    borderRadius: '50%',
-                    background: 'rgba(224,167,105,0.08)',
-                    border: '1px solid rgba(224,167,105,0.22)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: 18,
-                    marginBottom: 20,
+                    textDecoration: 'none',
+                    position: 'relative',
+                    overflow: 'hidden',
                   }}
                 >
-                  {ch.icon}
-                </div>
-                <h4>{ch.label}</h4>
-                <p style={{ marginBottom: 18 }}>{ch.desc}</p>
-                <p className="mono" style={{ color: 'var(--gold-500)' }}>
-                  {ch.value} →
-                </p>
-              </a>
-            ))}
+                  {/* icon badge */}
+                  <div
+                    style={{
+                      width: 42,
+                      height: 42,
+                      borderRadius: '50%',
+                      background: 'rgba(224,167,105,0.08)',
+                      border: '1px solid rgba(224,167,105,0.22)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: 'var(--gold-500)',
+                      marginBottom: 20,
+                    }}
+                  >
+                    <IconComponent size={18} />
+                  </div>
+                  <h4>{ch.label}</h4>
+                  <p style={{ marginBottom: 18 }}>{ch.desc}</p>
+                  <p className="mono" style={{ color: 'var(--gold-500)' }}>
+                    {ch.value} →
+                  </p>
+                </a>
+              );
+            })}
           </div>
         </div>
       </div>

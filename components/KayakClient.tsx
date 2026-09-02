@@ -29,7 +29,7 @@ export default function KayakClient() {
           </p>
           <div style={{ marginTop: 28, display: 'flex', gap: '16px' }}>
             <Link href="/contact" className="btn btn-gold">
-              Book a scoping workshop
+              Book a Demo
             </Link>
           </div>
         </div>
@@ -322,7 +322,7 @@ export default function KayakClient() {
             }}
           >
             <Link href="/contact" className="btn btn-gold">
-              Book a scoping workshop
+              Book a Demo
             </Link>
           </div>
         </div>

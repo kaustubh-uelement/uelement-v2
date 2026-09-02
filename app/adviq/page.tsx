@@ -27,12 +27,14 @@ export const metadata: Metadata = {
   },
 };
 
+import AdviqCanvas from '../../components/AdviqCanvas';
+
 export default function U92Page() {
   return (
     <>
-      <div className="hero">
-        <div className="hero-fabric" />
-        <div className="wrap">
+      <div className="hero" style={{ position: 'relative', overflow: 'hidden' }}>
+        <AdviqCanvas />
+        <div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
           <div className="crumb">
             <Link href="/">Home</Link> / AdviQ
           </div>

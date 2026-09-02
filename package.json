@@ -14,6 +14,8 @@
     "deploy": "npm run build && wrangler pages deploy out"
   },
   "dependencies": {
+    "@amcharts/amcharts5": "^5.20.2",
+    "@amcharts/amcharts5-geodata": "^5.1.6",
     "@web3forms/react": "^1.1.3",
     "dat.gui": "^0.7.9",
     "glob": "^13.0.0",

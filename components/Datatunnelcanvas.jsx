@@ -18,6 +18,7 @@ export default function DataTunnelCanvas({
   className = '',
   style = {},
   showGui = false, // the codepen ships a lil-gui debug panel; off by default for production use
+  convergenceX = 0.60, // horizontal position of pinch point (0 = far left, 1 = far right)
 }) {
   const containerRef = useRef(null);
 
@@ -81,11 +82,24 @@ export default function DataTunnelCanvas({
         // Visuals (Bloom)
         bloomStrength: 3.0,
         bloomRadius: 0.5,
+
+        // Interactive Thread Settings
+        interactiveStrength: 1.2,
+        interactiveRadius: 28.0,
+        interactiveFlutter: 0.38,
+        interactiveWaveSpeed: 7.5,
       };
 
-      params.positionX = (params.curveLength - params.straightLength) / 2;
-
       const CONSTANTS = { segmentCount: 150 };
+
+      // --- MOUSE & INTERACTION STATE ---
+      const mouse = { x: -9999, y: -9999 };
+      const targetMouse = { x: -9999, y: -9999 };
+      const prevMouse = { x: -9999, y: -9999 };
+      let mouseHover = 0;
+      let targetMouseHover = 0;
+      let mouseSpeed = 0;
+      const linePlucks = new Float32Array(300);
 
       const getSize = () => ({
         width: container.clientWidth || 1,
@@ -93,9 +107,6 @@ export default function DataTunnelCanvas({
       });
 
       // --- SCENE SETUP ---
-      // No scene.background AND no fog — both would otherwise blend
-      // colorBg into the render and fake a black backdrop even with a
-      // transparent canvas. Fully transparent means fully transparent.
       scene = new THREE.Scene();
 
       const { width, height } = getSize();
@@ -115,7 +126,6 @@ export default function DataTunnelCanvas({
       container.appendChild(renderer.domElement);
 
       contentGroup = new THREE.Group();
-      contentGroup.position.set(params.positionX, params.positionY, 0);
       scene.add(contentGroup);
 
       // --- POST-PROCESSING ---
@@ -135,6 +145,100 @@ export default function DataTunnelCanvas({
       composer.addPass(renderScene);
       composer.addPass(bloomPass);
 
+      // --- DYNAMIC GEOMETRY ADAPTATION ---
+      // Dynamically calculate curve and beam length based on visible camera frustum
+      // so the flare always starts from and extends off the right edge of the viewport
+      // regardless of aspect ratio (e.g. ultra-wide screens with short hero height).
+      function updateDimensions() {
+        const { width: w, height: h } = getSize();
+        const aspect = w / h;
+        camera.aspect = aspect;
+        camera.updateProjectionMatrix();
+
+        const vFovRad = (camera.fov * Math.PI) / 180;
+        const visibleHalfHeight = camera.position.z * Math.tan(vFovRad / 2);
+        const visibleHalfWidth = visibleHalfHeight * aspect;
+
+        // Position pinch/convergence point towards the left of the screen
+        // Screen ratio: 0.0 (far left) to 1.0 (far right)
+        // With CSS scaleX(-1) mirror: Three.js NDC X = 1 - 2 * convergenceX
+        const ndcTarget = 1 - 2 * convergenceX;
+        params.positionX = ndcTarget * visibleHalfWidth;
+
+        // Move the beak up slightly to fit perfectly between the headings
+        params.positionY = 3.0;
+
+        // Curve reaches past the 3D left boundary (which is screen right edge when mirrored)
+        params.curveLength = (1.0 + ndcTarget + 0.15) * visibleHalfWidth;
+        // Straight beam reaches past the 3D right boundary (screen left edge)
+        params.straightLength = Math.max(
+          1.0,
+          (1.0 - ndcTarget + 0.4) * visibleHalfWidth
+        );
+
+        // Make the tunnel spread fully top-to-bottom on the right edge
+        params.spreadHeight = visibleHalfHeight * 1.0;
+
+        if (contentGroup) {
+          contentGroup.position.set(params.positionX, params.positionY, 0);
+        }
+
+        renderer.setSize(w, h);
+        composer.setSize(w, h);
+        if (bloomPass && bloomPass.resolution) {
+          bloomPass.resolution.set(w, h);
+        }
+      }
+
+      updateDimensions();
+
+      // --- POINTER EVENT HANDLERS ---
+      const handlePointerMove = (e) => {
+        if (!container || !camera) return;
+        const rect = container.getBoundingClientRect();
+        const isInside =
+          e.clientX >= rect.left &&
+          e.clientX <= rect.right &&
+          e.clientY >= rect.top &&
+          e.clientY <= rect.bottom;
+
+        if (isInside) {
+          targetMouseHover = 1;
+          const relX = e.clientX - rect.left;
+          const relY = e.clientY - rect.top;
+
+          // Note: The canvas has CSS transform: scaleX(-1), so screen X is flipped in Three.js NDC space
+          const effectiveNdcX = 1 - 2 * (relX / Math.max(1, rect.width));
+          const effectiveNdcY = -(relY / Math.max(1, rect.height)) * 2 + 1;
+
+          const vFovRad = (camera.fov * Math.PI) / 180;
+          const visibleHalfHeight = camera.position.z * Math.tan(vFovRad / 2);
+          const visibleHalfWidth = visibleHalfHeight * camera.aspect;
+
+          const worldX = effectiveNdcX * visibleHalfWidth;
+          const worldY = effectiveNdcY * visibleHalfHeight;
+
+          targetMouse.x = worldX - params.positionX;
+          targetMouse.y = worldY - params.positionY;
+        } else {
+          targetMouseHover = 0;
+        }
+      };
+
+      const handlePointerLeave = () => {
+        targetMouseHover = 0;
+      };
+
+      window.addEventListener('pointermove', handlePointerMove, {
+        passive: true,
+      });
+      window.addEventListener('pointerdown', handlePointerMove, {
+        passive: true,
+      });
+      window.addEventListener('pointerleave', handlePointerLeave, {
+        passive: true,
+      });
+
       // --- MATH & PATH CALCULATION ---
       function getPathPoint(t, lineIndex, time) {
         const totalLen = params.curveLength + params.straightLength;
@@ -142,6 +246,9 @@ export default function DataTunnelCanvas({
 
         let y = 0;
         let z = 0;
+
+        // spreadFactor goes from -1 to +1.
+        // -1 is bottom, +1 is top.
         const spreadFactor = (lineIndex / params.lineCount - 0.5) * 2;
 
         if (currentX < 0) {
@@ -149,17 +256,90 @@ export default function DataTunnelCanvas({
           let shapeFactor = (Math.cos(ratio * Math.PI) + 1) / 2;
           shapeFactor = Math.pow(shapeFactor, params.curvePower);
 
-          y = spreadFactor * params.spreadHeight * shapeFactor;
+          // Allow asymmetric stretching for top vs bottom
+          // When we shifted the beak up, the top was getting clipped and bottom had a gap.
+          // By multiplying the bottom spread by 1.6 and top spread by 0.7, we can fill the screen perfectly.
+          let asymmetricSpreadHeight = params.spreadHeight;
+          if (spreadFactor > 0) {
+            // Top half
+            asymmetricSpreadHeight = params.spreadHeight * 0.95;
+          } else {
+            // Bottom half
+            asymmetricSpreadHeight = params.spreadHeight * 1.1;
+          }
+
+          y = spreadFactor * asymmetricSpreadHeight * shapeFactor;
           z = spreadFactor * params.spreadDepth * shapeFactor;
 
+          // Ambient baseline wave
           const waveFactor = shapeFactor;
-          const wave =
+          const ambientWave =
             Math.sin(time * params.waveSpeed + currentX * 0.1 + lineIndex) *
             params.waveHeight *
             waveFactor;
-          y += wave;
+          y += ambientWave;
+
+          // Interactive thread waving & elastic response (only on the flared right-side strings)
+          if (mouseHover > 0.001) {
+            const dx = currentX - mouse.x;
+            const dy = y - mouse.y;
+            const distSq = dx * dx + dy * dy;
+            const radius = params.interactiveRadius;
+            const radiusSq = radius * radius;
+
+            if (distSq < radiusSq) {
+              const dist = Math.sqrt(distSq);
+              const norm = 1 - dist / radius;
+              // Smoothstep falloff curve for tactile thread elasticity
+              const falloff = norm * norm * (3 - 2 * norm) * mouseHover;
+
+              // 1. Thread deflection away from cursor
+              const pushY =
+                (dy / (dist + 2.5)) *
+                params.interactiveStrength *
+                2.6 *
+                falloff;
+              const pushZ =
+                Math.sin(norm * Math.PI) *
+                params.interactiveStrength *
+                1.2 *
+                falloff;
+
+              // 2. High-frequency silk flutter / vibration
+              const flutter =
+                Math.sin(
+                  time * params.interactiveWaveSpeed +
+                    currentX * 0.35 +
+                    lineIndex * 0.6
+                ) *
+                params.interactiveFlutter *
+                falloff;
+
+              // 3. Traveling ripple wave along the thread
+              const ripple =
+                Math.sin(dx * 0.4 - time * 6.0 + lineIndex * 0.3) *
+                (0.22 + mouseSpeed * 0.5) *
+                falloff;
+
+              y += (pushY + flutter + ripple) * shapeFactor;
+              z += pushZ * shapeFactor;
+            }
+          }
+
+          // 4. Pluck vibration wave from cursor crossing lines
+          const pluck = linePlucks[lineIndex];
+          if (pluck > 0.001) {
+            const waveDist = currentX - mouse.x;
+            const pluckWave =
+              Math.sin(waveDist * 0.5 - time * 14.0) *
+              pluck *
+              0.4 *
+              shapeFactor;
+            y += pluckWave;
+          }
         }
 
+        // When currentX >= 0 (single output string), y and z remain strictly 0 (steady beam)
         return new THREE.Vector3(currentX, y, z);
       }
 
@@ -344,9 +524,19 @@ export default function DataTunnelCanvas({
         folderBloom
           .add(params, 'bloomStrength', 0, 5)
           .onChange((v) => (bloomPass.strength = v));
-        folderBloom
-          .add(params, 'bloomRadius', 0, 1)
-          .onChange((v) => (bloomPass.radius = v));
+        const folderInteractive = gui.addFolder('Interactive');
+        folderInteractive
+          .add(params, 'interactiveStrength', 0, 5)
+          .name('Strength');
+        folderInteractive
+          .add(params, 'interactiveRadius', 5, 80)
+          .name('Radius');
+        folderInteractive
+          .add(params, 'interactiveFlutter', 0, 2)
+          .name('Flutter');
+        folderInteractive
+          .add(params, 'interactiveWaveSpeed', 0, 20)
+          .name('Wave Speed');
       }
 
       // --- ANIMATION LOOP ---
@@ -356,6 +546,57 @@ export default function DataTunnelCanvas({
         animationFrameId = requestAnimationFrame(animate);
 
         const time = clock.getElapsedTime();
+
+        // Smooth mouse tracking and hover interpolation
+        if (targetMouseHover > 0.01) {
+          if (mouse.x < -9000) {
+            mouse.x = targetMouse.x;
+            mouse.y = targetMouse.y;
+            prevMouse.x = targetMouse.x;
+            prevMouse.y = targetMouse.y;
+          } else {
+            mouse.x += (targetMouse.x - mouse.x) * 0.18;
+            mouse.y += (targetMouse.y - mouse.y) * 0.18;
+          }
+        }
+        mouseHover += (targetMouseHover - mouseHover) * 0.08;
+
+        const velX = mouse.x - prevMouse.x;
+        const velY = mouse.y - prevMouse.y;
+        mouseSpeed = Math.hypot(velX, velY);
+        prevMouse.x = mouse.x;
+        prevMouse.y = mouse.y;
+
+        // Check line crossing to excite pluck impulses on strings (only for flared strings region mouse.x < 0)
+        if (mouseHover > 0.05 && mouse.x < 0 && mouse.x > -params.curveLength) {
+          const ratio = (mouse.x + params.curveLength) / params.curveLength;
+          let sf = (Math.cos(ratio * Math.PI) + 1) / 2;
+          sf = Math.pow(sf, params.curvePower);
+
+          for (let i = 0; i < params.lineCount; i++) {
+            const spreadFactor = (i / params.lineCount - 0.5) * 2;
+            const asymSpread =
+              spreadFactor > 0
+                ? params.spreadHeight * 0.95
+                : params.spreadHeight * 1.1;
+            const lineYAtMouse = spreadFactor * asymSpread * sf;
+            const dY = Math.abs(lineYAtMouse - mouse.y);
+
+            if (dY < 2.0 && mouseSpeed > 0.05) {
+              const impulse = Math.min(1.2, mouseSpeed * 0.4);
+              linePlucks[i] = Math.min(1.8, (linePlucks[i] || 0) + impulse);
+            }
+          }
+        }
+
+        // Decay pluck vibrations
+        for (let i = 0; i < params.lineCount; i++) {
+          if (linePlucks[i] > 0.001) {
+            linePlucks[i] *= 0.93;
+          } else {
+            linePlucks[i] = 0;
+          }
+        }
 
         backgroundLines.forEach((line) => {
           const positions = line.geometry.attributes.position.array;
@@ -425,11 +666,7 @@ export default function DataTunnelCanvas({
 
       // --- RESIZE (scoped to the container, not window) ---
       const handleResize = () => {
-        const { width: w, height: h } = getSize();
-        camera.aspect = w / h;
-        camera.updateProjectionMatrix();
-        renderer.setSize(w, h);
-        composer.setSize(w, h);
+        updateDimensions();
       };
 
       resizeObserver = new ResizeObserver(handleResize);
@@ -438,6 +675,9 @@ export default function DataTunnelCanvas({
       // Stash cleanup handles
       init._cleanup = () => {
         cancelAnimationFrame(animationFrameId);
+        window.removeEventListener('pointermove', handlePointerMove);
+        window.removeEventListener('pointerdown', handlePointerMove);
+        window.removeEventListener('pointerleave', handlePointerLeave);
         resizeObserver?.disconnect();
         gui?.destroy();
 
@@ -460,8 +700,7 @@ export default function DataTunnelCanvas({
       disposed = true;
       init._cleanup?.();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showGui]);
+  }, [showGui, convergenceX]);
 
   return (
     <div

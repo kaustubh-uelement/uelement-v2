@@ -1,0 +1,592 @@
+.adviq-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none; /* Let clicks pass through to hero text */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+}
+
+/* Position card stream vertically on the right side of the hero */
+.adviq-container .card-stream {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 80%;
+  transform: translateX(-50%);
+  width: 320px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: visible;
+  pointer-events: none;
+}
+
+@media (max-width: 960px) {
+  .adviq-container .card-stream {
+    left: 50%;
+    opacity: 0.35;
+  }
+}
+
+/* Dedicated drag zone for unparsed cards (entire region before/below the golden line) */
+.adviq-container .card-drag-zone {
+  position: absolute;
+  top: 42%;
+  bottom: 0;
+  left: -20px;
+  right: -20px;
+  height: 58%;
+  pointer-events: auto;
+  cursor: grab;
+  z-index: 25;
+  touch-action: none;
+}
+
+.adviq-container .card-drag-zone:active,
+.adviq-container .card-drag-zone.dragging {
+  cursor: grabbing;
+}
+
+/* Allow mouse events on hero background to reach the card stream */
+.hero .wrap {
+  pointer-events: none;
+}
+
+.hero .wrap a,
+.hero .wrap button,
+.hero .wrap .btn,
+.hero .wrap .crumb {
+  pointer-events: auto;
+}
+
+.adviq-container .card-line {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+  cursor: grab;
+  user-select: none;
+  will-change: transform;
+  pointer-events: none; /* Let drag-zone handle interaction before the golden line */
+}
+
+.adviq-container .card-line:active, .adviq-container .card-line.dragging {
+  cursor: grabbing;
+}
+
+.adviq-container .card-wrapper {
+  position: relative;
+  width: 250px;
+  height: 400px;
+  flex-shrink: 0;
+  pointer-events: none;
+  border-radius: 15px;
+}
+
+.adviq-container .card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.adviq-container .card-normal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+  color: white;
+  z-index: 2;
+  overflow: hidden;
+  border-radius: 15px;
+  clip-path: inset(var(--clip-bottom, 0%) 0 0 0);
+}
+
+.adviq-container .card-image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px !important;
+  height: 250px !important;
+  max-width: none !important;
+  max-height: none !important;
+  min-width: 400px !important;
+  min-height: 250px !important;
+  transform: translate(-50%, -50%) rotate(90deg);
+  transform-origin: center center;
+  object-fit: cover;
+  border-radius: 15px;
+  display: block;
+  pointer-events: none;
+  filter: brightness(1.1) contrast(1.1);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.adviq-container .card-image:hover {
+  filter: brightness(1.2) contrast(1.2);
+}
+
+.adviq-container .card-ascii {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  z-index: 1;
+  border-radius: 15px;
+  overflow: hidden;
+  clip-path: inset(0 0 calc(100% - var(--clip-top, 0%)) 0);
+  pointer-events: none !important;
+  cursor: default !important;
+}
+
+.adviq-container .ascii-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: rgba(220, 210, 255, 0.6);
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+  line-height: 13px;
+  overflow: hidden;
+  white-space: pre;
+  animation: scanGlitch 0.1s infinite linear alternate-reverse;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  vertical-align: top;
+  box-sizing: border-box;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.8) 30%,
+    rgba(0, 0, 0, 0.6) 50%,
+    rgba(0, 0, 0, 0.4) 80%,
+    rgba(0, 0, 0, 0.2) 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.8) 30%,
+    rgba(0, 0, 0, 0.6) 50%,
+    rgba(0, 0, 0, 0.4) 80%,
+    rgba(0, 0, 0, 0.2) 100%
+  );
+}
+
+@keyframes scanGlitch {
+  0% { opacity: 1; }
+  15% { opacity: 0.9; }
+  16% { opacity: 1; }
+  49% { opacity: 0.8; }
+  50% { opacity: 1; }
+  99% { opacity: 0.9; }
+  100% { opacity: 1; }
+}
+
+.adviq-container .scan-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(0, 255, 255, 0.4),
+    transparent
+  );
+  animation: scanEffect 0.6s ease-out;
+  pointer-events: none;
+  z-index: 5;
+}
+
+@keyframes scanEffect {
+  0% { transform: translateY(100%); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateY(-100%); opacity: 0; }
+}
+
+.adviq-container .adviq-particle-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.adviq-container .adviq-scanner-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 15;
+  pointer-events: none;
+  mix-blend-mode: screen; /* Prevent dark canvas background on hero */
+}
+
+/* ==========================================================================
+   Custom Native Vector Cards
+   ========================================================================== */
+
+.custom-adviq-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px !important;
+  height: 250px !important;
+  max-width: none !important;
+  max-height: none !important;
+  min-width: 400px !important;
+  min-height: 250px !important;
+  transform: translate(-50%, -50%) rotate(90deg);
+  transform-origin: center center;
+  border-radius: 15px;
+  overflow: hidden;
+  display: block;
+  pointer-events: none;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.15), 0 10px 30px rgba(0, 0, 0, 0.25);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  user-select: none;
+}
+
+.custom-adviq-card .card-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.custom-adviq-card .ocr-font {
+  font-family: "Courier New", Courier, monospace;
+  letter-spacing: 2px;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+/* --- Theme 1: Stripe Holographic Wave --- */
+.custom-adviq-card.theme-stripe-holo .holo-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.custom-adviq-card.theme-stripe-holo .holo-mesh {
+  width: 100%;
+  height: 100%;
+}
+
+.custom-adviq-card.theme-stripe-holo .card-header-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 52px;
+  background: #080f22;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 22px;
+  z-index: 2;
+  border-bottom: 1px solid rgba(200, 138, 62, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.custom-adviq-card.theme-stripe-holo .brand-stripe {
+  font-size: 22px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+.custom-adviq-card.theme-stripe-holo .card-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #c5d0dc;
+}
+
+.custom-adviq-card.theme-stripe-holo .chip-icon {
+  color: #e2e8f0;
+}
+
+.custom-adviq-card.theme-stripe-holo .card-footer {
+  position: absolute;
+  bottom: 16px;
+  left: 22px;
+  right: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 2;
+}
+
+.custom-adviq-card.theme-stripe-holo .card-footer .card-number {
+  color: #fcefdc;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* --- Theme 2: Apple Pastel Aurora --- */
+.custom-adviq-card.theme-apple-pastel .apple-pastel-bg {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 40%, #cbd5e1 75%, #dbeafe 100%);
+}
+
+.custom-adviq-card.theme-apple-pastel .watermark-apple {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  pointer-events: none;
+  opacity: 0.45;
+}
+
+.custom-adviq-card.theme-apple-pastel .card-top-row {
+  position: absolute;
+  top: 20px;
+  left: 22px;
+  z-index: 2;
+}
+
+.custom-adviq-card.theme-apple-pastel .brand-apple-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #0f172a;
+}
+
+.custom-adviq-card.theme-apple-pastel .brand-apple-text {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+
+.custom-adviq-card.theme-apple-pastel .card-bottom-area {
+  position: absolute;
+  bottom: 20px;
+  left: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 2;
+}
+
+.custom-adviq-card.theme-apple-pastel .card-name-bold {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.2px;
+}
+
+.custom-adviq-card.theme-apple-pastel .card-bottom-area .card-number {
+  color: #334155;
+}
+
+.custom-adviq-card.theme-apple-pastel .card-bottom-right {
+  position: absolute;
+  bottom: 20px;
+  right: 22px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 2;
+  color: #334155;
+}
+
+/* --- Theme 3: Revolut Champagne & Slate Aurora --- */
+.custom-adviq-card.theme-revolut-aurora .revolut-aurora-bg {
+  height: 70%;
+  background: linear-gradient(135deg, #faf6ee 0%, #f7ebd9 35%, #eed5b7 70%, #d4a574 100%);
+}
+
+.custom-adviq-card.theme-revolut-aurora .card-top-row {
+  position: absolute;
+  top: 18px;
+  left: 22px;
+  right: 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 2;
+}
+
+.custom-adviq-card.theme-revolut-aurora .brand-revolut {
+  font-size: 22px;
+  font-weight: 900;
+  color: #111827;
+  letter-spacing: -0.5px;
+}
+
+.custom-adviq-card.theme-revolut-aurora .chip-icon-revolut {
+  color: #111827;
+}
+
+.custom-adviq-card.theme-revolut-aurora .card-middle-number {
+  position: absolute;
+  top: 136px;
+  left: 22px;
+  color: #1e293b;
+  z-index: 2;
+  font-weight: 700;
+}
+
+.custom-adviq-card.theme-revolut-aurora .card-black-banner {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 30%;
+  background: #111317;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 22px;
+  z-index: 2;
+  border-top: 1px solid rgba(224, 167, 105, 0.25);
+}
+
+.custom-adviq-card.theme-revolut-aurora .card-name-multiline {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #ffffff;
+}
+
+.custom-adviq-card.theme-revolut-aurora .brand-mc {
+  color: rgba(224, 167, 105, 0.85);
+}
+
+/* --- Theme 4: X Dark Titanium --- */
+.custom-adviq-card.theme-x-titanium .titanium-bg {
+  background: linear-gradient(135deg, #1a1c20 0%, #292c32 40%, #151619 70%, #23262c 100%);
+}
+
+.custom-adviq-card.theme-x-titanium .left-dark-strip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 62px;
+  height: 100%;
+  background: #0f1012;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px 0;
+  align-items: center;
+  z-index: 2;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.custom-adviq-card.theme-x-titanium .left-dark-strip .brand-x {
+  color: #ffffff;
+}
+
+.custom-adviq-card.theme-x-titanium .left-dark-strip .brand-mc {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.custom-adviq-card.theme-x-titanium .main-card-content {
+  position: absolute;
+  top: 0;
+  left: 62px;
+  right: 0;
+  bottom: 0;
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.02) 0px, rgba(255, 255, 255, 0.02) 1px, transparent 1px, transparent 4px);
+  z-index: 2;
+}
+
+.custom-adviq-card.theme-x-titanium .card-top-right {
+  text-align: right;
+  color: #f1f5f9;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.custom-adviq-card.theme-x-titanium .card-middle-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #f1f5f9;
+  margin-top: 15px;
+}
+
+.custom-adviq-card.theme-x-titanium .card-bottom-right {
+  text-align: right;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* --- Theme 5: X Gold & Charcoal --- */
+.custom-adviq-card.theme-x-gold .x-gold-bg {
+  background: radial-gradient(ellipse at 50% 30%, #e5a93c 0%, #85591c 35%, #2b221a 65%, #151414 100%);
+}
+
+.custom-adviq-card.theme-x-gold .card-top-row {
+  position: absolute;
+  top: 18px;
+  left: 22px;
+  right: 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 2;
+  color: #f8fafc;
+}
+
+.custom-adviq-card.theme-x-gold .card-top-row .card-name {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.custom-adviq-card.theme-x-gold .middle-black-band {
+  position: absolute;
+  top: 98px;
+  left: 0;
+  width: 100%;
+  height: 48px;
+  background: #151618;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 22px;
+  z-index: 2;
+  color: #f8fafc;
+}
+
+.custom-adviq-card.theme-x-gold .card-bottom-row {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 104px;
+  background: linear-gradient(180deg, #f8f9fa 0%, #e2e8f0 100%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 22px;
+  z-index: 2;
+  color: #334155;
+}
+
