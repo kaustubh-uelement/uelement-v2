@@ -215,6 +215,12 @@ export const navItems: NavItem[] = [
               'Insights, trends, and expert perspectives from our team.',
             href: '/blogs',
           },
+          {
+            label: 'Contact Us',
+            description:
+              'Get in touch with our leadership and advisory teams.',
+            href: '/contact',
+          },
         ],
       },
     ],

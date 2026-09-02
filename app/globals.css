@@ -2108,3 +2108,48 @@ table.spec td:first-child {
     gap: 24px;
   }
 }
+
+/* ══════════════ CONTACT MODAL ANIMATIONS & SCROLLBAR ══════════════ */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes modalBackdropFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fadeIn {
+  animation: modalBackdropFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.custom-modal-scrollbar {
+  animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.custom-modal-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+  width: 0px;
+  height: 0px;
+}
+
+/* Eliminate browser double outline/ring on modal inputs */
+.custom-modal-input,
+.custom-modal-input:focus,
+.custom-modal-input:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
