@@ -625,7 +625,7 @@ const FooterContent = () => {
                 >
                   <span className="!text-[14px] !font-heading">Ankura</span>
                   <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
-                    The Enterprise Digital Fabric
+                    The Enterprise Digital Ground
                   </span>
                 </Link>
                 <Link
@@ -799,7 +799,7 @@ const FooterContent = () => {
                 >
                   <span className="!text-[14px] !font-heading">Ankura</span>
                   <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
-                    The Enterprise Digital Fabric
+                    The Enterprise Digital Ground
                   </span>
                 </Link>
                 <Link

@@ -64,13 +64,13 @@ export default function StambhClient() {
               className="card link"
               style={{ textDecoration: 'none' }}
             >
-              <div className="tag">The digital fabric</div>
+              <div className="tag">The digital ground</div>
               <h4>Ankura</h4>
               <p
                 className="serif-line"
                 style={{ fontSize: 16, marginBottom: 10, color: '#c88a3e' }}
               >
-                The Enterprise Digital Fabric
+                The Enterprise Digital Ground
               </p>
               <p>
                 Builds and runs every outward-facing surface your enterprise

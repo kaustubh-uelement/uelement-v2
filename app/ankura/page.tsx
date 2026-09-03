@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import AnkuraClient from '@/components/AnkuraClient';
 
 export const metadata: Metadata = {
-  title: 'Ankura — The Enterprise Digital Fabric — StamBH by UElement',
+  title: 'Ankura — The Enterprise Digital Ground — StamBH by UElement',
   description:
     'StamBH Ankura builds and runs every outward-facing digital surface an enterprise touches — web, mobile, search, workflows — on a first-class AI substrate.',
 };

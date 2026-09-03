@@ -51,7 +51,7 @@ export const navItems: NavItem[] = [
         items: [
           {
             label: 'Ankura',
-            description: 'The Enterprise Digital Fabric',
+            description: 'The Enterprise Digital Ground',
             href: '/ankura',
           },
           {

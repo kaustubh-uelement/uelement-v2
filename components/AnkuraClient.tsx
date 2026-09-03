@@ -27,7 +27,7 @@ export default function AnkuraClient() {
                 fontSize: 'var(--text-display)',
               }}
             >
-              The Enterprise <span className="au">Digital Fabric</span>
+              The Enterprise <span className="au">Digital Ground</span>
             </h1>
             <p
               className="serif-line"
@@ -37,7 +37,7 @@ export default function AnkuraClient() {
                 color: '#c88a3e',
               }}
             >
-              StamBH &middot; the digital fabric
+              StamBH &middot; the digital ground
             </p>
             <p
               className="lede"
@@ -207,7 +207,7 @@ export default function AnkuraClient() {
         <div className="wrap">
           <div className="kicker">Extended platform</div>
           <h2 className="display">
-            What a serious digital fabric{' '}
+            What a serious digital ground{' '}
             <span className="au">can&apos;t ship without.</span>
           </h2>
 
@@ -280,13 +280,13 @@ export default function AnkuraClient() {
               className="card link"
               style={{ textDecoration: 'none', border: '1px solid #c88a3e' }}
             >
-              <div className="tag">The digital fabric</div>
+              <div className="tag">The digital ground</div>
               <h4>Ankura</h4>
               <p
                 className="serif-line"
                 style={{ fontSize: 16, marginBottom: 10, color: '#c88a3e' }}
               >
-                The Enterprise Digital Fabric
+                The Enterprise Digital Ground
               </p>
               <p>
                 You are here — every digital surface, every workflow, every AI
