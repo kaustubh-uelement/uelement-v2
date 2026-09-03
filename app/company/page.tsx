@@ -239,8 +239,8 @@ export default function CompanyPage() {
           >
             <p
               style={{
-                margin: '0 auto 12px',
-                fontSize: 13,
+                margin: '0 auto 18px',
+                fontSize: 16,
                 fontWeight: 600,
                 color: '#2a1408',
                 letterSpacing: '0.01em',
