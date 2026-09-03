@@ -15,7 +15,7 @@ const GlobalOperationsGlobe = dynamic(
         style={{
           width: '100%',
           maxWidth: 1120,
-          height: 600,
+          height: 'clamp(320px, 48vh, 600px)',
           margin: '24px auto 0',
           background: 'transparent',
           display: 'flex',

@@ -13,6 +13,8 @@ export default function GlobalOperationsGlobe() {
     const container = chartRef.current;
     if (!container) return;
 
+    const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
+
     // Create root element
     const root = am5.Root.new(container);
 
@@ -43,10 +45,11 @@ export default function GlobalOperationsGlobe() {
       root._logo.dispose();
     }
 
-    // Coffee palette
+    // Coffee & Gold palette
     const espresso = am5.color(0x3c1e0e);
     const darkRoast = am5.color(0x5c3a1e);
     const mediumRoast = am5.color(0x8b5e3c);
+    const goldenBrown = am5.color(0x9c6d42); // Golden brown replacing green
     const lightRoast = am5.color(0xc4956a);
     const crema = am5.color(0xe8d5b7);
     const cream = am5.color(0xf5ece0);
@@ -59,16 +62,16 @@ export default function GlobalOperationsGlobe() {
     const chart = root.container.children.push(
       am5map.MapChart.new(root, {
         panX: 'rotateX',
-        panY: 'rotateY',
+        panY: isMobile ? 'none' : 'rotateY',
         wheelX: 'none',
         wheelY: 'none',
-        pinchZoom: true,
+        pinchZoom: false,
         projection: am5map.geoOrthographic(),
         rotationX: INDIA_ROT_X,
         rotationY: INDIA_ROT_Y,
         minZoomLevel: 0.5,
         maxZoomLevel: 16,
-        zoomLevel: 0.9,
+        zoomLevel: isMobile ? 0.82 : 0.9,
       })
     );
 
@@ -143,9 +146,9 @@ export default function GlobalOperationsGlobe() {
       am5.array.each(polygonSeries.dataItems, function (di) {
         const id = di.get('id');
         if (id && producerIds.includes(id as string)) {
-          di.get('mapPolygon')?.setAll({ fill: am5.color(0x8fae7e) });
+          di.get('mapPolygon')?.setAll({ fill: goldenBrown });
         } else if (id && hubIds.includes(id as string)) {
-          di.get('mapPolygon')?.setAll({ fill: am5.color(0xc4a878) });
+          di.get('mapPolygon')?.setAll({ fill: am5.color(0xc4956a) });
         } else if (id && consumerIds.includes(id as string)) {
           di.get('mapPolygon')?.setAll({ fill: am5.color(0xddc8a0) });
         }
@@ -297,15 +300,15 @@ export default function GlobalOperationsGlobe() {
       })
     );
 
-    titleCont.children.push(
-      am5.Label.new(root, {
-        text: '(Global Deployments · HQ: Pune, India)',
-        fontSize: 11,
-        fill: mediumRoast,
-        x: am5.p50,
-        centerX: am5.p50,
-      })
-    );
+    // titleCont.children.push(
+    //   am5.Label.new(root, {
+    //     text: '(Global Deployments · HQ: Pune, India)',
+    //     fontSize: 11,
+    //     fill: mediumRoast,
+    //     x: am5.p50,
+    //     centerX: am5.p50,
+    //   })
+    // );
 
     // Add Globe / Map projection toggle
     const switchCont = chart.children.push(
@@ -343,6 +346,10 @@ export default function GlobalOperationsGlobe() {
     // Physics-based Momentum Spin & Auto-Return to India Animation
     // ═══════════════════════════════════════════════════════════
     let isDragging = false;
+    let isTouchDrag = false;
+    let isTouchScroll = false;
+    let startPointerX = 0;
+    let startPointerY = 0;
     let lastPointerX = 0;
     let lastPointerY = 0;
     let lastPointerTime = 0;
@@ -472,18 +479,46 @@ export default function GlobalOperationsGlobe() {
     const onPointerDown = (e: PointerEvent) => {
       if (switchButton.get('active')) return;
       isDragging = true;
-      stopAllAnimations();
+      isTouchDrag = false;
+      isTouchScroll = false;
+      startPointerX = e.clientX;
+      startPointerY = e.clientY;
       lastPointerX = e.clientX;
       lastPointerY = e.clientY;
       lastPointerTime = performance.now();
       velocityX = 0;
       velocityY = 0;
+
+      if (e.pointerType !== 'touch') {
+        stopAllAnimations();
+      }
     };
 
     const onPointerMove = (e: PointerEvent) => {
       if (!isDragging || switchButton.get('active')) return;
+      if (isTouchScroll) return;
+
       const now = performance.now();
       const dt = now - lastPointerTime;
+      const totalDx = e.clientX - startPointerX;
+      const totalDy = e.clientY - startPointerY;
+
+      if (e.pointerType === 'touch' && !isTouchDrag) {
+        // If vertical swipe dominates, release drag to let native page scroll happen
+        if (Math.abs(totalDy) > Math.abs(totalDx) && Math.abs(totalDy) > 6) {
+          isTouchScroll = true;
+          isDragging = false;
+          return;
+        }
+        // If horizontal swipe dominates, take over horizontal globe spin
+        if (Math.abs(totalDx) > Math.abs(totalDy) && Math.abs(totalDx) > 6) {
+          isTouchDrag = true;
+          stopAllAnimations();
+        } else {
+          return;
+        }
+      }
+
       const dx = e.clientX - lastPointerX;
       const dy = e.clientY - lastPointerY;
 
@@ -493,7 +528,13 @@ export default function GlobalOperationsGlobe() {
         const vx = (dx / dt) * 16 * speedFactor;
         const vy = -(dy / dt) * 16 * speedFactor;
         velocityX = velocityX * 0.35 + vx * 0.65;
-        velocityY = velocityY * 0.35 + vy * 0.65;
+        velocityY = e.pointerType === 'touch' ? 0 : velocityY * 0.35 + vy * 0.65;
+      }
+
+      if (e.pointerType === 'touch') {
+        // Immediate smooth response for touch
+        const currentRotX = chart.get('rotationX', INDIA_ROT_X) + dx * 0.45;
+        chart.set('rotationX', currentRotX);
       }
 
       lastPointerX = e.clientX;
@@ -502,14 +543,24 @@ export default function GlobalOperationsGlobe() {
     };
 
     const onPointerUp = () => {
-      if (!isDragging) return;
+      if (!isDragging && !isTouchDrag) {
+        isDragging = false;
+        isTouchScroll = false;
+        return;
+      }
       isDragging = false;
       const timeSinceMove = performance.now() - lastPointerTime;
       if (timeSinceMove > 90) {
         velocityX = 0;
         velocityY = 0;
       }
-      startInertia();
+      if (!isTouchScroll) {
+        startInertia();
+      } else {
+        scheduleReturnToIndia(1800);
+      }
+      isTouchDrag = false;
+      isTouchScroll = false;
     };
 
     container.addEventListener('pointerdown', onPointerDown);
@@ -519,9 +570,10 @@ export default function GlobalOperationsGlobe() {
 
     function zoomToGlobe() {
       stopAllAnimations();
+      const isMobileView = typeof window !== 'undefined' && window.innerWidth <= 768;
       chart.set('projection', am5map.geoOrthographic());
       chart.set('panX', 'rotateX');
-      chart.set('panY', 'rotateY');
+      chart.set('panY', isMobileView ? 'none' : 'rotateY');
       chart.animate({
         key: 'rotationX',
         to: INDIA_ROT_X,
@@ -538,7 +590,7 @@ export default function GlobalOperationsGlobe() {
       chart.set('minZoomLevel', 0.5);
       chart.animate({
         key: 'zoomLevel',
-        to: 0.9,
+        to: isMobileView ? 0.82 : 0.9,
         duration: duration,
         easing: easing,
       });
@@ -549,6 +601,7 @@ export default function GlobalOperationsGlobe() {
 
     function zoomToMap() {
       stopAllAnimations();
+      const isMobileView = typeof window !== 'undefined' && window.innerWidth <= 768;
       chart.set('projection', am5map.geoMercator());
       chart.set('panX', 'translateX');
       chart.set('panY', 'translateY');
@@ -568,7 +621,7 @@ export default function GlobalOperationsGlobe() {
       chart.set('minZoomLevel', 1);
       chart.animate({
         key: 'zoomLevel',
-        to: 1.7,
+        to: isMobileView ? 1.2 : 1.7,
         duration: duration,
         easing: easing,
       });
@@ -624,30 +677,37 @@ export default function GlobalOperationsGlobe() {
   }, []);
 
   return (
-    <div
-      style={{
-        width: '100%',
-        maxWidth: 1120,
-        margin: '24px auto 0',
-        background: 'transparent',
-      }}
-    >
-      <div
-        ref={chartRef}
-        id="chartdiv"
-        style={{
-          width: '100%',
-          height: '75vh',
-          minHeight: 520,
-          maxHeight: 780,
-          background: 'transparent',
-          touchAction: 'none',
-          cursor: 'grab',
-        }}
-      />
+    <div className="globe-wrapper">
+      <div ref={chartRef} id="chartdiv" />
       <style jsx global>{`
-        #chartdiv a[href*='amcharts'],
-        #chartdiv [aria-label*='amCharts'] {
+        .globe-wrapper {
+          width: 100%;
+          max-width: 1120px;
+          margin: 24px auto 0;
+          background: transparent;
+        }
+        #chartdiv {
+          width: 100%;
+          height: 75vh;
+          min-height: 520px;
+          max-height: 780px;
+          background: transparent;
+          cursor: grab;
+          touch-action: pan-y;
+        }
+        @media (max-width: 768px) {
+          .globe-wrapper {
+            margin: 12px auto 0;
+          }
+          #chartdiv {
+            height: clamp(320px, 48vh, 400px);
+            min-height: 320px;
+            max-height: 400px;
+            touch-action: pan-y !important;
+          }
+        }
+        #chartdiv a[href*="amcharts"],
+        #chartdiv [aria-label*="amCharts"] {
           display: none !important;
           opacity: 0 !important;
           visibility: hidden !important;
