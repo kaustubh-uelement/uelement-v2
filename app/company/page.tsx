@@ -247,7 +247,7 @@ export default function CompanyPage() {
                 textAlign: 'center',
               }}
             >
-              Programs and deployments across key markets worldwide.
+              Delivering Sovereignty Globally.
             </p>
 
             <div
