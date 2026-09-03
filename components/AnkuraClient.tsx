@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import SpectralCanvas from './SpectralCanvas';
-import PillarCard from './PillarCard';
+import Link from "next/link";
+import SpectralCanvas from "./SpectralCanvas";
+import PillarCard from "./PillarCard";
 
 export default function AnkuraClient() {
   return (
@@ -10,31 +10,31 @@ export default function AnkuraClient() {
       {/* ═══════ HERO ═══════ */}
       <div
         className="hero"
-        style={{ position: 'relative', overflow: 'hidden' }}
+        style={{ position: "relative", overflow: "hidden" }}
       >
         <SpectralCanvas />
         <div
           className="wrap"
-          style={{ position: 'relative', zIndex: 1, pointerEvents: 'none' }}
+          style={{ position: "relative", zIndex: 1, pointerEvents: "none" }}
         >
-          <div style={{ maxWidth: '640px' }}>
-            <div className="crumb" style={{ pointerEvents: 'auto' }}>
-              <Link href="/">Home</Link> / Ankura
+          <div style={{ maxWidth: "640px" }}>
+            <div className="crumb" style={{ pointerEvents: "auto" }}>
+              <Link href="/">Home</Link> / <Link href="/stambh">StamBH</Link> / Ankura
             </div>
             <h1
               className="display"
               style={{
-                fontSize: 'var(--text-display)',
+                fontSize: "var(--text-display)",
               }}
             >
-              The Enterprise <span className="au">Digital Ground</span>
+              Weave your digital business <span className="au">into one.</span>
             </h1>
             <p
               className="serif-line"
               style={{
                 fontSize: 20,
                 marginTop: 8,
-                color: '#c88a3e',
+                color: "#c88a3e",
               }}
             >
               StamBH &middot; the digital ground
@@ -43,159 +43,179 @@ export default function AnkuraClient() {
               className="lede"
               style={{
                 marginTop: 26,
-                textShadow: '0 2px 20px rgba(7, 23, 57, 0.85)',
+                textShadow: "0 2px 20px rgba(7, 23, 57, 0.85)",
               }}
             >
-              One platform to build and run every outward-facing surface your
-              enterprise touches — web, mobile, search, and AI-native
-              experiences — governed by a single workflow and analytics fabric.
+              Ankura connects the digital experiences, workflows, data and intelligence your enterprise relies on, into one <strong style={{ color: "#fff" }}>unified, always-on platform</strong> built to simplify complexity and scale with your business.
             </p>
             <div
               style={{
                 marginTop: 28,
-                display: 'flex',
-                gap: '16px',
-                pointerEvents: 'auto',
+                display: "flex",
+                gap: "16px",
+                pointerEvents: "auto",
               }}
             >
               <Link href="/contact" className="btn btn-gold">
-                Book a Demo
+                Book a demo session
               </Link>
             </div>
           </div>
         </div>
       </div>
 
-      {/* ═══════ THE SPRAWL PROBLEM ═══════ */}
-      <div className="section alt">
+      {/* ═══════ THE PROBLEM BEHIND THE COMPLEXITY ═══════ */}
+      <div className="section alt" id="problem">
         <div className="wrap">
-          <div className="kicker">The sprawl problem</div>
+          <div className="kicker">The problem behind the complexity</div>
           <h2 className="display text-navy-gradient">
-            Ten platforms are telling <br />
-            ten <span className="au"> versions</span> of your story.
+            The threads are already there. <br />
+            <span className="au">The problem is they don&apos;t work as one.</span>
           </h2>
-          <div style={{ marginTop: 20, maxWidth: '800px' }}>
+          <div style={{ marginTop: 20, maxWidth: "800px" }}>
             <p className="lede" style={{ marginBottom: 16 }}>
-              The average enterprise assembles its outward-facing presence from
-              a headless CMS, a mobile app platform, an SEO stack, a workflow
-              engine, and a growing zoo of AI tools bolted on the edges — each
-              with its own login, data model, analytics, and compliance surface.
+              Your website, mobile experience, search, workflows, analytics and AI may each work well on their own. But when they live across different platforms, they create a <strong style={{ color: "#fff" }}>fragmented digital business.</strong>
             </p>
-            <p className="lede">
-              The result is familiar to every CIO and CMO: fragmented customer
-              data, integration debt that only grows, blurred accountability
-              during outages, and duplicated compliance evidence at every audit.
+            <p className="lede" style={{ marginBottom: 24 }}>
+              Different logins. Different data models. Different analytics. Different decisions. Connecting them takes time, creates integration overhead and makes it harder to see the complete picture of your business.
             </p>
+            <div
+              style={{
+                borderLeft: "1px solid #555",
+                paddingLeft: "25px",
+                marginTop: "20px",
+              }}
+            >
+              <p style={{ color: "#fff", fontSize: "19px", fontWeight: 600, marginBottom: "8px" }}>
+                What if they worked as one?
+              </p>
+              <p className="lede">
+                <strong>One platform. One connected data foundation. One clearer view of your business.</strong> Ankura helps reduce fragmentation so your teams have more room to focus on customers, operations and what comes next.
+              </p>
+            </div>
           </div>
         </div>
       </div>
 
       {/* ═══════ FOUR THREADS, ONE WEAVE (PILLARS) ═══════ */}
-      <div className="section navy" id="pillars">
+      <div className="section navy" id="threads">
         <div className="wrap">
           <div className="kicker">Four threads, one weave</div>
           <h2 className="display">
             Every pillar is a thread.
             <br />
-            The platform is the <span className="au">fabric.</span>
+            Together, they become the <span className="au">ground.</span>
           </h2>
           <p className="lede" style={{ marginTop: 20 }}>
-            Activate them independently — they share identity, workflows,
-            analytics, and the AI substrate underneath.
+            Activate them independently. Run them as one. Ankura keeps the foundation connected underneath, so adding a capability doesn&apos;t mean adding another silo.
           </p>
 
           <div className="grid2" style={{ marginTop: 44 }}>
             <PillarCard
-              label="Pillar 01"
-              title="Web Platform"
-              description="Every site the enterprise runs — corporate, commerce, help centre, careers, community — from one headless core."
+              label="Pillar 01 · Web"
+              title="Create digital experiences without creating another silo."
+              description="Build, manage and scale web experiences from one shared foundation across brands, regions and journeys."
               points={[
-                'Visual builder on server-rendered React',
-                'Multi-brand, multi-region, multi-language on one tenant',
-                'Accessibility and performance gates enforced at publish',
+                "Faster delivery across digital properties",
+                "Consistent experiences and governance",
+                "Less platform complexity as you scale",
               ]}
             />
             <PillarCard
-              label="Pillar 02"
-              title="Mobile Applications"
-              description="iOS and Android from a single runtime, sharing the web platform's design system and content model."
+              label="Pillar 02 · Mobile"
+              title="Extend the experience without duplicating the foundation."
+              description="Bring mobile into the same digital ground so customers experience one connected business across channels."
               points={[
-                'Normalized native SDK across both platforms',
-                'Over-the-air updates without store review cycles',
-                'Store submission pipelines built in',
+                "Less duplication across channels",
+                "More consistent customer journeys",
+                "Easier management as mobile grows",
               ]}
             />
             <PillarCard
-              label="Pillar 03"
-              title="Search & Discovery"
-              description="Found on Google, and found by the generative engines your buyers increasingly ask instead of Google."
+              label="Pillar 03 · Search & Discovery"
+              title="Make your business easier to find, and easier to understand."
+              description="Connect search, content and emerging AI-led discovery to the same digital foundation."
               points={[
-                'SEO governance on every published surface',
-                'GEO — generative engine optimization, first-class',
-                'Semantic in-property search in every language',
+                "Stronger discoverability across channels",
+                "Connected content and search experience",
+                "A clearer path from discovery to engagement",
               ]}
             />
             <PillarCard
-              label="Pillar 04"
-              title="Workflow Studio"
-              description="Visual orchestration with a TypeScript escape hatch — the connective tissue of the whole fabric."
+              label="Pillar 04 · Workflow"
+              title="Turn operational complexity into connected workflows."
+              description="Automate repetitive processes while keeping people in control where decisions matter."
               points={[
-                'Long-running, durable, auditable workflows',
-                'Human-in-the-loop approvals and escalation',
-                'Triggered from any surface, webhook, or schedule',
+                "Less manual operational effort",
+                "Faster execution across teams",
+                "More consistent business processes",
               ]}
             />
           </div>
+
+          <p
+            className="serif-line"
+            style={{
+              fontSize: "14px",
+              color: "#888",
+              marginTop: "35px",
+            }}
+          >
+            <strong style={{ color: "#fff" }}>One unified, always-on platform:</strong> identity, workflows, analytics and AI remain connected underneath, so each capability can work independently without creating another silo.
+          </p>
         </div>
       </div>
 
       {/* ═══════ THE AI SUBSTRATE ═══════ */}
-      <div className="section cream">
+      <div className="section cream" id="ai">
         <div className="wrap">
           <div className="kicker">The AI substrate</div>
           <h2 className="display text-navy-gradient">
-            Not a bolt-on. The layer everything{' '}
-            <span className="au">runs on.</span>
+            Intelligence <span className="au">woven into the ground.</span>
           </h2>
           <p className="lede" style={{ marginTop: 20 }}>
-            Four capabilities that power every pillar above them, and that your
-            developers and workflow designers consume directly.
+            AI shouldn&apos;t sit beside your digital business. It should work within it. Ankura puts intelligence inside the ground, where it can work with your workflows, data and experiences.
           </p>
 
           <div className="grid2" style={{ marginTop: 44 }}>
             <div className="card">
-              <div className="proglabel slate">Agents</div>
-              <h4>Agentic AI Automation</h4>
+              <div className="proglabel slate">Agentic AI</div>
+              <h4>Let routine work move forward.</h4>
               <p>
-                Task-completing agents over the tools you define, with trust
-                levels from suggestion-only to full autonomy and every decision
-                captured for replay.
+                Automate repeatable workflows through intelligent actions with defined levels of autonomy.
+              </p>
+              <p style={{ color: "var(--gold-500)", marginTop: 12, fontSize: 14 }}>
+                <strong>Business outcome:</strong> less manual work, faster execution and more consistent operations.
               </p>
             </div>
             <div className="card">
-              <div className="proglabel slate">Generate</div>
-              <h4>Generative AI</h4>
+              <div className="proglabel slate">Generative AI</div>
+              <h4>Help teams create and respond faster.</h4>
               <p>
-                Embedded copilots across every Ankura surface. Bring your own key
-                across frontier providers, with versioned prompts and evaluation
-                built in.
+                Bring intelligent assistance into the experiences and workflows people already use: from content to customer-facing journeys.
+              </p>
+              <p style={{ color: "var(--gold-500)", marginTop: 12, fontSize: 14 }}>
+                <strong>Business outcome:</strong> faster creation and response without adding another disconnected tool.
               </p>
             </div>
             <div className="card">
-              <div className="proglabel slate">Sovereign</div>
-              <h4>OpenLM</h4>
+              <div className="proglabel slate">OpenLM</div>
+              <h4>Choose the AI model that fits your business.</h4>
               <p>
-                Self-hosted open-weights models — Llama, Mistral, Qwen, DeepSeek
-                — with fine-tuning, RAG infrastructure, and inference tuning
-                inside your perimeter.
+                Integrate open-weight models such as Llama, Mistral, Qwen or DeepSeek with room for tuning and retrieval-augmented experiences.
+              </p>
+              <p style={{ color: "var(--gold-500)", marginTop: 12, fontSize: 14 }}>
+                <strong>Business outcome:</strong> greater control over deployment, model choice and the economics of scaling AI.
               </p>
             </div>
             <div className="card">
-              <div className="proglabel slate">Analyze</div>
-              <h4>Advanced Data Analytics</h4>
+              <div className="proglabel slate">Advanced Data Analytics</div>
+              <h4>Turn connected data into better decisions.</h4>
               <p>
-                Warehouse-native on Snowflake, BigQuery, or ClickHouse, with
-                AI-generated insights and natural-language exploration.
+                Use the same data foundation to understand what is happening across your digital business and where action is needed.
+              </p>
+              <p style={{ color: "var(--gold-500)", marginTop: 12, fontSize: 14 }}>
+                <strong>Business outcome:</strong> a clearer business view, stronger decisions and less time reconciling data.
               </p>
             </div>
           </div>
@@ -203,131 +223,127 @@ export default function AnkuraClient() {
       </div>
 
       {/* ═══════ EXTENDED PLATFORM ═══════ */}
-      <div className="section navy">
+      <div className="section navy" id="extended">
         <div className="wrap">
           <div className="kicker">Extended platform</div>
           <h2 className="display">
-            What a serious digital ground{' '}
-            <span className="au">can&apos;t ship without.</span>
+            Extend the ground.
+            <br />
+            Not the <span className="au">fragmentation.</span>
           </h2>
+          <p className="lede" style={{ marginTop: 20 }}>
+            Extend the same foundation into customer data, personalization, conversations and trust, without rebuilding your digital experience around another disconnected stack.
+          </p>
 
           <div className="grid3" style={{ marginTop: 44 }}>
             <div className="card">
               <div className="proglabel slate">Experience</div>
               <h4>Customer Data Platform</h4>
               <p>
-                A unified profile stitched from web, mobile, support, and
-                commerce activity — the substrate that makes AI personal rather
-                than generic.
+                Bring customer signals together across web, mobile, support and commerce for a more complete view.
               </p>
             </div>
             <div className="card">
               <div className="proglabel slate">Experience</div>
-              <h4>Personalization & testing</h4>
+              <h4>Personalization &amp; Testing</h4>
               <p>
-                Content variants, A/B and multivariate experiments, ML-driven
-                recommendations, and feature flags on every surface.
+                Test, learn and adapt experiences across channels with one connected experimentation foundation.
               </p>
             </div>
             <div className="card">
               <div className="proglabel slate">Experience</div>
-              <h4>Conversational channels</h4>
+              <h4>Conversational Channels</h4>
               <p>
-                WhatsApp, RCS, voice, and in-app chat treated as peers of web
-                and mobile, not afterthoughts.
+                Connect WhatsApp, RCS, voice and in-app conversations as part of the same digital journey.
               </p>
             </div>
             <div className="card">
               <div className="proglabel slate">Trust</div>
               <h4>Quantum-safe by default</h4>
               <p>
-                Every hosted property inherits post-quantum cryptography posture
-                from UElement&apos;s U92 practice.
+                Build the digital foundation with a security posture designed for the enterprise environments of tomorrow.
               </p>
             </div>
             <div className="card">
               <div className="proglabel slate">Trust</div>
-              <h4>Consent & privacy engine</h4>
+              <h4>Consent &amp; Privacy Engine</h4>
               <p>
-                DPDP, GDPR, and CCPA banners and data-principal rights workflows
-                implemented per region automatically.
+                Make regional consent and privacy workflows part of the platform instead of another operational layer.
               </p>
             </div>
             <div className="card">
               <div className="proglabel slate">Developer</div>
               <h4>API-first everywhere</h4>
               <p>
-                REST, GraphQL, and webhooks for every capability — Ankura can be
-                the headless backend for surfaces you build yourself.
+                Connect the systems you keep while reducing the need to stitch together another layer of tools.
               </p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* ═══════ THE MAINSTAY TRIO ═══════ */}
-      <div className="section alt">
+      {/* ═══════ THE STAMBH TRIO ═══════ */}
+      <div className="section alt" id="trio">
         <div className="wrap">
           <div className="kicker">The StamBH trio</div>
           <h2 className="display text-navy-gradient">
-            Ankura projects outward.
+            Three platforms.
             <br />
-            Its siblings handle the <span className="au">rest.</span>
+            One connected <span className="au">enterprise.</span>
           </h2>
+          <p className="lede" style={{ marginTop: 20 }}>
+            Ankura, Vizor and Kayak are designed to work together, connecting digital experience, visibility and the operational ground behind what your business delivers.
+          </p>
           <div className="grid3" style={{ marginTop: 44 }}>
             <Link
               href="/ankura"
               className="card link"
-              style={{ textDecoration: 'none', border: '1px solid #c88a3e' }}
+              style={{ textDecoration: "none", border: "1px solid #c88a3e" }}
             >
               <div className="tag">The digital ground</div>
               <h4>Ankura</h4>
               <p
                 className="serif-line"
-                style={{ fontSize: 16, marginBottom: 10, color: '#c88a3e' }}
+                style={{ fontSize: 16, marginBottom: 10, color: "#c88a3e" }}
               >
                 The Enterprise Digital Ground
               </p>
               <p>
-                You are here — every digital surface, every workflow, every AI
-                capability.
+                Build and run outward-facing digital experiences, workflows, analytics and AI from one unified foundation.
               </p>
             </Link>
             <Link
               href="/vizor"
               className="card link"
-              style={{ textDecoration: 'none' }}
+              style={{ textDecoration: "none" }}
             >
               <div className="tag">The observability fabric</div>
               <h4>Vizor</h4>
               <p
                 className="serif-line"
-                style={{ fontSize: 16, marginBottom: 10, color: '#c88a3e' }}
+                style={{ fontSize: 16, marginBottom: 10, color: "#c88a3e" }}
               >
                 One Platform. Seven Dimensions.
               </p>
               <p>
-                Instruments what Ankura publishes — business journeys, runtime
-                security, and compliance evidence, with no separate agents to
-                deploy.
+                Bring visibility across business journeys, runtime security and compliance, connected to what your digital ground is doing.
               </p>
             </Link>
             <Link
               href="/kayak"
               className="card link"
-              style={{ textDecoration: 'none' }}
+              style={{ textDecoration: "none" }}
             >
               <div className="tag">The asset fabric</div>
               <h4>Kayak</h4>
               <p
                 className="serif-line"
-                style={{ fontSize: 16, marginBottom: 10, color: '#c88a3e' }}
+                style={{ fontSize: 16, marginBottom: 10, color: "#c88a3e" }}
               >
                 Everything as a Service
               </p>
               <p>
-                Fulfils what Ankura sells — order fulfillment, provenance
-                widgets, and asset lifecycle flows callable from any workflow.
+                Connect fulfillment, provenance and asset lifecycle flows so what your digital business promises connects to what the business actually delivers.
               </p>
             </Link>
           </div>
@@ -336,13 +352,14 @@ export default function AnkuraClient() {
 
       {/* ═══════ CLOSING CTA ═══════ */}
       <div className="section">
-        <div className="wrap" style={{ textAlign: 'center' }}>
+        <div className="wrap" style={{ textAlign: "center" }}>
+          <div className="kicker">Start small. Scale with confidence.</div>
           <p
             className="serif-line"
             style={{
               maxWidth: 760,
-              margin: '0 auto',
-              color: '#c88a3e',
+              margin: "0 auto",
+              color: "#c88a3e",
               fontSize: 24,
             }}
           >
@@ -352,26 +369,24 @@ export default function AnkuraClient() {
             className="mut"
             style={{
               marginTop: 16,
-              fontFamily: 'var(--font-heading)',
+              fontFamily: "var(--font-heading)",
               fontSize: 12,
-              letterSpacing: '1px',
-              textTransform: 'uppercase',
+              letterSpacing: "1px",
+              textTransform: "uppercase",
             }}
           >
-            A two-hour scoping workshop maps your surface area. A 5-day proof of
-            value puts one Ankura property live on the deployment topology you
-            choose.
+            Start with one real business need. See the platform in action, prove the value, and build from there, without committing to a large transformation on day one.
           </p>
           <div
             style={{
               marginTop: 28,
-              display: 'flex',
-              gap: '16px',
-              justifyContent: 'center',
+              display: "flex",
+              gap: "16px",
+              justifyContent: "center",
             }}
           >
             <Link href="/contact" className="btn btn-gold">
-              Book the workshop
+              Book a demo session
             </Link>
           </div>
         </div>

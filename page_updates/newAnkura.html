@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ankura , The Enterprise Digital Ground</title>
+<meta name="description" content="Ankura weaves enterprise digital experiences, workflows, data and intelligence into one unified, always-on digital ground.">
+<style>
+:root{
+  --bg:#050505;--text:#f4f4f1;--muted:#a1a19d;--line:#242424;
+  --accent:#d8ff42;--max:1180px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5;letter-spacing:-.015em}
+a{text-decoration:none;color:inherit}
+.container{width:min(calc(100% - 48px),var(--max));margin:auto}
+header{position:sticky;top:0;z-index:20;background:rgba(5,5,5,.88);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.06)}
+.nav{height:72px;display:flex;align-items:center;justify-content:space-between}
+.brand{font-size:15px;font-weight:800;letter-spacing:.14em}
+.navlinks{display:flex;gap:28px;color:#999;font-size:13px}
+.navlinks a:hover{color:#fff}
+.menu{display:none;border:1px solid #333;padding:8px 10px;border-radius:8px}
+.hero{min-height:680px;display:flex;align-items:center;position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;width:75%;height:1px;right:-12%;top:25%;transform:rotate(-27deg);background:linear-gradient(90deg,transparent,rgba(216,255,66,.48),transparent);box-shadow:0 0 90px 18px rgba(216,255,66,.06)}
+.eyebrow,.kicker{font-size:11px;text-transform:uppercase;letter-spacing:.17em;color:var(--accent);margin-bottom:20px}
+h1{font-size:clamp(56px,8vw,108px);line-height:.88;letter-spacing:-.075em;max-width:1050px;margin:0 0 28px}
+h2{font-size:clamp(37px,5vw,64px);line-height:.96;letter-spacing:-.06em;margin:0 0 22px;max-width:950px}
+h3{font-size:25px;line-height:1.08;letter-spacing:-.035em;margin:0 0 13px}
+p{font-size:16px;color:var(--muted)}
+.lead{font-size:clamp(18px,2vw,23px);line-height:1.4;max-width:800px}
+.accent{color:var(--accent)}
+.cta{display:inline-flex;gap:11px;align-items:center;background:var(--accent);color:#080808;padding:13px 18px;border-radius:3px;font-size:13px;font-weight:800;margin-top:32px}
+.cta:hover{background:#ecff9b}
+.section{padding:110px 0;border-top:1px solid var(--line)}
+.problem-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:90px;align-items:end}
+.problem-copy{font-size:18px;max-width:700px}
+.opportunity{border-left:1px solid #555;padding-left:25px}
+.opportunity p:first-child{color:#fff;font-size:19px}
+.threads-intro{display:flex;justify-content:space-between;align-items:end;gap:60px;margin-bottom:52px}
+.threads-intro p{max-width:500px}
+.thread-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
+.thread{background:var(--bg);padding:38px;min-height:315px}
+.thread-num{font-size:10px;color:var(--accent);letter-spacing:.17em;margin-bottom:58px}
+.thread p{max-width:530px}
+.thread ul,.ai-card ul{list-style:none;padding:0;margin:22px 0 0}
+.thread li,.ai-card li{border-top:1px solid #222;padding:7px 0;color:#999;font-size:13px}
+.thread li:before,.ai-card li:before{content:", ";color:var(--accent)}
+.platform-line{font-size:14px!important;color:#888;margin-top:25px}
+.platform-line strong{color:#fff}
+.ai-head{display:grid;grid-template-columns:1fr .8fr;gap:70px;align-items:end;margin-bottom:52px}
+.ai-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.ai-card{background:var(--bg);padding:35px;min-height:300px}
+.ai-tag{font-size:10px;color:var(--accent);letter-spacing:.17em;text-transform:uppercase;margin-bottom:45px}
+.value{color:#ddd!important}
+.ext-intro{max-width:760px;margin-bottom:50px}
+.extended-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.ext-card{background:var(--bg);padding:30px;min-height:230px}
+.ext-card .type{font-size:10px;color:var(--accent);letter-spacing:.16em;text-transform:uppercase;margin-bottom:45px}
+.trio-head{display:flex;justify-content:space-between;align-items:end;gap:60px;margin-bottom:50px}
+.trio-head p{max-width:520px}
+.trio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.trio-card{background:var(--bg);padding:35px;min-height:290px}
+.trio-card.active{outline:1px solid var(--accent)}
+.trio-card .label{font-size:10px;color:var(--accent);letter-spacing:.16em;text-transform:uppercase}
+.trio-card h3{font-size:30px;margin-top:45px}
+.launch{text-align:center;padding:120px 0;border-top:1px solid var(--line);background:radial-gradient(circle at 50% 40%,rgba(216,255,66,.07),transparent 42%)}
+.launch h2{margin-left:auto;margin-right:auto;max-width:900px}
+.launch p{max-width:650px;margin:0 auto}
+.contact{padding:110px 0;border-top:1px solid var(--line)}
+.contact-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:90px}
+.contact h2{font-size:clamp(42px,5vw,68px)}
+.contact-copy{font-size:18px}
+form{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+input,select,textarea{width:100%;background:#0b0b0b;color:#eee;border:1px solid #292929;padding:15px;border-radius:3px;font:inherit;font-size:13px;outline:none}
+input:focus,select:focus,textarea:focus{border-color:#666}
+textarea{grid-column:1/-1;min-height:135px;resize:vertical}
+form button{grid-column:1/-1;width:max-content;border:0;background:var(--accent);color:#080808;padding:13px 20px;font-weight:800;border-radius:3px;cursor:pointer}
+footer{border-top:1px solid var(--line);padding:55px 0 30px;color:#777;font-size:12px}
+.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:40px}
+footer strong{display:block;color:#ddd;margin-bottom:14px}
+footer a{display:block;margin:8px 0}
+.footer-bottom{border-top:1px solid var(--line);margin-top:45px;padding-top:20px;display:flex;justify-content:space-between}
+@media(max-width:850px){
+  .navlinks{display:none}.menu{display:block}
+  .problem-grid,.ai-head,.contact-grid{grid-template-columns:1fr;gap:35px}
+  .threads-intro,.trio-head{display:block}
+  .threads-intro p,.trio-head p{margin-top:25px}
+  .thread-grid,.ai-grid{grid-template-columns:1fr}
+  .extended-grid,.trio-grid{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:560px){
+  .container{width:min(calc(100% - 30px),var(--max))}
+  .hero{min-height:600px}
+  h1{font-size:55px}
+  .section{padding:75px 0}
+  .thread,.ai-card,.ext-card,.trio-card{padding:27px}
+  form{grid-template-columns:1fr}
+  textarea,form button{grid-column:1}
+  .footer-grid{grid-template-columns:1fr}
+  .footer-bottom{display:block}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <a class="brand" href="#">STAMBH</a>
+    <nav class="navlinks">
+      <a href="#problem">Problem</a>
+      <a href="#threads">Threads</a>
+      <a href="#ai">AI</a>
+      <a href="#extended">Platform</a>
+      <a href="#trio">StamBH Trio</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <span class="menu">☰</span>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="container">
+    <div class="eyebrow">StamBH · The Enterprise Digital Ground</div>
+    <h1>Weave your digital business <span class="accent">into one.</span></h1>
+    <p class="lead">
+      Ankura connects the digital experiences, workflows, data and intelligence your enterprise relies on , into one <strong style="color:#fff">unified, always-on platform</strong> built to simplify complexity
+      and scale with your business.
+    </p>
+    <a class="cta" href="#contact">Book a demo session <span>→</span></a>
+  </div>
+</section>
+
+<section class="section" id="problem">
+  <div class="container">
+    <div class="kicker">The problem behind the complexity</div>
+    <div class="problem-grid">
+      <div>
+        <h2>The threads are already there. <span class="accent">The problem is they don't work as one.</span></h2>
+        <p class="problem-copy">
+          Your website, mobile experience, search, workflows, analytics and AI may each work well on their own.
+          But when they live across different platforms, they create a <strong style="color:#fff">fragmented digital business.</strong>
+        </p>
+        <p class="problem-copy">
+          Different logins. Different data models. Different analytics. Different decisions.
+          Connecting them takes time, creates integration overhead and makes it harder to see the complete picture of your business.
+        </p>
+      </div>
+      <div class="opportunity">
+        <p><strong>What if they worked as one?</strong></p>
+        <p>
+          <strong>One platform. One connected data foundation. One clearer view of your business.</strong>
+          Ankura helps reduce fragmentation so your teams have more room to focus on customers,
+          operations and what comes next.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="threads">
+  <div class="container">
+    <div class="threads-intro">
+      <div>
+        <div class="kicker">Four threads, one weave</div>
+        <h2>Every pillar is a thread.<br><span class="accent">Together, they become the fabric.</span></h2>
+      </div>
+      <p>
+        Activate them independently. Run them as one.
+        Ankura keeps the foundation connected underneath, so adding a capability doesn't mean adding another silo.
+      </p>
+    </div>
+
+    <div class="thread-grid">
+
+      <article class="thread">
+        <div class="thread-num">PILLAR 01 · WEB</div>
+        <h3>Create digital experiences without creating another silo.</h3>
+        <p>
+          Build, manage and scale web experiences from one shared foundation across brands, regions and journeys.
+        </p>
+        <ul>
+          <li>Faster delivery across digital properties</li>
+          <li>Consistent experiences and governance</li>
+          <li>Less platform complexity as you scale</li>
+        </ul>
+      </article>
+
+      <article class="thread">
+        <div class="thread-num">PILLAR 02 · MOBILE</div>
+        <h3>Extend the experience without duplicating the foundation.</h3>
+        <p>
+          Bring mobile into the same digital ground so customers experience one connected business across channels.
+        </p>
+        <ul>
+          <li>Less duplication across channels</li>
+          <li>More consistent customer journeys</li>
+          <li>Easier management as mobile grows</li>
+        </ul>
+      </article>
+
+      <article class="thread">
+        <div class="thread-num">PILLAR 03 · SEARCH &amp; DISCOVERY</div>
+        <h3>Make your business easier to find , and easier to understand.</h3>
+        <p>
+          Connect search, content and emerging AI-led discovery to the same digital foundation.
+        </p>
+        <ul>
+          <li>Stronger discoverability across channels</li>
+          <li>Connected content and search experience</li>
+          <li>A clearer path from discovery to engagement</li>
+        </ul>
+      </article>
+
+      <article class="thread">
+        <div class="thread-num">PILLAR 04 · WORKFLOW</div>
+        <h3>Turn operational complexity into connected workflows.</h3>
+        <p>
+          Automate repetitive processes while keeping people in control where decisions matter.
+        </p>
+        <ul>
+          <li>Less manual operational effort</li>
+          <li>Faster execution across teams</li>
+          <li>More consistent business processes</li>
+        </ul>
+      </article>
+
+    </div>
+
+    <p class="platform-line">
+      <strong>One unified, always-on platform:</strong>
+      identity, workflows, analytics and AI remain connected underneath , so each capability can work independently without creating another silo.
+    </p>
+  </div>
+</section>
+
+<section class="section" id="ai">
+  <div class="container">
+    <div class="ai-head">
+      <div>
+        <div class="kicker">The AI substrate</div>
+        <h2>Intelligence <span class="accent">woven into the fabric.</span></h2>
+      </div>
+      <p>
+        AI shouldn't sit beside your digital business. It should work within it.
+        Ankura puts intelligence inside the fabric , where it can work with your workflows, data and experiences.
+      </p>
+    </div>
+
+    <div class="ai-grid">
+
+      <article class="ai-card">
+        <div class="ai-tag">Agentic AI</div>
+        <h3>Let routine work move forward.</h3>
+        <p>
+          Automate repeatable workflows through intelligent actions with defined levels of autonomy.
+        </p>
+        <p class="value"><strong>Business outcome:</strong> less manual work, faster execution and more consistent operations.</p>
+      </article>
+
+      <article class="ai-card">
+        <div class="ai-tag">Generative AI</div>
+        <h3>Help teams create and respond faster.</h3>
+        <p>
+          Bring intelligent assistance into the experiences and workflows people already use , from content to customer-facing journeys.
+        </p>
+        <p class="value"><strong>Business outcome:</strong> faster creation and response without adding another disconnected tool.</p>
+      </article>
+
+      <article class="ai-card">
+        <div class="ai-tag">OpenLM</div>
+        <h3>Choose the AI model that fits your business.</h3>
+        <p>
+          Integrate open-weight models such as Llama, Mistral, Qwen or DeepSeek with room for tuning
+          and retrieval-augmented experiences.
+        </p>
+        <p class="value"><strong>Business outcome:</strong> greater control over deployment, model choice and the economics of scaling AI.</p>
+      </article>
+
+      <article class="ai-card">
+        <div class="ai-tag">Advanced Data Analytics</div>
+        <h3>Turn connected data into better decisions.</h3>
+        <p>
+          Use the same data foundation to understand what is happening across your digital business
+          and where action is needed.
+        </p>
+        <p class="value"><strong>Business outcome:</strong> a clearer business view, stronger decisions and less time reconciling data.</p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section class="section" id="extended">
+  <div class="container">
+    <div class="kicker">Extended platform</div>
+    <div class="ext-intro">
+      <h2>Extend the fabric.<br><span class="accent">Not the fragmentation.</span></h2>
+      <p>
+        Extend the same foundation into customer data, personalization, conversations and trust , without rebuilding your digital experience around another disconnected stack.
+      </p>
+    </div>
+
+    <div class="extended-grid">
+      <article class="ext-card">
+        <div class="type">Experience</div>
+        <h3>Customer Data Platform</h3>
+        <p>Bring customer signals together across web, mobile, support and commerce for a more complete view.</p>
+      </article>
+      <article class="ext-card">
+        <div class="type">Experience</div>
+        <h3>Personalization &amp; Testing</h3>
+        <p>Test, learn and adapt experiences across channels with one connected experimentation foundation.</p>
+      </article>
+      <article class="ext-card">
+        <div class="type">Experience</div>
+        <h3>Conversational Channels</h3>
+        <p>Connect WhatsApp, RCS, voice and in-app conversations as part of the same digital journey.</p>
+      </article>
+      <article class="ext-card">
+        <div class="type">Trust</div>
+        <h3>Quantum-safe by default</h3>
+        <p>Build the digital foundation with a security posture designed for the enterprise environments of tomorrow.</p>
+      </article>
+      <article class="ext-card">
+        <div class="type">Trust</div>
+        <h3>Consent &amp; Privacy Engine</h3>
+        <p>Make regional consent and privacy workflows part of the platform instead of another operational layer.</p>
+      </article>
+      <article class="ext-card">
+        <div class="type">Developer</div>
+        <h3>API-first everywhere</h3>
+        <p>Connect the systems you keep while reducing the need to stitch together another layer of tools.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="trio">
+  <div class="container">
+    <div class="trio-head">
+      <div>
+        <div class="kicker">The StamBH Trio</div>
+        <h2>Three platforms.<br><span class="accent">One connected enterprise.</span></h2>
+      </div>
+      <p>
+        Ankura, Vizor and Kayak are designed to work together , connecting digital experience, visibility and the operational fabric behind what your business delivers.
+      </p>
+    </div>
+
+    <div class="trio-grid">
+      <article class="trio-card active">
+        <div class="label">The digital ground</div>
+        <h3>Ankura</h3>
+        <p>
+          Build and run outward-facing digital experiences, workflows, analytics and AI from one unified foundation.
+        </p>
+      </article>
+
+      <article class="trio-card">
+        <div class="label">The visibility fabric</div>
+        <h3>Vizor</h3>
+        <p>
+          Bring visibility across business journeys, runtime security and compliance , connected to what your digital ground is doing.
+        </p>
+      </article>
+
+      <article class="trio-card">
+        <div class="label">The asset fabric</div>
+        <h3>Kayak</h3>
+        <p>
+          Connect fulfillment, provenance and asset lifecycle flows so what your digital business promises
+          connects to what the business actually delivers.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="launch">
+  <div class="container">
+    <div class="kicker">Start small. Scale with confidence.</div>
+    <h2>Launch one live property in <span class="accent">5 days.</span></h2>
+    <p>
+      Start with one real business need. See the platform in action, prove the value,
+      and build from there , without committing to a large transformation on day one.
+    </p>
+    <a class="cta" href="#contact">Book a demo session <span>→</span></a>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="container contact-grid">
+    <div>
+      <div class="kicker">Contact Us</div>
+      <h2>Ready to weave your enterprise into the future?</h2>
+      <p class="contact-copy">
+        Move from fragmented digital experiences to a
+        <strong style="color:#fff">unified, always-on foundation</strong>
+        built for better operations, clearer decisions and room to scale.
+      </p>
+      <p>
+        Tell us what you are trying to improve. We will help identify the opportunity
+        and the right place to start.
+      </p>
+    </div>
+
+    <form onsubmit="event.preventDefault(); alert('Thanks , your demo request has been captured.');">
+      <input aria-label="First Name" placeholder="First Name" required>
+      <input aria-label="Last Name" placeholder="Last Name">
+      <input aria-label="Email" type="email" placeholder="Email" required>
+      <input aria-label="Phone Number" placeholder="Phone Number">
+      <select aria-label="What are you exploring?">
+        <option value="">What are you exploring?</option>
+        <option>Unified Digital Platform</option>
+        <option>AI &amp; Automation</option>
+        <option>Analytics &amp; Data</option>
+        <option>Digital Experience</option>
+      </select>
+      <select aria-label="Business area">
+        <option value="">Business area</option>
+        <option>Customer Experience</option>
+        <option>Operations</option>
+        <option>Data &amp; Analytics</option>
+        <option>Digital Transformation</option>
+      </select>
+      <textarea aria-label="Message" placeholder="Tell us a little about the challenge or opportunity you're exploring."></textarea>
+      <button type="submit">Request a meeting →</button>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <strong>STAMBH</strong>
+        <span>The enterprise digital ground.</span>
+      </div>
+      <div>
+        <strong>StamBH</strong>
+        <a href="#threads">Ankura</a>
+        <a href="#trio">Vizor</a>
+        <a href="#trio">Kayak</a>
+      </div>
+      <div>
+        <strong>Platform</strong>
+        <a href="#ai">AI Substrate</a>
+        <a href="#extended">Extended Platform</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div>
+        <strong>Company</strong>
+        <a href="https://www.uelement.in/">UElement</a>
+        <a href="#">About Us</a>
+        <a href="#">Success Stories</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 UElement Technologies Private Limited | All Rights Reserved.</span>
+      <span>सशक्त · सक्षम · सुरक्षित</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
