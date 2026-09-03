@@ -49,7 +49,12 @@ export default function GlobalOperationsGlobe() {
     const espresso = am5.color(0x3c1e0e);
     const darkRoast = am5.color(0x5c3a1e);
     const mediumRoast = am5.color(0x8b5e3c);
-    const goldenBrown = am5.color(0x9c6d42); // Golden brown replacing green
+    const richGold = am5.color(0xc88a3e);      // Core HQ / Sovereign Hubs
+    const warmBronze = am5.color(0xa8764a);    // Strategic Regional Centers
+    const champagneTan = am5.color(0xddc8a0);  // Active Deployment Markets
+    const creamLand = am5.color(0xf6efe4);     // Base Country Landmass
+    const landBorder = am5.color(0xd4be9e);    // Land Border
+    const oceanTint = am5.color(0xeee4d4);     // Ocean Tint // Golden brown replacing green
     const lightRoast = am5.color(0xc4956a);
     const crema = am5.color(0xe8d5b7);
     const cream = am5.color(0xf5ece0);
@@ -93,7 +98,7 @@ export default function GlobalOperationsGlobe() {
     // Create series for globe sphere background fill (soft ocean tint)
     const bgSeries = chart.series.push(am5map.MapPolygonSeries.new(root, {}));
     bgSeries.mapPolygons.template.setAll({
-      fill: am5.color(0xebe0ce),
+      fill: oceanTint,
       fillOpacity: 0.55,
       strokeOpacity: 0,
     });
@@ -118,142 +123,156 @@ export default function GlobalOperationsGlobe() {
       })
     );
     polygonSeries.mapPolygons.template.setAll({
-      fill: cream,
-      stroke: lightRoast,
+      fill: creamLand,
+      stroke: landBorder,
       strokeWidth: 0.5,
       strokeOpacity: 0.5,
     });
 
     // Highlight producer (origins), hub, and consumer countries
     // Australia replaces Brazil as origin; India (Pune) replaces Germany as primary hub
-    const producerIds = ['AU', 'VN', 'CO', 'ET', 'ID', 'HN'];
-    const hubIds = ['IN', 'BE', 'IT', 'US'];
-    const consumerIds = [
-      'FR',
-      'PL',
-      'SE',
-      'RU',
-      'GB',
+    const sovereignHubs = ['IN', 'AE', 'SG', 'US'];
+    const strategicCenters = ['GB', 'DE', 'FR', 'AU', 'JP'];
+    const activeDeployments = [
+      'SA',
       'NL',
-      'GR',
-      'AT',
       'CA',
-      'JP',
-      'DE',
+      'MY',
+      'ZA',
+      'VN',
+      'DK',
+      'BE',
+      'MU',
+      'SE',
+      'IT',
+      'AT',
+      'PL',
     ];
 
     polygonSeries.events.on('datavalidated', function () {
       am5.array.each(polygonSeries.dataItems, function (di) {
         const id = di.get('id');
-        if (id && producerIds.includes(id as string)) {
-          di.get('mapPolygon')?.setAll({ fill: goldenBrown });
-        } else if (id && hubIds.includes(id as string)) {
-          di.get('mapPolygon')?.setAll({ fill: am5.color(0xc4956a) });
-        } else if (id && consumerIds.includes(id as string)) {
-          di.get('mapPolygon')?.setAll({ fill: am5.color(0xddc8a0) });
+        if (id && sovereignHubs.includes(id as string)) {
+          di.get('mapPolygon')?.setAll({ fill: richGold, stroke: espresso, strokeWidth: 0.8 });
+        } else if (id && strategicCenters.includes(id as string)) {
+          di.get('mapPolygon')?.setAll({ fill: warmBronze, stroke: darkRoast, strokeWidth: 0.7 });
+        } else if (id && activeDeployments.includes(id as string)) {
+          di.get('mapPolygon')?.setAll({ fill: champagneTan, stroke: mediumRoast, strokeWidth: 0.6 });
         }
       });
     });
 
-    // Create Map Sankey series
+    // Create Map Sankey Series with fine, delicate ribbon widths
     const sankeySeries = chart.series.push(
       am5map.MapSankeySeries.new(root, {
         polygonSeries: polygonSeries,
-        maxWidth: 2,
-        controlPointDistance: 0.4,
+        maxWidth: 0.6,
+        controlPointDistance: 0.38,
         resolution: 60,
-        nodePadding: 0.3,
+        nodePadding: 0.05,
       })
     );
 
     sankeySeries.mapPolygons.template.setAll({
       fill: mediumRoast,
-      fillOpacity: 0.65,
+      fillOpacity: 0.45,
       strokeOpacity: 0,
-      tooltipText: '{sourceNode.name} > {targetNode.name}\n{value}k units',
+      tooltipText: '{sourceNode.name} ⟷ {targetNode.name}\n[#c88a3e]Sovereign Interconnect[/]',
     });
 
     sankeySeries.nodes.mapPolygons.template.setAll({
-      fill: espresso,
-      stroke: crema,
-      strokeWidth: 1.5,
-      fillOpacity: 0.95,
+      fill: richGold,
+      stroke: am5.color(0xfaf0e0),
+      strokeWidth: 1.2,
+      fillOpacity: 0.98,
       strokeOpacity: 1,
-      tooltipText: '{name}\n{sum}k units',
+      tooltipText: '{name}',
+      shadowColor: am5.color(0x3c1e0e),
+      shadowBlur: 4,
+      shadowOpacity: 0.25,
     });
 
-    // Add animated bullet markers
+    // Add animated photon bullet markers (compact size)
     sankeySeries.bullets.push(function () {
       return am5.Bullet.new(root, {
         locationX: 0,
         autoRotate: true,
-        sprite: am5.Graphics.new(root, {
-          svgPath:
-            'M-4,-2.5 C-4,-5 -1.5,-6.5 1,-6.5 C3.5,-6.5 5,-4.5 5,-2 C5,1 3,3.5 0.5,5 C-0.5,5.7 -1.5,5.7 -2.5,5 C-5,3.5 -6,1 -4,-2.5 Z M-1,-5 C-1,-1 -1,2 -0.5,4.5',
-          fill: espresso,
-          stroke: darkRoast,
-          strokeWidth: 0.5,
+        sprite: am5.Circle.new(root, {
+          radius: 2.2,
+          fill: am5.color(0xc88a3e),
+          stroke: am5.color(0xfff8ee),
+          strokeWidth: 0.8,
+          shadowColor: am5.color(0xc88a3e),
+          shadowBlur: 4,
+          shadowOpacity: 0.8,
           centerX: am5.p50,
           centerY: am5.p50,
-          scale: 0.35,
           visible: false,
         }),
       });
     });
 
-    // Origins > Hubs (India as central hub, Australia as origin) > Markets
+    // Interconnect network routes with balanced values so node circles stay small and consistent
     sankeySeries.data.setAll([
-      // Origins > Hubs
-      { sourceId: 'AU', targetId: 'IN', value: 350 },
-      { sourceId: 'AU', targetId: 'US', value: 450 },
-      { sourceId: 'AU', targetId: 'IT', value: 200 },
-      { sourceId: 'VN', targetId: 'IN', value: 200 },
-      { sourceId: 'VN', targetId: 'BE', value: 150 },
-      { sourceId: 'CO', targetId: 'US', value: 250 },
-      { sourceId: 'CO', targetId: 'IN', value: 80 },
-      { sourceId: 'ET', targetId: 'IN', value: 60 },
-      { sourceId: 'ET', targetId: 'BE', value: 40 },
-      { sourceId: 'ID', targetId: 'US', value: 80 },
-      { sourceId: 'HN', targetId: 'IN', value: 60 },
-      { sourceId: 'HN', targetId: 'BE', value: 40 },
+      // Primary routes from Global HQ (Pune, India)
+      { sourceId: 'IN', targetId: 'AE', value: 12 },
+      { sourceId: 'IN', targetId: 'SG', value: 12 },
+      { sourceId: 'IN', targetId: 'US', value: 12 },
+      { sourceId: 'IN', targetId: 'GB', value: 10 },
+      { sourceId: 'IN', targetId: 'DE', value: 10 },
+      { sourceId: 'IN', targetId: 'FR', value: 10 },
+      { sourceId: 'IN', targetId: 'AU', value: 10 },
+      { sourceId: 'IN', targetId: 'JP', value: 10 },
+      { sourceId: 'IN', targetId: 'SA', value: 10 },
+      { sourceId: 'IN', targetId: 'NL', value: 8 },
 
-      // Hubs > Destinations / Markets
-      { sourceId: 'IN', targetId: 'FR', value: 150 },
-      { sourceId: 'IN', targetId: 'PL', value: 100 },
-      { sourceId: 'IN', targetId: 'SE', value: 80 },
-      { sourceId: 'IN', targetId: 'RU', value: 120 },
-      { sourceId: 'IN', targetId: 'DE', value: 140 },
-      { sourceId: 'BE', targetId: 'GB', value: 100 },
-      { sourceId: 'BE', targetId: 'NL', value: 80 },
-      { sourceId: 'IT', targetId: 'GR', value: 50 },
-      { sourceId: 'IT', targetId: 'AT', value: 40 },
-      { sourceId: 'US', targetId: 'CA', value: 120 },
-      { sourceId: 'US', targetId: 'JP', value: 80 },
+      // Singapore Regional Synapses
+      { sourceId: 'SG', targetId: 'MY', value: 8 },
+      { sourceId: 'SG', targetId: 'VN', value: 8 },
+      { sourceId: 'SG', targetId: 'AU', value: 8 },
+      { sourceId: 'SG', targetId: 'JP', value: 8 },
+
+      // UAE Regional Synapses
+      { sourceId: 'AE', targetId: 'SA', value: 8 },
+      { sourceId: 'AE', targetId: 'ZA', value: 8 },
+      { sourceId: 'AE', targetId: 'MU', value: 6 },
+
+      // US & European Synapses
+      { sourceId: 'US', targetId: 'CA', value: 8 },
+      { sourceId: 'US', targetId: 'GB', value: 8 },
+      { sourceId: 'GB', targetId: 'NL', value: 6 },
+      { sourceId: 'GB', targetId: 'DK', value: 6 },
+      { sourceId: 'DE', targetId: 'AT', value: 6 },
+      { sourceId: 'DE', targetId: 'PL', value: 6 },
+      { sourceId: 'FR', targetId: 'IT', value: 6 },
+      { sourceId: 'NL', targetId: 'BE', value: 6 },
+      { sourceId: 'DK', targetId: 'SE', value: 6 },
     ]);
 
     // Set country names on auto-created nodes and animate bullets
     const countryNames: Record<string, string> = {
-      AU: 'Australia',
-      VN: 'Vietnam',
-      CO: 'Colombia',
-      ET: 'Ethiopia',
-      ID: 'Indonesia',
-      HN: 'Honduras',
-      IN: 'Pune · India',
-      BE: 'Belgium',
-      IT: 'Italy',
+      IN: 'Pune · Global HQ',
+      AE: 'UAE · Regional Hub',
+      SG: 'Singapore · Regional Hub',
       US: 'United States',
-      FR: 'France',
-      PL: 'Poland',
-      SE: 'Sweden',
-      RU: 'Russia',
       GB: 'United Kingdom',
-      NL: 'Netherlands',
-      GR: 'Greece',
-      AT: 'Austria',
-      CA: 'Canada',
-      JP: 'Japan',
       DE: 'Germany',
+      FR: 'France',
+      AU: 'Australia',
+      JP: 'Japan',
+      SA: 'Saudi Arabia',
+      NL: 'Netherlands',
+      CA: 'Canada',
+      MY: 'Malaysia',
+      ZA: 'South Africa',
+      VN: 'Vietnam',
+      DK: 'Denmark',
+      BE: 'Belgium',
+      MU: 'Mauritius',
+      SE: 'Sweden',
+      IT: 'Italy',
+      AT: 'Austria',
+      PL: 'Poland',
     };
 
     sankeySeries.events.on('datavalidated', function () {
@@ -261,6 +280,24 @@ export default function GlobalOperationsGlobe() {
         const id = di.get('id');
         if (id && countryNames[id as string]) {
           di.set('name', countryNames[id as string]);
+        }
+
+        // Clamp and reduce all node circle geometries to small, refined sizes
+        const lon = di.get('longitude');
+        const lat = di.get('latitude');
+        const mapPolygon = di.get('mapPolygon');
+        if (lon !== undefined && lat !== undefined && mapPolygon) {
+          let nodeRadius = 0.95; // Default compact circle radius for all nodes
+          if (id === 'IN') {
+            nodeRadius = 1.35; // India (HQ): slightly highlighted but neat and compact
+          } else if (['AE', 'SG', 'US'].includes(id as string)) {
+            nodeRadius = 1.15; // Regional hubs
+          }
+          const compactCircle = am5map.getGeoCircle(
+            { longitude: lon, latitude: lat },
+            nodeRadius
+          );
+          mapPolygon.set('geometry', compactCircle);
         }
       });
 
@@ -302,7 +339,7 @@ export default function GlobalOperationsGlobe() {
 
     // titleCont.children.push(
     //   am5.Label.new(root, {
-    //     text: '(Global Deployments · HQ: Pune, India)',
+    //     text: 'Global Presence & Sovereign Deployments · HQ: Pune, India',
     //     fontSize: 11,
     //     fill: mediumRoast,
     //     x: am5.p50,
@@ -678,15 +715,51 @@ export default function GlobalOperationsGlobe() {
 
   return (
     <div className="globe-wrapper">
+      <div className="globe-aura" />
       <div ref={chartRef} id="chartdiv" />
+
+      {/* Legend */}
+      <div className="globe-legend">
+        <div className="legend-item">
+          <span className="legend-dot dot-hq" />
+          <span>Global HQ &amp; Core Hubs</span>
+        </div>
+        <div className="legend-item">
+          <span className="legend-dot dot-regional" />
+          <span>Strategic Centers</span>
+        </div>
+        <div className="legend-item">
+          <span className="legend-dot dot-deploy" />
+          <span>Active Deployments</span>
+        </div>
+      </div>
+
       <style jsx global>{`
         .globe-wrapper {
+          position: relative;
           width: 100%;
           max-width: 1120px;
-          margin: 24px auto 0;
+          margin: 20px auto 0;
           background: transparent;
+          border-radius: 24px;
         }
+
+        .globe-aura {
+          position: absolute;
+          inset: 10%;
+          background: radial-gradient(
+            circle at 50% 48%,
+            rgba(200, 138, 62, 0.12) 0%,
+            rgba(200, 138, 62, 0.04) 45%,
+            transparent 70%
+          );
+          pointer-events: none;
+          z-index: 0;
+        }
+
         #chartdiv {
+          position: relative;
+          z-index: 1;
           width: 100%;
           height: 75vh;
           min-height: 520px;
@@ -694,10 +767,54 @@ export default function GlobalOperationsGlobe() {
           background: transparent;
           cursor: grab;
           touch-action: pan-y;
+          filter: drop-shadow(0 14px 34px rgba(92, 58, 30, 0.12));
         }
+
+        .globe-legend {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 16px;
+          margin-top: 4px;
+          padding: 2px 10px;
+          font-size: 11px;
+          color: #6e4825;
+          font-weight: 500;
+          letter-spacing: 0.2px;
+          opacity: 0.9;
+        }
+
+        .legend-item {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+        }
+
+        .legend-dot {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          display: inline-block;
+        }
+
+        .legend-dot.dot-hq {
+          background: #c88a3e;
+          box-shadow: 0 0 3px rgba(200, 138, 62, 0.6);
+          border: 0.8px solid #ffffff;
+        }
+
+        .legend-dot.dot-regional {
+          background: #a8764a;
+        }
+
+        .legend-dot.dot-deploy {
+          background: #ddc8a0;
+          border: 0.8px solid #c4956a;
+        }
+
         @media (max-width: 768px) {
           .globe-wrapper {
-            margin: 12px auto 0;
+            margin: 10px auto 0;
           }
           #chartdiv {
             height: clamp(320px, 48vh, 400px);
@@ -705,7 +822,17 @@ export default function GlobalOperationsGlobe() {
             max-height: 400px;
             touch-action: pan-y !important;
           }
+          .globe-legend {
+            gap: 10px;
+            font-size: 10px;
+            margin-top: 2px;
+          }
+          .legend-dot {
+            width: 5px;
+            height: 5px;
+          }
         }
+
         #chartdiv a[href*="amcharts"],
         #chartdiv [aria-label*="amCharts"] {
           display: none !important;
