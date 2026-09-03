@@ -232,12 +232,12 @@ export default function KayakClient() {
           </h2>
           <div className="grid3" style={{ marginTop: 44 }}>
             <Link
-              href="/nexus"
+              href="/ankura"
               className="card link"
               style={{ textDecoration: 'none' }}
             >
               <div className="tag">The digital fabric</div>
-              <h4>Nexus</h4>
+              <h4>Ankura</h4>
               <p
                 className="serif-line"
                 style={{ fontSize: 16, marginBottom: 10, color: '#c88a3e' }}

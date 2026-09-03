@@ -66,7 +66,7 @@ export default function IndustriesPage() {
                 <span className="chip">AdviQ PQC</span>
                 <span className="chip">AdviQ Crypto-Agility</span>
                 <span className="chip">Vizor</span>
-                <span className="chip">Nexus</span>
+                <span className="chip">Ankura</span>
               </div>
             </div>
           </div>
@@ -133,7 +133,7 @@ export default function IndustriesPage() {
               <div className="chips">
                 <span className="chip">Kayak EaaS</span>
                 <span className="chip">Vizor Cloud</span>
-                <span className="chip">Nexus portals</span>
+                <span className="chip">Ankura portals</span>
               </div>
             </div>
           </div>

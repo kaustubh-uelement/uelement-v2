@@ -106,7 +106,7 @@ export default function HomePage() {
               <div className="proglabel slate">Enterpirse Fabric</div>
               <h4>StamBH</h4>
               <p>
-                The enterprise platform trio. Nexus projects your business
+                The enterprise platform trio. Ankura projects your business
                 outward, Vizor watches every digital signal, Kayak commands the
                 physical world. One control plane, one identity, one audit
                 trail.
@@ -115,7 +115,7 @@ export default function HomePage() {
                 className="mono"
                 style={{ marginTop: 14, color: 'var(--gold-500)' }}
               >
-                Nexus · Vizor · Kayak →
+                Ankura · Vizor · Kayak →
               </p>
             </Link>
             <Link

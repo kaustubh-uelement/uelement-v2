@@ -4,7 +4,7 @@ import Link from 'next/link';
 import SpectralCanvas from './SpectralCanvas';
 import PillarCard from './PillarCard';
 
-export default function NexusClient() {
+export default function AnkuraClient() {
   return (
     <>
       {/* ═══════ HERO ═══════ */}
@@ -19,7 +19,7 @@ export default function NexusClient() {
         >
           <div style={{ maxWidth: '640px' }}>
             <div className="crumb" style={{ pointerEvents: 'auto' }}>
-              <Link href="/">Home</Link> / Nexus
+              <Link href="/">Home</Link> / Ankura
             </div>
             <h1
               className="display"
@@ -176,7 +176,7 @@ export default function NexusClient() {
               <div className="proglabel slate">Generate</div>
               <h4>Generative AI</h4>
               <p>
-                Embedded copilots across every Nexus surface. Bring your own key
+                Embedded copilots across every Ankura surface. Bring your own key
                 across frontier providers, with versioned prompts and evaluation
                 built in.
               </p>
@@ -257,7 +257,7 @@ export default function NexusClient() {
               <div className="proglabel slate">Developer</div>
               <h4>API-first everywhere</h4>
               <p>
-                REST, GraphQL, and webhooks for every capability — Nexus can be
+                REST, GraphQL, and webhooks for every capability — Ankura can be
                 the headless backend for surfaces you build yourself.
               </p>
             </div>
@@ -270,18 +270,18 @@ export default function NexusClient() {
         <div className="wrap">
           <div className="kicker">The StamBH trio</div>
           <h2 className="display text-navy-gradient">
-            Nexus projects outward.
+            Ankura projects outward.
             <br />
             Its siblings handle the <span className="au">rest.</span>
           </h2>
           <div className="grid3" style={{ marginTop: 44 }}>
             <Link
-              href="/nexus"
+              href="/ankura"
               className="card link"
               style={{ textDecoration: 'none', border: '1px solid #c88a3e' }}
             >
               <div className="tag">The digital fabric</div>
-              <h4>Nexus</h4>
+              <h4>Ankura</h4>
               <p
                 className="serif-line"
                 style={{ fontSize: 16, marginBottom: 10, color: '#c88a3e' }}
@@ -307,7 +307,7 @@ export default function NexusClient() {
                 One Platform. Seven Dimensions.
               </p>
               <p>
-                Instruments what Nexus publishes — business journeys, runtime
+                Instruments what Ankura publishes — business journeys, runtime
                 security, and compliance evidence, with no separate agents to
                 deploy.
               </p>
@@ -326,7 +326,7 @@ export default function NexusClient() {
                 Everything as a Service
               </p>
               <p>
-                Fulfils what Nexus sells — order fulfillment, provenance
+                Fulfils what Ankura sells — order fulfillment, provenance
                 widgets, and asset lifecycle flows callable from any workflow.
               </p>
             </Link>
@@ -359,7 +359,7 @@ export default function NexusClient() {
             }}
           >
             A two-hour scoping workshop maps your surface area. A 5-day proof of
-            value puts one Nexus property live on the deployment topology you
+            value puts one Ankura property live on the deployment topology you
             choose.
           </p>
           <div

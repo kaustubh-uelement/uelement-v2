@@ -44,7 +44,7 @@ export default function SitemapContent() {
               StamBH
             </h3>
             <div className="space-y-2 pl-2">
-              <SitemapLink href="/nexus">Nexus</SitemapLink>
+              <SitemapLink href="/ankura">Ankura</SitemapLink>
               <SitemapLink href="/vizor">Vizor</SitemapLink>
               <SitemapLink href="/kayak">Kayak</SitemapLink>
             </div>
@@ -92,7 +92,7 @@ export default function SitemapContent() {
         <SitemapLink href="/vizor">45-Day Proof of Value</SitemapLink>
         <SitemapLink href="/ioet">Crypto-Agility Program</SitemapLink>
         <SitemapLink href="/tripura">Tactical Edge Briefing</SitemapLink>
-        <SitemapLink href="/nexus">Digital Presence Build-Out</SitemapLink>
+        <SitemapLink href="/ankura">Digital Presence Build-Out</SitemapLink>
       </SitemapSection>
 
       <Divider />

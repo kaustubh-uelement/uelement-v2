@@ -22,7 +22,7 @@
 
   /* Brand — parent and the three products */
   --brass: #d9a441;
-  --nexus: #6d5df5;
+  --ankura: #6d5df5;
   --vizor: #38bdf8;
   --kayak: #f43f5e;
 
@@ -57,7 +57,7 @@
   --r: 12px;
 }
 
-[data-product="nexus"] { --accent: var(--nexus); --accent-ink: #ffffff; --accent-dark: #4a3ac9; --accent-text: #8b7fff; }
+[data-product="ankura"] { --accent: var(--ankura); --accent-ink: #ffffff; --accent-dark: #4a3ac9; --accent-text: #8b7fff; }
 [data-product="vizor"] { --accent: var(--vizor); --accent-ink: #04222f; --accent-dark: #0b6a9e; --accent-text: var(--vizor); }
 [data-product="kayak"] { --accent: var(--kayak); --accent-ink: #2b0009; --accent-dark: #b81032; --accent-text: #ff7089; }
 

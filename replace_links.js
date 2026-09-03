@@ -33,9 +33,13 @@ files.forEach(file => {
   content = content.replace(/(['"`])\/mainspar(['"`])/g, '$1/tripura$2');
   content = content.replace(/(['"`])\/mainspar#/g, '$1/tripura#');
 
+  content = content.replace(/(['"`])\/nexus(['"`])/g, '$1/ankura$2');
+  content = content.replace(/(['"`])\/nexus#/g, '$1/ankura#');
+
   // Also replace in form values if present
   content = content.replace(/(['"`])mainstay(['"`])/g, '$1stambh$2');
   content = content.replace(/(['"`])mainspar(['"`])/g, '$1tripura$2');
+  content = content.replace(/(['"`])nexus(['"`])/g, '$1ankura$2');
 
   if (content !== originalContent) {
     fs.writeFileSync(file, content, 'utf8');

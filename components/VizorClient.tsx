@@ -251,18 +251,18 @@ export default function VizorClient() {
         <div className="wrap">
           <div className="kicker">The StamBH trio</div>
           <h2 className="display text-navy-gradient">
-            Vizor watches what Nexus builds.
+            Vizor watches what Ankura builds.
             <br />
             Kayak commands the <span className="au">physical.</span>
           </h2>
           <div className="grid3" style={{ marginTop: 44 }}>
             <Link
-              href="/nexus"
+              href="/ankura"
               className="card link"
               style={{ textDecoration: 'none' }}
             >
               <div className="tag">The digital fabric</div>
-              <h4>Nexus</h4>
+              <h4>Ankura</h4>
               <p
                 className="serif-line"
                 style={{ fontSize: 16, marginBottom: 10, color: '#c88a3e' }}
@@ -270,7 +270,7 @@ export default function VizorClient() {
                 The Enterprise Digital Fabric
               </p>
               <p>
-                Business journeys and compliance artifacts flow in from Nexus without separate agents to deploy.
+                Business journeys and compliance artifacts flow in from Ankura without separate agents to deploy.
               </p>
             </Link>
             <Link

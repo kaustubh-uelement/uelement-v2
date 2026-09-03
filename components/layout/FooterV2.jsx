@@ -620,10 +620,10 @@ const FooterContent = () => {
                   Platform Overview
                 </Link>
                 <Link
-                  href="/nexus"
+                  href="/ankura"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
-                  <span className="!text-[14px] !font-heading">Nexus</span>
+                  <span className="!text-[14px] !font-heading">Ankura</span>
                   <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
                     The Enterprise Digital Fabric
                   </span>
@@ -794,10 +794,10 @@ const FooterContent = () => {
                   Platform Overview
                 </Link>
                 <Link
-                  href="/stambh#nexus"
+                  href="/stambh#ankura"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
-                  <span className="!text-[14px] !font-heading">Nexus</span>
+                  <span className="!text-[14px] !font-heading">Ankura</span>
                   <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
                     The Enterprise Digital Fabric
                   </span>

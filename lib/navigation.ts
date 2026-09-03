@@ -50,9 +50,9 @@ export const navItems: NavItem[] = [
         headingHref: '/stambh',
         items: [
           {
-            label: 'Nexus',
+            label: 'Ankura',
             description: 'The Enterprise Digital Fabric',
-            href: '/nexus',
+            href: '/ankura',
           },
           {
             label: 'Vizor',
@@ -171,7 +171,7 @@ export const navItems: NavItem[] = [
           {
             label: 'Digital Presence Build-out',
             description: 'Web, mobile, GenAI search, workflows',
-            href: '/nexus',
+            href: '/ankura',
           },
         ],
       },

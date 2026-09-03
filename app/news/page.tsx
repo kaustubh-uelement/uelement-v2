@@ -50,7 +50,7 @@ const milestones = [
     year: '2024',
     items: [
       'Established TRIpura program: autonomous MLOps for DDIL edge environments.',
-      'Launched StamBH enterprise fabric trio (Nexus · Vizor · Kayak).',
+      'Launched StamBH enterprise fabric trio (Ankura · Vizor · Kayak).',
       'Expanded to Singapore and UAE. First international engagements in defence and BFSI.',
     ],
   },

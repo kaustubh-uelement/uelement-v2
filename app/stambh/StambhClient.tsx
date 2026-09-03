@@ -60,12 +60,12 @@ export default function StambhClient() {
           </p>
           <div className="grid3" style={{ marginTop: 44 }}>
             <Link
-              href="/nexus"
+              href="/ankura"
               className="card link"
               style={{ textDecoration: 'none' }}
             >
               <div className="tag">The digital fabric</div>
-              <h4>Nexus</h4>
+              <h4>Ankura</h4>
               <p
                 className="serif-line"
                 style={{ fontSize: 16, marginBottom: 10, color: '#c88a3e' }}
@@ -157,7 +157,7 @@ export default function StambhClient() {
               <h4>Evidence & audit</h4>
               <p>
                 A tamper-evident, cryptographically signed ledger shared across
-                products. Consent capture from Nexus, detections from Vizor, and
+                products. Consent capture from Ankura, detections from Vizor, and
                 custody entries from Kayak land in the same append-only store.
               </p>
             </div>
@@ -237,8 +237,7 @@ export default function StambhClient() {
               <div className="proglabel slate">Interfaces</div>
               <h4>One API surface</h4>
               <p>
-                REST, GraphQL, and webhooks with shared conventions. A Nexus
-                workflow can open a Vizor incident and trigger a Kayak
+                REST, GraphQL, and webhooks with shared conventions. An Ankura workflow can open a Vizor incident and trigger a Kayak
                 fulfillment without custom integration.
               </p>
             </div>
@@ -263,8 +262,8 @@ export default function StambhClient() {
             style={{ marginTop: 44, alignItems: 'stretch' }}
           >
             <PillarCard
-              label="Nexus &rarr; Vizor"
-              title="Nexus feeds Vizor"
+              label="Ankura &rarr; Vizor"
+              title="Ankura feeds Vizor"
               points={[
                 'Business KPIs and customer journeys instrumented natively — no separate agent deployment.',
                 'Consent capture, DPDP rights requests, and GDPR artifacts flow into the evidence plane.',
@@ -272,8 +271,8 @@ export default function StambhClient() {
               ]}
             />
             <PillarCard
-              label="Nexus &rarr; Kayak"
-              title="Nexus feeds Kayak"
+              label="Ankura &rarr; Kayak"
+              title="Ankura feeds Kayak"
               points={[
                 'A checkout can call fulfillment; a support portal can initiate a recall.',
                 'Provenance widgets embed directly in commerce and support surfaces.',

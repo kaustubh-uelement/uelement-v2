@@ -122,7 +122,7 @@ export default function BlogsPage() {
               </p>
             </Link>
             <Link
-              href="/nexus"
+              href="/ankura"
               className="card link"
               style={{ textDecoration: 'none' }}
             >
