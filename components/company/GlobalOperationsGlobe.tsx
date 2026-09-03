@@ -718,21 +718,7 @@ export default function GlobalOperationsGlobe() {
       <div className="globe-aura" />
       <div ref={chartRef} id="chartdiv" />
 
-      {/* Legend */}
-      <div className="globe-legend">
-        <div className="legend-item">
-          <span className="legend-dot dot-hq" />
-          <span>Global HQ &amp; Core Hubs</span>
-        </div>
-        <div className="legend-item">
-          <span className="legend-dot dot-regional" />
-          <span>Strategic Centers</span>
-        </div>
-        <div className="legend-item">
-          <span className="legend-dot dot-deploy" />
-          <span>Active Deployments</span>
-        </div>
-      </div>
+      
 
       <style jsx global>{`
         .globe-wrapper {

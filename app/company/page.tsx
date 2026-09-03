@@ -219,8 +219,8 @@ export default function CompanyPage() {
 
       {/* Global Operations */}
       <div className="section cream">
-        <div className="wrap">
-          <div style={{ maxWidth: 720 }}>
+        <div className="wrap" style={{ textAlign: 'center' }}>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
             <div className="kicker">Global Operations</div>
           </div>
 
@@ -230,24 +230,33 @@ export default function CompanyPage() {
           {/* Enterprise Fabric countries */}
           <div
             style={{
-              marginTop: 28,
-              
+              marginTop: 20,
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              maxWidth: 860,
+              textAlign: 'center',
             }}
           >
             <p
-              className="mut"
-              style={{ marginTop: 10, fontSize: 13.5, maxWidth: 560 }}
+              style={{
+                margin: '0 auto 12px',
+                fontSize: 13,
+                fontWeight: 600,
+                color: '#2a1408',
+                letterSpacing: '0.01em',
+                textAlign: 'center',
+              }}
             >
               Programs and deployments across key markets worldwide.
             </p>
 
             <div
               style={{
-                marginTop: 18,
                 display: 'flex',
                 flexWrap: 'wrap',
-                gap: 12,
-                alignItems: 'flex-start',
+                gap: '8px 10px',
+                justifyContent: 'center',
+                alignItems: 'center',
               }}
             >
               {[
@@ -268,11 +277,7 @@ export default function CompanyPage() {
                 'Canada',
                 'Mauritius',
               ].map((country) => (
-                <div
-                  key={country}
-                  className="proglabel slate"
-                  style={{ marginBottom: 0, whiteSpace: 'nowrap' }}
-                >
+                <div key={country} className="country-tag">
                   {country}
                 </div>
               ))}
@@ -281,12 +286,13 @@ export default function CompanyPage() {
 
           <div
             style={{
-              marginTop: 36,
+              marginTop: 24,
               display: 'flex',
-              gap: 14,
+              gap: 12,
               flexWrap: 'wrap',
+              justifyContent: 'center',
               alignItems: 'center',
-              maxWidth: 720,
+              width: '100%',
             }}
           >
             <Link href="/careers" className="btn btn-gold">
