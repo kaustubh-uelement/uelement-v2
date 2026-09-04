@@ -18,10 +18,11 @@ export default function DataTunnelCanvas({
   className = '',
   style = {},
   showGui = false, // the codepen ships a lil-gui debug panel; off by default for production use
-  convergenceX = 0.60, // horizontal position of pinch point (0 = far left, 1 = far right)
+  convergenceX = 0.50, // horizontal position of pinch point (0.50 = center, 0.48 = next to text)
   positionY = 0.0, // vertical position offset of the singular beam / pinch point
-  topSpread = 1.14, // multiplier for top-right flare height (> 1 moves top higher, < 1 pulls it down)
-  bottomSpread = 1.3, // multiplier for bottom-right flare height (> 1 pushes bottom lower, < 1 pulls it up)
+  topSpread = 1.0, // multiplier for top-right corner height (1.0 = exact top-right corner)
+  bottomSpread = 1.0, // multiplier for bottom-right corner height (1.0 = exact bottom-right corner)
+  curvePower = 1.6, // controls flare curvature (1.5-1.7 = sleek graceful silk flare)
 }) {
   const containerRef = useRef(null);
 
@@ -162,24 +163,28 @@ export default function DataTunnelCanvas({
         const visibleHalfHeight = camera.position.z * Math.tan(vFovRad / 2);
         const visibleHalfWidth = visibleHalfHeight * aspect;
 
-        // Position pinch/convergence point towards the left of the screen
-        // Screen ratio: 0.0 (far left) to 1.0 (far right)
-        // With CSS scaleX(-1) mirror: Three.js NDC X = 1 - 2 * convergenceX
-        const ndcTarget = 1 - 2 * convergenceX;
-        params.positionX = ndcTarget * visibleHalfWidth;
+        // Position pinch point horizontally (0.0 = far left, 0.5 = center, 1.0 = far right)
+        params.positionX = (1.0 - 2 * convergenceX) * visibleHalfWidth;
 
-        // Curve reaches past the 3D left boundary (which is screen right edge when mirrored)
-        params.curveLength = (1.0 + ndcTarget + 0.35) * visibleHalfWidth;
-        // Straight beam reaches past the 3D right boundary (screen left edge)
+        // Curve spans the exact distance from pinch point to the screen's right edge
+        params.curveLength = 2 * (1.0 - convergenceX) * visibleHalfWidth;
+
+        // Straight beam shoots past the screen's left edge
         params.straightLength = Math.max(
           1.0,
-          (1.0 - ndcTarget + 0.5) * visibleHalfWidth
+          2 * convergenceX * visibleHalfWidth + 0.4 * visibleHalfWidth
         );
 
-        // Make the tunnel spread fully top-to-bottom on the right edge
-        params.spreadHeight = visibleHalfHeight * 1.0;
-        // Move the beak / beam up or down to fit between headings
+        // Responsive end-to-end flare anchoring:
+        // Dynamically calculate exact top and bottom spread heights so the flare reaches
+        // the top-right and bottom-right corners at any screen aspect ratio & positionY.
+        params.topSpreadHeight =
+          Math.max(1, visibleHalfHeight - positionY) * topSpread;
+        params.bottomSpreadHeight =
+          Math.max(1, visibleHalfHeight + positionY) * bottomSpread;
+        params.spreadHeight = visibleHalfHeight;
         params.positionY = positionY;
+        params.curvePower = curvePower;
 
         if (contentGroup) {
           contentGroup.position.set(params.positionX, params.positionY, 0);
@@ -249,26 +254,28 @@ export default function DataTunnelCanvas({
         let y = 0;
         let z = 0;
 
-        // spreadFactor goes from -1 to +1.
-        // -1 is bottom, +1 is top.
-        const spreadFactor = (lineIndex / params.lineCount - 0.5) * 2;
+        // spreadFactor goes from -1.0 (bottom-right corner) to +1.0 (top-right corner)
+        const spreadFactor =
+          params.lineCount > 1
+            ? (lineIndex / (params.lineCount - 1) - 0.5) * 2
+            : 0;
 
         if (currentX < 0) {
           const ratio = (currentX + params.curveLength) / params.curveLength;
           let shapeFactor = (Math.cos(ratio * Math.PI) + 1) / 2;
           shapeFactor = Math.pow(shapeFactor, params.curvePower);
 
-          // Asymmetric flare multipliers for top-right vs bottom-right
+          // Asymmetric flare heights calculated dynamically from camera viewport
           const asymmetricSpreadHeight =
             spreadFactor > 0
-              ? params.spreadHeight * topSpread
-              : params.spreadHeight * bottomSpread;
+              ? (params.topSpreadHeight || params.spreadHeight)
+              : (params.bottomSpreadHeight || params.spreadHeight);
 
           y = spreadFactor * asymmetricSpreadHeight * shapeFactor;
           z = spreadFactor * params.spreadDepth * shapeFactor;
 
-          // Ambient baseline wave
-          const waveFactor = shapeFactor;
+          // Ambient baseline wave — tapers to 0 at ratio = 0 to keep corner points strictly fixed
+          const waveFactor = Math.sin(ratio * Math.PI) * shapeFactor;
           const ambientWave =
             Math.sin(time * params.waveSpeed + currentX * 0.1 + lineIndex) *
             params.waveHeight *
@@ -696,7 +703,7 @@ export default function DataTunnelCanvas({
       disposed = true;
       init._cleanup?.();
     };
-  }, [showGui, convergenceX, positionY, topSpread, bottomSpread]);
+  }, [showGui, convergenceX, positionY, topSpread, bottomSpread, curvePower]);
 
   return (
     <div
@@ -710,6 +717,8 @@ export default function DataTunnelCanvas({
         overflow: 'hidden',
         pointerEvents: showGui ? 'auto' : 'none',
         mixBlendMode: 'screen',
+        WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 70%)',
+        maskImage: 'linear-gradient(to right, transparent 0%, black 70%)',
         ...style,
       }}
     />
