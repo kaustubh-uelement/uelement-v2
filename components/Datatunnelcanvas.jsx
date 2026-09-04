@@ -19,6 +19,9 @@ export default function DataTunnelCanvas({
   style = {},
   showGui = false, // the codepen ships a lil-gui debug panel; off by default for production use
   convergenceX = 0.60, // horizontal position of pinch point (0 = far left, 1 = far right)
+  positionY = 0.0, // vertical position offset of the singular beam / pinch point
+  topSpread = 1.14, // multiplier for top-right flare height (> 1 moves top higher, < 1 pulls it down)
+  bottomSpread = 1.3, // multiplier for bottom-right flare height (> 1 pushes bottom lower, < 1 pulls it up)
 }) {
   const containerRef = useRef(null);
 
@@ -165,19 +168,18 @@ export default function DataTunnelCanvas({
         const ndcTarget = 1 - 2 * convergenceX;
         params.positionX = ndcTarget * visibleHalfWidth;
 
-        // Move the beak up slightly to fit perfectly between the headings
-        params.positionY = 3.0;
-
         // Curve reaches past the 3D left boundary (which is screen right edge when mirrored)
-        params.curveLength = (1.0 + ndcTarget + 0.15) * visibleHalfWidth;
+        params.curveLength = (1.0 + ndcTarget + 0.35) * visibleHalfWidth;
         // Straight beam reaches past the 3D right boundary (screen left edge)
         params.straightLength = Math.max(
           1.0,
-          (1.0 - ndcTarget + 0.4) * visibleHalfWidth
+          (1.0 - ndcTarget + 0.5) * visibleHalfWidth
         );
 
         // Make the tunnel spread fully top-to-bottom on the right edge
         params.spreadHeight = visibleHalfHeight * 1.0;
+        // Move the beak / beam up or down to fit between headings
+        params.positionY = positionY;
 
         if (contentGroup) {
           contentGroup.position.set(params.positionX, params.positionY, 0);
@@ -256,17 +258,11 @@ export default function DataTunnelCanvas({
           let shapeFactor = (Math.cos(ratio * Math.PI) + 1) / 2;
           shapeFactor = Math.pow(shapeFactor, params.curvePower);
 
-          // Allow asymmetric stretching for top vs bottom
-          // When we shifted the beak up, the top was getting clipped and bottom had a gap.
-          // By multiplying the bottom spread by 1.6 and top spread by 0.7, we can fill the screen perfectly.
-          let asymmetricSpreadHeight = params.spreadHeight;
-          if (spreadFactor > 0) {
-            // Top half
-            asymmetricSpreadHeight = params.spreadHeight * 0.95;
-          } else {
-            // Bottom half
-            asymmetricSpreadHeight = params.spreadHeight * 1.1;
-          }
+          // Asymmetric flare multipliers for top-right vs bottom-right
+          const asymmetricSpreadHeight =
+            spreadFactor > 0
+              ? params.spreadHeight * topSpread
+              : params.spreadHeight * bottomSpread;
 
           y = spreadFactor * asymmetricSpreadHeight * shapeFactor;
           z = spreadFactor * params.spreadDepth * shapeFactor;
@@ -700,7 +696,7 @@ export default function DataTunnelCanvas({
       disposed = true;
       init._cleanup?.();
     };
-  }, [showGui, convergenceX]);
+  }, [showGui, convergenceX, positionY, topSpread, bottomSpread]);
 
   return (
     <div
@@ -714,8 +710,6 @@ export default function DataTunnelCanvas({
         overflow: 'hidden',
         pointerEvents: showGui ? 'auto' : 'none',
         mixBlendMode: 'screen',
-        WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 70%)',
-        maskImage: 'linear-gradient(to right, transparent 0%, black 70%)',
         ...style,
       }}
     />
