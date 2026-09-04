@@ -51,10 +51,21 @@ void main(){
   vDist = length(pos.xz);
   vec4 mvPosition = modelViewMatrix * vec4(pos,1.0);
   gl_Position = projectionMatrix * mvPosition;
+
+  // Critical fix: Explicit point size with perspective attenuation.
+  // Required by WebGL spec when rendering points. Without this, gl_PointSize is undefined
+  // and expands to 64px-256px squares on Mali/Android GPUs, blowing out into white screen.
+  gl_PointSize = clamp(20.0 / -mvPosition.z, 1.2, 2.5);
 }
 `;
 
 const fragmentShader = `
+#ifdef GL_FRAGMENT_PRECISION_HIGH
+precision highp float;
+#else
+precision mediump float;
+#endif
+
 uniform float uTime;
 uniform vec3 uColorBase;
 uniform vec3 uColorPeak;
@@ -86,12 +97,22 @@ void main(){
 `;
 
 const dotFragmentShader = `
+#ifdef GL_FRAGMENT_PRECISION_HIGH
+precision highp float;
+#else
+precision mediump float;
+#endif
+
 uniform float uTime;
 uniform vec3 uColorBase;
 uniform vec3 uColorPeak;
 varying float vElevation;
 varying float vDist;
 void main(){
+  // Circular point clipping so point sprites render as smooth micro-dots instead of squares
+  vec2 coord = gl_PointCoord - vec2(0.5);
+  if (length(coord) > 0.5) discard;
+
   float fade = smoothstep(11.0, 2.0, vDist);
   float e = clamp(vElevation * 0.7, 0.0, 1.0);
   vec3 color = mix(uColorBase * 1.3, uColorPeak, e);
@@ -104,6 +125,12 @@ void main(){
 const bloomVertex = `varying vec2 vUv; void main(){ vUv=uv; gl_Position = vec4(position.xy,0.0,1.0); }`;
 
 const blurFragment = `
+#ifdef GL_FRAGMENT_PRECISION_HIGH
+precision highp float;
+#else
+precision mediump float;
+#endif
+
 uniform sampler2D tDiffuse; uniform vec2 uDir; uniform vec2 uRes; varying vec2 vUv;
 void main(){
   vec4 sum = vec4(0.0);
@@ -122,10 +149,17 @@ void main(){
 `;
 
 const compositeFragment = `
+#ifdef GL_FRAGMENT_PRECISION_HIGH
+precision highp float;
+#else
+precision mediump float;
+#endif
+
 uniform sampler2D tScene;
 uniform sampler2D tBloom;
 uniform float uTime;
 uniform float uGlitch;
+uniform float uIsMobile;
 varying vec2 vUv;
 
 float rand(vec2 c){ return fract(sin(dot(c,vec2(12.9898,78.233)))*43758.5453); }
@@ -155,13 +189,25 @@ void main(){
   float gradT = uv.x * 0.65 + (1.0 - uv.y) * 0.35;
   vec3 bgNavy = mix(navyDeep, mix(navyMid, navyLight, uv.x), clamp(gradT, 0.0, 1.0));
 
-  // Left-to-right text readability mask:
-  // Fades out dense wireframe over the text zone (left 0% to 50%) so text has dark navy contrast,
-  // while the golden terrain emerges in full glory towards the center and right side!
-  float textFade = smoothstep(0.08, 0.55, uv.x);
+  // Text readability mask:
+  // On desktop: fades left 0% to 55% for horizontal layout
+  // On mobile: text is stacked vertically at top, so ensure dark navy behind hero text
+  float textFade;
+  if (uIsMobile > 0.5) {
+    float horizFade = smoothstep(0.04, 0.45, uv.x);
+    float vertFade  = smoothstep(0.65, 0.28, uv.y);
+    textFade = max(horizFade * 0.5, vertFade);
+    textFade = clamp(textFade, 0.0, 1.0);
+  } else {
+    textFade = smoothstep(0.08, 0.55, uv.x);
+  }
 
   // Softened golden fabric + bloom glow
-  vec3 fabric = (base * 0.95 + bloom * 1.35) * textFade;
+  vec3 rawFabric = (base * 0.85 + bloom * 0.95) * textFade;
+
+  // Tone-mapping to prevent oversaturation/white-out blowout on all screens:
+  // Preserves deep bronze (#c88a3e) and golden glow without clipping to #ffffff
+  vec3 fabric = rawFabric / (vec3(1.0) + rawFabric * 0.4);
 
   // Composite fabric on top of website navy background
   vec3 color = bgNavy + fabric - scan;
@@ -251,7 +297,11 @@ export default function SpectralCanvas() {
     window.addEventListener('touchmove', handleTouchMove, { passive: true });
     window.addEventListener('click', handleClick);
 
-    const gridGeo = new THREE.PlaneGeometry(14, 22, 140, 200);
+    const isMobileInitial = (canvas.clientWidth || window.innerWidth) < 768;
+    const segX = isMobileInitial ? 70 : 140;
+    const segY = isMobileInitial ? 100 : 200;
+
+    const gridGeo = new THREE.PlaneGeometry(14, 22, segX, segY);
     gridGeo.rotateX(-Math.PI / 2);
 
     // Theme colors: #c88a3e (Gold-700) to #fbf3e6 (Cream Gold Light)
@@ -279,7 +329,7 @@ export default function SpectralCanvas() {
     gridMesh.position.set(1.5, 0, -3);
     scene.add(gridMesh);
 
-    const dotGeo = new THREE.PlaneGeometry(14, 22, 140, 200);
+    const dotGeo = new THREE.PlaneGeometry(14, 22, segX, segY);
     dotGeo.rotateX(-Math.PI / 2);
     const dotMat = new THREE.ShaderMaterial({
       vertexShader,
@@ -293,18 +343,15 @@ export default function SpectralCanvas() {
     dotMesh.position.set(1.5, 0, -3);
     scene.add(dotMesh);
 
-    let rtScene = new THREE.WebGLRenderTarget(W * DPR, H * DPR, {
-      type: THREE.HalfFloatType,
-    });
+    // Standard UnsignedByteType render targets (100% compatible with all mobile GPUs without requiring extensions)
+    let rtScene = new THREE.WebGLRenderTarget(W * DPR, H * DPR);
     let rtBloom1 = new THREE.WebGLRenderTarget(
-      W * DPR * 0.5,
-      H * DPR * 0.5,
-      { type: THREE.HalfFloatType }
+      Math.max(1, Math.floor(W * DPR * 0.5)),
+      Math.max(1, Math.floor(H * DPR * 0.5))
     );
     let rtBloom2 = new THREE.WebGLRenderTarget(
-      W * DPR * 0.5,
-      H * DPR * 0.5,
-      { type: THREE.HalfFloatType }
+      Math.max(1, Math.floor(W * DPR * 0.5)),
+      Math.max(1, Math.floor(H * DPR * 0.5))
     );
 
     const quadScene = new THREE.Scene();
@@ -317,7 +364,12 @@ export default function SpectralCanvas() {
       uniforms: {
         tDiffuse: { value: null },
         uDir: { value: new THREE.Vector2(1, 0) },
-        uRes: { value: new THREE.Vector2(W * DPR * 0.5, H * DPR * 0.5) },
+        uRes: {
+          value: new THREE.Vector2(
+            Math.max(1, Math.floor(W * DPR * 0.5)),
+            Math.max(1, Math.floor(H * DPR * 0.5))
+          ),
+        },
       },
     });
     const blurMatV = new THREE.ShaderMaterial({
@@ -326,7 +378,12 @@ export default function SpectralCanvas() {
       uniforms: {
         tDiffuse: { value: null },
         uDir: { value: new THREE.Vector2(0, 1) },
-        uRes: { value: new THREE.Vector2(W * DPR * 0.5, H * DPR * 0.5) },
+        uRes: {
+          value: new THREE.Vector2(
+            Math.max(1, Math.floor(W * DPR * 0.5)),
+            Math.max(1, Math.floor(H * DPR * 0.5))
+          ),
+        },
       },
     });
     const compositeMat = new THREE.ShaderMaterial({
@@ -337,6 +394,7 @@ export default function SpectralCanvas() {
         tBloom: { value: null },
         uTime: { value: 0 },
         uGlitch: { value: 0 },
+        uIsMobile: { value: isMobileInitial ? 1.0 : 0.0 },
       },
     });
 
@@ -375,10 +433,13 @@ export default function SpectralCanvas() {
       camera.aspect = W / H;
       camera.updateProjectionMatrix();
       rtScene.setSize(W * DPR, H * DPR);
-      rtBloom1.setSize(W * DPR * 0.5, H * DPR * 0.5);
-      rtBloom2.setSize(W * DPR * 0.5, H * DPR * 0.5);
-      blurMatH.uniforms.uRes.value.set(W * DPR * 0.5, H * DPR * 0.5);
-      blurMatV.uniforms.uRes.value.set(W * DPR * 0.5, H * DPR * 0.5);
+      const halfW = Math.max(1, Math.floor(W * DPR * 0.5));
+      const halfH = Math.max(1, Math.floor(H * DPR * 0.5));
+      rtBloom1.setSize(halfW, halfH);
+      rtBloom2.setSize(halfW, halfH);
+      blurMatH.uniforms.uRes.value.set(halfW, halfH);
+      blurMatV.uniforms.uRes.value.set(halfW, halfH);
+      compositeMat.uniforms.uIsMobile.value = W < 768 ? 1.0 : 0.0;
     };
 
     window.addEventListener('resize', resize);
