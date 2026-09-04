@@ -381,6 +381,9 @@
 
 /* ── CSS Custom Properties ── */
 :root {
+  --navbar-height: 66px;
+  --mobile-navbar-gap: 66px;
+
   /* Navy scale — shades of primary #071739 */
   --navy-900: #071739;
   --navy-800: #0a1e45;
@@ -554,8 +557,11 @@ a {
 
 /* ═══════════ NAV ═══════════ */
 .site-header {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
   z-index: 100;
   box-shadow: 0 4px 30px rgba(35, 34, 35, 0.1);
 }
@@ -1622,12 +1628,13 @@ h3.h {
 /* ═══════════ HERO ═══════════ */
 .hero {
   position: relative;
-  padding: 0;
+  padding: 66px 0 0;
   overflow: hidden;
-  min-height: calc(100svh - 67px);
-  max-height: calc(100svh - 67px);
+  min-height: 100svh;
+  max-height: 100svh;
   display: flex;
   align-items: center;
+  box-sizing: border-box;
   /* Gradient: primary navy → lightish blue */
   background:
     /* url('/ue-quantum-bg-transparent.png') center / cover no-repeat, */ linear-gradient(
@@ -1641,8 +1648,8 @@ h3.h {
 
 @media (max-width: 768px) {
   .hero {
-    padding: 60px 0 0;
-    min-height: calc(100svh - 67px);
+    padding: 110px 0 0;
+    min-height: 100svh;
     max-height: none;
     flex-direction: column;
     justify-content: space-between;
@@ -1651,15 +1658,15 @@ h3.h {
 }
 
 .hero.hero-half {
-  min-height: calc((100svh - 67px) * 0.65);
-  max-height: calc((100svh - 67px) * 0.65);
+  min-height: calc(66px + (100svh - 66px) * 0.65);
+  max-height: calc(66px + (100svh - 66px) * 0.65);
 }
 
 @media (max-width: 768px) {
   .hero.hero-half {
-    min-height: calc((100svh - 67px) * 0.65);
+    min-height: calc(66px + (100svh - 66px) * 0.65);
     max-height: none;
-    padding: 48px 0 60px;
+    padding: 114px 0 60px;
     justify-content: flex-start;
   }
 }
@@ -1712,8 +1719,8 @@ h3.h {
 }
 
 .hero.hero-half.hero-careers {
-  min-height: calc((100svh - 67px) * 0.65);
-  max-height: calc((100svh - 67px) * 0.65);
+  min-height: calc(66px + (100svh - 66px) * 0.65);
+  max-height: calc(66px + (100svh - 66px) * 0.65);
 }
 
 @media (max-height: 780px) {
@@ -1727,7 +1734,7 @@ h3.h {
   .hero.hero-half.hero-careers {
     min-height: auto;
     max-height: none;
-    padding-top: 32px;
+    padding-top: 98px;
     padding-bottom: 56px;
   }
 }

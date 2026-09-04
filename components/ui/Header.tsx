@@ -118,7 +118,7 @@ export default function Header() {
   return (
     <>
       <header className="site-header">
-        <div className="absolute inset-0 bg-[#32323259] backdrop-blur-[16px] -z-10"></div>
+        <div className="absolute inset-0 bg-[#32323331] backdrop-blur-[4px] -z-10"></div>
         <div className="wrap nav" ref={navRef}>
           <Link href="/" className="logo">
             <Image
