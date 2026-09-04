@@ -126,7 +126,7 @@ export default function BlogsPage() {
               className="card link"
               style={{ textDecoration: 'none' }}
             >
-              <div className="tag">Digital Ground</div>
+              <div className="tag">Digital Fabric</div>
               <h4>GenAI search is the new front door</h4>
               <p>
                 Why enterprises must be discoverable to both people and models.

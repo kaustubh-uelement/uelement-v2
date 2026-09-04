@@ -37,7 +37,7 @@ export default function AnkuraClient() {
                 color: "#c88a3e",
               }}
             >
-              StamBH &middot; the digital ground
+              StamBH &middot; the digital fabric
             </p>
             <p
               className="lede"
@@ -104,7 +104,7 @@ export default function AnkuraClient() {
           <h2 className="display">
             Every pillar is a thread.
             <br />
-            Together, they become the <span className="au">ground.</span>
+            Together, they become the <span className="au">fabric.</span>
           </h2>
           <p className="lede" style={{ marginTop: 20 }}>
             Activate them independently. Run them as one. Ankura keeps the foundation connected underneath, so adding a capability doesn&apos;t mean adding another silo.
@@ -124,7 +124,7 @@ export default function AnkuraClient() {
             <PillarCard
               label="Pillar 02 · Mobile"
               title="Extend the experience without duplicating the foundation."
-              description="Bring mobile into the same digital ground so customers experience one connected business across channels."
+              description="Bring mobile into the same digital fabric so customers experience one connected business across channels."
               points={[
                 "Less duplication across channels",
                 "More consistent customer journeys",
@@ -171,10 +171,10 @@ export default function AnkuraClient() {
         <div className="wrap">
           <div className="kicker">The AI substrate</div>
           <h2 className="display text-navy-gradient">
-            Intelligence <span className="au">woven into the ground.</span>
+            Intelligence <span className="au">woven into the fabric.</span>
           </h2>
           <p className="lede" style={{ marginTop: 20 }}>
-            AI shouldn&apos;t sit beside your digital business. It should work within it. Ankura puts intelligence inside the ground, where it can work with your workflows, data and experiences.
+            AI shouldn&apos;t sit beside your digital business. It should work within it. Ankura puts intelligence inside the fabric, where it can work with your workflows, data and experiences.
           </p>
 
           <div className="grid2" style={{ marginTop: 44 }}>
@@ -227,7 +227,7 @@ export default function AnkuraClient() {
         <div className="wrap">
           <div className="kicker">Extended platform</div>
           <h2 className="display">
-            Extend the ground.
+            Extend the fabric.
             <br />
             Not the <span className="au">fragmentation.</span>
           </h2>
@@ -292,7 +292,7 @@ export default function AnkuraClient() {
             One connected <span className="au">enterprise.</span>
           </h2>
           <p className="lede" style={{ marginTop: 20 }}>
-            Ankura, Vizor and Kayak are designed to work together, connecting digital experience, visibility and the operational ground behind what your business delivers.
+            Ankura, Vizor and Kayak are designed to work together, connecting digital experience, visibility and the operational fabric behind what your business delivers.
           </p>
           <div className="grid3" style={{ marginTop: 44 }}>
             <Link
@@ -300,13 +300,13 @@ export default function AnkuraClient() {
               className="card link"
               style={{ textDecoration: "none", border: "1px solid #c88a3e" }}
             >
-              <div className="tag">The digital ground</div>
+              <div className="tag">The digital fabric</div>
               <h4>Ankura</h4>
               <p
                 className="serif-line"
                 style={{ fontSize: 16, marginBottom: 10, color: "#c88a3e" }}
               >
-                The Enterprise Digital Ground
+                The Enterprise Digital Fabric
               </p>
               <p>
                 Build and run outward-facing digital experiences, workflows, analytics and AI from one unified foundation.
@@ -326,7 +326,7 @@ export default function AnkuraClient() {
                 One Platform. Seven Dimensions.
               </p>
               <p>
-                Bring visibility across business journeys, runtime security and compliance, connected to what your digital ground is doing.
+                Bring visibility across business journeys, runtime security and compliance, connected to what your digital fabric is doing.
               </p>
             </Link>
             <Link

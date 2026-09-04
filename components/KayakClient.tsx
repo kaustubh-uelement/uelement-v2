@@ -236,13 +236,13 @@ export default function KayakClient() {
               className="card link"
               style={{ textDecoration: 'none' }}
             >
-              <div className="tag">The digital ground</div>
+              <div className="tag">The digital fabric</div>
               <h4>Ankura</h4>
               <p
                 className="serif-line"
                 style={{ fontSize: 16, marginBottom: 10, color: '#c88a3e' }}
               >
-                The Enterprise Digital Ground
+                The Enterprise Digital Fabric
               </p>
               <p>
                 Embeds Kayak provenance in customer-facing surfaces and calls fulfillment straight from a workflow.
