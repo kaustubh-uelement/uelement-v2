@@ -708,6 +708,18 @@ const FooterContent = () => {
                   Success Stories
                 </Link>
                 <Link
+                  href="/case-studies"
+                  className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
+                >
+                  Case Studies
+                </Link>
+                <Link
+                  href="/research"
+                  className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
+                >
+                  Research
+                </Link>
+                <Link
                   href="/partnerships"
                   className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
                 >
@@ -924,6 +936,18 @@ const FooterContent = () => {
                   className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
                 >
                   Success Stories
+                </Link>
+                <Link
+                  href="/case-studies"
+                  className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
+                >
+                  Case Studies
+                </Link>
+                <Link
+                  href="/research"
+                  className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
+                >
+                  Research
                 </Link>
                 <Link
                   href="/partnerships"
