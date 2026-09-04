@@ -20,8 +20,8 @@ export default function DataTunnelCanvas({
   showGui = false, // the codepen ships a lil-gui debug panel; off by default for production use
   convergenceX = 0.50, // horizontal position of pinch point (0.50 = center, 0.48 = next to text)
   positionY = 0.0, // vertical position offset of the singular beam / pinch point
-  topSpread = 1.0, // multiplier for top-right corner height (1.0 = exact top-right corner)
-  bottomSpread = 1.0, // multiplier for bottom-right corner height (1.0 = exact bottom-right corner)
+  topSpread = 0.98, // multiplier for top-right corner height
+  bottomSpread = 0.99, // multiplier for bottom-right corner height (pulls in the slight bottom overflow)
   curvePower = 1.6, // controls flare curvature (1.5-1.7 = sleek graceful silk flare)
 }) {
   const containerRef = useRef(null);
