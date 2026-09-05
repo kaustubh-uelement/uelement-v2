@@ -794,7 +794,7 @@ const FooterContent = () => {
                   Platform Overview
                 </Link>
                 <Link
-                  href="/stambh#ankura"
+                  href="/ankura"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
                   <span className="!text-[14px] !font-heading">Ankura</span>
@@ -803,7 +803,7 @@ const FooterContent = () => {
                   </span>
                 </Link>
                 <Link
-                  href="/stambh#vizor"
+                  href="/vizor"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
                   <span className="!text-[14px] !font-heading">Vizor</span>
@@ -812,7 +812,7 @@ const FooterContent = () => {
                   </span>
                 </Link>
                 <Link
-                  href="/stambh#kayak"
+                  href="/kayak"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
                   <span className="!text-[14px] !font-heading">Kayak</span>

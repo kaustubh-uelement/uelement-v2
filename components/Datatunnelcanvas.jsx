@@ -18,7 +18,7 @@ export default function DataTunnelCanvas({
   className = '',
   style = {},
   showGui = false, // the codepen ships a lil-gui debug panel; off by default for production use
-  convergenceX = 0.50, // horizontal position of pinch point (0.50 = center, 0.48 = next to text)
+  convergenceX = 0.5, // horizontal position of pinch point (0.50 = center, 0.48 = next to text)
   positionY = 0.0, // vertical position offset of the singular beam / pinch point
   topSpread = 0.98, // multiplier for top-right corner height
   bottomSpread = 0.99, // multiplier for bottom-right corner height (pulls in the slight bottom overflow)
@@ -31,6 +31,9 @@ export default function DataTunnelCanvas({
     let animationFrameId;
     let gui;
     let resizeObserver;
+    let intersectionObserver;
+    let resizeRaf = null;
+    let isVisible = true;
     let disposed = false;
 
     const container = containerRef.current;
@@ -120,10 +123,15 @@ export default function DataTunnelCanvas({
       camera.lookAt(0, 0, 0);
 
       renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-      renderer.setSize(width, height);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.setSize(width, height, false);
       renderer.setClearColor(0x000000, 0); // fully transparent clear
+      renderer.domElement.style.position = 'absolute';
+      renderer.domElement.style.inset = '0';
+      renderer.domElement.style.width = '100%';
+      renderer.domElement.style.height = '100%';
       renderer.domElement.style.display = 'block';
+      renderer.domElement.style.pointerEvents = 'none';
       // Horizontal flip: mirrors the tunnel so it opens/reads from the
       // right side of the screen instead of the left.
       renderer.domElement.style.transform = 'scaleX(-1)';
@@ -153,8 +161,15 @@ export default function DataTunnelCanvas({
       // Dynamically calculate curve and beam length based on visible camera frustum
       // so the flare always starts from and extends off the right edge of the viewport
       // regardless of aspect ratio (e.g. ultra-wide screens with short hero height).
+      let lastW = 0;
+      let lastH = 0;
+
       function updateDimensions() {
         const { width: w, height: h } = getSize();
+        if (Math.abs(w - lastW) < 1 && Math.abs(h - lastH) < 1) return;
+        lastW = w;
+        lastH = h;
+
         const aspect = w / h;
         camera.aspect = aspect;
         camera.updateProjectionMatrix();
@@ -190,7 +205,7 @@ export default function DataTunnelCanvas({
           contentGroup.position.set(params.positionX, params.positionY, 0);
         }
 
-        renderer.setSize(w, h);
+        renderer.setSize(w, h, false);
         composer.setSize(w, h);
         if (bloomPass && bloomPass.resolution) {
           bloomPass.resolution.set(w, h);
@@ -202,7 +217,16 @@ export default function DataTunnelCanvas({
       // --- POINTER EVENT HANDLERS ---
       const handlePointerMove = (e) => {
         if (!container || !camera) return;
+        // Ignore touch dragging (e.g. mobile page scrolling) to prevent layout thrashing
+        if (e.pointerType === 'touch') return;
+
         const rect = container.getBoundingClientRect();
+        // If container is scrolled out of the viewport, skip calculation
+        if (rect.bottom < 0 || rect.top > window.innerHeight) {
+          targetMouseHover = 0;
+          return;
+        }
+
         const isInside =
           e.clientX >= rect.left &&
           e.clientX <= rect.right &&
@@ -239,9 +263,6 @@ export default function DataTunnelCanvas({
       window.addEventListener('pointermove', handlePointerMove, {
         passive: true,
       });
-      window.addEventListener('pointerdown', handlePointerMove, {
-        passive: true,
-      });
       window.addEventListener('pointerleave', handlePointerLeave, {
         passive: true,
       });
@@ -268,8 +289,8 @@ export default function DataTunnelCanvas({
           // Asymmetric flare heights calculated dynamically from camera viewport
           const asymmetricSpreadHeight =
             spreadFactor > 0
-              ? (params.topSpreadHeight || params.spreadHeight)
-              : (params.bottomSpreadHeight || params.spreadHeight);
+              ? params.topSpreadHeight || params.spreadHeight
+              : params.bottomSpreadHeight || params.spreadHeight;
 
           y = spreadFactor * asymmetricSpreadHeight * shapeFactor;
           z = spreadFactor * params.spreadDepth * shapeFactor;
@@ -548,6 +569,9 @@ export default function DataTunnelCanvas({
       function animate() {
         animationFrameId = requestAnimationFrame(animate);
 
+        // Pause expensive rendering and geometry updates if hero is off-screen
+        if (!isVisible) return;
+
         const time = clock.getElapsedTime();
 
         // Smooth mouse tracking and hover interpolation
@@ -667,19 +691,36 @@ export default function DataTunnelCanvas({
 
       animate();
 
-      // --- RESIZE (scoped to the container, not window) ---
+      // --- VISIBILITY OBSERVER (pause render when scrolled out of view) ---
+      if (typeof IntersectionObserver !== 'undefined') {
+        intersectionObserver = new IntersectionObserver(
+          ([entry]) => {
+            isVisible = entry.isIntersecting;
+          },
+          { threshold: 0 }
+        );
+        intersectionObserver.observe(container);
+      }
+
+      // --- RESIZE (debounced with RAF, scoped to container & window) ---
       const handleResize = () => {
-        updateDimensions();
+        if (resizeRaf) cancelAnimationFrame(resizeRaf);
+        resizeRaf = requestAnimationFrame(() => {
+          updateDimensions();
+        });
       };
 
       resizeObserver = new ResizeObserver(handleResize);
       resizeObserver.observe(container);
+      window.addEventListener('resize', handleResize, { passive: true });
 
       // Stash cleanup handles
       init._cleanup = () => {
         cancelAnimationFrame(animationFrameId);
+        if (resizeRaf) cancelAnimationFrame(resizeRaf);
+        intersectionObserver?.disconnect();
+        window.removeEventListener('resize', handleResize);
         window.removeEventListener('pointermove', handlePointerMove);
-        window.removeEventListener('pointerdown', handlePointerMove);
         window.removeEventListener('pointerleave', handlePointerLeave);
         resizeObserver?.disconnect();
         gui?.destroy();
