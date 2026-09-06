@@ -491,11 +491,9 @@
 
 html {
   scroll-behavior: smooth;
-  background-color: #071739;
 }
 
 body {
-  background-color: #071739;
   background: linear-gradient(
     97.27deg,
     #071739 5.62%,
