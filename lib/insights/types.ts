@@ -14,9 +14,9 @@ export type ProductKey =
   | 'ankura'
   | 'vizor'
   | 'kayak' // StamBH
-  | 'merlinos'
-  | 'mustangc3'
-  | 'mesogrid'; // TRIpura
+  | 'kalamos'
+  | 'bosc3'
+  | 'nobisgrid'; // TRIpura
 
 export type Industry =
   | 'defence'

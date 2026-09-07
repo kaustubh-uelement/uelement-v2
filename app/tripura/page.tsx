@@ -59,7 +59,7 @@ export default function MainsparPage() {
             <Link href="/contact" className="btn btn-gold">
               Request the defence briefing
             </Link>
-            <Link href="/merlinos" className="btn btn-line">
+            <Link href="/kalamos" className="btn btn-line">
               Explore the triad
             </Link>
           </div>
@@ -71,12 +71,13 @@ export default function MainsparPage() {
           <div className="kicker">The triad</div>
           <div className="grid3" style={{ marginTop: 26 }}>
             <Link
-              href="/merlinos"
+              href="/kalamos"
+              id="kalamos"
               className="card link"
               style={{ textDecoration: 'none' }}
             >
               <div className="tag slate">The Brain</div>
-              <h4>MerlinOS</h4>
+              <h4>KalAMOS</h4>
               <p>
                 A sovereign edge AI operating system in Light and Standard
                 builds: inference, orchestration, and model lifecycle at the
@@ -84,24 +85,26 @@ export default function MainsparPage() {
               </p>
             </Link>
             <Link
-              href="/mustang"
+              href="/bosc3"
+              id="bosc3"
               className="card link"
               style={{ textDecoration: 'none' }}
             >
               <div className="tag slate">The Commander</div>
-              <h4>MustangC3</h4>
+              <h4>BoSC3</h4>
               <p>
                 Agentic AI command, control and communications: mission
                 continuity through 60%+ node attrition.
               </p>
             </Link>
             <Link
-              href="/mesogrid"
+              href="/nobisgrid"
+              id="nobisgrid"
               className="card link"
               style={{ textDecoration: 'none' }}
             >
               <div className="tag slate">The Fabric</div>
-              <h4>MesoGRID</h4>
+              <h4>NobisGRID</h4>
               <p>
                 A resilient decentralised mesh with stochastic path
                 optimisation. Self-healing by construction.

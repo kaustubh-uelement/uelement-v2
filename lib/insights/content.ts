@@ -170,7 +170,7 @@ export const successStories: SuccessStory[] = [
     client: 'A forward-deployed unit',
     cleared: false,
     program: 'tripura',
-    products: ['merlinos', 'mesogrid', 'mustangc3'],
+    products: ['kalamos', 'nobisgrid', 'bosc3'],
     industry: 'defence',
     deployment: 'airgapped',
     figure: '72 h',
@@ -179,7 +179,7 @@ export const successStories: SuccessStory[] = [
     headline:
       'A forward unit kept its sensor fusion running through three days of denied communications',
     summary:
-      'The exercise brief was blunt: assume the link is gone and the cloud is unreachable. MerlinOS ran inference at the node, MesoGRID re-formed the mesh each time a hop dropped, and MustangC3 held the command picture locally. When the link returned, state reconciled without operator intervention.',
+      'The exercise brief was blunt: assume the link is gone and the cloud is unreachable. KalAMOS ran inference at the node, NobisGRID re-formed the mesh each time a hop dropped, and BoSC3 held the command picture locally. When the link returned, state reconciled without operator intervention.',
     tags: ['DDIL exercise', 'Air-gapped', 'ITAR-free'],
     quote: {
       text: 'Every vendor tells you they work at the edge. This one worked when we cut the edge off.',
@@ -643,7 +643,7 @@ export const caseStudies: CaseStudy[] = [
     slug: 'seventy-two-hours-denied-network',
     reference: 'UE-CS-2026-006',
     program: 'tripura',
-    products: ['merlinos', 'mesogrid', 'mustangc3'],
+    products: ['kalamos', 'nobisgrid', 'bosc3'],
     industry: 'defence',
     deployment: 'airgapped',
     title: 'Seventy-two hours of autonomy in a deliberately denied network',
@@ -653,7 +653,7 @@ export const caseStudies: CaseStudy[] = [
       situation:
         "An exercise brief requiring continuous sensor fusion and tasking with no reachback, on hardware already in the unit's inventory.",
       intervention:
-        'MerlinOS for on-node inference, MesoGRID for self-healing mesh transport, MustangC3 holding tasking state locally with deferred reconciliation.',
+        'KalAMOS for on-node inference, NobisGRID for self-healing mesh transport, BoSC3 holding tasking state locally with deferred reconciliation.',
       result:
         'Zero operator interventions across 72 hours. State reconciled cleanly in under four minutes when the link returned.',
     },
@@ -694,8 +694,8 @@ export const caseStudies: CaseStudy[] = [
       {
         heading: 'What we deployed',
         content: [
-          'The TRIpura suite was deployed across tactical edge nodes. MerlinOS executed local machine learning inference and sensor classification directly on edge compute. MesoGRID maintained a peer-to-peer resilient wireless mesh that dynamically rerouted whenever terrain or electronic interference dropped a hop.',
-          'MustangC3 utilized a decentralized conflict-free replicated data type (CRDT) consensus model with causal ordering. Nodes recorded decisions and mission state locally without waiting for unreachable peers. When satellite connectivity was restored, the distributed mesh synchronized all state changes across 72 hours in 3 minutes and 42 seconds.',
+          'The TRIpura suite was deployed across tactical edge nodes. KalAMOS executed local machine learning inference and sensor classification directly on edge compute. NobisGRID maintained a peer-to-peer resilient wireless mesh that dynamically rerouted whenever terrain or electronic interference dropped a hop.',
+          'BoSC3 utilized a decentralized conflict-free replicated data type (CRDT) consensus model with causal ordering. Nodes recorded decisions and mission state locally without waiting for unreachable peers. When satellite connectivity was restored, the distributed mesh synchronized all state changes across 72 hours in 3 minutes and 42 seconds.',
         ],
       },
       {
@@ -831,7 +831,7 @@ export const publications: Publication[] = [
     arxivId: '2607.04412',
     underReview: true,
     abstract:
-      'We describe the reconciliation protocol used by MustangC3 to maintain a coherent command picture across mesh partitions lasting hours to days. Rather than blocking on quorum, nodes accept locally-ordered tasking and reconcile through a causal merge with operator-visible conflict surfacing. We report reconciliation behaviour across a 72-hour denied-communications field exercise and characterise the conditions under which manual adjudication becomes necessary.',
+      'We describe the reconciliation protocol used by BoSC3 to maintain a coherent command picture across mesh partitions lasting hours to days. Rather than blocking on quorum, nodes accept locally-ordered tasking and reconcile through a causal merge with operator-visible conflict surfacing. We report reconciliation behaviour across a 72-hour denied-communications field exercise and characterise the conditions under which manual adjudication becomes necessary.',
     pdf: { href: '#', sizeLabel: '2.1 MB' },
     bibtex: `@misc{narwade2026deferred,
   title        = {Deferred consensus for tasking state in intermittently partitioned tactical meshes},

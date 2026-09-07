@@ -71,19 +71,19 @@ export const navItems: NavItem[] = [
         headingHref: '/tripura',
         items: [
           {
-            label: 'MerlinOS',
+            label: 'KalAMOS',
             description: 'Sovereign edge AI OS',
-            href: '/merlinos',
+            href: '/kalamos',
           },
           {
-            label: 'MustangC3',
+            label: 'BoSC3',
             description: 'Agentic Command & Control',
-            href: '/mustang',
+            href: '/bosc3',
           },
           {
-            label: 'MesoGRID',
+            label: 'NobisGRID',
             description: 'Resilient Decentralised Mesh',
-            href: '/mesogrid',
+            href: '/nobisgrid',
           },
         ],
       },
