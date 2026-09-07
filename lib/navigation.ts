@@ -207,11 +207,6 @@ export const navItems: NavItem[] = [
               'Peer-reviewed papers, preprints, and standards contributions.',
             href: '/research',
           },
-          {
-            label: 'Investor Relations',
-            description: 'Structure, governance, and investor inquiries.',
-            href: '/investors',
-          },
         ],
       },
       {
@@ -226,6 +221,11 @@ export const navItems: NavItem[] = [
             description:
               'Insights, trends, and expert perspectives from our team.',
             href: '/blogs',
+          },
+          {
+            label: 'Investor Relations',
+            description: 'Structure, governance, and investor inquiries.',
+            href: '/investors',
           },
           {
             label: 'Contact Us',
