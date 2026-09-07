@@ -661,28 +661,28 @@ const FooterContent = () => {
                   Solution Overview
                 </Link>
                 <Link
-                  href="/merlinos"
+                  href="/kalamos"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
-                  <span className="!text-[14px] !font-heading">MerlinOS</span>
+                  <span className="!text-[14px] !font-heading">KalAMOS</span>
                   <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
                     Sovereign edge AI OS
                   </span>
                 </Link>
                 <Link
-                  href="/mustang"
+                  href="/bosc3"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
-                  <span className="!text-[14px] !font-heading">MustangC3</span>
+                  <span className="!text-[14px] !font-heading">BoSC3</span>
                   <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
                     Agentic Command & Control
                   </span>
                 </Link>
                 <Link
-                  href="/mesogrid"
+                  href="/nobisgrid"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
-                  <span className="!text-[14px] !font-heading">MesoGRID</span>
+                  <span className="!text-[14px] !font-heading">NobisGRID</span>
                   <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
                     Resilient Decentralised Mesh
                   </span>
@@ -706,6 +706,18 @@ const FooterContent = () => {
                   className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
                 >
                   Success Stories
+                </Link>
+                <Link
+                  href="/case-studies"
+                  className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
+                >
+                  Case Studies
+                </Link>
+                <Link
+                  href="/research"
+                  className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
+                >
+                  Research
                 </Link>
                 <Link
                   href="/partnerships"
@@ -835,28 +847,28 @@ const FooterContent = () => {
                   Solution Overview
                 </Link>
                 <Link
-                  href="/tripura#merlinos"
+                  href="/tripura#kalamos"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
-                  <span className="!text-[14px] !font-heading">MerlinOS</span>
+                  <span className="!text-[14px] !font-heading">KalAMOS</span>
                   <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
                     Sovereign edge AI OS
                   </span>
                 </Link>
                 <Link
-                  href="/tripura#mustangc3"
+                  href="/tripura#bosc3"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
-                  <span className="!text-[14px] !font-heading">MustangC3</span>
+                  <span className="!text-[14px] !font-heading">BoSC3</span>
                   <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
                     Agentic Command & Control
                   </span>
                 </Link>
                 <Link
-                  href="/tripura#mesogrid"
+                  href="/tripura#nobisgrid"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
-                  <span className="!text-[14px] !font-heading">MesoGRID</span>
+                  <span className="!text-[14px] !font-heading">NobisGRID</span>
                   <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
                     Resilient Decentralised Mesh
                   </span>
@@ -924,6 +936,18 @@ const FooterContent = () => {
                   className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
                 >
                   Success Stories
+                </Link>
+                <Link
+                  href="/case-studies"
+                  className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
+                >
+                  Case Studies
+                </Link>
+                <Link
+                  href="/research"
+                  className="fl3 !text-[#e2e2e2] !text-[14px] !font-heading hover:text-white transition-colors"
+                >
+                  Research
                 </Link>
                 <Link
                   href="/partnerships"

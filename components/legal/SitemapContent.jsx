@@ -59,10 +59,9 @@ export default function SitemapContent() {
               TRIpura
             </h3>
             <div className="space-y-2 pl-2">
-              <SitemapLink href="/merlinos">MerlinOS</SitemapLink>
-              <SitemapLink href="/mustang">MustangC3</SitemapLink>
-              <SitemapLink href="/mesogrid">MesoGRID</SitemapLink>
-
+              <SitemapLink href="/kalamos">KalAMOS</SitemapLink>
+              <SitemapLink href="/bosc3">BoSC3</SitemapLink>
+              <SitemapLink href="/nobisgrid">NobisGRID</SitemapLink>
             </div>
           </div>
 

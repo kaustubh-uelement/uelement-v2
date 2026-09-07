@@ -135,7 +135,7 @@ export default function HomePage() {
                 className="mono"
                 style={{ marginTop: 14, color: 'var(--gold-500)' }}
               >
-                MerlinOS · MustangC3 · MesoGRID →
+                KalAMOS · BoSC3 · NobisGRID →
               </p>
             </Link>
           </div>

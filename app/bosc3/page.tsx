@@ -2,12 +2,12 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'MustangC3 | Agentic Command & Control | UElement',
+  title: 'BoSC3 | Agentic Command & Control | UElement',
   description:
     'Agentic AI command, control, and communications engineered for graceful degradation.',
 };
 
-export default function MustangPage() {
+export default function Bosc3Page() {
   return (
     <>
       <div className="hero hero-half">
@@ -18,18 +18,18 @@ export default function MustangPage() {
         <div className="wrap">
           <div className="crumb">
             <Link href="/">Home</Link> / <Link href="/tripura">TRIpura</Link> /
-            MustangC3
+            BoSC3
           </div>
           <div className="tag slate">TRIpura · The Commander</div>
           <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>
-            MustangC3
+            BoSC3
           </h1>
           <p className="serif-line">
             Command that survives the loss of most of itself.
           </p>
           <p className="lede" style={{ marginTop: 22 }}>
             Agentic AI command, control, and communications engineered for
-            graceful degradation. MustangC3 maintains mission continuity through
+            graceful degradation. BoSC3 maintains mission continuity through
             the attrition of 60% or more of its nodes, reforming hierarchies,
             re-tasking assets, and preserving intent when links are cut.
           </p>

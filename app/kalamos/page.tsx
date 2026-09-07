@@ -2,12 +2,12 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'MerlinOS | Sovereign Edge AI OS | UElement',
+  title: 'KalAMOS | Sovereign Edge AI OS | UElement',
   description:
     'A sovereign edge AI operating system that brings model inference, orchestration, and lifecycle management to nodes that may never see a datacenter.',
 };
 
-export default function MerlinOSPage() {
+export default function KalamosPage() {
   return (
     <>
       <div className="hero hero-half">
@@ -18,11 +18,11 @@ export default function MerlinOSPage() {
         <div className="wrap">
           <div className="crumb">
             <Link href="/">Home</Link> / <Link href="/tripura">TRIpura</Link>{' '}
-            / MerlinOS
+            / KalAMOS
           </div>
           <div className="tag slate">TRIpura · The Brain</div>
           <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>
-            MerlinOS
+            KalAMOS
           </h1>
           <p className="serif-line">
             The operating system for intelligence at the edge.

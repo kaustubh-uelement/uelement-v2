@@ -65,8 +65,8 @@ export const careersJobs = [
       'https://form.co/YOUR_FORM_ID?role=quantum-security-architect',
   },
   {
-    id: 'edge-ai-engineer-merlinos',
-    title: 'Edge AI Engineer | MerlinOS',
+    id: 'edge-ai-engineer-kalamos',
+    title: 'Edge AI Engineer | KalAMOS',
     department: 'MainSPAR',
     location: 'Pune, India',
     type: 'Full-time',
@@ -74,13 +74,13 @@ export const careersJobs = [
     shortDescription:
       'Sovereign MLOps on constrained hardware. Inference where every milliwatt counts.',
     aboutRole:
-      'MerlinOS is the sovereign edge AI operating system that brings model inference and lifecycle management to nodes that may never see a datacenter. You will build and optimize the Light and Standard builds, squeezing usable inference out of constrained sensors on one end and running full node-level MLOps for vehicle-class hardware on the other. Every decision you make is bounded by power, thermal, and connectivity constraints that a cloud engineer never has to think about.',
+      'KalAMOS is the sovereign edge AI operating system that brings model inference and lifecycle management to nodes that may never see a datacenter. You will build and optimize the Light and Standard builds, squeezing usable inference out of constrained sensors on one end and running full node-level MLOps for vehicle-class hardware on the other. Every decision you make is bounded by power, thermal, and connectivity constraints that a cloud engineer never has to think about.',
     responsibilities: [
       'Optimize model inference for extreme resource-constrained hardware (Light build)',
       'Build fleet orchestration, model serving, and retraining hooks for station/vehicle-class nodes (Standard build)',
       'Implement post-quantum key exchange for node-to-node trust with zero mandatory external calls',
       'Profile and reduce power/compute footprint of deployed models without sacrificing accuracy',
-      'Work with MustangC3 and MesoGRID teams to ensure inference survives partition and attrition scenarios',
+      'Work with BoSC3 and NobisGRID teams to ensure inference survives partition and attrition scenarios',
     ],
     requirements: [
       '3+ years building ML systems for embedded, edge, or resource-constrained environments',
@@ -93,11 +93,11 @@ export const careersJobs = [
       'Experience with TinyML, ONNX Runtime, or similar edge inference frameworks',
       'Background in robotics, defence, or industrial embedded systems',
     ],
-    applyFormUrl: 'https://form.co/YOUR_FORM_ID?role=edge-ai-engineer-merlinos',
+    applyFormUrl: 'https://form.co/YOUR_FORM_ID?role=edge-ai-engineer-kalamos',
   },
   {
-    id: 'mesh-networking-engineer-mesogrid',
-    title: 'Mesh Networking Engineer | MesoGRID',
+    id: 'mesh-networking-engineer-nobisgrid',
+    title: 'Mesh Networking Engineer | NobisGRID',
     department: 'MainSPAR',
     location: 'Pune, India',
     type: 'Full-time',
@@ -105,13 +105,13 @@ export const careersJobs = [
     shortDescription:
       'Stochastic routing, partition tolerance, self-healing topology for DDIL environments.',
     aboutRole:
-      'MesoGRID is the mesh that refuses to die. A decentralised network built for denied, degraded, intermittent, and limited (DDIL) environments where jamming and partition are the operating condition, not the exception. You will design and implement stochastic path-selection algorithms, self-healing topology logic, and partition-tolerant reconciliation so that islands of the network keep functioning independently and merge cleanly when links return.',
+      'NobisGRID is the mesh that refuses to die. A decentralised network built for denied, degraded, intermittent, and limited (DDIL) environments where jamming and partition are the operating condition, not the exception. You will design and implement stochastic path-selection algorithms, self-healing topology logic, and partition-tolerant reconciliation so that islands of the network keep functioning independently and merge cleanly when links return.',
     responsibilities: [
       'Design and implement stochastic routing algorithms resistant to adversarial prediction',
       'Build self-healing topology reformation logic that operates without central coordination',
       'Develop partition-tolerance and state-reconciliation protocols for disconnected network islands',
       'Simulate and stress-test mesh behaviour under jamming, node loss, and high-attrition scenarios',
-      'Collaborate with MustangC3 to ensure command-and-control traffic prioritizes correctly under degraded conditions',
+      'Collaborate with BoSC3 to ensure command-and-control traffic prioritizes correctly under degraded conditions',
     ],
     requirements: [
       '3+ years working on distributed systems, networking protocols, or mesh/ad-hoc networks',
@@ -125,7 +125,7 @@ export const careersJobs = [
       'Prior defence, telecom, or disaster-response networking work',
     ],
     applyFormUrl:
-      'https://form.co/YOUR_FORM_ID?role=mesh-networking-engineer-mesogrid',
+      'https://form.co/YOUR_FORM_ID?role=mesh-networking-engineer-nobisgrid',
   },
   {
     id: 'observability-platform-engineer-vizor',

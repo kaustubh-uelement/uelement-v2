@@ -71,19 +71,19 @@ export const navItems: NavItem[] = [
         headingHref: '/tripura',
         items: [
           {
-            label: 'MerlinOS',
+            label: 'KalAMOS',
             description: 'Sovereign edge AI OS',
-            href: '/merlinos',
+            href: '/kalamos',
           },
           {
-            label: 'MustangC3',
+            label: 'BoSC3',
             description: 'Agentic Command & Control',
-            href: '/mustang',
+            href: '/bosc3',
           },
           {
-            label: 'MesoGRID',
+            label: 'NobisGRID',
             description: 'Resilient Decentralised Mesh',
-            href: '/mesogrid',
+            href: '/nobisgrid',
           },
         ],
       },
@@ -196,6 +196,18 @@ export const navItems: NavItem[] = [
             href: '/stories',
           },
           {
+            label: 'Case Studies',
+            description:
+              'Full technical accounts, constraints, and operational records.',
+            href: '/case-studies',
+          },
+          {
+            label: 'Research',
+            description:
+              'Peer-reviewed papers, preprints, and standards contributions.',
+            href: '/research',
+          },
+          {
             label: 'Investor Relations',
             description: 'Structure, governance, and investor inquiries.',
             href: '/investors',
@@ -217,8 +229,7 @@ export const navItems: NavItem[] = [
           },
           {
             label: 'Contact Us',
-            description:
-              'Get in touch with our leadership and advisory teams.',
+            description: 'Get in touch with our leadership and advisory teams.',
             href: '/contact',
           },
         ],

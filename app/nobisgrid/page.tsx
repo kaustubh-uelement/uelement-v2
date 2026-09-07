@@ -2,12 +2,12 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'MesoGRID | Resilient Decentralised Mesh | UElement',
+  title: 'NobisGRID | Resilient Decentralised Mesh | UElement',
   description:
     'A resilient decentralised mesh network with stochastic path optimisation.',
 };
 
-export default function MesogridPage() {
+export default function NobisgridPage() {
   return (
     <>
       <div className="hero hero-half">
@@ -18,16 +18,16 @@ export default function MesogridPage() {
         <div className="wrap">
           <div className="crumb">
             <Link href="/">Home</Link> / <Link href="/tripura">TRIpura</Link>{' '}
-            / MesoGRID
+            / NobisGRID
           </div>
           <div className="tag slate">TRIpura · The Fabric</div>
           <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>
-            MesoGRID
+            NobisGRID
           </h1>
           <p className="serif-line">The mesh that refuses to die.</p>
           <p className="lede" style={{ marginTop: 22 }}>
             A resilient decentralised mesh network with stochastic path
-            optimisation. MesoGRID treats disruption as the operating condition,
+            optimisation. NobisGRID treats disruption as the operating condition,
             not the exception, routing around jamming, loss, and partition
             without central coordination.
           </p>
