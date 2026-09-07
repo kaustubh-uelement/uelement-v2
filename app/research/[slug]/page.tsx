@@ -238,6 +238,7 @@ export default async function PublicationDetailPage({ params }: Params) {
       </div>
 
       <InsightCtaBand
+        program={p.program}
         kicker="Applied Sovereignty"
         heading={
           <>

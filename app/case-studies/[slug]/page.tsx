@@ -160,7 +160,7 @@ export default async function CaseStudyDetailPage({ params }: Params) {
               )}
 
               {/* Confidentiality Notice */}
-              <NdaCallout />
+              <NdaCallout program={cs.program} />
             </div>
 
             {/* Sidebar Facts */}
@@ -241,16 +241,39 @@ export default async function CaseStudyDetailPage({ params }: Params) {
       </div>
 
       <InsightCtaBand
-        kicker="Strategic Advisory"
-        heading={
-          <>
-            Start with the <span className="au">Inventory</span>, not the
-            algorithm.
-          </>
+        program={cs.program}
+        kicker={
+          cs.program === 'stambh'
+            ? 'StamBH Deployment Advisory'
+            : 'Strategic Advisory'
         }
-        body="A quantum risk assessment produces the definitive cryptographic bill of materials (CBOM) and empirical exposure ranking. Most organizations find the risk order substantially different from asset criticality."
+        heading={
+          cs.program === 'stambh' ? (
+            <>
+              Start small. Scale with <span className="au">confidence.</span>
+            </>
+          ) : (
+            <>
+              Start with the <span className="au">Inventory</span>, not the
+              algorithm.
+            </>
+          )
+        }
+        subtitle={
+          cs.program === 'stambh'
+            ? 'StamBH · 2-hour workshop, 5 days to something live'
+            : 'AdviQ · Post-Quantum Readiness Framework'
+        }
+        body={
+          cs.program === 'stambh'
+            ? 'Bring us one real digital presence or workflow challenge. In a 2-hour architecture session we map the integration topology, and within 5 business days we deliver a functional, tested slice in your environment. Zero lock-in, client-owned IP.'
+            : 'A quantum risk assessment produces the definitive cryptographic bill of materials (CBOM) and empirical exposure ranking. Most organizations find the risk order substantially different from asset criticality.'
+        }
         primaryAction={{
-          label: 'Book a risk assessment',
+          label:
+            cs.program === 'stambh'
+              ? 'Schedule 2-hour architecture workshop'
+              : 'Book a risk assessment',
           href: '/contact',
         }}
         secondaryAction={{

@@ -113,7 +113,7 @@ export default async function StoryDetailPage({ params }: Params) {
               )}
 
               {/* NDA Callout */}
-              <NdaCallout />
+              <NdaCallout program={s.program} />
             </div>
 
             {/* Sidebar Column */}
@@ -177,16 +177,38 @@ export default async function StoryDetailPage({ params }: Params) {
       </div>
 
       <InsightCtaBand
-        kicker="Next Steps"
-        heading={
-          <>
-            See what our platforms deliver in{' '}
-            <span className="au">your sector</span>.
-          </>
+        program={s.program}
+        kicker={
+          s.program === 'stambh' ? 'StamBH Enterprise Presence' : 'Next Steps'
         }
-        body="Every production deployment begins with the specific engineering or regulatory constraint you cannot design around. Tell us yours."
+        heading={
+          s.program === 'stambh' ? (
+            <>
+              Unify your enterprise web presence with{' '}
+              <span className="au">Ankura</span>.
+            </>
+          ) : (
+            <>
+              See what our platforms deliver in{' '}
+              <span className="au">your sector</span>.
+            </>
+          )
+        }
+        subtitle={
+          s.program === 'stambh'
+            ? 'Ankura · The enterprise digital fabric'
+            : undefined
+        }
+        body={
+          s.program === 'stambh'
+            ? 'From multi-currency dynamic pricing and verified driver distribution to unified media DAM and automated candidate ranking, Ankura connects your digital touchpoints into one high-performance platform.'
+            : 'Every production deployment begins with the specific engineering or regulatory constraint you cannot design around. Tell us yours.'
+        }
         primaryAction={{
-          label: 'Talk to an architect',
+          label:
+            s.program === 'stambh'
+              ? 'Book an Ankura demo'
+              : 'Talk to an architect',
           href: '/contact',
         }}
         secondaryAction={{
