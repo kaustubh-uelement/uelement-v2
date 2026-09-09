@@ -112,8 +112,13 @@ export default function Header() {
   useEffect(() => {
     const handleOpenModal = () => setIsContactModalOpen(true);
     window.addEventListener('open-contact-modal', handleOpenModal);
-    return () => window.removeEventListener('open-contact-modal', handleOpenModal);
+    return () =>
+      window.removeEventListener('open-contact-modal', handleOpenModal);
   }, []);
+
+  if (pathname?.includes('/poster')) {
+    return null;
+  }
 
   return (
     <>

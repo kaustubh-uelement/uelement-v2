@@ -12,7 +12,7 @@ import { FaGithub, FaLinkedin, FaInstagram, FaXTwitter } from 'react-icons/fa6';
 
 const FooterV2 = () => {
   const pathname = usePathname();
-  if (pathname === '/contact-us/') return null;
+  if (pathname === '/contact-us/' || pathname?.includes('/poster')) return null;
 
   return (
     <div className="relative overflow-hidden footer-outer">

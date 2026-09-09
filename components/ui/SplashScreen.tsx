@@ -1,8 +1,10 @@
-"use client";
+'use client';
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 
 export default function SplashScreen() {
+  const pathname = usePathname();
   const [show, setShow] = useState(true);
   const [isFading, setIsFading] = useState(false);
 
@@ -23,25 +25,36 @@ export default function SplashScreen() {
     };
   }, []);
 
-  if (!show) return null;
+  if (!show || pathname?.includes('/poster')) return null;
 
   const textArray = [
-    "स", "श", "क्त",
-    " ", "·", " ",
-    "स", "क्ष", "म",
-    " ", "·", " ",
-    "सु", "र", "क्षि", "त"
+    'स',
+    'श',
+    'क्त',
+    ' ',
+    '·',
+    ' ',
+    'स',
+    'क्ष',
+    'म',
+    ' ',
+    '·',
+    ' ',
+    'सु',
+    'र',
+    'क्षि',
+    'त',
   ];
-  
+
   return (
-    <div 
+    <div
       className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#050f24] overflow-hidden transition-opacity duration-700 ease-in-out ${
         isFading ? 'opacity-0' : 'opacity-100'
       }`}
     >
       {/* Background Flower Image */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <Image 
+        <Image
           src="/u92-flower.png"
           alt="Splash Background"
           width={800}
@@ -53,7 +66,6 @@ export default function SplashScreen() {
 
       {/* Main Content Wrapper */}
       <div className="relative flex flex-col items-center justify-center gap-6 md:gap-10 z-10">
-        
         {/* Top Glowing Line */}
         <div className="relative flex items-center justify-center w-[250px] md:w-[400px]">
           <div className="absolute w-full h-[1px] bg-gradient-to-r from-transparent via-[var(--gold-500)] to-transparent opacity-60"></div>
@@ -66,9 +78,9 @@ export default function SplashScreen() {
             <span
               key={index}
               className="inline-block opacity-0 translate-y-2 animate-letter-reveal"
-              style={{ 
+              style={{
                 animationDelay: `${index * 0.08}s`,
-                animationFillMode: 'forwards' 
+                animationFillMode: 'forwards',
               }}
             >
               {char === ' ' ? '\u00A0' : char}
@@ -82,8 +94,6 @@ export default function SplashScreen() {
           <div className="absolute w-[4px] h-[4px] rounded-full bg-[#ffeba1] shadow-[0_0_12px_3px_var(--gold-500)] animate-pulse"></div>
         </div>
       </div>
-
-      
     </div>
   );
 }
