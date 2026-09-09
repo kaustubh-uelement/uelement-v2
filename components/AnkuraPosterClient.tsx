@@ -117,12 +117,32 @@ export default function AnkuraPosterClient() {
             {/* ══════ HERO / HEADER ══════ */}
             <div className="eyebrow">StamBH</div>
             <h1>Ankura</h1>
-            <p className="kicker">
-              One platform for every outward-facing surface:
-              <br className="kicker-break" />
-              <b>website, careers, partners, help centre</b>, plus Google and
-              ChatGPT search.
-            </p>
+            <div className="surface-deck">
+              <p className="surface-lede">
+                One platform for every outward-facing surface
+              </p>
+              <div className="surface-cluster">
+                <div className="surface-pills">
+                  <span className="surface-pill">Website</span>
+                  <span className="surface-pill">Careers</span>
+                  <span className="surface-pill">Partners</span>
+                  <span className="surface-pill">Help Centre</span>
+                </div>
+                <div className="surface-ai-badge">
+                  <svg
+                    className="ai-sparkle"
+                    width="13"
+                    height="13"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z" />
+                  </svg>
+                  <span>Google &amp; ChatGPT Search</span>
+                </div>
+              </div>
+            </div>
 
             <div className="rule" aria-hidden="true"></div>
 
@@ -292,6 +312,7 @@ export default function AnkuraPosterClient() {
                     alt="UElement Technologies"
                     width={180}
                     height={30}
+                    priority
                     style={{ height: '30px', width: 'auto' }}
                   />
                 </div>
@@ -619,33 +640,121 @@ export default function AnkuraPosterClient() {
           }
         }
 
-        .kicker {
+        /* ---- Surface Deck (Creative Second Section) ---- */
+        .surface-deck {
+          margin-top: 18px;
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          max-width: 836px;
+        }
+
+        .surface-lede {
           font-family:
             'Poppins',
             -apple-system,
             BlinkMacSystemFont,
             sans-serif;
           font-style: normal;
-          font-weight: 400;
-          font-size: 18px;
-          line-height: 1.55;
-          letter-spacing: 0.01em;
-          color: #c8d4e0;
-          max-width: 720px;
-          margin-top: 18px;
+          font-weight: 500;
+          font-size: 19px;
+          line-height: 1.4;
+          letter-spacing: -0.01em;
+          color: #dbe4ec;
+          margin: 0;
         }
 
         @media (max-width: 768px) {
-          .kicker {
-            font-size: clamp(14.5px, 3.8vw, 17px);
-            line-height: 1.5;
-            margin-top: 14px;
+          .surface-lede {
+            font-size: clamp(15px, 4.2vw, 18px);
           }
         }
 
-        .kicker b {
-          font-weight: 600;
+        .surface-cluster {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          flex-wrap: wrap;
+        }
+
+        .surface-pills {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          flex-wrap: wrap;
+        }
+
+        .surface-pill {
+          display: inline-flex;
+          align-items: center;
+          padding: 5px 14px;
+          background: rgba(255, 255, 255, 0.04);
+          border: 1px solid rgba(224, 167, 105, 0.24);
+          border-radius: 999px;
+          font-family:
+            'Poppins',
+            -apple-system,
+            BlinkMacSystemFont,
+            sans-serif;
+          font-size: 13px;
+          font-weight: 500;
           color: #f3e7d3;
+          letter-spacing: 0.02em;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          transition: all 0.2s ease;
+        }
+
+        .surface-pill:hover {
+          background: rgba(224, 167, 105, 0.12);
+          border-color: rgba(224, 167, 105, 0.45);
+        }
+
+        .surface-ai-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 7px;
+          padding: 5px 14px;
+          background: rgba(224, 167, 105, 0.12);
+          border: 1px solid rgba(224, 167, 105, 0.42);
+          border-radius: 999px;
+          font-family:
+            'Poppins',
+            -apple-system,
+            BlinkMacSystemFont,
+            sans-serif;
+          font-size: 12.5px;
+          font-weight: 600;
+          color: #e0a769;
+          letter-spacing: 0.02em;
+          box-shadow: 0 0 16px rgba(224, 167, 105, 0.15);
+        }
+
+        .ai-sparkle {
+          color: #f5c116;
+          flex-shrink: 0;
+        }
+
+        @media (max-width: 768px) {
+          .surface-deck {
+            margin-top: 14px;
+            gap: 10px;
+          }
+          .surface-cluster {
+            gap: 8px;
+          }
+          .surface-pills {
+            gap: 6px;
+          }
+          .surface-pill {
+            font-size: 12px;
+            padding: 4px 11px;
+          }
+          .surface-ai-badge {
+            font-size: 11.5px;
+            padding: 4px 11px;
+          }
         }
 
         .rule {
@@ -655,12 +764,12 @@ export default function AnkuraPosterClient() {
             rgba(224, 167, 105, 0.55),
             rgba(224, 167, 105, 0.06)
           );
-          margin: 38px 0 0;
+          margin: 32px 0 0;
         }
 
         @media (max-width: 768px) {
           .rule {
-            margin: 28px 0 0;
+            margin: 24px 0 0;
           }
         }
 
@@ -915,6 +1024,11 @@ export default function AnkuraPosterClient() {
           }
         }
 
+        .cta-left {
+          flex: 1;
+          min-width: 0;
+        }
+
         .cta-left h2 {
           font-family:
             'Poppins',
@@ -1020,28 +1134,37 @@ export default function AnkuraPosterClient() {
           object-fit: contain;
         }
 
-        /* ════════ PRINT STYLESHEET ════════ */
+        /* ════════ PRINT STYLESHEET (Pixel-Perfect 1-Page A4 / Letter) ════════ */
         @media print {
           @page {
-            size: 960px 1280px;
+            size: A4 portrait;
             margin: 0;
           }
 
           html,
           body {
-            background: #05101f !important;
-            padding: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
             margin: 0 !important;
+            padding: 0 !important;
+            background: #05101f !important;
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
+            color-adjust: exact !important;
           }
 
           .poster-page-wrapper {
-            background: #05101f !important;
-            padding: 0 !important;
+            width: 100% !important;
+            height: 100vh !important;
+            max-height: 100vh !important;
+            min-height: 100vh !important;
             margin: 0 !important;
-            min-height: auto !important;
-            overflow: visible !important;
+            padding: 0 !important;
+            background: #05101f !important;
+            overflow: hidden !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
           }
 
           .poster-toolbar {
@@ -1049,77 +1172,258 @@ export default function AnkuraPosterClient() {
           }
 
           .poster-container {
-            width: 960px !important;
-            max-width: 960px !important;
-            margin: 0 auto !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            height: 100vh !important;
+            max-height: 100vh !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
           }
 
           .poster {
-            width: 960px !important;
-            height: 1280px !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            height: 100vh !important;
+            max-height: 100vh !important;
             box-shadow: none !important;
-            margin: 0 auto !important;
+            margin: 0 !important;
+            padding: 0 !important;
             page-break-inside: avoid !important;
             break-inside: avoid !important;
+            page-break-after: avoid !important;
             border-radius: 0 !important;
+            overflow: hidden !important;
+            background:
+              radial-gradient(
+                120% 90% at 78% -8%,
+                rgba(30, 66, 140, 0.55) 0%,
+                rgba(7, 23, 57, 0) 58%
+              ),
+              radial-gradient(
+                90% 70% at 8% 104%,
+                rgba(19, 45, 102, 0.45) 0%,
+                rgba(7, 23, 57, 0) 60%
+              ),
+              linear-gradient(168deg, #0a1c44 0%, #071739 46%, #050f26 100%) !important;
+            background-color: #071739 !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
           }
 
           .frame {
-            left: 44px !important;
-            right: 44px !important;
-            top: 26px !important;
-            bottom: 26px !important;
+            position: absolute !important;
+            left: 26px !important;
+            right: 26px !important;
+            top: 22px !important;
+            bottom: 22px !important;
+            border: 1px solid rgba(224, 167, 105, 0.24) !important;
+            border-radius: 2px !important;
+            display: block !important;
+            pointer-events: none !important;
+            z-index: 2 !important;
           }
 
           .poster-art {
-            width: 580px !important;
-            height: 580px !important;
-            top: -240px !important;
-            right: -220px !important;
-            opacity: 0.22 !important;
+            position: absolute !important;
+            width: 460px !important;
+            height: 460px !important;
+            top: -170px !important;
+            right: -150px !important;
+            opacity: 0.2 !important;
+            display: block !important;
+            z-index: 1 !important;
           }
 
           .poster-art img {
             animation: none !important;
+            -webkit-animation: none !important;
           }
 
           .inner {
             position: absolute !important;
             inset: 0 !important;
-            padding: 76px 62px 56px !important;
+            padding: 48px 50px 38px 50px !important;
             display: flex !important;
             flex-direction: column !important;
+            box-sizing: border-box !important;
+            height: 100% !important;
+            z-index: 3 !important;
+          }
+
+          .eyebrow {
+            font-size: 28px !important;
+            letter-spacing: 0.16em !important;
+            color: #c8d4e0 !important;
+            line-height: 1 !important;
+            margin: 0 !important;
           }
 
           h1 {
-            font-size: 154px !important;
+            font-size: 106px !important;
+            line-height: 0.88 !important;
+            letter-spacing: -0.035em !important;
+            color: #e0a769 !important;
+            margin: 6px 0 0 0 !important;
+          }
+
+          .surface-deck {
+            margin-top: 14px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 9px !important;
+            width: 100% !important;
+            max-width: none !important;
+          }
+
+          .surface-lede {
+            font-size: 16px !important;
+            line-height: 1.35 !important;
+            color: #dbe4ec !important;
+            font-weight: 500 !important;
+            margin: 0 !important;
+          }
+
+          .surface-cluster {
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            gap: 8px !important;
+            flex-wrap: wrap !important;
+          }
+
+          .surface-pills {
+            display: flex !important;
+            flex-direction: row !important;
+            gap: 6px !important;
+            flex-wrap: nowrap !important;
+          }
+
+          .surface-pill {
+            display: inline-flex !important;
+            align-items: center !important;
+            padding: 4px 12px !important;
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(224, 167, 105, 0.35) !important;
+            border-radius: 999px !important;
+            font-size: 12px !important;
+            font-weight: 500 !important;
+            color: #f3e7d3 !important;
+            letter-spacing: 0.02em !important;
+            white-space: nowrap !important;
+          }
+
+          .surface-ai-badge {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            padding: 4px 12px !important;
+            background: rgba(224, 167, 105, 0.14) !important;
+            border: 1px solid rgba(224, 167, 105, 0.48) !important;
+            border-radius: 999px !important;
+            font-size: 11.5px !important;
+            font-weight: 600 !important;
+            color: #e0a769 !important;
+            letter-spacing: 0.02em !important;
+            white-space: nowrap !important;
+          }
+
+          .ai-sparkle {
+            color: #f5c116 !important;
+            display: inline-block !important;
+          }
+
+          .rule {
+            height: 1px !important;
+            background: linear-gradient(
+              90deg,
+              rgba(224, 167, 105, 0.55),
+              rgba(224, 167, 105, 0.06)
+            ) !important;
+            margin: 16px 0 0 !important;
+          }
+
+          .weave {
+            margin-top: 18px !important;
+            width: 100% !important;
           }
 
           .threads {
             display: flex !important;
+            flex-direction: row !important;
             grid-template-columns: none !important;
+            gap: 0 !important;
+            text-align: center !important;
+            width: 100% !important;
           }
 
           .thread {
+            flex: 1 1 0 !important;
             background: transparent !important;
             border: none !important;
             border-radius: 0 !important;
             padding: 0 !important;
           }
 
+          .thread .who {
+            font-size: 16px !important;
+            font-weight: 500 !important;
+            color: #eef2f6 !important;
+          }
+
+          .thread .vendor {
+            margin-top: 4px !important;
+            font-size: 10.5px !important;
+            font-weight: 500 !important;
+            letter-spacing: 0.16em !important;
+            text-transform: uppercase !important;
+            color: #7d8ba1 !important;
+          }
+
           .converge {
             display: block !important;
+            width: 100% !important;
+            height: 86px !important;
+            margin-top: 4px !important;
           }
 
           .mobile-converge {
             display: none !important;
           }
 
+          .oneline {
+            margin-top: 8px !important;
+            text-align: center !important;
+            font-size: 22px !important;
+            font-weight: 600 !important;
+            letter-spacing: -0.01em !important;
+            color: #ffffff !important;
+          }
+
+          .oneline em {
+            font-style: normal !important;
+            color: #e0a769 !important;
+          }
+
+          .oneline .sub {
+            display: block !important;
+            margin-top: 5px !important;
+            font-size: 12.5px !important;
+            font-weight: 400 !important;
+            color: #8fa0b4 !important;
+            line-height: 1.4 !important;
+          }
+
           .pillars {
             display: grid !important;
             grid-template-columns: repeat(4, 1fr) !important;
+            gap: 18px !important;
+            padding-top: 18px !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
             margin-top: auto !important;
-            padding-top: 32px !important;
+            width: 100% !important;
           }
 
           .pillar {
@@ -1129,24 +1433,116 @@ export default function AnkuraPosterClient() {
             padding: 0 !important;
           }
 
+          .pillar .t {
+            font-size: 14.5px !important;
+            font-weight: 600 !important;
+            color: #f3e7d3 !important;
+          }
+
+          .pillar .d {
+            margin-top: 3px !important;
+            font-size: 11.5px !important;
+            line-height: 1.38 !important;
+            color: #8fa0b4 !important;
+          }
+
+          /* ---- CTA Footer Locked in Print ---- */
           .cta {
             display: flex !important;
             flex-direction: row !important;
             align-items: flex-end !important;
             justify-content: space-between !important;
+            width: 100% !important;
+            gap: 24px !important;
+            margin-top: 20px !important;
+            padding-top: 16px !important;
+            border-top: 1px solid rgba(224, 167, 105, 0.28) !important;
+            box-sizing: border-box !important;
+          }
+
+          .cta-left {
+            flex: 1 1 auto !important;
+            max-width: 520px !important;
+            min-width: 0 !important;
+            width: auto !important;
+          }
+
+          .cta-left h2 {
+            font-family:
+              'Poppins',
+              -apple-system,
+              BlinkMacSystemFont,
+              sans-serif !important;
+            font-weight: 600 !important;
+            font-size: 20px !important;
+            line-height: 1.28 !important;
+            letter-spacing: -0.012em !important;
+            max-width: 490px !important;
+            color: #ffffff !important;
+            margin: 0 !important;
+            word-break: normal !important;
+          }
+
+          .cta-left h2 span {
+            color: #e0a769 !important;
+          }
+
+          .cta-left .note {
+            margin-top: 6px !important;
+            font-family: 'Noto Sans', sans-serif !important;
+            font-size: 11px !important;
+            line-height: 1.4 !important;
+            color: #8fa0b4 !important;
+          }
+
+          .cta-left .note .dev {
+            color: #e0a769 !important;
+            font-weight: 500 !important;
           }
 
           .id {
+            flex: 0 0 auto !important;
+            width: auto !important;
+            max-width: none !important;
+            display: flex !important;
+            flex-direction: column !important;
             align-items: flex-end !important;
             text-align: right !important;
             border-top: none !important;
             padding-top: 0 !important;
+            margin: 0 !important;
+            gap: 6px !important;
+          }
+
+          .id .contact {
+            font-family: 'Noto Sans', sans-serif !important;
+            font-size: 12px !important;
+            line-height: 1.45 !important;
+            color: #dbe4ec !important;
+            text-align: right !important;
+            white-space: nowrap !important;
+          }
+
+          .id .contact a {
+            color: #dbe4ec !important;
+            text-decoration: none !important;
           }
 
           .id .brand-lockup {
-            justify-content: flex-end !important;
+            margin-top: 2px !important;
+            padding-top: 6px !important;
             border-top: 1px solid rgba(255, 255, 255, 0.16) !important;
-            padding-top: 12px !important;
+            display: flex !important;
+            justify-content: flex-end !important;
+            align-items: center !important;
+            width: 100% !important;
+          }
+
+          .id .brand-lockup img {
+            height: 22px !important;
+            width: auto !important;
+            object-fit: contain !important;
+            display: block !important;
           }
         }
       `}</style>
