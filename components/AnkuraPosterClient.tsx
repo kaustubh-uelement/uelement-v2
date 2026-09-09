@@ -115,36 +115,38 @@ export default function AnkuraPosterClient() {
 
           <div className="inner">
             {/* ══════ HERO / HEADER ══════ */}
-            <div className="eyebrow">StamBH</div>
-            <h1>Ankura</h1>
-            <div className="surface-deck">
-              <p className="surface-lede">
-                One platform for every outward-facing surface
-              </p>
-              <div className="surface-cluster">
-                <div className="surface-pills">
-                  <span className="surface-pill">Website</span>
-                  <span className="surface-pill">Careers</span>
-                  <span className="surface-pill">Partners</span>
-                  <span className="surface-pill">Help Centre</span>
-                </div>
-                <div className="surface-ai-badge">
-                  <svg
-                    className="ai-sparkle"
-                    width="13"
-                    height="13"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z" />
-                  </svg>
-                  <span>Google &amp; ChatGPT Search</span>
+            <header className="poster-hero">
+              <div className="eyebrow">StamBH</div>
+              <h1>Ankura</h1>
+              <div className="surface-deck">
+                <p className="surface-lede">
+                  One platform for every outward-facing surface
+                </p>
+                <div className="surface-cluster">
+                  <div className="surface-pills">
+                    <span className="surface-pill">Website</span>
+                    <span className="surface-pill">Careers</span>
+                    <span className="surface-pill">Partners</span>
+                    <span className="surface-pill">Help Centre</span>
+                  </div>
+                  <div className="surface-ai-badge">
+                    <svg
+                      className="ai-sparkle"
+                      width="13"
+                      height="13"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z" />
+                    </svg>
+                    <span>Google &amp; ChatGPT Search</span>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="rule" aria-hidden="true"></div>
+              <div className="rule" aria-hidden="true"></div>
+            </header>
 
             {/* ══════ SIGNATURE: FOUR THREADS CONVERGING INTO ONE ══════ */}
             <div className="weave">
@@ -582,6 +584,13 @@ export default function AnkuraPosterClient() {
             padding: 76px 62px 56px;
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
+          }
+          .poster-hero,
+          .weave,
+          .pillars,
+          .cta {
+            margin-top: 0;
           }
         }
 
@@ -590,13 +599,28 @@ export default function AnkuraPosterClient() {
             padding: 48px 30px 40px;
             display: flex;
             flex-direction: column;
+            gap: 36px;
+          }
+          .poster-hero,
+          .weave,
+          .pillars,
+          .cta {
+            margin-top: 0;
           }
         }
 
         @media (max-width: 480px) {
           .inner {
             padding: 36px 20px 32px;
+            gap: 28px;
           }
+        }
+
+        /* ---- Poster Hero Header ---- */
+        .poster-hero {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
         }
 
         /* ---- Eyebrow & Headline ---- */
@@ -941,12 +965,6 @@ export default function AnkuraPosterClient() {
           border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        @media (min-width: 961px) {
-          .pillars {
-            margin-top: auto;
-          }
-        }
-
         @media (max-width: 960px) {
           .pillars {
             grid-template-columns: repeat(2, 1fr);
@@ -1242,19 +1260,28 @@ export default function AnkuraPosterClient() {
             -webkit-animation: none !important;
           }
 
+          /* ── Inner layout evenly spread across vertical height ── */
           .inner {
             position: absolute !important;
             inset: 0 !important;
-            padding: 48px 50px 38px 50px !important;
+            padding: 56px 54px 44px 54px !important;
             display: flex !important;
             flex-direction: column !important;
+            justify-content: space-between !important;
             box-sizing: border-box !important;
             height: 100% !important;
             z-index: 3 !important;
           }
 
+          .poster-hero {
+            display: flex !important;
+            flex-direction: column !important;
+            width: 100% !important;
+            margin: 0 !important;
+          }
+
           .eyebrow {
-            font-size: 28px !important;
+            font-size: 32px !important;
             letter-spacing: 0.16em !important;
             color: #c8d4e0 !important;
             line-height: 1 !important;
@@ -1262,24 +1289,24 @@ export default function AnkuraPosterClient() {
           }
 
           h1 {
-            font-size: 106px !important;
+            font-size: 124px !important;
             line-height: 0.88 !important;
             letter-spacing: -0.035em !important;
             color: #e0a769 !important;
-            margin: 6px 0 0 0 !important;
+            margin: 8px 0 0 0 !important;
           }
 
           .surface-deck {
-            margin-top: 14px !important;
+            margin-top: 16px !important;
             display: flex !important;
             flex-direction: column !important;
-            gap: 9px !important;
+            gap: 10px !important;
             width: 100% !important;
             max-width: none !important;
           }
 
           .surface-lede {
-            font-size: 16px !important;
+            font-size: 17px !important;
             line-height: 1.35 !important;
             color: #dbe4ec !important;
             font-weight: 500 !important;
@@ -1304,11 +1331,11 @@ export default function AnkuraPosterClient() {
           .surface-pill {
             display: inline-flex !important;
             align-items: center !important;
-            padding: 4px 12px !important;
+            padding: 5px 13px !important;
             background: rgba(255, 255, 255, 0.05) !important;
             border: 1px solid rgba(224, 167, 105, 0.35) !important;
             border-radius: 999px !important;
-            font-size: 12px !important;
+            font-size: 12.5px !important;
             font-weight: 500 !important;
             color: #f3e7d3 !important;
             letter-spacing: 0.02em !important;
@@ -1319,11 +1346,11 @@ export default function AnkuraPosterClient() {
             display: inline-flex !important;
             align-items: center !important;
             gap: 6px !important;
-            padding: 4px 12px !important;
+            padding: 5px 13px !important;
             background: rgba(224, 167, 105, 0.14) !important;
             border: 1px solid rgba(224, 167, 105, 0.48) !important;
             border-radius: 999px !important;
-            font-size: 11.5px !important;
+            font-size: 12px !important;
             font-weight: 600 !important;
             color: #e0a769 !important;
             letter-spacing: 0.02em !important;
@@ -1342,11 +1369,12 @@ export default function AnkuraPosterClient() {
               rgba(224, 167, 105, 0.55),
               rgba(224, 167, 105, 0.06)
             ) !important;
-            margin: 16px 0 0 !important;
+            margin: 22px 0 0 !important;
           }
 
+          /* ── Weave Diagram evenly placed in upper-middle ── */
           .weave {
-            margin-top: 18px !important;
+            margin: 0 !important;
             width: 100% !important;
           }
 
@@ -1368,14 +1396,14 @@ export default function AnkuraPosterClient() {
           }
 
           .thread .who {
-            font-size: 16px !important;
+            font-size: 17.5px !important;
             font-weight: 500 !important;
             color: #eef2f6 !important;
           }
 
           .thread .vendor {
-            margin-top: 4px !important;
-            font-size: 10.5px !important;
+            margin-top: 5px !important;
+            font-size: 11px !important;
             font-weight: 500 !important;
             letter-spacing: 0.16em !important;
             text-transform: uppercase !important;
@@ -1385,8 +1413,8 @@ export default function AnkuraPosterClient() {
           .converge {
             display: block !important;
             width: 100% !important;
-            height: 86px !important;
-            margin-top: 4px !important;
+            height: 104px !important;
+            margin-top: 6px !important;
           }
 
           .mobile-converge {
@@ -1394,9 +1422,9 @@ export default function AnkuraPosterClient() {
           }
 
           .oneline {
-            margin-top: 8px !important;
+            margin-top: 10px !important;
             text-align: center !important;
-            font-size: 22px !important;
+            font-size: 25px !important;
             font-weight: 600 !important;
             letter-spacing: -0.01em !important;
             color: #ffffff !important;
@@ -1409,20 +1437,21 @@ export default function AnkuraPosterClient() {
 
           .oneline .sub {
             display: block !important;
-            margin-top: 5px !important;
-            font-size: 12.5px !important;
+            margin-top: 6px !important;
+            font-size: 13.5px !important;
             font-weight: 400 !important;
             color: #8fa0b4 !important;
             line-height: 1.4 !important;
           }
 
+          /* ── Pillars evenly placed in lower-middle ── */
           .pillars {
             display: grid !important;
             grid-template-columns: repeat(4, 1fr) !important;
-            gap: 18px !important;
-            padding-top: 18px !important;
+            gap: 20px !important;
+            padding-top: 24px !important;
             border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
-            margin-top: auto !important;
+            margin: 0 !important;
             width: 100% !important;
           }
 
@@ -1434,35 +1463,35 @@ export default function AnkuraPosterClient() {
           }
 
           .pillar .t {
-            font-size: 14.5px !important;
+            font-size: 16px !important;
             font-weight: 600 !important;
             color: #f3e7d3 !important;
           }
 
           .pillar .d {
-            margin-top: 3px !important;
-            font-size: 11.5px !important;
-            line-height: 1.38 !important;
+            margin-top: 4px !important;
+            font-size: 12.5px !important;
+            line-height: 1.42 !important;
             color: #8fa0b4 !important;
           }
 
-          /* ---- CTA Footer Locked in Print ---- */
+          /* ── CTA Footer evenly anchored at bottom ── */
           .cta {
             display: flex !important;
             flex-direction: row !important;
             align-items: flex-end !important;
             justify-content: space-between !important;
             width: 100% !important;
-            gap: 24px !important;
-            margin-top: 20px !important;
-            padding-top: 16px !important;
+            gap: 28px !important;
+            margin: 0 !important;
+            padding-top: 20px !important;
             border-top: 1px solid rgba(224, 167, 105, 0.28) !important;
             box-sizing: border-box !important;
           }
 
           .cta-left {
             flex: 1 1 auto !important;
-            max-width: 520px !important;
+            max-width: 530px !important;
             min-width: 0 !important;
             width: auto !important;
           }
@@ -1474,10 +1503,10 @@ export default function AnkuraPosterClient() {
               BlinkMacSystemFont,
               sans-serif !important;
             font-weight: 600 !important;
-            font-size: 20px !important;
+            font-size: 23px !important;
             line-height: 1.28 !important;
             letter-spacing: -0.012em !important;
-            max-width: 490px !important;
+            max-width: 510px !important;
             color: #ffffff !important;
             margin: 0 !important;
             word-break: normal !important;
@@ -1488,10 +1517,10 @@ export default function AnkuraPosterClient() {
           }
 
           .cta-left .note {
-            margin-top: 6px !important;
+            margin-top: 8px !important;
             font-family: 'Noto Sans', sans-serif !important;
-            font-size: 11px !important;
-            line-height: 1.4 !important;
+            font-size: 12px !important;
+            line-height: 1.45 !important;
             color: #8fa0b4 !important;
           }
 
@@ -1511,13 +1540,13 @@ export default function AnkuraPosterClient() {
             border-top: none !important;
             padding-top: 0 !important;
             margin: 0 !important;
-            gap: 6px !important;
+            gap: 8px !important;
           }
 
           .id .contact {
             font-family: 'Noto Sans', sans-serif !important;
-            font-size: 12px !important;
-            line-height: 1.45 !important;
+            font-size: 13px !important;
+            line-height: 1.5 !important;
             color: #dbe4ec !important;
             text-align: right !important;
             white-space: nowrap !important;
@@ -1530,7 +1559,7 @@ export default function AnkuraPosterClient() {
 
           .id .brand-lockup {
             margin-top: 2px !important;
-            padding-top: 6px !important;
+            padding-top: 8px !important;
             border-top: 1px solid rgba(255, 255, 255, 0.16) !important;
             display: flex !important;
             justify-content: flex-end !important;
@@ -1539,7 +1568,7 @@ export default function AnkuraPosterClient() {
           }
 
           .id .brand-lockup img {
-            height: 22px !important;
+            height: 25px !important;
             width: auto !important;
             object-fit: contain !important;
             display: block !important;
