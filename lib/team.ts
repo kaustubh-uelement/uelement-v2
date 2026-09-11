@@ -53,6 +53,14 @@ export const teamMembers: TeamMember[] = [
     linkedIn: 'https://www.linkedin.com',
   },
   {
+    name: 'Dr. Uday Wad',
+    initials: 'UW',
+    title: 'Vice President (R&D - Quantum & AI)',
+    description: 'Leads research across quantum technologies and applied AI.',
+    photo: '/images/team/uday.jpg',
+    linkedIn: 'https://www.linkedin.com',
+  },
+  {
     name: 'Ashutosh Singh',
     initials: 'AS',
     title: 'Vice President (Technology)',
@@ -77,14 +85,7 @@ export const teamMembers: TeamMember[] = [
   //   photo: '/images/team/anoop.jpg',
   //   linkedIn: 'https://www.linkedin.com',
   // },
-  {
-    name: 'Dr. Uday Wad',
-    initials: 'UW',
-    title: 'Principal Consultant (R&D - Quantum & AI)',
-    description: 'Leads research across quantum technologies and applied AI.',
-    photo: '/images/team/uday.jpg',
-    linkedIn: 'https://www.linkedin.com',
-  },
+
   {
     name: 'Nehal Randive',
     initials: 'NR',
