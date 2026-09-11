@@ -43,9 +43,12 @@ export default function AnkuraPosterClient() {
             <span>Back to Ankura</span>
           </Link>
           <span className="toolbar-divider hidden sm:inline">/</span>
-          <span className="toolbar-pill hidden sm:inline-block">
-            Pitch Poster
-          </span>
+          <div className="toolbar-switcher hidden sm:flex">
+            <span className="switcher-tab active">Vertical Pitch</span>
+            <Link href="/ankura/poster/landscape" className="switcher-tab">
+              Landscape Architecture
+            </Link>
+          </div>
         </div>
 
         <div className="toolbar-right">
@@ -400,16 +403,33 @@ export default function AnkuraPosterClient() {
           font-size: 14px;
         }
 
-        .toolbar-pill {
-          font-family: 'Poppins', sans-serif;
-          font-size: 11px;
-          text-transform: uppercase;
-          letter-spacing: 0.12em;
-          color: #e0a769;
-          background: rgba(224, 167, 105, 0.12);
-          padding: 3px 9px;
+        .toolbar-switcher {
+          display: flex;
+          align-items: center;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.12);
           border-radius: 999px;
-          border: 1px solid rgba(224, 167, 105, 0.25);
+          padding: 2px 4px;
+          gap: 2px;
+        }
+
+        .switcher-tab {
+          font-family: 'Poppins', sans-serif;
+          font-size: 11.5px;
+          font-weight: 500;
+          padding: 3px 11px;
+          border-radius: 999px;
+          color: #a4b5c4;
+          text-decoration: none;
+          transition: all 0.2s ease;
+        }
+        .switcher-tab:hover {
+          color: #ffffff;
+        }
+        .switcher-tab.active {
+          background: rgba(224, 167, 105, 0.18);
+          color: #e0a769;
+          border: 1px solid rgba(224, 167, 105, 0.3);
         }
 
         .toolbar-right {

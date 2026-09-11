@@ -25,7 +25,7 @@ export const CARD_DEFINITIONS = [
   },
   {
     id: "revolut-aurora",
-    name: "Dipankar",
+    name: "Shivansh",
     number: "1234 5678 9000 0000",
     theme: "revolut-aurora",
   },

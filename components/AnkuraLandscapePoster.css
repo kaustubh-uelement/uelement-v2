@@ -1,0 +1,881 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Montserrat:wght@500;600;700&family=Noto+Sans:wght@400;500;600;700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Reddit+Sans:wght@400;600;700;800&display=swap');
+
+:root {
+  --alp-ink-950: #050711;
+  --alp-ink-900: #0a0e1c;
+  --alp-ink-850: #0f152b;
+  --alp-navy-900: #071739;
+  --alp-navy-800: #0c1c42;
+  --alp-navy-700: #12285a;
+  --alp-slate-700: #4b6382;
+  --alp-slate-500: #75839a;
+  --alp-slate-300: #a4b5c4;
+  --alp-slate-200: #cdd5db;
+  --alp-gold-700: #9b7025;
+  --alp-gold-600: #b6842c;
+  --alp-gold-500: #e0a769;
+  --alp-cream-100: #f3e7d3;
+  --alp-ember: #f5c116;
+  --alp-white: #ffffff;
+  --alp-f-hero: 'Reddit Sans', 'Poppins', -apple-system, sans-serif;
+  --alp-f-serif: 'DM Serif Text', Georgia, serif;
+  --alp-f-head: 'Montserrat', 'Poppins', -apple-system, sans-serif;
+  --alp-f-body: 'Noto Sans', sans-serif;
+}
+
+/* ═══════════ Outer Page Wrapper ═══════════ */
+.alp-page-wrapper {
+  min-height: 100vh;
+  background: #03060f;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 18px 16px 44px;
+  color: #ffffff;
+  font-family: var(--alp-f-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* ═══════════ Floating Toolbar ═══════════ */
+.alp-toolbar {
+  width: 100%;
+  max-width: 1600px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 18px;
+  margin-bottom: 18px;
+  background: rgba(7, 23, 57, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(224, 167, 105, 0.28);
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  box-sizing: border-box;
+  gap: 12px;
+  z-index: 20;
+}
+
+.alp-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.alp-toolbar-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #dbe4ec;
+  text-decoration: none;
+  font-family: var(--alp-f-head);
+  font-size: 13.5px;
+  font-weight: 500;
+  transition:
+    color 0.2s,
+    transform 0.2s;
+}
+.alp-toolbar-back-btn:hover {
+  color: #e0a769;
+  transform: translateX(-2px);
+}
+
+.alp-toolbar-divider {
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 14px;
+}
+
+.alp-toolbar-switcher {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  padding: 2px 4px;
+  gap: 2px;
+}
+
+.alp-switcher-tab {
+  font-family: var(--alp-f-head);
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 999px;
+  color: #a4b5c4;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.alp-switcher-tab:hover {
+  color: #ffffff;
+}
+.alp-switcher-tab.active {
+  background: rgba(224, 167, 105, 0.2);
+  color: #e0a769;
+  border: 1px solid rgba(224, 167, 105, 0.35);
+}
+
+.alp-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.alp-toolbar-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.07);
+  color: #eef2f6;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-family: var(--alp-f-head);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.alp-toolbar-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(224, 167, 105, 0.45);
+  color: #ffffff;
+}
+
+.alp-toolbar-btn-primary {
+  background: linear-gradient(135deg, #e0a769 0%, #c88a3e 100%);
+  color: #071739;
+  border: none;
+  box-shadow: 0 4px 14px rgba(224, 167, 105, 0.3);
+}
+.alp-toolbar-btn-primary:hover {
+  background: linear-gradient(135deg, #ebd0a0 0%, #e0a769 100%);
+  color: #050f26;
+  box-shadow: 0 6px 20px rgba(224, 167, 105, 0.45);
+}
+
+/* ═══════════ Stage Scaler Container ═══════════ */
+.alp-stage-scaler {
+  position: relative;
+  overflow: visible;
+  margin: 0 auto;
+}
+
+/* ═══════════ The 1600x1080 Stage Canvas ═══════════ */
+.alp-stage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1600px;
+  height: 1080px;
+  min-width: 1600px;
+  max-width: 1600px;
+  min-height: 1080px;
+  max-height: 1080px;
+  flex-shrink: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      950px 750px at 86% 38%,
+      rgba(224, 167, 105, 0.18),
+      transparent 72%
+    ),
+    radial-gradient(
+      750px 650px at 70% 26%,
+      rgba(245, 193, 22, 0.09),
+      transparent 72%
+    ),
+    linear-gradient(
+      100deg,
+      #060810 0%,
+      #090d1a 24%,
+      var(--alp-navy-900) 50%,
+      #0b1e44 74%,
+      #102a54 100%
+    );
+  color: var(--alp-white);
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.75),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+/* Faint engineering blueprint grid */
+.alp-stage::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(164, 181, 196, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(164, 181, 196, 0.045) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(
+    1300px 900px at 50% 48%,
+    #000 30%,
+    transparent 85%
+  );
+  mask-image: radial-gradient(
+    1300px 900px at 50% 48%,
+    #000 30%,
+    transparent 85%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Deep atmospheric storm shadow on the left problem side */
+.alp-stage::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 480px;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(4, 7, 15, 0.85), transparent);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Background overlay svg layer */
+.alp-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ═══════════ Top-Right Quarterly Cropped Spinning Flower ═══════════ */
+.alp-stage-flower {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.16;
+  width: 680px;
+  height: 680px;
+  top: -240px;
+  right: -240px;
+}
+
+.alp-stage-flower img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  animation: alp-stage-spin 240s linear infinite;
+}
+
+@keyframes alp-stage-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ═══════════ Chips (Problem vs Outcome) ═══════════ */
+.alp-chip {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-family: var(--alp-f-head);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+  z-index: 3;
+}
+.alp-chip-problem {
+  left: 44px;
+  top: 36px;
+  border: 1px solid rgba(164, 181, 196, 0.45);
+  color: var(--alp-slate-200);
+  background: rgba(7, 23, 57, 0.55);
+}
+.alp-chip-outcome {
+  right: 44px;
+  top: 36px;
+  border: 1px solid rgba(224, 167, 105, 0.65);
+  color: var(--alp-cream-100);
+  background: linear-gradient(
+    90deg,
+    rgba(155, 112, 37, 0.6),
+    rgba(224, 167, 105, 0.3)
+  );
+}
+.alp-chip svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ═══════════ Main Center Hero Headline ═══════════ */
+.alp-head {
+  position: absolute;
+  left: 420px;
+  top: 28px;
+  width: 760px;
+  text-align: center;
+  z-index: 3;
+}
+.alp-head h1 {
+  font-family: var(--alp-f-hero);
+  font-weight: 800;
+  font-size: 44px;
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  margin: 0;
+}
+.alp-head h1 .alp-headline-gold {
+  display: block;
+  font-family: var(--alp-f-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 56px;
+  letter-spacing: 0;
+  margin-top: 2px;
+  background: linear-gradient(
+    92deg,
+    var(--alp-gold-500),
+    var(--alp-ember) 55%,
+    var(--alp-cream-100)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.alp-head .alp-rule {
+  width: 190px;
+  height: 1px;
+  margin: 10px auto 8px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--alp-gold-500),
+    transparent
+  );
+}
+.alp-head .alp-lede {
+  font-family: var(--alp-f-head);
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.05em;
+  color: var(--alp-cream-100);
+  margin: 0;
+}
+.alp-head .alp-sub {
+  margin: 5px auto 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--alp-slate-300);
+  max-width: 630px;
+}
+
+/* ═══════════ Left & Right Section Headings ═══════════ */
+.alp-side-h {
+  position: absolute;
+  font-family: var(--alp-f-hero);
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+  z-index: 3;
+}
+.alp-side-s {
+  position: absolute;
+  font-size: 12px;
+  line-height: 1.48;
+  color: var(--alp-slate-300);
+  z-index: 3;
+}
+
+/* ═══════════ Left Side: 7 Problem Island Nodes ═══════════ */
+.alp-node {
+  position: absolute;
+  width: 148px;
+  padding: 10px 12px;
+  border-radius: 11px;
+  background: linear-gradient(
+    180deg,
+    rgba(22, 25, 36, 0.94),
+    rgba(10, 16, 36, 0.92)
+  );
+  border: 1px solid rgba(117, 131, 154, 0.38);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.55);
+  box-sizing: border-box;
+  z-index: 3;
+}
+.alp-node .alp-node-ic {
+  width: 22px;
+  height: 22px;
+  color: var(--alp-slate-300);
+  margin-bottom: 5px;
+}
+.alp-node b {
+  display: block;
+  font-family: var(--alp-f-head);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 1.3px;
+  color: #dfe6ec;
+}
+.alp-node span {
+  display: block;
+  margin-top: 2px;
+  font-size: 10px;
+  line-height: 1.35;
+  color: var(--alp-slate-500);
+}
+
+/* ═══════════ Left Side: Impact Card (What It Costs You) ═══════════ */
+.alp-impact {
+  position: absolute;
+  left: 44px;
+  top: 540px;
+  width: 322px;
+  padding: 16px 18px 18px;
+  border-radius: 13px;
+  background: rgba(8, 12, 22, 0.78);
+  border: 1px solid rgba(117, 131, 154, 0.32);
+  box-sizing: border-box;
+  z-index: 3;
+}
+.alp-impact h3 {
+  font-family: var(--alp-f-head);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+  color: var(--alp-slate-200);
+  margin: 0 0 12px 0;
+}
+.alp-impact ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.alp-impact li {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  font-size: 12px;
+  line-height: 1.42;
+  color: var(--alp-slate-300);
+  margin-bottom: 7px;
+}
+.alp-impact li:last-child {
+  margin-bottom: 0;
+}
+.alp-impact li i {
+  flex: none;
+  width: 5px;
+  height: 5px;
+  margin-top: 6px;
+  border-radius: 50%;
+  background: #e0a769;
+}
+
+/* ═══════════ Center: 3 Core Pillars ═══════════ */
+.alp-pillars {
+  position: absolute;
+  left: 430px;
+  top: 228px;
+  width: 740px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background: rgba(255, 255, 255, 0.045);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(224, 167, 105, 0.28);
+  border-radius: 14px;
+  overflow: hidden;
+  box-sizing: border-box;
+  z-index: 3;
+}
+.alp-pillars div {
+  padding: 14px 14px;
+  text-align: center;
+  border-right: 1px solid rgba(224, 167, 105, 0.18);
+}
+.alp-pillars div:last-child {
+  border-right: 0;
+}
+.alp-pillars svg {
+  width: 24px;
+  height: 24px;
+  color: var(--alp-gold-500);
+}
+.alp-pillars b {
+  display: block;
+  margin-top: 7px;
+  font-family: var(--alp-f-hero);
+  font-weight: 700;
+  font-size: 14.5px;
+  color: #ffffff;
+}
+.alp-pillars span {
+  display: block;
+  margin-top: 3px;
+  font-size: 11px;
+  line-height: 1.42;
+  color: var(--alp-slate-300);
+}
+
+/* ═══════════ Center: Suspension Bridge Schematic ═══════════ */
+.alp-bridge {
+  position: absolute;
+  left: 430px;
+  top: 336px;
+  width: 740px;
+  height: 260px;
+  z-index: 3;
+}
+
+/* ═══════════ Center: Capability Strip ═══════════ */
+.alp-caps {
+  position: absolute;
+  left: 430px;
+  top: 610px;
+  width: 740px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-radius: 999px;
+  background: rgba(7, 23, 57, 0.7);
+  border: 1px solid rgba(164, 181, 196, 0.24);
+  box-sizing: border-box;
+  z-index: 3;
+}
+.alp-caps span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--alp-f-head);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--alp-slate-200);
+}
+.alp-caps svg {
+  width: 14px;
+  height: 14px;
+  color: var(--alp-gold-500);
+}
+.alp-caps i {
+  width: 1px;
+  height: 16px;
+  background: rgba(164, 181, 196, 0.24);
+}
+
+/* ═══════════ Right Side: Customer Lifecycle Wheel ═══════════ */
+.alp-ring {
+  position: absolute;
+  left: 1140px;
+  top: 190px;
+  width: 420px;
+  height: 440px;
+  z-index: 3;
+}
+.alp-ring-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.alp-core {
+  position: absolute;
+  left: 130px;
+  top: 140px;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: radial-gradient(
+    circle at 50% 35%,
+    rgba(224, 167, 105, 0.32),
+    rgba(7, 23, 57, 0.96)
+  );
+  border: 1.5px solid rgba(224, 167, 105, 0.8);
+  box-shadow:
+    0 0 40px rgba(224, 167, 105, 0.35),
+    inset 0 0 28px rgba(245, 193, 22, 0.12);
+  box-sizing: border-box;
+  z-index: 2;
+}
+.alp-core svg {
+  width: 26px;
+  height: 26px;
+  color: var(--alp-gold-500);
+}
+.alp-core b {
+  margin-top: 5px;
+  font-family: var(--alp-f-hero);
+  font-weight: 800;
+  font-size: 15px;
+  line-height: 1.15;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+}
+.alp-core span {
+  margin-top: 4px;
+  font-size: 10px;
+  color: var(--alp-cream-100);
+  letter-spacing: 0.3px;
+}
+
+.alp-stage-b {
+  position: absolute;
+  width: 104px;
+  height: 104px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 8px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.98),
+    rgba(235, 240, 246, 0.95)
+  );
+  border: 1px solid rgba(224, 167, 105, 0.55);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.5);
+  color: var(--alp-navy-900);
+  box-sizing: border-box;
+  z-index: 3;
+}
+.alp-stage-b svg {
+  width: 18px;
+  height: 18px;
+  color: var(--alp-gold-700);
+}
+.alp-stage-b b {
+  margin-top: 3px;
+  font-family: var(--alp-f-head);
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 0.8px;
+  color: #071739;
+}
+.alp-stage-b span {
+  margin-top: 2px;
+  font-size: 9px;
+  line-height: 1.25;
+  color: #4b6382;
+}
+
+/* ═══════════ Strategic Benefits Bar (Full Width across bottom) ═══════════ */
+.alp-benefits {
+  position: absolute;
+  left: 44px;
+  right: 44px;
+  top: 736px;
+  height: 116px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  border-radius: 14px;
+  background: rgba(7, 23, 57, 0.72);
+  border: 1px solid rgba(224, 167, 105, 0.28);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-sizing: border-box;
+  z-index: 3;
+}
+.alp-benefits div.alp-benefit-item {
+  padding: 18px 16px;
+  border-right: 1px solid rgba(164, 181, 196, 0.16);
+  display: flex;
+  gap: 12px;
+  box-sizing: border-box;
+}
+.alp-benefits div.alp-benefit-item:last-child {
+  border-right: 0;
+}
+.alp-benefits svg {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  color: var(--alp-gold-500);
+  margin-top: 2px;
+}
+.alp-benefits b {
+  display: block;
+  font-family: var(--alp-f-hero);
+  font-weight: 700;
+  font-size: 14px;
+  color: #ffffff;
+}
+.alp-benefits span {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  line-height: 1.42;
+  color: var(--alp-slate-300);
+}
+
+/* ═══════════ Bottom Footer & Brand Lockup ═══════════ */
+.alp-foot {
+  position: absolute;
+  left: 44px;
+  bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  z-index: 3;
+}
+.alp-foot .alp-kicker {
+  font-family: var(--alp-f-serif);
+  font-style: italic;
+  font-size: 21px;
+  color: var(--alp-gold-500);
+}
+.alp-foot .alp-dot {
+  color: rgba(224, 167, 105, 0.4);
+  font-size: 18px;
+}
+.alp-foot .alp-cta {
+  font-family: var(--alp-f-head);
+  font-weight: 600;
+  font-size: 13.5px;
+  letter-spacing: 0.3px;
+  color: var(--alp-cream-100);
+}
+.alp-foot .alp-cta u {
+  text-decoration-color: var(--alp-gold-500);
+  text-underline-offset: 4px;
+}
+
+.alp-mark {
+  position: absolute;
+  right: 44px;
+  bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  z-index: 3;
+}
+.alp-mark .alp-tagline {
+  font-family: var(--alp-f-body);
+  font-weight: 500;
+  font-size: 12px;
+  color: #e0a769;
+  letter-spacing: 0.08em;
+}
+.alp-mark-logo {
+  display: flex;
+  align-items: center;
+}
+
+/* ═════════════════════════════════════════════════════════ */
+/* ═══════════ PIXEL-PERFECT PRINT / PDF STYLES ═══════════ */
+/* ═════════════════════════════════════════════════════════ */
+@media print {
+  @page {
+    size: 297mm 210mm;
+    margin: 0;
+  }
+
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  html,
+  body {
+    width: 297mm !important;
+    height: 210mm !important;
+    max-width: 297mm !important;
+    max-height: 210mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #050711 !important;
+    overflow: hidden !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  .alp-toolbar {
+    display: none !important;
+  }
+
+  .alp-page-wrapper {
+    width: 297mm !important;
+    height: 210mm !important;
+    max-width: 297mm !important;
+    max-height: 210mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #050711 !important;
+    overflow: hidden !important;
+    display: block !important;
+    position: relative !important;
+  }
+
+  .alp-stage-scaler {
+    width: 297mm !important;
+    height: 210mm !important;
+    max-width: 297mm !important;
+    max-height: 210mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block !important;
+    overflow: hidden !important;
+    position: relative !important;
+  }
+
+  .alp-stage {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    width: 1600px !important;
+    height: 1080px !important;
+    min-width: 1600px !important;
+    max-width: 1600px !important;
+    min-height: 1080px !important;
+    max-height: 1080px !important;
+    flex-shrink: 0 !important;
+    flex-grow: 0 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    page-break-after: avoid !important;
+    /* Exactly scale 1600x1080 to fit inside 297mm x 210mm (1122.5px x 793.7px) with center positioning */
+    transform: translate(-50%, -50%) scale(0.69) !important;
+    transform-origin: center center !important;
+    margin: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Fix Chromium Skia PDF background-clip bug */
+  .alp-head h1 .alp-headline-gold {
+    background: none !important;
+    -webkit-background-clip: initial !important;
+    background-clip: initial !important;
+    color: #e0a769 !important;
+  }
+
+  .alp-stage-flower {
+    opacity: 0.12 !important;
+  }
+
+  .alp-stage-flower img {
+    animation: none !important;
+    -webkit-animation: none !important;
+  }
+}

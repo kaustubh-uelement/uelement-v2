@@ -35,14 +35,6 @@ export const teamMembers: TeamMember[] = [
     linkedIn: 'https://www.linkedin.com',
   },
   {
-    name: 'Niraj Sanghvi',
-    initials: 'NS',
-    title: 'CFO',
-    description: 'Leads finance, governance, and corporate structuring.',
-    photo: '/images/team/niraj.jpg',
-    linkedIn: 'https://www.linkedin.com',
-  },
-  {
     name: 'Rohit Shrivastava',
     initials: 'RS',
     title: 'President',
