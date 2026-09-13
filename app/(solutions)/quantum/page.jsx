@@ -1,22 +1,22 @@
-import QuantumSolutions from '@/components/solutions/Quantum';
+import VyuhScanner from '@/components/solutions/VyuhScanner';
 
 export const metadata = {
-  title: 'Quantum App Dev & PQC | UElement Technologies',
+  title: 'Vyuh — Quantum CBOM Scanner & Readiness Assessment | UElement',
   description:
-    "UElement's Quantum practice delivers bespoke quantum application development and Post-Quantum Cryptography migration — harnessing quantum advantage today while shielding against tomorrow's threats.",
+    'Point Vyuh at a website or code repository to generate a Cryptographic Bill of Materials (CBOM), quantify Shor and Grover exposure, and map your migration path to NIST FIPS 203/204/205 in 90 seconds.',
   alternates: { canonical: 'https://uelement.in/solutions/quantum' },
   openGraph: {
-    title: 'Quantum App Dev & PQC | UElement Technologies',
+    title: 'Vyuh — Quantum CBOM Scanner & Readiness Assessment | UElement',
     description:
-      'Prepare for the post-quantum era. NIST FIPS 203/204/205 compliant PQC migration & quantum app development.',
+      'Point Vyuh at a website or repository to generate a Cryptographic Bill of Materials (CBOM) and map your migration path to NIST FIPS 203, 204, and 205.',
     url: 'https://uelement.in/solutions/quantum',
     siteName: 'UElement',
     images: [
       {
-        url: 'https://uelement.in/images/og/quantum.jpg',
+        url: '/ue-website-og-image.png',
         width: 1200,
         height: 630,
-        alt: 'UElement Quantum Solutions',
+        alt: 'Vyuh Quantum CBOM Scanner - UElement AdviQ',
       },
     ],
     locale: 'en_US',
@@ -24,16 +24,13 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Quantum App Dev & PQC | UElement Technologies',
+    title: 'Vyuh — Quantum CBOM Scanner & Readiness Assessment | UElement',
     description:
-      'Prepare for the post-quantum era. NIST FIPS 203/204/205 compliant.',
-    images: ['https://uelement.in/images/og/quantum.jpg'],
+      'Every certificate, cipher and key your stack depends on. Vyuh lays out the formation. NIST FIPS 203/204/205 compliant.',
+    images: ['/ue-website-og-image.png'],
   },
 };
 
-const page = () => (
-  <div>
-    <QuantumSolutions />
-  </div>
-);
-export default page;
+export default function QuantumRiskAssessmentPage() {
+  return <VyuhScanner />;
+}

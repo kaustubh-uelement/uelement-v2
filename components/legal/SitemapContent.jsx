@@ -86,7 +86,7 @@ export default function SitemapContent() {
 
       {/* ── Solutions ── */}
       <SitemapSection title="Solutions">
-        <SitemapLink href="/u92pqc">Quantum Risk Assessment</SitemapLink>
+        <SitemapLink href="/quantum">Quantum Risk Assessment</SitemapLink>
         <SitemapLink href="/kayak">Everything as a  Service</SitemapLink>
         <SitemapLink href="/vizor">45-Day Proof of Value</SitemapLink>
         <SitemapLink href="/ioet">Crypto-Agility Program</SitemapLink>
