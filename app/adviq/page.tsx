@@ -59,7 +59,7 @@ export default function U92Page() {
               flexWrap: 'wrap',
             }}
           >
-            <Link href="/contact" className="btn btn-gold">
+            <Link href="/vuyh" className="btn btn-gold">
               Request a quantum risk assessment
             </Link>
             <Link href="/u92pqc" className="btn btn-line">

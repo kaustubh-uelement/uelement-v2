@@ -55,7 +55,7 @@ const navbarList = [
         id: 4,
         label: 'Quantum',
         desc: 'Application Development & PQC',
-        link: '/quantum',
+        link: '/vuyh',
       },
     ],
   },
