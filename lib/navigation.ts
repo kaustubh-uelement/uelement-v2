@@ -142,7 +142,7 @@ export const navItems: NavItem[] = [
           {
             label: 'Quantum Risk Assessment',
             description: 'Vyuh CBOM scanner & migration planning',
-            href: '/quantum',
+            href: '/vuyh',
           },
           {
             label: '45-Day Proof of Value',

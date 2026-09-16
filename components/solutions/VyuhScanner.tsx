@@ -435,8 +435,12 @@ export default function VyuhScanner() {
         clearInterval(stageInterval);
         console.error('PQC Scan error:', err);
         setStep(3);
-        setTargetError(err.message || 'Diagnostic scan failed. Please check the target and try again.');
-        triggerFooterMessage(err.message || 'Scan failed to complete.', true);
+        const isNetworkErr = err?.message === 'Failed to fetch' || err?.name === 'TypeError';
+        const userMsg = isNetworkErr
+          ? 'Unable to connect to the Vyuh Scanner backend service (http://localhost:8080). Please ensure the scanner microservice is running or deployed.'
+          : (err?.message || 'Diagnostic scan failed. Please check the target and try again.');
+        setTargetError(userMsg);
+        triggerFooterMessage(userMsg, true);
       }
     } else {
       const mockInterval = setInterval(() => {
@@ -921,7 +925,7 @@ export default function VyuhScanner() {
     // Executive Summary
     drawSectionTitle('Executive Summary');
     drawParagraph(
-      'This assessment compiles a complete cryptographic inventory of the target system and classifies every active primitive against post-quantum standards standardized by NIST (FIPS 203, 204, 205). Asymmetric cryptography — including RSA, ECDSA, ECDH, and classical Diffie-Hellman — will be completely broken once Cryptographically Relevant Quantum Computers (CRQCs) reach scale. Symmetric ciphers and hash functions experience effective security halving and require parameter expansion.'
+      'This assessment compiles a complete cryptographic inventory of the target system and classifies every active primitive against post-quantum standards standardized by NIST (FIPS 203, 204, 205). Asymmetric cryptography (including RSA, ECDSA, ECDH, and classical Diffie-Hellman) will be completely broken once Cryptographically Relevant Quantum Computers (CRQCs) reach scale. Symmetric ciphers and hash functions experience effective security halving and require parameter expansion.'
     );
     drawParagraph(
       'The imminent threat is Harvest-Now-Decrypt-Later (HNDL): adversaries actively capture encrypted enterprise traffic today to retroactively decrypt it once Shor’s algorithm is operational. Data with an operational life beyond 2029 is already in jeopardy. Migration sequencing must therefore be governed by data longevity rather than legacy system criticality.'
@@ -1103,7 +1107,7 @@ export default function VyuhScanner() {
               <p className="lede" style={{ marginTop: 22 }}>
                 Point Vyuh at a public endpoint or a code repository. It constructs an actionable cryptographic bill of
                 materials, classifies what a quantum computer running Shor and Grover algorithms breaks, and outputs a clear
-                migration path to NIST FIPS 203, 204 and 205 — in about ninety seconds.
+                migration path to NIST FIPS 203, 204, and 205, in about ninety seconds.
               </p>
 
               {/* Action Buttons */}
@@ -1184,17 +1188,17 @@ export default function VyuhScanner() {
                   <div className={`transition-opacity duration-300 ${heroLinesVisible >= 3 ? 'opacity-100' : 'opacity-0'}`}>
                     <span className="text-[#e0a769]">→</span> key exchange{' '}
                     <span className="text-white font-medium">ECDHE-P256</span>{' '}
-                    <span className="text-red-400 font-semibold">[breakable — Shor]</span>
+                    <span className="text-red-400 font-semibold">[breakable: Shor]</span>
                   </div>
                   <div className={`transition-opacity duration-300 ${heroLinesVisible >= 4 ? 'opacity-100' : 'opacity-0'}`}>
                     <span className="text-[#e0a769]">→</span> certificate signature{' '}
                     <span className="text-white font-medium">RSA-2048 / SHA-256</span>{' '}
-                    <span className="text-red-400 font-semibold">[breakable — Shor]</span>
+                    <span className="text-red-400 font-semibold">[breakable: Shor]</span>
                   </div>
                   <div className={`transition-opacity duration-300 ${heroLinesVisible >= 5 ? 'opacity-100' : 'opacity-0'}`}>
                     <span className="text-[#e0a769]">→</span> bulk transport cipher{' '}
                     <span className="text-white font-medium">AES-128-GCM</span>{' '}
-                    <span className="text-yellow-400 font-semibold">[weakened — Grover]</span>
+                    <span className="text-yellow-400 font-semibold">[weakened: Grover]</span>
                   </div>
                   <div className={`transition-opacity duration-300 ${heroLinesVisible >= 6 ? 'opacity-100' : 'opacity-0'}`}>
                     <span className="text-[#e0a769]">→</span> hash digest{' '}
@@ -1640,7 +1644,7 @@ export default function VyuhScanner() {
               },
               {
                 q: 'What happens to our scan data and source code?',
-                a: 'Scan results remain accessible under your session and are retained securely for ninety days so you can retrieve them, after which they are expunged. Source code is never persisted or stored — only the extracted cryptographic inventory metadata.',
+                a: 'Scan results remain accessible under your session and are retained securely for ninety days so you can retrieve them, after which they are expunged. Source code is never persisted or stored; only the extracted cryptographic inventory metadata is retained.',
               },
               {
                 q: 'How does Vyuh relate to a full CBOM enterprise engagement?',
@@ -1743,9 +1747,7 @@ export default function VyuhScanner() {
           }}
         >
           <div
-            className={`relative w-full max-h-[94vh] overflow-y-auto rounded-[24px] bg-[linear-gradient(165deg,#ffffff_0%,#fbfbfe_100%)] text-[#232223] border border-[#c88a3e]/30 shadow-[0px_20px_70px_rgba(7,23,57,0.35),0px_0px_35px_rgba(200,138,62,0.12)] custom-modal-scrollbar p-5 sm:p-7 md:p-8 transition-all duration-300 ${
-              step === 5 ? 'max-w-[880px]' : 'max-w-[740px]'
-            }`}
+            className="relative w-full max-w-[96vw] xl:max-w-[95vw] 2xl:max-w-[1700px] h-[92vh] md:h-[94vh] max-h-[96vh] flex flex-col rounded-[24px] bg-[linear-gradient(165deg,#ffffff_0%,#fbfbfe_100%)] text-[#232223] border border-[#c88a3e]/30 shadow-[0px_20px_70px_rgba(7,23,57,0.35),0px_0px_35px_rgba(200,138,62,0.12)] p-4 sm:p-6 md:p-8 transition-all duration-300"
           >
             {/* Top Gold Accent Bar */}
             <div
@@ -1767,7 +1769,7 @@ export default function VyuhScanner() {
             </button>
 
             {/* Modal Header */}
-            <div className="text-left mb-3.5 sm:mb-4 pr-8">
+            <div className="text-left mb-3.5 sm:mb-4 pr-8 shrink-0">
               <div className="inline-flex items-center gap-2 px-3 py-0.5 rounded-full text-[10.5px] font-bold font-heading tracking-widest uppercase bg-[#c88a3e]/10 text-[#a86e24] border border-[#c88a3e]/30 mb-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#c88a3e] animate-pulse" />
                 <span>
@@ -1793,7 +1795,7 @@ export default function VyuhScanner() {
                 id="vyuh-modal-title"
                 className="text-20 sm:text-24 md:text-26 font-bold font-heading text-[#071739] tracking-tight leading-snug"
               >
-                Vyuh — <span className="au">Quantum CBOM Scanner</span>
+                Vyuh: <span className="au">Quantum CBOM Scanner</span>
               </h2>
 
               <p className="text-12 sm:text-13 text-[#556987] mt-1 leading-normal font-body">
@@ -1812,7 +1814,7 @@ export default function VyuhScanner() {
             </div>
 
             {/* Step Progress Bar */}
-            <div className="flex gap-2 mb-3.5 sm:mb-4">
+            <div className="flex gap-2 mb-3.5 sm:mb-4 shrink-0">
               {(scanType === 'url' ? [3, 4] : [1, 2, 3, 4]).map((s) => (
                 <div
                   key={s}
@@ -1824,10 +1826,10 @@ export default function VyuhScanner() {
             </div>
 
             {/* Modal Body Content */}
-            <div className="py-0">
+            <div className="flex-1 min-h-0 overflow-y-auto custom-modal-scrollbar pr-1 sm:pr-2 py-1">
               {/* ── STEP 1: Details ── */}
               {step === 1 && (
-                <div className="flex flex-col gap-3 sm:gap-3.5">
+                <div className="flex flex-col gap-3 sm:gap-3.5 max-w-4xl mx-auto w-full">
                   <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 p-3 rounded-xl bg-[#c88a3e]/10 border border-[#c88a3e]/30 text-xs">
                     <span className="text-[#071739] font-medium">
                       Want to scan a public website or API endpoint instead? No login or verification required.
@@ -1997,7 +1999,7 @@ export default function VyuhScanner() {
 
               {/* ── STEP 2: 2FA Verification ── */}
               {step === 2 && (
-                <div className="flex flex-col gap-3 sm:gap-3.5">
+                <div className="flex flex-col gap-3 sm:gap-3.5 max-w-4xl mx-auto w-full">
                   <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 p-3 rounded-xl bg-[#c88a3e]/10 border border-[#c88a3e]/30 text-xs">
                     <span className="text-[#071739] font-medium">
                       Want to bypass 2FA? Public website scans require no verification.
@@ -2135,7 +2137,7 @@ export default function VyuhScanner() {
 
               {/* ── STEP 3: Target ── */}
               {step === 3 && (
-                <div className="flex flex-col gap-3.5">
+                <div className="flex flex-col gap-3.5 max-w-4xl mx-auto w-full">
                   {scanType === 'url' && (
                     <div className="flex items-center gap-2 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-800">
                       <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
@@ -2229,14 +2231,14 @@ export default function VyuhScanner() {
                       >
                         {scanType === 'repo' ? (
                           <>
-                            <option value="standard">Standard — default branch</option>
-                            <option value="deep">Deep — all branches & history</option>
+                            <option value="standard">Standard: default branch</option>
+                            <option value="deep">Deep: all branches & history</option>
                             <option value="single">Manifests & direct dependencies only</option>
                           </>
                         ) : (
                           <>
-                            <option value="standard">Standard — target & primary hostnames</option>
-                            <option value="deep">Deep — discovered subdomains & CT logs</option>
+                            <option value="standard">Standard: target & primary hostnames</option>
+                            <option value="deep">Deep: discovered subdomains & CT logs</option>
                             <option value="single">Single host endpoint only</option>
                           </>
                         )}
@@ -2278,7 +2280,7 @@ export default function VyuhScanner() {
 
               {/* ── STEP 4: Scanning In Progress ── */}
               {step === 4 && (
-                <div className="py-4">
+                <div className="py-4 max-w-4xl mx-auto w-full">
                   <div className="flex items-center justify-between mb-1">
                     <h4 className="font-heading font-bold text-[#071739] text-xl">
                       {scanType === 'repo' ? 'Analyzing Codebase & Dependencies' : 'Probing Target Endpoints'}
@@ -2561,7 +2563,7 @@ export default function VyuhScanner() {
             </div>
 
             {/* Modal Footer matching Contact Us modal */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 pt-3 sm:pt-3.5 border-t border-black/[0.08] mt-3 sm:mt-4">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 pt-3 sm:pt-3.5 border-t border-black/[0.08] mt-3 sm:mt-4 shrink-0">
               <div className="text-12 text-[#64748b] font-body flex items-center gap-1.5 order-2 sm:order-1">
                 {step > 1 && step < 4 && !(step === 3 && scanType === 'url') && (
                   <button
