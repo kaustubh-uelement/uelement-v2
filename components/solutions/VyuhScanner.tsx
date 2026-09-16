@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useId } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
   Shield,
@@ -58,6 +58,7 @@ interface ScanResults {
   findings: Finding[];
   detail: [string, string][];
   plan: ScanPlan[];
+  raw?: any;
 }
 
 const FREE_EMAIL_DOMAINS = [
@@ -241,6 +242,22 @@ export default function VyuhScanner() {
     return () => clearInterval(timer);
   }, []);
 
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') handleCloseModal();
+      };
+      document.addEventListener('keydown', handleKeyDown);
+      return () => {
+        document.body.style.overflow = originalOverflow;
+        document.removeEventListener('keydown', handleKeyDown);
+      };
+    }
+  }, [isOpen]);
+
   const triggerFooterMessage = (msg: string, isError: boolean = false) => {
     setFooterMsg({ text: msg, isError });
     setTimeout(() => {
@@ -250,7 +267,8 @@ export default function VyuhScanner() {
 
   const handleOpenModal = () => {
     setIsOpen(true);
-    setStep(1);
+    setScanType('url');
+    setStep(3);
   };
 
   const handleCloseModal = () => {
@@ -350,9 +368,10 @@ export default function VyuhScanner() {
         return false;
       }
     } else {
-      const isUrl = /^https?:\/\/[\w.\-]+\.[a-z]{2,}(\/|:|$)/i.test(val);
-      if (!isUrl) {
-        setTargetError('Enter a valid public HTTPS URL (e.g. https://service.yourorg.com).');
+      const clean = val.replace(/^https?:\/\//i, '').split('/')[0].split(':')[0];
+      const isDomain = /^([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/i.test(clean);
+      if (!isDomain) {
+        setTargetError('Enter a valid domain name or HTTPS URL (e.g. cloudflare.com or https://service.yourorg.com).');
         return false;
       }
     }
@@ -366,28 +385,83 @@ export default function VyuhScanner() {
     return true;
   };
 
-  const executeScan = (target: string) => {
+  const executeScan = async (target: string) => {
     setStep(4);
     setScanStageIndex(0);
     const stages = SCAN_STAGES[scanType];
     let idx = 0;
 
-    const interval = setInterval(() => {
+    const stageInterval = setInterval(() => {
       idx++;
-      if (idx < stages.length) {
+      if (idx < stages.length - 1) {
         setScanStageIndex(idx);
-      } else {
-        clearInterval(interval);
-        const scanRes = generateScanResults(target, scanType, targetConfig.depth, targetConfig.retention);
-        setResults(scanRes);
-        setStep(5);
       }
-    }, 550);
+    }, 700);
+
+    if (scanType === 'url') {
+      try {
+        const apiUrl = process.env.NEXT_PUBLIC_SCANNER_API_URL || 'http://localhost:8080';
+        const res = await fetch(`${apiUrl}/api/scan`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            target,
+            type: scanType,
+            depth: targetConfig.depth,
+            retention: targetConfig.retention,
+          }),
+        });
+
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          throw new Error(errData.error || `Scan service responded with status ${res.status}`);
+        }
+
+        const scanData = await res.json();
+        clearInterval(stageInterval);
+        setScanStageIndex(stages.length - 1);
+
+        const formattedResults: ScanResults = {
+          ...scanData,
+          when: new Date(scanData.when || Date.now()),
+          raw: scanData.raw,
+        };
+
+        setTimeout(() => {
+          setResults(formattedResults);
+          setStep(5);
+        }, 500);
+      } catch (err: any) {
+        clearInterval(stageInterval);
+        console.error('PQC Scan error:', err);
+        setStep(3);
+        setTargetError(err.message || 'Diagnostic scan failed. Please check the target and try again.');
+        triggerFooterMessage(err.message || 'Scan failed to complete.', true);
+      }
+    } else {
+      const mockInterval = setInterval(() => {
+        idx++;
+        if (idx < stages.length) {
+          setScanStageIndex(idx);
+        } else {
+          clearInterval(mockInterval);
+          clearInterval(stageInterval);
+          const scanRes = generateScanResults(target, scanType, targetConfig.depth, targetConfig.retention);
+          setResults(scanRes);
+          setStep(5);
+        }
+      }, 550);
+    }
   };
 
   const handleStartScan = () => {
     if (validateStep3()) {
-      executeScan(targetConfig.target.trim());
+      let t = targetConfig.target.trim();
+      if (scanType === 'url' && !/^https?:\/\//i.test(t)) {
+        t = `https://${t}`;
+        setTargetConfig((prev) => ({ ...prev, target: t }));
+      }
+      executeScan(t);
     }
   };
 
@@ -593,49 +667,56 @@ export default function VyuhScanner() {
   /* ── Export to CycloneDX 1.6 CBOM (JSON) ── */
   const exportCycloneDX = () => {
     if (!results) return;
-    const cyclonedx = {
-      $schema: 'http://cyclonedx.org/schema/bom-1.6.schema.json',
-      bomFormat: 'CycloneDX',
-      specVersion: '1.6',
-      serialNumber: `urn:uuid:${Math.random().toString(36).substring(2)}-${Date.now()}`,
-      version: 1,
-      metadata: {
-        timestamp: results.when.toISOString(),
-        tools: [
-          {
-            vendor: 'UElement Technologies',
-            name: 'Vyuh Quantum CBOM Scanner',
-            version: '2.4.0',
-          },
-        ],
-        component: {
-          type: results.type === 'repo' ? 'application' : 'service',
-          name: results.target,
-        },
-      },
-      declarations: {
-        assessors: [
-          {
-            organization: { name: 'UElement AdviQ Quantum Practice' },
-          },
-        ],
-      },
-      cryptographicAssets: results.cbom.map((item, index) => ({
-        bomRef: `crypto-asset-${index + 1}`,
-        type: item.purpose.toLowerCase().includes('certificate') ? 'certificate' : 'algorithm',
-        name: item.asset,
-        algorithm: item.primitive,
-        quantumSecurityVerdict: item.verdict,
-        targetStandard: item.replacement,
-      })),
-      quantumReadiness: {
-        score: results.score,
-        assessmentBand: results.band,
-        dataRetentionHorizonYears: results.retention,
-      },
-    };
 
-    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(cyclonedx, null, 2));
+    let cyclonedxJson: string;
+    if (results.raw?.cbom) {
+      cyclonedxJson = JSON.stringify(results.raw.cbom, null, 2);
+    } else {
+      const cyclonedx = {
+        $schema: 'http://cyclonedx.org/schema/bom-1.6.schema.json',
+        bomFormat: 'CycloneDX',
+        specVersion: '1.6',
+        serialNumber: `urn:uuid:${Math.random().toString(36).substring(2)}-${Date.now()}`,
+        version: 1,
+        metadata: {
+          timestamp: results.when.toISOString(),
+          tools: [
+            {
+              vendor: 'UElement Technologies',
+              name: 'Vyuh Quantum CBOM Scanner',
+              version: '2.4.0',
+            },
+          ],
+          component: {
+            type: results.type === 'repo' ? 'application' : 'service',
+            name: results.target,
+          },
+        },
+        declarations: {
+          assessors: [
+            {
+              organization: { name: 'UElement AdviQ Quantum Practice' },
+            },
+          ],
+        },
+        cryptographicAssets: results.cbom.map((item, index) => ({
+          bomRef: `crypto-asset-${index + 1}`,
+          type: item.purpose.toLowerCase().includes('certificate') ? 'certificate' : 'algorithm',
+          name: item.asset,
+          algorithm: item.primitive,
+          quantumSecurityVerdict: item.verdict,
+          targetStandard: item.replacement,
+        })),
+        quantumReadiness: {
+          score: results.score,
+          assessmentBand: results.band,
+          dataRetentionHorizonYears: results.retention,
+        },
+      };
+      cyclonedxJson = JSON.stringify(cyclonedx, null, 2);
+    }
+
+    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(cyclonedxJson);
     const downloadAnchor = document.createElement('a');
     downloadAnchor.setAttribute('href', dataStr);
     downloadAnchor.setAttribute(
@@ -1010,7 +1091,7 @@ export default function VyuhScanner() {
               <h1 className="display" style={{ fontSize: 'var(--text-display)', lineHeight: 1.08 }}>
                 Every certificate, cipher and key your stack depends on.{' '}
                 <span className="au">
-                  Vyuh <span className="font-serif font-normal text-[0.85em] text-[#e0a769]/80 ml-1">व्यूह</span>
+                  Vyuh
                 </span>{' '}
                 lays out the formation.
               </h1>
@@ -1644,138 +1725,202 @@ export default function VyuhScanner() {
       </div>
 
       {/* ══════════════════════════════════════════════════════════
-          INTERACTIVE SCANNER MODAL WIZARD
+          INTERACTIVE SCANNER MODAL (Contact Us Modal Theme & z-[9999])
          ══════════════════════════════════════════════════════════ */}
       {isOpen && (
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-50 flex items-start justify-center p-4 sm:p-6 overflow-y-auto bg-black/80 backdrop-blur-md"
+          aria-labelledby="vyuh-modal-title"
+          className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-5 md:p-8 animate-fadeIn"
+          style={{
+            backgroundColor: 'rgba(7, 23, 57, 0.78)',
+            backdropFilter: 'blur(14px)',
+            WebkitBackdropFilter: 'blur(14px)',
+          }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) handleCloseModal();
+          }}
         >
           <div
-            className={`w-full bg-[#161616] border border-white/15 rounded-2xl shadow-2xl overflow-hidden my-6 transition-all duration-300 ${
-              step === 5 ? 'max-w-4xl' : 'max-w-2xl'
+            className={`relative w-full max-h-[94vh] overflow-y-auto rounded-[24px] bg-[linear-gradient(165deg,#ffffff_0%,#fbfbfe_100%)] text-[#232223] border border-[#c88a3e]/30 shadow-[0px_20px_70px_rgba(7,23,57,0.35),0px_0px_35px_rgba(200,138,62,0.12)] custom-modal-scrollbar p-5 sm:p-7 md:p-8 transition-all duration-300 ${
+              step === 5 ? 'max-w-[880px]' : 'max-w-[740px]'
             }`}
           >
+            {/* Top Gold Accent Bar */}
+            <div
+              className="absolute top-0 left-0 right-0 h-[3px] rounded-t-[24px]"
+              style={{
+                background:
+                  'linear-gradient(90deg, transparent, #c88a3e 20%, #e0a769 50%, #c88a3e 80%, transparent)',
+              }}
+            />
+
+            {/* Close Button matching Contact Us modal */}
+            <button
+              type="button"
+              onClick={handleCloseModal}
+              aria-label="Close dialog"
+              className="absolute top-4 right-4 sm:top-6 sm:right-6 flex items-center justify-center w-8 h-8 rounded-full bg-[#071739]/[0.05] hover:bg-[#071739]/[0.12] hover:text-[#c88a3e] border border-black/5 hover:border-[#c88a3e]/40 text-[#4a5568] transition-all duration-200 cursor-pointer z-20"
+            >
+              ✕
+            </button>
+
             {/* Modal Header */}
-            <div className="px-6 py-4 border-b border-white/10 bg-white/[0.03] flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center font-heading font-bold text-xs text-white">
-                  92
-                </div>
-                <div>
-                  <h3 className="font-heading font-bold text-white text-base leading-tight">
-                    Vyuh — Quantum CBOM Scanner
-                  </h3>
-                  <div className="text-xs text-gray-400">
-                    {step === 1 && 'Step 1 of 4 · Professional Identity'}
-                    {step === 2 && 'Step 2 of 4 · 2FA Code Verification'}
-                    {step === 3 && 'Step 3 of 4 · Target Configuration'}
-                    {step === 4 && 'Step 4 of 4 · Probing & Classification'}
-                    {step === 5 && 'Scan Complete · Cryptographic Inventory & Report'}
-                  </div>
-                </div>
+            <div className="text-left mb-3.5 sm:mb-4 pr-8">
+              <div className="inline-flex items-center gap-2 px-3 py-0.5 rounded-full text-[10.5px] font-bold font-heading tracking-widest uppercase bg-[#c88a3e]/10 text-[#a86e24] border border-[#c88a3e]/30 mb-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#c88a3e] animate-pulse" />
+                <span>
+                  {scanType === 'url' ? (
+                    <>
+                      {step === 3 && 'Step 1 of 2 · Target Endpoint'}
+                      {step === 4 && 'Step 2 of 2 · Probing & Classification'}
+                      {step === 5 && 'Diagnostic Complete · Cryptographic Inventory'}
+                    </>
+                  ) : (
+                    <>
+                      {step === 1 && 'Step 1 of 4 · Professional Identity'}
+                      {step === 2 && 'Step 2 of 4 · 2FA Code Verification'}
+                      {step === 3 && 'Step 3 of 4 · Repository Configuration'}
+                      {step === 4 && 'Step 4 of 4 · Codebase Analysis'}
+                      {step === 5 && 'Diagnostic Complete · Cryptographic Inventory'}
+                    </>
+                  )}
+                </span>
               </div>
-              <button
-                onClick={handleCloseModal}
-                className="text-gray-400 hover:text-white p-1 rounded-lg transition-colors cursor-pointer"
-                aria-label="Close modal"
+
+              <h2
+                id="vyuh-modal-title"
+                className="text-20 sm:text-24 md:text-26 font-bold font-heading text-[#071739] tracking-tight leading-snug"
               >
-                <X className="w-5 h-5" />
-              </button>
+                Vyuh — <span className="au">Quantum CBOM Scanner</span>
+              </h2>
+
+              <p className="text-12 sm:text-13 text-[#556987] mt-1 leading-normal font-body">
+                {step === 1 &&
+                  'Repository scanning inspects internal codebase dependencies. We verify a professional identity to ensure authorized repository access.'}
+                {step === 2 &&
+                  'We have dispatched a six-digit verification code to your email and phone. Both must be confirmed before inspecting code repositories.'}
+                {step === 3 &&
+                  (scanType === 'url'
+                    ? 'Enter any public domain, website, or API endpoint. Vyuh performs live non-invasive TLS 1.3 handshake and certificate chain analysis.'
+                    : 'Configure the repository to be inventoried. Vyuh performs read-only, non-invasive inspection of cryptographic primitives.')}
+                {step === 4 && 'Negotiating cryptographic handshakes and evaluating primitives against NIST standards...'}
+                {step === 5 &&
+                  'Cryptographic Bill of Materials (CBOM) compiled. Review findings, migration timeline, and export formats below.'}
+              </p>
             </div>
 
             {/* Step Progress Bar */}
-            <div className="flex gap-1.5 px-6 pt-3">
-              {[1, 2, 3, 4].map((s) => (
+            <div className="flex gap-2 mb-3.5 sm:mb-4">
+              {(scanType === 'url' ? [3, 4] : [1, 2, 3, 4]).map((s) => (
                 <div
                   key={s}
-                  className={`h-1 flex-1 rounded-full transition-colors ${
-                    step >= s ? 'bg-[#c88a3e]' : 'bg-white/10'
+                  className={`h-1.5 flex-1 rounded-full transition-colors ${
+                    step >= s ? 'bg-[#c88a3e]' : 'bg-black/[0.08]'
                   }`}
                 />
               ))}
             </div>
 
-            {/* Modal Body */}
-            <div className="p-6">
+            {/* Modal Body Content */}
+            <div className="py-0">
               {/* ── STEP 1: Details ── */}
               {step === 1 && (
-                <div>
-                  <h4 className="font-heading font-bold text-white text-xl mb-1">Tell us who you are</h4>
-                  <p className="text-xs text-gray-400 mb-6">
-                    Vyuh is free. We verify a professional identity because scanning infrastructure on request carries a
-                    duty of authorization.
-                  </p>
-
-                  <div className="grid sm:grid-cols-2 gap-4 mb-4">
+                <div className="flex flex-col gap-3 sm:gap-3.5">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 p-3 rounded-xl bg-[#c88a3e]/10 border border-[#c88a3e]/30 text-xs">
+                    <span className="text-[#071739] font-medium">
+                      Want to scan a public website or API endpoint instead? No login or verification required.
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setScanType('url');
+                        setStep(3);
+                      }}
+                      className="px-3 py-1.5 rounded-lg bg-[#c88a3e] text-white font-semibold hover:bg-[#b0752f] transition-colors shrink-0 cursor-pointer"
+                    >
+                      Instant Free URL Scan
+                    </button>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                     <div>
-                      <label className="block text-xs font-medium text-gray-300 mb-1">Full name *</label>
+                      <label className="font-heading text-xs sm:text-[12.5px] font-semibold text-[#071739] mb-1 block">
+                        Full Name *
+                      </label>
                       <input
                         type="text"
                         placeholder="Dr. Arjun Sharma"
                         value={profile.name}
                         onChange={(e) => setProfile({ ...profile, name: e.target.value })}
-                        className={`w-full bg-[#202020] border rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-[#c88a3e] ${
-                          errors1.name ? 'border-red-500' : 'border-white/15'
+                        className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-sm text-[#232223] placeholder:text-[#808080] focus:outline-none focus:border-[#c88a3e] focus:bg-white transition-all ${
+                          errors1.name ? 'border-red-500' : 'border-[#D7D7D7]'
                         }`}
                       />
-                      {errors1.name && <span className="text-red-400 text-xs mt-1 block">{errors1.name}</span>}
+                      {errors1.name && <p className="text-red-600 text-xs mt-0.5 font-heading">{errors1.name}</p>}
                     </div>
 
                     <div>
-                      <label className="block text-xs font-medium text-gray-300 mb-1">Job title *</label>
+                      <label className="font-heading text-xs sm:text-[12.5px] font-semibold text-[#071739] mb-1 block">
+                        Job Title *
+                      </label>
                       <input
                         type="text"
                         placeholder="Chief Information Security Officer"
                         value={profile.title}
                         onChange={(e) => setProfile({ ...profile, title: e.target.value })}
-                        className={`w-full bg-[#202020] border rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-[#c88a3e] ${
-                          errors1.title ? 'border-red-500' : 'border-white/15'
+                        className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-sm text-[#232223] placeholder:text-[#808080] focus:outline-none focus:border-[#c88a3e] focus:bg-white transition-all ${
+                          errors1.title ? 'border-red-500' : 'border-[#D7D7D7]'
                         }`}
                       />
-                      {errors1.title && <span className="text-red-400 text-xs mt-1 block">{errors1.title}</span>}
+                      {errors1.title && <p className="text-red-600 text-xs mt-0.5 font-heading">{errors1.title}</p>}
                     </div>
                   </div>
 
-                  <div className="grid sm:grid-cols-2 gap-4 mb-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                     <div>
-                      <label className="block text-xs font-medium text-gray-300 mb-1">Organisation *</label>
+                      <label className="font-heading text-xs sm:text-[12.5px] font-semibold text-[#071739] mb-1 block">
+                        Organisation *
+                      </label>
                       <input
                         type="text"
                         placeholder="State Bank / Enterprise Corp"
                         value={profile.company}
                         onChange={(e) => setProfile({ ...profile, company: e.target.value })}
-                        className={`w-full bg-[#202020] border rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-[#c88a3e] ${
-                          errors1.company ? 'border-red-500' : 'border-white/15'
+                        className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-sm text-[#232223] placeholder:text-[#808080] focus:outline-none focus:border-[#c88a3e] focus:bg-white transition-all ${
+                          errors1.company ? 'border-red-500' : 'border-[#D7D7D7]'
                         }`}
                       />
-                      {errors1.company && <span className="text-red-400 text-xs mt-1 block">{errors1.company}</span>}
+                      {errors1.company && <p className="text-red-600 text-xs mt-0.5 font-heading">{errors1.company}</p>}
                     </div>
 
                     <div>
-                      <label className="block text-xs font-medium text-gray-300 mb-1">Work email *</label>
+                      <label className="font-heading text-xs sm:text-[12.5px] font-semibold text-[#071739] mb-1 block">
+                        Work Email *
+                      </label>
                       <input
                         type="email"
                         placeholder="arjun@enterprise.in"
                         value={profile.email}
                         onChange={(e) => setProfile({ ...profile, email: e.target.value })}
-                        className={`w-full bg-[#202020] border rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-[#c88a3e] ${
-                          errors1.email ? 'border-red-500' : 'border-white/15'
+                        className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-sm text-[#232223] placeholder:text-[#808080] focus:outline-none focus:border-[#c88a3e] focus:bg-white transition-all ${
+                          errors1.email ? 'border-red-500' : 'border-[#D7D7D7]'
                         }`}
                       />
-                      {errors1.email && <span className="text-red-400 text-xs mt-1 block">{errors1.email}</span>}
+                      {errors1.email && <p className="text-red-600 text-xs mt-0.5 font-heading">{errors1.email}</p>}
                     </div>
                   </div>
 
-                  <div className="grid sm:grid-cols-2 gap-4 mb-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                     <div>
-                      <label className="block text-xs font-medium text-gray-300 mb-1">Mobile number *</label>
+                      <label className="font-heading text-xs sm:text-[12.5px] font-semibold text-[#071739] mb-1 block">
+                        Mobile Number *
+                      </label>
                       <div className="flex gap-2">
                         <select
                           value={profile.countryCode}
                           onChange={(e) => setProfile({ ...profile, countryCode: e.target.value })}
-                          className="bg-[#202020] border border-white/15 rounded-lg px-2.5 py-2.5 text-sm text-white focus:outline-none focus:border-[#c88a3e]"
+                          className="bg-[#f8f9fa] border border-[#D7D7D7] rounded-lg px-2.5 py-2 text-xs sm:text-sm text-[#232223] focus:outline-none focus:border-[#c88a3e] focus:bg-white"
                         >
                           <option value="+91">+91 (IN)</option>
                           <option value="+1">+1 (US)</option>
@@ -1791,35 +1936,39 @@ export default function VyuhScanner() {
                           placeholder="9876543210"
                           value={profile.phone}
                           onChange={(e) => setProfile({ ...profile, phone: e.target.value })}
-                          className={`w-full bg-[#202020] border rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-[#c88a3e] ${
-                            errors1.phone ? 'border-red-500' : 'border-white/15'
+                          className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-sm text-[#232223] placeholder:text-[#808080] focus:outline-none focus:border-[#c88a3e] focus:bg-white transition-all ${
+                            errors1.phone ? 'border-red-500' : 'border-[#D7D7D7]'
                           }`}
                         />
                       </div>
-                      {errors1.phone && <span className="text-red-400 text-xs mt-1 block">{errors1.phone}</span>}
+                      {errors1.phone && <p className="text-red-600 text-xs mt-0.5 font-heading">{errors1.phone}</p>}
                     </div>
 
                     <div>
-                      <label className="block text-xs font-medium text-gray-300 mb-1">LinkedIn profile *</label>
+                      <label className="font-heading text-xs sm:text-[12.5px] font-semibold text-[#071739] mb-1 block">
+                        LinkedIn Profile *
+                      </label>
                       <input
                         type="url"
                         placeholder="linkedin.com/in/arjun-sharma"
                         value={profile.linkedin}
                         onChange={(e) => setProfile({ ...profile, linkedin: e.target.value })}
-                        className={`w-full bg-[#202020] border rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-[#c88a3e] ${
-                          errors1.linkedin ? 'border-red-500' : 'border-white/15'
+                        className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-sm text-[#232223] placeholder:text-[#808080] focus:outline-none focus:border-[#c88a3e] focus:bg-white transition-all ${
+                          errors1.linkedin ? 'border-red-500' : 'border-[#D7D7D7]'
                         }`}
                       />
-                      {errors1.linkedin && <span className="text-red-400 text-xs mt-1 block">{errors1.linkedin}</span>}
+                      {errors1.linkedin && <p className="text-red-600 text-xs mt-0.5 font-heading">{errors1.linkedin}</p>}
                     </div>
                   </div>
 
-                  <div className="mb-5">
-                    <label className="block text-xs font-medium text-gray-300 mb-1">What brings you to Vyuh?</label>
+                  <div>
+                    <label className="font-heading text-xs sm:text-[12.5px] font-semibold text-[#071739] mb-1 block">
+                      Primary Objective
+                    </label>
                     <select
                       value={profile.purpose}
                       onChange={(e) => setProfile({ ...profile, purpose: e.target.value })}
-                      className="w-full bg-[#202020] border border-white/15 rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-[#c88a3e]"
+                      className="w-full bg-[#f8f9fa] border border-[#D7D7D7] rounded-lg px-3 py-2 text-xs sm:text-sm text-[#232223] focus:outline-none focus:border-[#c88a3e] focus:bg-white"
                     >
                       <option value="Preparing a post-quantum migration plan">Preparing a post-quantum migration plan</option>
                       <option value="Responding to a regulator or audit mandate">Responding to a regulator or audit mandate (RBI, SEBI, CERT-In)</option>
@@ -1829,39 +1978,48 @@ export default function VyuhScanner() {
                     </select>
                   </div>
 
-                  <div className="flex items-start gap-2.5 text-xs text-gray-400">
+                  <div className="flex items-start gap-2.5 text-xs text-[#556987] mt-0.5">
                     <input
                       type="checkbox"
                       id="consentCheck"
                       checked={profile.consent}
                       onChange={(e) => setProfile({ ...profile, consent: e.target.checked })}
-                      className="mt-0.5 rounded border-white/20 bg-[#202020] text-[#c88a3e] focus:ring-0"
+                      className="mt-0.5 rounded border-[#D7D7D7] text-[#c88a3e] focus:ring-[#c88a3e] accent-[#c88a3e]"
                     />
-                    <label htmlFor="consentCheck" className="cursor-pointer">
-                      I confirm these details are mine and agree that UElement may contact me with this scan report. Details
-                      are handled under UElement’s privacy policy.
+                    <label htmlFor="consentCheck" className="cursor-pointer leading-snug">
+                      I confirm these details are mine and agree that UElement may contact me with this assessment report.
+                      Details are handled strictly under UElement’s privacy policy.
                     </label>
                   </div>
-                  {errors1.consent && <span className="text-red-400 text-xs mt-1 block">{errors1.consent}</span>}
+                  {errors1.consent && <p className="text-red-600 text-xs font-heading">{errors1.consent}</p>}
                 </div>
               )}
 
               {/* ── STEP 2: 2FA Verification ── */}
               {step === 2 && (
-                <div>
-                  <h4 className="font-heading font-bold text-white text-xl mb-1">Verify your email and mobile</h4>
-                  <p className="text-xs text-gray-400 mb-6">
-                    We have dispatched a six-digit verification code to both your work email and phone. Both must be
-                    confirmed before the diagnostic probe begins.
-                  </p>
-
+                <div className="flex flex-col gap-3 sm:gap-3.5">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 p-3 rounded-xl bg-[#c88a3e]/10 border border-[#c88a3e]/30 text-xs">
+                    <span className="text-[#071739] font-medium">
+                      Want to bypass 2FA? Public website scans require no verification.
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setScanType('url');
+                        setStep(3);
+                      }}
+                      className="px-3 py-1.5 rounded-lg bg-[#c88a3e] text-white font-semibold hover:bg-[#b0752f] transition-colors shrink-0 cursor-pointer"
+                    >
+                      Switch to Free URL Scan
+                    </button>
+                  </div>
                   {/* Email OTP Card */}
-                  <div className="p-4 rounded-xl border border-white/15 bg-white/[0.02] mb-4">
-                    <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-gray-300 mb-3">
+                  <div className="p-4 sm:p-4.5 rounded-xl border border-[#c88a3e]/25 bg-[#f8f9fa] shadow-sm">
+                    <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-[#556987] mb-2.5">
                       <span>
-                        Email code sent to: <b className="text-white font-mono">{profile.email}</b>
+                        Email code dispatched to: <b className="text-[#071739] font-mono">{profile.email}</b>
                       </span>
-                      <span className="font-mono text-[#f5c116] bg-[#f5c116]/10 px-2 py-0.5 rounded border border-[#f5c116]/20">
+                      <span className="font-mono text-xs font-semibold text-[#a86e24] bg-[#c88a3e]/10 px-2.5 py-0.5 rounded border border-[#c88a3e]/30">
                         demo code: {demoCodes.email}
                       </span>
                     </div>
@@ -1874,24 +2032,26 @@ export default function VyuhScanner() {
                         disabled={verified.email}
                         value={otpInputs.email}
                         onChange={(e) => setOtpInputs({ ...otpInputs, email: e.target.value.replace(/\D/g, '') })}
-                        className="w-36 bg-[#202020] border border-white/15 rounded-lg px-3 py-2 text-center font-mono text-base tracking-widest text-white focus:outline-none focus:border-[#c88a3e] disabled:opacity-50"
+                        className="w-32 sm:w-36 bg-white border border-[#D7D7D7] rounded-lg px-3 py-1.5 text-center font-mono text-sm tracking-widest text-[#071739] focus:outline-none focus:border-[#c88a3e] disabled:opacity-50"
                       />
                       {!verified.email ? (
                         <button
                           onClick={() => handleVerifyOtp('email')}
-                          className="btn btn-line btn-sm cursor-pointer"
+                          className="btn btn-line btn-sm cursor-pointer !inline-flex items-center justify-center whitespace-nowrap"
                           style={{
                             display: 'inline-flex',
                             alignItems: 'center',
                             justifyContent: 'center',
                             whiteSpace: 'nowrap',
+                            color: '#071739',
+                            borderColor: '#cbd5e1',
                           }}
                         >
                           Verify Code
                         </button>
                       ) : (
-                        <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-400">
-                          <CheckCircle2 className="w-4 h-4" /> Verified
+                        <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-600">
+                          <CheckCircle2 className="w-4 h-4 shrink-0" /> Verified
                         </span>
                       )}
 
@@ -1899,29 +2059,26 @@ export default function VyuhScanner() {
                         <button
                           onClick={() => handleResendCode('email')}
                           disabled={resendTimers.email > 0}
-                          className="text-xs text-[#e0a769] hover:underline disabled:text-gray-500 cursor-pointer ml-auto"
+                          className="text-xs text-[#c88a3e] hover:underline disabled:text-gray-400 cursor-pointer"
                         >
                           {resendTimers.email > 0 ? `Resend in ${resendTimers.email}s` : 'Resend code'}
                         </button>
                       )}
                     </div>
                     {otpErrors.email && (
-                      <span className="text-red-400 text-xs mt-2 block">
-                        The code does not match. Please verify the 6 digits.
-                      </span>
+                      <p className="text-red-600 text-xs mt-1.5 font-heading">
+                        Incorrect code. Try entering {demoCodes.email}.
+                      </p>
                     )}
                   </div>
 
                   {/* SMS OTP Card */}
-                  <div className="p-4 rounded-xl border border-white/15 bg-white/[0.02] mb-4">
-                    <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-gray-300 mb-3">
+                  <div className="p-4 sm:p-4.5 rounded-xl border border-[#c88a3e]/25 bg-[#f8f9fa] shadow-sm">
+                    <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-[#556987] mb-2.5">
                       <span>
-                        SMS code sent to:{' '}
-                        <b className="text-white font-mono">
-                          {profile.countryCode} {profile.phone}
-                        </b>
+                        SMS code dispatched to: <b className="text-[#071739] font-mono">{profile.phone}</b>
                       </span>
-                      <span className="font-mono text-[#f5c116] bg-[#f5c116]/10 px-2 py-0.5 rounded border border-[#f5c116]/20">
+                      <span className="font-mono text-xs font-semibold text-[#a86e24] bg-[#c88a3e]/10 px-2.5 py-0.5 rounded border border-[#c88a3e]/30">
                         demo code: {demoCodes.phone}
                       </span>
                     </div>
@@ -1934,24 +2091,26 @@ export default function VyuhScanner() {
                         disabled={verified.phone}
                         value={otpInputs.phone}
                         onChange={(e) => setOtpInputs({ ...otpInputs, phone: e.target.value.replace(/\D/g, '') })}
-                        className="w-36 bg-[#202020] border border-white/15 rounded-lg px-3 py-2 text-center font-mono text-base tracking-widest text-white focus:outline-none focus:border-[#c88a3e] disabled:opacity-50"
+                        className="w-32 sm:w-36 bg-white border border-[#D7D7D7] rounded-lg px-3 py-1.5 text-center font-mono text-sm tracking-widest text-[#071739] focus:outline-none focus:border-[#c88a3e] disabled:opacity-50"
                       />
                       {!verified.phone ? (
                         <button
                           onClick={() => handleVerifyOtp('phone')}
-                          className="btn btn-line btn-sm cursor-pointer"
+                          className="btn btn-line btn-sm cursor-pointer !inline-flex items-center justify-center whitespace-nowrap"
                           style={{
                             display: 'inline-flex',
                             alignItems: 'center',
                             justifyContent: 'center',
                             whiteSpace: 'nowrap',
+                            color: '#071739',
+                            borderColor: '#cbd5e1',
                           }}
                         >
                           Verify Code
                         </button>
                       ) : (
-                        <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-400">
-                          <CheckCircle2 className="w-4 h-4" /> Verified
+                        <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-600">
+                          <CheckCircle2 className="w-4 h-4 shrink-0" /> Verified
                         </span>
                       )}
 
@@ -1959,35 +2118,35 @@ export default function VyuhScanner() {
                         <button
                           onClick={() => handleResendCode('phone')}
                           disabled={resendTimers.phone > 0}
-                          className="text-xs text-[#e0a769] hover:underline disabled:text-gray-500 cursor-pointer ml-auto"
+                          className="text-xs text-[#c88a3e] hover:underline disabled:text-gray-400 cursor-pointer"
                         >
                           {resendTimers.phone > 0 ? `Resend in ${resendTimers.phone}s` : 'Resend code'}
                         </button>
                       )}
                     </div>
                     {otpErrors.phone && (
-                      <span className="text-red-400 text-xs mt-2 block">
-                        The SMS code does not match. Check and try again.
-                      </span>
+                      <p className="text-red-600 text-xs mt-1.5 font-heading">
+                        Incorrect code. Try entering {demoCodes.phone}.
+                      </p>
                     )}
                   </div>
-
-                  <p className="text-[11px] text-gray-400 mt-4 italic">
-                    Note: For demonstration and instant testing, simulated one-time codes are surfaced directly above.
-                  </p>
                 </div>
               )}
 
               {/* ── STEP 3: Target ── */}
               {step === 3 && (
-                <div>
-                  <h4 className="font-heading font-bold text-white text-xl mb-1">What should Vyuh scan?</h4>
-                  <p className="text-xs text-gray-400 mb-6">
-                    Enter one target per scan. You can run further scans immediately upon report completion.
-                  </p>
+                <div className="flex flex-col gap-3.5">
+                  {scanType === 'url' && (
+                    <div className="flex items-center gap-2 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-800">
+                      <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+                      <span>
+                        <strong>Zero friction:</strong>{' '}Public endpoint &amp; TLS diagnostic is 100% free with no account or OTP required.
+                      </span>
+                    </div>
+                  )}
 
                   {/* Target Type Switcher */}
-                  <div className="grid sm:grid-cols-2 gap-3 mb-5">
+                  <div className="grid sm:grid-cols-2 gap-3">
                     <button
                       type="button"
                       onClick={() => {
@@ -1995,17 +2154,17 @@ export default function VyuhScanner() {
                         setTargetConfig((p) => ({ ...p, target: '' }));
                         setTargetError(null);
                       }}
-                      className={`p-4 rounded-xl border text-left transition-all cursor-pointer ${
+                      className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
                         scanType === 'url'
-                          ? 'border-[#c88a3e] bg-[#c88a3e]/10 text-white'
-                          : 'border-white/15 bg-[#202020] text-gray-400 hover:border-white/30'
+                          ? 'border-[#c88a3e] bg-[#c88a3e]/10 text-[#071739] shadow-sm'
+                          : 'border-[#e2e8f0] bg-[#f8f9fa] text-[#556987] hover:border-[#c88a3e]/40'
                       }`}
                     >
                       <div className="flex items-center gap-2 mb-1">
-                        <Globe className="w-4 h-4 text-[#e0a769]" />
-                        <b className="font-heading text-sm text-white">Website or API Endpoint</b>
+                        <Globe className="w-4 h-4 text-[#c88a3e] shrink-0" />
+                        <b className="font-heading text-sm text-[#071739]">Website or API Endpoint</b>
                       </div>
-                      <span className="text-xs text-gray-400">
+                      <span className="text-xs text-[#64748b] block leading-snug">
                         TLS handshakes, cipher negotiation, full certificate chain
                       </span>
                     </button>
@@ -2013,29 +2172,35 @@ export default function VyuhScanner() {
                     <button
                       type="button"
                       onClick={() => {
-                        setScanType('repo');
-                        setTargetConfig((p) => ({ ...p, target: '' }));
-                        setTargetError(null);
+                        if (!verified.email || !verified.phone) {
+                          setScanType('repo');
+                          setStep(1);
+                          triggerFooterMessage('Repository scanning requires corporate identity verification.', false);
+                        } else {
+                          setScanType('repo');
+                          setTargetConfig((p) => ({ ...p, target: '' }));
+                          setTargetError(null);
+                        }
                       }}
-                      className={`p-4 rounded-xl border text-left transition-all cursor-pointer ${
+                      className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
                         scanType === 'repo'
-                          ? 'border-[#c88a3e] bg-[#c88a3e]/10 text-white'
-                          : 'border-white/15 bg-[#202020] text-gray-400 hover:border-white/30'
+                          ? 'border-[#c88a3e] bg-[#c88a3e]/10 text-[#071739] shadow-sm'
+                          : 'border-[#e2e8f0] bg-[#f8f9fa] text-[#556987] hover:border-[#c88a3e]/40'
                       }`}
                     >
                       <div className="flex items-center gap-2 mb-1">
-                        <GitBranch className="w-4 h-4 text-[#e0a769]" />
-                        <b className="font-heading text-sm text-white">Code Repository</b>
+                        <GitBranch className="w-4 h-4 text-[#c88a3e] shrink-0" />
+                        <b className="font-heading text-sm text-[#071739]">Code Repository</b>
                       </div>
-                      <span className="text-xs text-gray-400">
+                      <span className="text-xs text-[#64748b] block leading-snug">
                         Source AST, dependencies, committed credentials & keystores
                       </span>
                     </button>
                   </div>
 
                   {/* Target Input */}
-                  <div className="mb-4">
-                    <label className="block text-xs font-medium text-gray-300 mb-1">
+                  <div>
+                    <label className="font-heading text-xs sm:text-[12.5px] font-semibold text-[#071739] mb-1 block">
                       {scanType === 'repo' ? 'Repository URL *' : 'Target Host / Endpoint URL *'}
                     </label>
                     <input
@@ -2047,18 +2212,20 @@ export default function VyuhScanner() {
                       }
                       value={targetConfig.target}
                       onChange={(e) => setTargetConfig({ ...targetConfig, target: e.target.value })}
-                      className="w-full bg-[#202020] border border-white/15 rounded-lg px-3.5 py-2.5 text-sm text-white font-mono focus:outline-none focus:border-[#c88a3e]"
+                      className="w-full bg-[#f8f9fa] border border-[#D7D7D7] rounded-lg px-3.5 py-2 text-sm text-[#071739] font-mono focus:outline-none focus:border-[#c88a3e] focus:bg-white"
                     />
-                    {targetError && <span className="text-red-400 text-xs mt-1 block">{targetError}</span>}
+                    {targetError && <p className="text-red-600 text-xs mt-1 font-heading">{targetError}</p>}
                   </div>
 
-                  <div className="grid sm:grid-cols-2 gap-4 mb-5">
+                  <div className="grid sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-medium text-gray-300 mb-1">Scan depth</label>
+                      <label className="font-heading text-xs sm:text-[12.5px] font-semibold text-[#071739] mb-1 block">
+                        Scan Depth
+                      </label>
                       <select
                         value={targetConfig.depth}
                         onChange={(e) => setTargetConfig({ ...targetConfig, depth: e.target.value })}
-                        className="w-full bg-[#202020] border border-white/15 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-[#c88a3e]"
+                        className="w-full bg-[#f8f9fa] border border-[#D7D7D7] rounded-lg px-3 py-2 text-xs text-[#071739] focus:outline-none focus:border-[#c88a3e]"
                       >
                         {scanType === 'repo' ? (
                           <>
@@ -2077,11 +2244,13 @@ export default function VyuhScanner() {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-medium text-gray-300 mb-1">Data retention horizon</label>
+                      <label className="font-heading text-xs sm:text-[12.5px] font-semibold text-[#071739] mb-1 block">
+                        Data Retention Horizon
+                      </label>
                       <select
                         value={targetConfig.retention}
                         onChange={(e) => setTargetConfig({ ...targetConfig, retention: parseInt(e.target.value, 10) })}
-                        className="w-full bg-[#202020] border border-white/15 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-[#c88a3e]"
+                        className="w-full bg-[#f8f9fa] border border-[#D7D7D7] rounded-lg px-3 py-2 text-xs text-[#071739] focus:outline-none focus:border-[#c88a3e]"
                       >
                         <option value={5}>5 years (standard operational data)</option>
                         <option value={8}>8 years (corporate & regulatory records)</option>
@@ -2091,15 +2260,15 @@ export default function VyuhScanner() {
                     </div>
                   </div>
 
-                  <div className="flex items-start gap-2.5 text-xs text-gray-400">
+                  <div className="flex items-start gap-2.5 text-xs text-[#556987]">
                     <input
                       type="checkbox"
                       id="authCheck"
                       checked={targetConfig.authorized}
                       onChange={(e) => setTargetConfig({ ...targetConfig, authorized: e.target.checked })}
-                      className="mt-0.5 rounded border-white/20 bg-[#202020] text-[#c88a3e] focus:ring-0"
+                      className="mt-0.5 rounded border-[#D7D7D7] text-[#c88a3e] focus:ring-[#c88a3e] accent-[#c88a3e]"
                     />
-                    <label htmlFor="authCheck" className="cursor-pointer">
+                    <label htmlFor="authCheck" className="cursor-pointer leading-snug">
                       I own this target or am explicitly authorized to have it assessed. I understand Vyuh performs
                       read-only, non-invasive cryptographic inspection only.
                     </label>
@@ -2111,36 +2280,36 @@ export default function VyuhScanner() {
               {step === 4 && (
                 <div className="py-4">
                   <div className="flex items-center justify-between mb-1">
-                    <h4 className="font-heading font-bold text-white text-xl">
+                    <h4 className="font-heading font-bold text-[#071739] text-xl">
                       {scanType === 'repo' ? 'Analyzing Codebase & Dependencies' : 'Probing Target Endpoints'}
                     </h4>
-                    <span className="font-mono text-xs text-[#e0a769]">
+                    <span className="font-mono text-xs text-[#a86e24] font-semibold">
                       Stage {scanStageIndex + 1} of {SCAN_STAGES[scanType].length}
                     </span>
                   </div>
-                  <p className="font-mono text-xs text-gray-400 mb-6 truncate">{targetConfig.target}</p>
+                  <p className="font-mono text-xs text-[#64748b] mb-6 truncate">{targetConfig.target}</p>
 
-                  <div className="space-y-2.5 font-mono text-xs mb-6">
+                  <div className="space-y-3 font-mono text-xs mb-6">
                     {SCAN_STAGES[scanType].map((stage, idx) => {
                       const isComplete = idx < scanStageIndex;
                       const isCurrent = idx === scanStageIndex;
                       return (
                         <div
                           key={idx}
-                          className={`flex items-center gap-3 transition-opacity duration-300 ${
+                          className={`flex items-center gap-3 transition-all ${
                             isComplete
-                              ? 'text-gray-300 opacity-100'
+                              ? 'text-[#071739] font-medium'
                               : isCurrent
-                                ? 'text-white opacity-100 font-semibold'
-                                : 'text-gray-600 opacity-40'
+                                ? 'text-[#071739] font-bold'
+                                : 'text-gray-400 opacity-60'
                           }`}
                         >
                           {isComplete ? (
-                            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
                           ) : isCurrent ? (
-                            <RefreshCw className="w-4 h-4 text-[#e0a769] animate-spin shrink-0" />
+                            <RefreshCw className="w-4 h-4 text-[#c88a3e] animate-spin shrink-0" />
                           ) : (
-                            <div className="w-4 h-4 rounded-full border border-gray-600 shrink-0" />
+                            <div className="w-4 h-4 rounded-full border border-gray-300 shrink-0" />
                           )}
                           <span>{stage}</span>
                         </div>
@@ -2149,9 +2318,9 @@ export default function VyuhScanner() {
                   </div>
 
                   {/* Gradient Progress Bar */}
-                  <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+                  <div className="h-2 w-full bg-black/[0.06] rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-gradient-to-r from-[#c88a3e] via-[#f5c116] to-[#5fb98b] transition-all duration-300 rounded-full"
+                      className="h-full bg-gradient-to-r from-[#c88a3e] via-[#e0a769] to-[#10b981] transition-all duration-300 rounded-full"
                       style={{
                         width: `${Math.round(((scanStageIndex + 1) / SCAN_STAGES[scanType].length) * 100)}%`,
                       }}
@@ -2164,17 +2333,17 @@ export default function VyuhScanner() {
               {step === 5 && results && (
                 <div>
                   {/* Top Score Summary Banner */}
-                  <div className="flex flex-col sm:flex-row items-center gap-6 p-5 rounded-xl border border-white/10 bg-white/[0.02] mb-6">
+                  <div className="flex flex-col sm:flex-row items-center gap-6 p-5 rounded-2xl border border-[#e2e8f0] bg-[#f8f9fa] mb-6 shadow-sm">
                     <div className="relative w-24 h-24 shrink-0">
                       <svg className="w-24 h-24 -rotate-90" viewBox="0 0 112 112">
-                        <circle cx="56" cy="56" r="47" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="9" />
+                        <circle cx="56" cy="56" r="47" fill="none" stroke="#e2e8f0" strokeWidth="9" />
                         <circle
                           cx="56"
                           cy="56"
                           r="47"
                           fill="none"
                           stroke={
-                            results.score < 40 ? '#e2604a' : results.score < 70 ? '#f5c116' : '#5fb98b'
+                            results.score < 40 ? '#e2604a' : results.score < 70 ? '#f5c116' : '#10b981'
                           }
                           strokeWidth="9"
                           strokeLinecap="round"
@@ -2183,7 +2352,7 @@ export default function VyuhScanner() {
                           style={{ transition: 'stroke-dashoffset 1s ease' }}
                         />
                       </svg>
-                      <div className="absolute inset-0 flex items-center justify-center font-heading font-bold text-2xl text-white">
+                      <div className="absolute inset-0 flex items-center justify-center font-heading font-bold text-2xl text-[#071739]">
                         {resScoreDisplay}
                       </div>
                     </div>
@@ -2192,47 +2361,47 @@ export default function VyuhScanner() {
                       <div
                         className="font-heading font-bold text-lg mb-1"
                         style={{
-                          color: results.score < 40 ? '#f08a76' : results.score < 70 ? '#f5c116' : '#7fd0a6',
+                          color: results.score < 40 ? '#dc2626' : results.score < 70 ? '#d97706' : '#059669',
                         }}
                       >
                         {results.band}
                       </div>
-                      <div className="font-mono text-xs text-[#e0a769] break-all">{results.target}</div>
-                      <p className="text-xs text-gray-300 mt-2">
-                        {results.stats.broken} of {results.stats.total} cryptographic assets are breakable by Shor’s
-                        algorithm. Assessed against a {results.retention}-year data retention horizon.
+                      <div className="font-mono text-xs text-[#071739] font-semibold break-all">{results.target}</div>
+                      <p className="text-xs text-[#556987] mt-2 leading-relaxed">
+                        {results.stats.broken} of {results.stats.total} cryptographic assets fall to Shor’s algorithm,
+                        assessed across a {results.retention}-year data retention horizon.
                       </p>
                     </div>
                   </div>
 
                   {/* 4 KPI Cards */}
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-                    <div className="p-3.5 rounded-lg border border-white/10 bg-white/[0.02]">
-                      <b className="block text-2xl font-heading font-bold text-white">{results.stats.total}</b>
-                      <span className="text-[11px] text-gray-400">Total Crypto Assets</span>
+                    <div className="p-4 rounded-xl border border-[#e2e8f0] bg-white shadow-sm">
+                      <b className="block text-2xl font-heading font-bold text-[#071739]">{results.stats.total}</b>
+                      <span className="text-[11px] text-[#64748b]">Total Crypto Assets</span>
                     </div>
-                    <div className="p-3.5 rounded-lg border border-red-500/20 bg-red-500/[0.05]">
-                      <b className="block text-2xl font-heading font-bold text-red-400">{results.stats.broken}</b>
-                      <span className="text-[11px] text-red-300/80">Breakable by Shor</span>
+                    <div className="p-4 rounded-xl border border-red-200 bg-red-50/60 shadow-sm">
+                      <b className="block text-2xl font-heading font-bold text-red-600">{results.stats.broken}</b>
+                      <span className="text-[11px] text-red-700">Breakable by Shor</span>
                     </div>
-                    <div className="p-3.5 rounded-lg border border-yellow-500/20 bg-yellow-500/[0.05]">
-                      <b className="block text-2xl font-heading font-bold text-yellow-400">{results.stats.weak}</b>
-                      <span className="text-[11px] text-yellow-300/80">Halved by Grover</span>
+                    <div className="p-4 rounded-xl border border-amber-200 bg-amber-50/60 shadow-sm">
+                      <b className="block text-2xl font-heading font-bold text-amber-600">{results.stats.weak}</b>
+                      <span className="text-[11px] text-amber-700">Halved by Grover</span>
                     </div>
-                    <div className="p-3.5 rounded-lg border border-emerald-500/20 bg-emerald-500/[0.05]">
-                      <b className="block text-2xl font-heading font-bold text-emerald-400">{results.stats.safe}</b>
-                      <span className="text-[11px] text-emerald-300/80">Quantum-Safe Today</span>
+                    <div className="p-4 rounded-xl border border-emerald-200 bg-emerald-50/60 shadow-sm">
+                      <b className="block text-2xl font-heading font-bold text-emerald-600">{results.stats.safe}</b>
+                      <span className="text-[11px] text-emerald-700">Quantum-Safe Today</span>
                     </div>
                   </div>
 
                   {/* Tabs Navigation */}
-                  <div className="flex border-b border-white/10 mb-4 gap-1 overflow-x-auto text-xs font-heading">
+                  <div className="flex border-b border-[#e2e8f0] mb-4 gap-1 overflow-x-auto text-xs font-heading">
                     <button
                       onClick={() => setActiveTab('cbom')}
                       className={`py-2.5 px-4 font-semibold border-b-2 transition-colors cursor-pointer whitespace-nowrap ${
                         activeTab === 'cbom'
-                          ? 'border-[#c88a3e] text-white'
-                          : 'border-transparent text-gray-400 hover:text-white'
+                          ? 'border-[#c88a3e] text-[#071739] font-bold'
+                          : 'border-transparent text-[#64748b] hover:text-[#071739]'
                       }`}
                     >
                       Cryptographic Inventory (CBOM)
@@ -2241,8 +2410,8 @@ export default function VyuhScanner() {
                       onClick={() => setActiveTab('findings')}
                       className={`py-2.5 px-4 font-semibold border-b-2 transition-colors cursor-pointer whitespace-nowrap ${
                         activeTab === 'findings'
-                          ? 'border-[#c88a3e] text-white'
-                          : 'border-transparent text-gray-400 hover:text-white'
+                          ? 'border-[#c88a3e] text-[#071739] font-bold'
+                          : 'border-transparent text-[#64748b] hover:text-[#071739]'
                       }`}
                     >
                       Findings & Vulnerabilities ({results.findings.length})
@@ -2251,8 +2420,8 @@ export default function VyuhScanner() {
                       onClick={() => setActiveTab('plan')}
                       className={`py-2.5 px-4 font-semibold border-b-2 transition-colors cursor-pointer whitespace-nowrap ${
                         activeTab === 'plan'
-                          ? 'border-[#c88a3e] text-white'
-                          : 'border-transparent text-gray-400 hover:text-white'
+                          ? 'border-[#c88a3e] text-[#071739] font-bold'
+                          : 'border-transparent text-[#64748b] hover:text-[#071739]'
                       }`}
                     >
                       Migration Roadmap
@@ -2261,8 +2430,8 @@ export default function VyuhScanner() {
                       onClick={() => setActiveTab('detail')}
                       className={`py-2.5 px-4 font-semibold border-b-2 transition-colors cursor-pointer whitespace-nowrap ${
                         activeTab === 'detail'
-                          ? 'border-[#c88a3e] text-white'
-                          : 'border-transparent text-gray-400 hover:text-white'
+                          ? 'border-[#c88a3e] text-[#071739] font-bold'
+                          : 'border-transparent text-[#64748b] hover:text-[#071739]'
                       }`}
                     >
                       Scan Detail
@@ -2271,9 +2440,9 @@ export default function VyuhScanner() {
 
                   {/* Tab 1: CBOM Table */}
                   {activeTab === 'cbom' && (
-                    <div className="overflow-x-auto max-h-80 overflow-y-auto">
-                      <table className="w-full text-left text-xs text-[#c5d0dc]">
-                        <thead className="sticky top-0 bg-[#202020] text-[11px] font-heading font-semibold text-gray-400 uppercase">
+                    <div className="overflow-x-auto max-h-80 overflow-y-auto border border-[#e2e8f0] rounded-xl">
+                      <table className="w-full text-left text-xs text-[#334155]">
+                        <thead className="sticky top-0 bg-[#f1f5f9] text-[11px] font-heading font-semibold text-[#475569] uppercase">
                           <tr>
                             <th className="py-2.5 px-3">Asset</th>
                             <th className="py-2.5 px-3">Primitive</th>
@@ -2282,35 +2451,35 @@ export default function VyuhScanner() {
                             <th className="py-2.5 px-3">Target Standard</th>
                           </tr>
                         </thead>
-                        <tbody className="divide-y divide-white/5">
+                        <tbody className="divide-y divide-[#e2e8f0]">
                           {results.cbom.map((item, idx) => (
-                            <tr key={idx} className="hover:bg-white/[0.02]">
-                              <td className="py-2.5 px-3 text-white font-medium">{item.asset}</td>
-                              <td className="py-2.5 px-3 font-mono text-gray-300">{item.primitive}</td>
-                              <td className="py-2.5 px-3 text-gray-400">{item.purpose}</td>
+                            <tr key={idx} className="hover:bg-[#f8f9fa]">
+                              <td className="py-2.5 px-3 text-[#071739] font-semibold">{item.asset}</td>
+                              <td className="py-2.5 px-3 font-mono text-[#0f172a]">{item.primitive}</td>
+                              <td className="py-2.5 px-3 text-[#64748b]">{item.purpose}</td>
                               <td className="py-2.5 px-3">
                                 {item.verdict === 'broken' && (
-                                  <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-red-500/15 text-red-400 border border-red-500/20">
+                                  <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-red-50 text-red-700 border border-red-200">
                                     Broken (Shor)
                                   </span>
                                 )}
                                 {item.verdict === 'weak' && (
-                                  <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-yellow-500/15 text-yellow-400 border border-yellow-500/20">
+                                  <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-50 text-amber-700 border border-amber-200">
                                     Weakened (Grover)
                                   </span>
                                 )}
                                 {item.verdict === 'safe' && (
-                                  <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/20">
+                                  <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
                                     Quantum-Safe
                                   </span>
                                 )}
                               </td>
-                              <td className="py-2.5 px-3 font-mono text-emerald-300">{item.replacement}</td>
+                              <td className="py-2.5 px-3 font-mono text-[#a86e24] font-semibold">{item.replacement}</td>
                             </tr>
                           ))}
                         </tbody>
                       </table>
-                      <div className="p-3 text-[11px] text-gray-400 border-t border-white/5">
+                      <div className="p-3 text-[11px] text-[#64748b] border-t border-[#e2e8f0] bg-[#f8f9fa]">
                         Plus {results.stats.total - results.cbom.length} further assets itemized in the downloadable PDF
                         and CycloneDX 1.6 export.
                       </div>
@@ -2323,36 +2492,36 @@ export default function VyuhScanner() {
                       {results.findings.map((f, idx) => (
                         <div
                           key={idx}
-                          className={`p-4 rounded-xl border text-xs ${
+                          className={`p-4 rounded-xl border text-xs shadow-sm ${
                             f.sev === 'critical'
-                              ? 'border-red-500/30 bg-red-500/[0.04]'
+                              ? 'border-red-200 bg-red-50/50'
                               : f.sev === 'high'
-                                ? 'border-orange-500/30 bg-orange-500/[0.04]'
+                                ? 'border-orange-200 bg-orange-50/50'
                                 : f.sev === 'medium'
-                                  ? 'border-yellow-500/30 bg-yellow-500/[0.04]'
-                                  : 'border-blue-500/30 bg-blue-500/[0.04]'
+                                  ? 'border-amber-200 bg-amber-50/50'
+                                  : 'border-blue-200 bg-blue-50/50'
                           }`}
                         >
                           <div className="flex items-center gap-2 mb-1.5">
                             <span
                               className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
                                 f.sev === 'critical'
-                                  ? 'bg-red-500/20 text-red-300'
+                                  ? 'bg-red-100 text-red-800'
                                   : f.sev === 'high'
-                                    ? 'bg-orange-500/20 text-orange-300'
+                                    ? 'bg-orange-100 text-orange-800'
                                     : f.sev === 'medium'
-                                      ? 'bg-yellow-500/20 text-yellow-300'
-                                      : 'bg-blue-500/20 text-blue-300'
+                                      ? 'bg-amber-100 text-amber-800'
+                                      : 'bg-blue-100 text-blue-800'
                               }`}
                             >
                               {f.sev}
                             </span>
-                            <h5 className="font-heading font-bold text-white text-sm">{f.title}</h5>
+                            <h5 className="font-heading font-bold text-[#071739] text-sm">{f.title}</h5>
                           </div>
-                          <p className="text-gray-300 mb-2 leading-relaxed">{f.detail}</p>
-                          <div className="text-[11px] text-gray-400">
-                            <b className="text-[#e0a769]">Recommended Action:</b> {f.fix} ·{' '}
-                            <span className="text-white font-mono">[{f.std}]</span>
+                          <p className="text-[#334155] mb-2 leading-relaxed">{f.detail}</p>
+                          <div className="text-[11px] text-[#64748b]">
+                            <b className="text-[#071739]">Recommended Action:</b> {f.fix} ·{' '}
+                            <span className="text-[#071739] font-mono font-semibold">[{f.std}]</span>
                           </div>
                         </div>
                       ))}
@@ -2361,12 +2530,12 @@ export default function VyuhScanner() {
 
                   {/* Tab 3: Migration Roadmap */}
                   {activeTab === 'plan' && (
-                    <div className="space-y-4 max-h-80 overflow-y-auto pr-1">
+                    <div className="space-y-3.5 max-h-80 overflow-y-auto pr-1">
                       {results.plan.map((p, idx) => (
-                        <div key={idx} className="p-4 rounded-xl border border-white/10 bg-white/[0.02]">
-                          <span className="font-heading font-bold text-xs text-[#e0a769] block mb-1">{p.phase}</span>
-                          <h5 className="font-heading font-bold text-white text-sm mb-1">{p.title}</h5>
-                          <p className="text-xs text-gray-300 leading-relaxed">{p.desc}</p>
+                        <div key={idx} className="p-4 rounded-xl border border-[#e2e8f0] bg-[#f8f9fa] shadow-sm">
+                          <span className="font-heading font-bold text-xs text-[#a86e24] block mb-1">{p.phase}</span>
+                          <h5 className="font-heading font-bold text-[#071739] text-sm mb-1">{p.title}</h5>
+                          <p className="text-xs text-[#556987] leading-relaxed">{p.desc}</p>
                         </div>
                       ))}
                     </div>
@@ -2374,13 +2543,13 @@ export default function VyuhScanner() {
 
                   {/* Tab 4: Scan Detail */}
                   {activeTab === 'detail' && (
-                    <div className="max-h-80 overflow-y-auto">
+                    <div className="max-h-80 overflow-y-auto border border-[#e2e8f0] rounded-xl">
                       <table className="w-full text-left text-xs">
-                        <tbody className="divide-y divide-white/5">
+                        <tbody className="divide-y divide-[#e2e8f0]">
                           {results.detail.map(([k, v], idx) => (
-                            <tr key={idx} className="hover:bg-white/[0.02]">
-                              <td className="py-2.5 px-3 text-gray-400 w-1/2">{k}</td>
-                              <td className="py-2.5 px-3 font-mono text-white w-1/2">{v}</td>
+                            <tr key={idx} className="hover:bg-[#f8f9fa]">
+                              <td className="py-2.5 px-3 text-[#64748b] w-1/2">{k}</td>
+                              <td className="py-2.5 px-3 font-mono text-[#071739] font-medium w-1/2">{v}</td>
                             </tr>
                           ))}
                         </tbody>
@@ -2391,89 +2560,121 @@ export default function VyuhScanner() {
               )}
             </div>
 
-            {/* Modal Footer */}
-            <div className="px-6 py-4 border-t border-white/10 bg-white/[0.02] flex items-center gap-3">
-              {step > 1 && step < 4 && (
-                <button
-                  onClick={() => setStep(step - 1)}
-                  className="btn btn-ghost btn-sm cursor-pointer"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  Back
-                </button>
-              )}
-
-              {/* Status Message or Footnote */}
-              <span
-                className={`text-xs ${
-                  footerMsg?.isError ? 'text-red-400 font-medium' : 'text-gray-400'
-                }`}
-              >
-                {footerMsg ? footerMsg.text : step === 5 ? 'CBOM available in CycloneDX 1.6' : 'Free · No credit card required'}
-              </span>
-
-              <div className="ml-auto flex items-center gap-3">
-                {step === 1 && (
+            {/* Modal Footer matching Contact Us modal */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 pt-3 sm:pt-3.5 border-t border-black/[0.08] mt-3 sm:mt-4">
+              <div className="text-12 text-[#64748b] font-body flex items-center gap-1.5 order-2 sm:order-1">
+                {step > 1 && step < 4 && !(step === 3 && scanType === 'url') && (
                   <button
-                    onClick={handleProceedFromStep1}
-                    className="btn btn-gold btn-sm cursor-pointer"
+                    type="button"
+                    onClick={() => {
+                      if (step === 3 && scanType === 'repo') {
+                        setStep(2);
+                      } else {
+                        setStep(step - 1);
+                      }
+                    }}
+                    className="btn btn-ghost btn-sm cursor-pointer mr-2 !inline-flex items-center justify-center whitespace-nowrap"
                     style={{
                       display: 'inline-flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       whiteSpace: 'nowrap',
-                      gap: '6px',
+                      color: '#071739',
+                      borderColor: '#cbd5e1',
+                    }}
+                  >
+                    Back
+                  </button>
+                )}
+                {step === 5 && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setStep(3);
+                      setTargetConfig((p) => ({ ...p, target: '' }));
+                    }}
+                    className="btn btn-ghost btn-sm cursor-pointer mr-2 !inline-flex items-center justify-center whitespace-nowrap"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      whiteSpace: 'nowrap',
+                      color: '#071739',
+                      borderColor: '#cbd5e1',
+                    }}
+                  >
+                    Scan Another Target
+                  </button>
+                )}
+                <span className={footerMsg?.isError ? 'text-red-600 font-medium' : 'text-[#64748b]'}>
+                  {footerMsg ? footerMsg.text : step === 5 ? 'CycloneDX 1.6 CBOM ready' : 'Free · No credit card required'}
+                </span>
+              </div>
+
+              <div className="flex items-center gap-3 order-1 sm:order-2 w-full sm:w-auto justify-end">
+                {step === 1 && (
+                  <button
+                    type="button"
+                    onClick={handleProceedFromStep1}
+                    className="btn btn-gold cursor-pointer w-full sm:w-auto !inline-flex items-center justify-center gap-2 whitespace-nowrap"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      whiteSpace: 'nowrap',
+                      gap: '8px',
+                      minHeight: '42px',
                     }}
                   >
                     <span>Continue</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    <ArrowRight className="w-4 h-4 shrink-0" />
                   </button>
                 )}
 
                 {step === 2 && (
                   <button
+                    type="button"
                     onClick={handleProceedFromStep2}
-                    className="btn btn-gold btn-sm cursor-pointer"
+                    className="btn btn-gold cursor-pointer w-full sm:w-auto !inline-flex items-center justify-center gap-2 whitespace-nowrap"
                     style={{
                       display: 'inline-flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       whiteSpace: 'nowrap',
-                      gap: '6px',
+                      gap: '8px',
+                      minHeight: '42px',
                     }}
                   >
                     <span>Continue to Target</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    <ArrowRight className="w-4 h-4 shrink-0" />
                   </button>
                 )}
 
                 {step === 3 && (
                   <button
+                    type="button"
                     onClick={handleStartScan}
-                    className="btn btn-gold btn-sm cursor-pointer"
+                    className="btn btn-gold cursor-pointer w-full sm:w-auto !inline-flex items-center justify-center gap-2 whitespace-nowrap"
                     style={{
                       display: 'inline-flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       whiteSpace: 'nowrap',
-                      gap: '6px',
+                      gap: '8px',
+                      minHeight: '42px',
                     }}
                   >
                     <span>Start Diagnostic Scan</span>
-                    <Shield className="w-3.5 h-3.5" />
+                    <Shield className="w-4 h-4 shrink-0" />
                   </button>
                 )}
 
                 {step === 5 && (
                   <>
                     <button
+                      type="button"
                       onClick={exportCycloneDX}
-                      className="btn btn-ghost btn-sm cursor-pointer text-xs"
+                      className="btn btn-ghost btn-sm cursor-pointer text-xs !inline-flex items-center justify-center gap-2 whitespace-nowrap"
                       title="Download CycloneDX 1.6 JSON CBOM"
                       style={{
                         display: 'inline-flex',
@@ -2481,15 +2682,17 @@ export default function VyuhScanner() {
                         justifyContent: 'center',
                         whiteSpace: 'nowrap',
                         gap: '6px',
+                        color: '#071739',
+                        borderColor: '#cbd5e1',
                       }}
                     >
-                      <FileCode className="w-3.5 h-3.5 text-[#e0a769]" />
+                      <FileCode className="w-3.5 h-3.5 text-[#a86e24] shrink-0" />
                       <span>CycloneDX JSON</span>
                     </button>
                     <button
+                      type="button"
                       onClick={downloadPDFReport}
-                      className="btn btn-gold btn-sm cursor-pointer text-xs"
-                      title="Download formal PDF assessment report"
+                      className="btn btn-gold btn-sm cursor-pointer text-xs !inline-flex items-center justify-center gap-2 whitespace-nowrap"
                       style={{
                         display: 'inline-flex',
                         alignItems: 'center',
@@ -2497,8 +2700,9 @@ export default function VyuhScanner() {
                         whiteSpace: 'nowrap',
                         gap: '6px',
                       }}
+                      title="Download formal PDF assessment report"
                     >
-                      <Download className="w-3.5 h-3.5" />
+                      <Download className="w-3.5 h-3.5 shrink-0" />
                       <span>Download Report (PDF)</span>
                     </button>
                   </>
