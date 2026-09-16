@@ -1,6 +1,7 @@
 // @ts-check
 import http from 'node:http';
 import { normalizeDomain, parseScanOptions, runPqcScan } from './lib/pqc-scan.mjs';
+import { normalizeRepoUrl, runRepoScan } from './lib/repo-scan.mjs';
 
 const PORT = Number(process.env.PORT || 8080);
 const HOST = process.env.HOST || '0.0.0.0';
@@ -298,13 +299,31 @@ const server = http.createServer(async (req, res) => {
     req.on('end', async () => {
       try {
         const body = JSON.parse(bodyRaw || '{}');
-        const rawTarget = body.target || body.domain || '';
+        const rawTarget = body.target || body.repo || body.domain || '';
+        const scanType = body.type || (rawTarget.includes('github.com') ? 'repo' : 'url');
+
         if (!rawTarget || typeof rawTarget !== 'string') {
           res.writeHead(400, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({ error: 'Please provide a target domain to scan.' }));
+          res.end(JSON.stringify({ error: 'Please provide a target domain or repository to scan.' }));
           return;
         }
 
+        // Branch 1: Public GitHub Repository Scan
+        if (scanType === 'repo') {
+          const normRepo = normalizeRepoUrl(rawTarget);
+          if (!normRepo.ok) {
+            res.writeHead(400, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: normRepo.error }));
+            return;
+          }
+
+          const repoResult = await runRepoScan(normRepo, body.options);
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify(repoResult));
+          return;
+        }
+
+        // Branch 2: Public Domain / Ingress TLS Scan
         const norm = normalizeDomain(rawTarget);
         if (!norm.ok) {
           res.writeHead(400, { 'Content-Type': 'application/json' });

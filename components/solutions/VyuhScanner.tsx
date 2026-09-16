@@ -377,13 +377,18 @@ export default function VyuhScanner() {
       return false;
     }
     if (scanType === 'repo') {
+      const cleanRepo = val.trim().replace(/^https?:\/\//i, '');
       const isRepo =
         /^https?:\/\/(www\.)?(github\.com|gitlab\.com|bitbucket\.org|dev\.azure\.com)\/[\w.\-]+\/[\w.\-]+/i.test(
           val
-        );
+        ) ||
+        /^(github\.com|gitlab\.com|bitbucket\.org|dev\.azure\.com)\/[\w.\-]+\/[\w.\-]+/i.test(
+          cleanRepo
+        ) ||
+        /^[\w.\-]+\/[\w.\-]+$/i.test(cleanRepo);
       if (!isRepo) {
         setTargetError(
-          'Enter a valid GitHub, GitLab, Bitbucket, or Azure DevOps repository URL.'
+          'Enter a valid GitHub repository URL (e.g. https://github.com/owner/repo or owner/repo).'
         );
         return false;
       }
@@ -426,80 +431,60 @@ export default function VyuhScanner() {
       }
     }, 700);
 
-    if (scanType === 'url') {
-      try {
-        const apiUrl =
-          process.env.NEXT_PUBLIC_SCANNER_API_URL || 'http://localhost:8080';
-        const res = await fetch(`${apiUrl}/api/scan`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            target,
-            type: scanType,
-            depth: targetConfig.depth,
-            retention: targetConfig.retention,
-          }),
-        });
+    try {
+      const apiUrl =
+        process.env.NEXT_PUBLIC_SCANNER_API_URL || 'http://localhost:8080';
+      const res = await fetch(`${apiUrl}/api/scan`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          target,
+          type: scanType,
+          depth: targetConfig.depth,
+          retention: targetConfig.retention,
+        }),
+      });
 
-        if (!res.ok) {
-          const errData = await res.json().catch(() => ({}));
-          throw new Error(
-            errData.error || `Scan service responded with status ${res.status}`
-          );
-        }
-
-        const scanData = await res.json();
-        clearInterval(stageInterval);
-        setScanStageIndex(stages.length - 1);
-
-        const formattedResults: ScanResults = {
-          ...scanData,
-          when: new Date(scanData.when || Date.now()),
-          raw: scanData.raw,
-        };
-
-        setTimeout(() => {
-          setResults(formattedResults);
-          setStep(5);
-        }, 500);
-      } catch (err: any) {
-        clearInterval(stageInterval);
-        console.error('PQC Scan error:', err);
-        setStep(3);
-        const isNetworkErr =
-          err?.message === 'Failed to fetch' || err?.name === 'TypeError';
-        const userMsg = isNetworkErr
-          ? 'Unable to connect to the VyUH Scanner backend service (http://localhost:8080). Please ensure the scanner microservice is running or deployed.'
-          : err?.message ||
-            'Diagnostic scan failed. Please check the target and try again.';
-        setTargetError(userMsg);
-        triggerFooterMessage(userMsg, true);
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(
+          errData.error || `Scan service responded with status ${res.status}`
+        );
       }
-    } else {
-      const mockInterval = setInterval(() => {
-        idx++;
-        if (idx < stages.length) {
-          setScanStageIndex(idx);
-        } else {
-          clearInterval(mockInterval);
-          clearInterval(stageInterval);
-          const scanRes = generateScanResults(
-            target,
-            scanType,
-            targetConfig.depth,
-            targetConfig.retention
-          );
-          setResults(scanRes);
-          setStep(5);
-        }
-      }, 550);
+
+      const scanData = await res.json();
+      clearInterval(stageInterval);
+      setScanStageIndex(stages.length - 1);
+
+      const formattedResults: ScanResults = {
+        ...scanData,
+        when: new Date(scanData.when || Date.now()),
+        raw: scanData.raw,
+      };
+
+      setTimeout(() => {
+        setResults(formattedResults);
+        setStep(5);
+      }, 500);
+    } catch (err: any) {
+      clearInterval(stageInterval);
+      console.error('Scan error:', err);
+      setStep(3);
+      const isNetworkErr =
+        err?.message === 'Failed to fetch' || err?.name === 'TypeError';
+      const userMsg = isNetworkErr
+        ? 'Unable to connect to the VyUH Scanner backend service (http://localhost:8080). Please ensure the scanner microservice is running or deployed.'
+        : err?.message ||
+          'Diagnostic scan failed. Please check the target and try again.';
+      setTargetError(userMsg);
+      triggerFooterMessage(userMsg, true);
     }
   };
 
   const handleStartScan = () => {
     if (validateStep3()) {
       let t = targetConfig.target.trim();
-      if (scanType === 'url' && !/^https?:\/\//i.test(t)) {
+      if (!/^https?:\/\//i.test(t)) {
         t = `https://${t}`;
         setTargetConfig((prev) => ({ ...prev, target: t }));
       }
