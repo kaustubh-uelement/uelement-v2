@@ -20,8 +20,11 @@ let toolVersionCache = null;
 function toolVersion() {
   if (toolVersionCache === null) {
     try {
-      const pkg = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
-      toolVersionCache = typeof pkg.version === 'string' ? pkg.version : '0.1.0';
+      const pkg = JSON.parse(
+        readFileSync(new URL('../package.json', import.meta.url), 'utf8')
+      );
+      toolVersionCache =
+        typeof pkg.version === 'string' ? pkg.version : '0.1.0';
     } catch {
       toolVersionCache = '0.1.0';
     }
@@ -31,10 +34,18 @@ function toolVersion() {
 
 export function symmetricStrength(cipherSuite) {
   if (!cipherSuite) return null;
-  const norm = cipherSuite.toUpperCase().replace(/-/g, '_').replace(/AES(\d{3})/g, 'AES_$1');
-  if (!/AES_(128|192|256)|CHACHA20|(^|_)DES(_|$)|3DES|DES_CBC3/.test(norm)) return null;
+  const norm = cipherSuite
+    .toUpperCase()
+    .replace(/-/g, '_')
+    .replace(/AES(\d{3})/g, 'AES_$1');
+  if (!/AES_(128|192|256)|CHACHA20|(^|_)DES(_|$)|3DES|DES_CBC3/.test(norm))
+    return null;
   const g = evaluateGroverReduction(norm);
-  return { classicalBits: g.classicalBits, quantumBits: g.quantumSecurityBits, groverDegraded: !g.isQuantumSafeSymmetric };
+  return {
+    classicalBits: g.classicalBits,
+    quantumBits: g.quantumSecurityBits,
+    groverDegraded: !g.isQuantumSafeSymmetric,
+  };
 }
 
 function nistLevelForSymmetric(classicalBits) {
@@ -92,7 +103,8 @@ export function generateCycloneDxCbom(domain, endpoints, deps = {}) {
                 ? false
                 : ep.tls?.keyExchangeGroupMeasured
                   ? true
-                  : (ep.tls?.authenticationStillClassical ?? (ep.quantumRisk !== 'QUANTUM_SAFE')),
+                  : (ep.tls?.authenticationStillClassical ??
+                    ep.quantumRisk !== 'QUANTUM_SAFE'),
               groverRisk: sym ? sym.groverDegraded : false,
               replacementRecommendation: ep.tls?.isHybridKem
                 ? 'Hybrid KEM active (FIPS 203 transition)'
@@ -104,7 +116,8 @@ export function generateCycloneDxCbom(domain, endpoints, deps = {}) {
               quantumSecurityLevel: 0,
               shorRisk: false,
               groverRisk: false,
-              replacementRecommendation: 'Endpoint could not be probed (unreachable / timed out / handshake failed) - not assessed.',
+              replacementRecommendation:
+                'Endpoint could not be probed (unreachable / timed out / handshake failed) - not assessed.',
             },
       });
     }
@@ -113,10 +126,15 @@ export function generateCycloneDxCbom(domain, endpoints, deps = {}) {
     if (!measured) return;
 
     // Certificate
-    const certId = ep.certificate?.fingerprintSha256?.replace(/:/g, '').slice(0, 16) || ep.certificate?.serialNumber || `ep${idx}`;
+    const certId =
+      ep.certificate?.fingerprintSha256?.replace(/:/g, '').slice(0, 16) ||
+      ep.certificate?.serialNumber ||
+      `ep${idx}`;
     const certRef = `cbom:${domain}:cert:${certId}`;
     if (!componentMap.has(certRef)) {
-      const certShorRisk = ep.tls?.authenticationStillClassical ?? (ep.quantumRisk !== 'QUANTUM_SAFE');
+      const certShorRisk =
+        ep.tls?.authenticationStillClassical ??
+        ep.quantumRisk !== 'QUANTUM_SAFE';
       componentMap.set(certRef, {
         bomRef: certRef,
         type: 'cryptographic-asset',
@@ -127,7 +145,8 @@ export function generateCycloneDxCbom(domain, endpoints, deps = {}) {
             subjectName: ep.certificate?.subject || 'not measured',
             issuerName: ep.certificate?.issuer || 'not measured',
             validNotAfter: ep.certificate?.validTo || '',
-            signatureAlgorithmRef: ep.certificate?.signatureAlgorithm || 'not measured',
+            signatureAlgorithmRef:
+              ep.certificate?.signatureAlgorithm || 'not measured',
             subjectPublicKeyRef: `${ep.certificate.publicKeyAlgorithm}-${ep.certificate?.keySizeBits || 'unknown'}`,
           },
         },
@@ -135,7 +154,9 @@ export function generateCycloneDxCbom(domain, endpoints, deps = {}) {
           quantumSecurityLevel: certShorRisk ? 0 : 5,
           shorRisk: certShorRisk,
           groverRisk: false,
-          replacementRecommendation: certShorRisk ? 'ML-DSA-65 (NIST FIPS 204) / SLH-DSA (FIPS 205)' : 'Already post-quantum (NIST FIPS 204 / 205)',
+          replacementRecommendation: certShorRisk
+            ? 'ML-DSA-65 (NIST FIPS 204) / SLH-DSA (FIPS 205)'
+            : 'Already post-quantum (NIST FIPS 204 / 205)',
         },
       });
     }
@@ -165,7 +186,9 @@ export function generateCycloneDxCbom(domain, endpoints, deps = {}) {
             quantumSecurityLevel: level ?? 0,
             shorRisk: !hybrid,
             groverRisk: false,
-            replacementRecommendation: hybrid ? 'Hybrid ML-KEM key exchange in use (FIPS 203)' : 'Enable X25519MLKEM768 (hybrid ML-KEM, FIPS 203)',
+            replacementRecommendation: hybrid
+              ? 'Hybrid ML-KEM key exchange in use (FIPS 203)'
+              : 'Enable X25519MLKEM768 (hybrid ML-KEM, FIPS 203)',
           },
         });
       }
@@ -185,11 +208,20 @@ export function generateCycloneDxCbom(domain, endpoints, deps = {}) {
             algorithmProperties: {
               primitive: 'symmetric',
               parameterSetIdentifier: cipher,
-              ...(sym ? { keyLength: sym.classicalBits, nistQuantumSecurityLevel: nistLevelForSymmetric(sym.classicalBits) } : {}),
+              ...(sym
+                ? {
+                    keyLength: sym.classicalBits,
+                    nistQuantumSecurityLevel: nistLevelForSymmetric(
+                      sym.classicalBits
+                    ),
+                  }
+                : {}),
             },
           },
           quantumVulnerability: {
-            quantumSecurityLevel: sym ? nistLevelForSymmetric(sym.classicalBits) : 0,
+            quantumSecurityLevel: sym
+              ? nistLevelForSymmetric(sym.classicalBits)
+              : 0,
             shorRisk: false,
             groverRisk: sym ? sym.groverDegraded : false,
             replacementRecommendation: !sym
@@ -212,11 +244,16 @@ export function generateCycloneDxCbom(domain, endpoints, deps = {}) {
     version: 1,
     metadata: {
       timestamp: new Date(now()).toISOString(),
-      tools: [{ vendor: 'Vyuh', name: 'vyuh-pqc-scan', version: toolVersion() }],
+      tools: [
+        { vendor: 'VyUH', name: 'vyuh-pqc-scan', version: toolVersion() },
+      ],
       component: { name: domain, type: 'application' },
     },
     components: [...componentMap.values()],
-    dependencies: [...depMap.entries()].map(([ref, set]) => ({ ref, dependsOn: [...set] })),
+    dependencies: [...depMap.entries()].map(([ref, set]) => ({
+      ref,
+      dependsOn: [...set],
+    })),
   };
   return { cbom, validation: validateCycloneDxCbomStructure(cbom) };
 }

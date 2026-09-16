@@ -129,7 +129,9 @@ export default function VyuhScanner() {
   const [isOpen, setIsOpen] = useState(false);
   const [step, setStep] = useState<number>(1);
   const [scanType, setScanType] = useState<ScanType>('url');
-  const [activeTab, setActiveTab] = useState<'cbom' | 'findings' | 'plan' | 'detail'>('cbom');
+  const [activeTab, setActiveTab] = useState<
+    'cbom' | 'findings' | 'plan' | 'detail'
+  >('cbom');
 
   // Step 1: Profile form state
   const [profile, setProfile] = useState({
@@ -170,13 +172,17 @@ export default function VyuhScanner() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   // Footer notification flash
-  const [footerMsg, setFooterMsg] = useState<{ text: string; isError: boolean } | null>(null);
+  const [footerMsg, setFooterMsg] = useState<{
+    text: string;
+    isError: boolean;
+  } | null>(null);
 
   // Dynamically load jsPDF on client
   useEffect(() => {
     if (typeof window !== 'undefined' && !(window as any).jspdf) {
       const script = document.createElement('script');
-      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+      script.src =
+        'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
       script.async = true;
       document.body.appendChild(script);
     }
@@ -280,7 +286,8 @@ export default function VyuhScanner() {
     const errs: Record<string, string> = {};
     if (!profile.name.trim()) errs.name = 'Please enter your full name.';
     if (!profile.title.trim()) errs.title = 'Please enter your job title.';
-    if (!profile.company.trim()) errs.company = 'Please enter your organisation name.';
+    if (!profile.company.trim())
+      errs.company = 'Please enter your organisation name.';
 
     const emailTrim = profile.email.trim().toLowerCase();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
@@ -289,7 +296,8 @@ export default function VyuhScanner() {
     } else {
       const domain = emailTrim.split('@')[1];
       if (FREE_EMAIL_DOMAINS.includes(domain)) {
-        errs.email = 'Free mailbox providers are not accepted. Please use your corporate email.';
+        errs.email =
+          'Free mailbox providers are not accepted. Please use your corporate email.';
       }
     }
 
@@ -300,7 +308,8 @@ export default function VyuhScanner() {
 
     const liTrim = profile.linkedin.trim().toLowerCase();
     if (!/linkedin\.com\/(in|pub)\/[a-z0-9\-_%]{3,}/i.test(liTrim)) {
-      errs.linkedin = 'Enter a valid LinkedIn profile URL (e.g. linkedin.com/in/handle).';
+      errs.linkedin =
+        'Enter a valid LinkedIn profile URL (e.g. linkedin.com/in/handle).';
     }
 
     if (!profile.consent) {
@@ -325,7 +334,10 @@ export default function VyuhScanner() {
       generateCodes();
       setStep(2);
     } else {
-      triggerFooterMessage('Please complete all required fields correctly.', true);
+      triggerFooterMessage(
+        'Please complete all required fields correctly.',
+        true
+      );
     }
   };
 
@@ -350,7 +362,10 @@ export default function VyuhScanner() {
     if (verified.email && verified.phone) {
       setStep(3);
     } else {
-      triggerFooterMessage('Both email and SMS verification codes must be confirmed.', true);
+      triggerFooterMessage(
+        'Both email and SMS verification codes must be confirmed.',
+        true
+      );
     }
   };
 
@@ -362,16 +377,29 @@ export default function VyuhScanner() {
       return false;
     }
     if (scanType === 'repo') {
-      const isRepo = /^https?:\/\/(www\.)?(github\.com|gitlab\.com|bitbucket\.org|dev\.azure\.com)\/[\w.\-]+\/[\w.\-]+/i.test(val);
+      const isRepo =
+        /^https?:\/\/(www\.)?(github\.com|gitlab\.com|bitbucket\.org|dev\.azure\.com)\/[\w.\-]+\/[\w.\-]+/i.test(
+          val
+        );
       if (!isRepo) {
-        setTargetError('Enter a valid GitHub, GitLab, Bitbucket, or Azure DevOps repository URL.');
+        setTargetError(
+          'Enter a valid GitHub, GitLab, Bitbucket, or Azure DevOps repository URL.'
+        );
         return false;
       }
     } else {
-      const clean = val.replace(/^https?:\/\//i, '').split('/')[0].split(':')[0];
-      const isDomain = /^([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/i.test(clean);
+      const clean = val
+        .replace(/^https?:\/\//i, '')
+        .split('/')[0]
+        .split(':')[0];
+      const isDomain =
+        /^([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/i.test(
+          clean
+        );
       if (!isDomain) {
-        setTargetError('Enter a valid domain name or HTTPS URL (e.g. cloudflare.com or https://service.yourorg.com).');
+        setTargetError(
+          'Enter a valid domain name or HTTPS URL (e.g. cloudflare.com or https://service.yourorg.com).'
+        );
         return false;
       }
     }
@@ -400,7 +428,8 @@ export default function VyuhScanner() {
 
     if (scanType === 'url') {
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_SCANNER_API_URL || 'http://localhost:8080';
+        const apiUrl =
+          process.env.NEXT_PUBLIC_SCANNER_API_URL || 'http://localhost:8080';
         const res = await fetch(`${apiUrl}/api/scan`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -414,7 +443,9 @@ export default function VyuhScanner() {
 
         if (!res.ok) {
           const errData = await res.json().catch(() => ({}));
-          throw new Error(errData.error || `Scan service responded with status ${res.status}`);
+          throw new Error(
+            errData.error || `Scan service responded with status ${res.status}`
+          );
         }
 
         const scanData = await res.json();
@@ -435,10 +466,12 @@ export default function VyuhScanner() {
         clearInterval(stageInterval);
         console.error('PQC Scan error:', err);
         setStep(3);
-        const isNetworkErr = err?.message === 'Failed to fetch' || err?.name === 'TypeError';
+        const isNetworkErr =
+          err?.message === 'Failed to fetch' || err?.name === 'TypeError';
         const userMsg = isNetworkErr
-          ? 'Unable to connect to the Vyuh Scanner backend service (http://localhost:8080). Please ensure the scanner microservice is running or deployed.'
-          : (err?.message || 'Diagnostic scan failed. Please check the target and try again.');
+          ? 'Unable to connect to the VyUH Scanner backend service (http://localhost:8080). Please ensure the scanner microservice is running or deployed.'
+          : err?.message ||
+            'Diagnostic scan failed. Please check the target and try again.';
         setTargetError(userMsg);
         triggerFooterMessage(userMsg, true);
       }
@@ -450,7 +483,12 @@ export default function VyuhScanner() {
         } else {
           clearInterval(mockInterval);
           clearInterval(stageInterval);
-          const scanRes = generateScanResults(target, scanType, targetConfig.depth, targetConfig.retention);
+          const scanRes = generateScanResults(
+            target,
+            scanType,
+            targetConfig.depth,
+            targetConfig.retention
+          );
           setResults(scanRes);
           setStep(5);
         }
@@ -477,43 +515,193 @@ export default function VyuhScanner() {
     retention: number
   ): ScanResults => {
     const rng = pseudoRandom(stringToSeed(target + type));
-    const depthMultiplier = depth === 'deep' ? 1.7 : depth === 'single' ? 0.6 : 1.0;
+    const depthMultiplier =
+      depth === 'deep' ? 1.7 : depth === 'single' ? 0.6 : 1.0;
 
     const webAssets: CBOMItem[] = [
-      { asset: 'Edge Certificate', primitive: 'RSA-2048 / SHA-256', purpose: 'Server Authentication', verdict: 'broken', replacement: 'ML-DSA-65 (NIST FIPS 204)' },
-      { asset: 'TLS Key Exchange', primitive: 'ECDHE secp256r1', purpose: 'Session Key Establishment', verdict: 'broken', replacement: 'X25519MLKEM768 Hybrid' },
-      { asset: 'Intermediate CA', primitive: 'RSA-4096 / SHA-256', purpose: 'Chain of Trust Validation', verdict: 'broken', replacement: 'ML-DSA-87 Chain' },
-      { asset: 'Bulk Transport Cipher', primitive: 'AES-128-GCM', purpose: 'Payload Confidentiality', verdict: 'weak', replacement: 'AES-256-GCM' },
-      { asset: 'Handshake Transcript', primitive: 'SHA-256', purpose: 'Integrity Verification', verdict: 'weak', replacement: 'SHA-384' },
-      { asset: 'Session Tickets', primitive: 'AES-256-GCM', purpose: 'Resumption State Sealing', verdict: 'safe', replacement: 'Maintained (Compliant)' },
-      { asset: 'OCSP Responder Token', primitive: 'ECDSA P-256', purpose: 'Revocation Attestation', verdict: 'broken', replacement: 'ML-DSA-44' },
-      { asset: 'API Gateway mTLS', primitive: 'ECDSA P-384', purpose: 'Zero-Trust Client Identity', verdict: 'broken', replacement: 'ML-DSA-65' },
-      { asset: 'JWT Authentication', primitive: 'RS256 (RSA-2048)', purpose: 'Claims Integrity & Bearer', verdict: 'broken', replacement: 'ML-DSA-44' },
-      { asset: 'State Cookie Token', primitive: 'AES-256-GCM', purpose: 'Cookie Encryption', verdict: 'safe', replacement: 'Maintained (Compliant)' },
-      { asset: 'Legacy Fallback Listener', primitive: 'TLS 1.0 / 3DES', purpose: 'Compatibility Fallback', verdict: 'broken', replacement: 'Disable listener, enforce TLS 1.3' },
-      { asset: 'Static Asset Signature', primitive: 'SHA-384', purpose: 'Content Integrity (SRI)', verdict: 'safe', replacement: 'Maintained (Compliant)' },
+      {
+        asset: 'Edge Certificate',
+        primitive: 'RSA-2048 / SHA-256',
+        purpose: 'Server Authentication',
+        verdict: 'broken',
+        replacement: 'ML-DSA-65 (NIST FIPS 204)',
+      },
+      {
+        asset: 'TLS Key Exchange',
+        primitive: 'ECDHE secp256r1',
+        purpose: 'Session Key Establishment',
+        verdict: 'broken',
+        replacement: 'X25519MLKEM768 Hybrid',
+      },
+      {
+        asset: 'Intermediate CA',
+        primitive: 'RSA-4096 / SHA-256',
+        purpose: 'Chain of Trust Validation',
+        verdict: 'broken',
+        replacement: 'ML-DSA-87 Chain',
+      },
+      {
+        asset: 'Bulk Transport Cipher',
+        primitive: 'AES-128-GCM',
+        purpose: 'Payload Confidentiality',
+        verdict: 'weak',
+        replacement: 'AES-256-GCM',
+      },
+      {
+        asset: 'Handshake Transcript',
+        primitive: 'SHA-256',
+        purpose: 'Integrity Verification',
+        verdict: 'weak',
+        replacement: 'SHA-384',
+      },
+      {
+        asset: 'Session Tickets',
+        primitive: 'AES-256-GCM',
+        purpose: 'Resumption State Sealing',
+        verdict: 'safe',
+        replacement: 'Maintained (Compliant)',
+      },
+      {
+        asset: 'OCSP Responder Token',
+        primitive: 'ECDSA P-256',
+        purpose: 'Revocation Attestation',
+        verdict: 'broken',
+        replacement: 'ML-DSA-44',
+      },
+      {
+        asset: 'API Gateway mTLS',
+        primitive: 'ECDSA P-384',
+        purpose: 'Zero-Trust Client Identity',
+        verdict: 'broken',
+        replacement: 'ML-DSA-65',
+      },
+      {
+        asset: 'JWT Authentication',
+        primitive: 'RS256 (RSA-2048)',
+        purpose: 'Claims Integrity & Bearer',
+        verdict: 'broken',
+        replacement: 'ML-DSA-44',
+      },
+      {
+        asset: 'State Cookie Token',
+        primitive: 'AES-256-GCM',
+        purpose: 'Cookie Encryption',
+        verdict: 'safe',
+        replacement: 'Maintained (Compliant)',
+      },
+      {
+        asset: 'Legacy Fallback Listener',
+        primitive: 'TLS 1.0 / 3DES',
+        purpose: 'Compatibility Fallback',
+        verdict: 'broken',
+        replacement: 'Disable listener, enforce TLS 1.3',
+      },
+      {
+        asset: 'Static Asset Signature',
+        primitive: 'SHA-384',
+        purpose: 'Content Integrity (SRI)',
+        verdict: 'safe',
+        replacement: 'Maintained (Compliant)',
+      },
     ];
 
     const repoAssets: CBOMItem[] = [
-      { asset: 'crypto/tls configuration', primitive: 'RSA-2048 Keypair', purpose: 'Service Mutual TLS', verdict: 'broken', replacement: 'ML-DSA-65 (NIST FIPS 204)' },
-      { asset: 'auth/jwt_issuer.go', primitive: 'ES256 (ECDSA P-256)', purpose: 'Service Token Signing', verdict: 'broken', replacement: 'ML-DSA-44' },
-      { asset: 'requirements.txt', primitive: 'pycryptodome 3.19', purpose: 'Core Crypto Provider', verdict: 'weak', replacement: 'PQC-capable library release' },
-      { asset: 'pom.xml', primitive: 'BouncyCastle 1.70', purpose: 'JVM Security Provider', verdict: 'weak', replacement: 'BouncyCastle 1.78+ (FIPS 203)' },
-      { asset: 'payments/transit.java', primitive: 'RSA-OAEP-2048', purpose: 'Cardholder Encryption', verdict: 'broken', replacement: 'ML-KEM-768 (NIST FIPS 203)' },
-      { asset: 'vault/secrets.py', primitive: 'AES-256-GCM', purpose: 'At-Rest Secret Envelope', verdict: 'safe', replacement: 'Maintained (Compliant)' },
-      { asset: 'legacy/hash_util.js', primitive: 'SHA-1 / MD5', purpose: 'Internal Checksums & HMAC', verdict: 'broken', replacement: 'SHA-384' },
-      { asset: 'infra/tls_policy.tf', primitive: 'ECDHE-RSA Cipher Suite', purpose: 'Terraform Ingress Rule', verdict: 'broken', replacement: 'Enforce Hybrid PQC Profile' },
-      { asset: 'certs/dev_service.pem', primitive: 'Committed RSA Private Key', purpose: 'Hardcoded Material', verdict: 'broken', replacement: 'Immediate revocation & HSM' },
-      { asset: 'utils/entropy.ts', primitive: 'Math.random() Pseudorandom', purpose: 'Non-cryptographic PRNG', verdict: 'broken', replacement: 'crypto.getRandomValues()' },
-      { asset: 'release/signing.sh', primitive: 'GPG RSA-4096', purpose: 'Artifact Release Signing', verdict: 'broken', replacement: 'SLH-DSA (NIST FIPS 205)' },
-      { asset: 'cache/session.go', primitive: 'AES-256-GCM', purpose: 'Distributed Cache Seal', verdict: 'safe', replacement: 'Maintained (Compliant)' },
+      {
+        asset: 'crypto/tls configuration',
+        primitive: 'RSA-2048 Keypair',
+        purpose: 'Service Mutual TLS',
+        verdict: 'broken',
+        replacement: 'ML-DSA-65 (NIST FIPS 204)',
+      },
+      {
+        asset: 'auth/jwt_issuer.go',
+        primitive: 'ES256 (ECDSA P-256)',
+        purpose: 'Service Token Signing',
+        verdict: 'broken',
+        replacement: 'ML-DSA-44',
+      },
+      {
+        asset: 'requirements.txt',
+        primitive: 'pycryptodome 3.19',
+        purpose: 'Core Crypto Provider',
+        verdict: 'weak',
+        replacement: 'PQC-capable library release',
+      },
+      {
+        asset: 'pom.xml',
+        primitive: 'BouncyCastle 1.70',
+        purpose: 'JVM Security Provider',
+        verdict: 'weak',
+        replacement: 'BouncyCastle 1.78+ (FIPS 203)',
+      },
+      {
+        asset: 'payments/transit.java',
+        primitive: 'RSA-OAEP-2048',
+        purpose: 'Cardholder Encryption',
+        verdict: 'broken',
+        replacement: 'ML-KEM-768 (NIST FIPS 203)',
+      },
+      {
+        asset: 'vault/secrets.py',
+        primitive: 'AES-256-GCM',
+        purpose: 'At-Rest Secret Envelope',
+        verdict: 'safe',
+        replacement: 'Maintained (Compliant)',
+      },
+      {
+        asset: 'legacy/hash_util.js',
+        primitive: 'SHA-1 / MD5',
+        purpose: 'Internal Checksums & HMAC',
+        verdict: 'broken',
+        replacement: 'SHA-384',
+      },
+      {
+        asset: 'infra/tls_policy.tf',
+        primitive: 'ECDHE-RSA Cipher Suite',
+        purpose: 'Terraform Ingress Rule',
+        verdict: 'broken',
+        replacement: 'Enforce Hybrid PQC Profile',
+      },
+      {
+        asset: 'certs/dev_service.pem',
+        primitive: 'Committed RSA Private Key',
+        purpose: 'Hardcoded Material',
+        verdict: 'broken',
+        replacement: 'Immediate revocation & HSM',
+      },
+      {
+        asset: 'utils/entropy.ts',
+        primitive: 'Math.random() Pseudorandom',
+        purpose: 'Non-cryptographic PRNG',
+        verdict: 'broken',
+        replacement: 'crypto.getRandomValues()',
+      },
+      {
+        asset: 'release/signing.sh',
+        primitive: 'GPG RSA-4096',
+        purpose: 'Artifact Release Signing',
+        verdict: 'broken',
+        replacement: 'SLH-DSA (NIST FIPS 205)',
+      },
+      {
+        asset: 'cache/session.go',
+        primitive: 'AES-256-GCM',
+        purpose: 'Distributed Cache Seal',
+        verdict: 'safe',
+        replacement: 'Maintained (Compliant)',
+      },
     ];
 
     const sourcePool = type === 'repo' ? repoAssets : webAssets;
-    const sampleSize = Math.max(7, Math.min(sourcePool.length, Math.round(8 + rng() * 4)));
+    const sampleSize = Math.max(
+      7,
+      Math.min(sourcePool.length, Math.round(8 + rng() * 4))
+    );
     const sampleCbom = sourcePool.slice(0, sampleSize);
 
-    const extraAssets = Math.round((type === 'repo' ? 10 : 15) * depthMultiplier) + Math.floor(rng() * 7);
+    const extraAssets =
+      Math.round((type === 'repo' ? 10 : 15) * depthMultiplier) +
+      Math.floor(rng() * 7);
     const weakCount = sampleCbom.filter((i) => i.verdict === 'weak').length;
     const safeCount = sampleCbom.filter((i) => i.verdict === 'safe').length;
 
@@ -522,7 +710,9 @@ export default function VyuhScanner() {
     const weakTotal = weakCount + Math.round(extraAssets * 0.22);
     const brokenTotal = Math.max(1, totalAssets - safeTotal - weakTotal);
 
-    let scoreCalc = Math.round((100 * (safeTotal + weakTotal * 0.5)) / totalAssets);
+    let scoreCalc = Math.round(
+      (100 * (safeTotal + weakTotal * 0.5)) / totalAssets
+    );
     if (retention >= 12) scoreCalc -= 6;
     if (retention >= 20) scoreCalc -= 6;
     const finalScore = Math.max(14, Math.min(91, scoreCalc));
@@ -556,7 +746,8 @@ export default function VyuhScanner() {
       },
       {
         sev: 'high',
-        title: 'Digital signatures & trust chains anchored to classical primitives',
+        title:
+          'Digital signatures & trust chains anchored to classical primitives',
         detail:
           'Identity certificates, release artifacts, and tokens trace to RSA and ECDSA roots. Replacing trust anchors requires comprehensive PKI coordination.',
         fix: 'Architect an ML-DSA-65 migration timeline for online services and SLH-DSA for archival firmware.',
@@ -579,7 +770,8 @@ export default function VyuhScanner() {
       findings.push({
         sev: 'critical',
         title: 'Committed private key material located in source tree',
-        detail: 'Unencrypted PEM private keys and development keystores were identified in repository history.',
+        detail:
+          'Unencrypted PEM private keys and development keystores were identified in repository history.',
         fix: 'Purge historical commits, revoke affected credentials, and integrate with hardware security modules.',
         std: 'Immediate Action',
       });
@@ -587,7 +779,8 @@ export default function VyuhScanner() {
       findings.push({
         sev: 'medium',
         title: 'Legacy fallback listener permits protocol downgrade',
-        detail: 'TLS 1.0/1.1 or deprecated cipher suites remain active on at least one secondary virtual host.',
+        detail:
+          'TLS 1.0/1.1 or deprecated cipher suites remain active on at least one secondary virtual host.',
         fix: 'Enforce strict TLS 1.3 / 1.2 suite allowlists and terminate legacy fallback paths.',
         std: 'RBI Cyber Resilience',
       });
@@ -596,7 +789,8 @@ export default function VyuhScanner() {
     findings.push({
       sev: 'low',
       title: 'Absence of continuous Cryptographic Bill of Materials (CBOM)',
-      detail: 'No automated mechanism records and validates cryptographic asset lifecycles across builds.',
+      detail:
+        'No automated mechanism records and validates cryptographic asset lifecycles across builds.',
       fix: 'Embed CycloneDX 1.6 CBOM generation directly into continuous deployment pipelines.',
       std: 'CycloneDX 1.6 / OWASP',
     });
@@ -605,23 +799,44 @@ export default function VyuhScanner() {
       type === 'repo'
         ? [
             ['Default Branch Inspected', 'main / master'],
-            ['Files Scanned & Indexed', String(1280 + Math.floor(rng() * 3200))],
+            [
+              'Files Scanned & Indexed',
+              String(1280 + Math.floor(rng() * 3200)),
+            ],
             ['Detected Tech Stacks', 'Java, Go, Python, TypeScript, Docker'],
-            ['Cryptographic Libraries Identified', String(4 + Math.floor(rng() * 5))],
-            ['Dependency Manifests', 'pom.xml, go.mod, requirements.txt, package-lock.json'],
-            ['Committed Key Material', '1 PEM Private Key, 2 X.509 Certificates'],
-            ['Scan Scope Depth', depth === 'deep' ? 'Comprehensive (all branches)' : 'Standard'],
+            [
+              'Cryptographic Libraries Identified',
+              String(4 + Math.floor(rng() * 5)),
+            ],
+            [
+              'Dependency Manifests',
+              'pom.xml, go.mod, requirements.txt, package-lock.json',
+            ],
+            [
+              'Committed Key Material',
+              '1 PEM Private Key, 2 X.509 Certificates',
+            ],
+            [
+              'Scan Scope Depth',
+              depth === 'deep' ? 'Comprehensive (all branches)' : 'Standard',
+            ],
             ['CBOM Spec Version', 'CycloneDX 1.6 CBOM Schema'],
           ]
         : [
             ['Protocols Negotiated', 'TLS 1.3 (Primary), TLS 1.2 (Supported)'],
             ['Cipher Suites Offered', String(11 + Math.floor(rng() * 6))],
-            ['Hybrid Post-Quantum Groups', 'Not Offered (Classical curves only)'],
+            [
+              'Hybrid Post-Quantum Groups',
+              'Not Offered (Classical curves only)',
+            ],
             ['Server Certificate Signature', 'SHA-256 with RSA Encryption'],
             ['Public Key Modulus', '2048-bit RSA'],
             ['Certificate Chain Length', '3 Certificates to Trusted Root'],
             ['HSTS & Forward Secrecy', 'HSTS Max-Age: 31536000s; PFS Enabled'],
-            ['Discovered Subdomains / APIs', String(2 + Math.floor(rng() * depthMultiplier * 8))],
+            [
+              'Discovered Subdomains / APIs',
+              String(2 + Math.floor(rng() * depthMultiplier * 8)),
+            ],
             ['CBOM Spec Version', 'CycloneDX 1.6 CBOM Schema'],
           ];
 
@@ -687,7 +902,7 @@ export default function VyuhScanner() {
           tools: [
             {
               vendor: 'UElement Technologies',
-              name: 'Vyuh Quantum CBOM Scanner',
+              name: 'VyUH Quantum CBOM Scanner',
               version: '2.4.0',
             },
           ],
@@ -705,7 +920,9 @@ export default function VyuhScanner() {
         },
         cryptographicAssets: results.cbom.map((item, index) => ({
           bomRef: `crypto-asset-${index + 1}`,
-          type: item.purpose.toLowerCase().includes('certificate') ? 'certificate' : 'algorithm',
+          type: item.purpose.toLowerCase().includes('certificate')
+            ? 'certificate'
+            : 'algorithm',
           name: item.asset,
           algorithm: item.primitive,
           quantumSecurityVerdict: item.verdict,
@@ -720,7 +937,8 @@ export default function VyuhScanner() {
       cyclonedxJson = JSON.stringify(cyclonedx, null, 2);
     }
 
-    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(cyclonedxJson);
+    const dataStr =
+      'data:text/json;charset=utf-8,' + encodeURIComponent(cyclonedxJson);
     const downloadAnchor = document.createElement('a');
     downloadAnchor.setAttribute('href', dataStr);
     downloadAnchor.setAttribute(
@@ -737,7 +955,9 @@ export default function VyuhScanner() {
     if (!results) return;
     const jspdfObj = (window as any).jspdf?.jsPDF;
     if (!jspdfObj) {
-      alert('PDF generation engine is still initializing. Please click again in a moment or export the CycloneDX CBOM.');
+      alert(
+        'PDF generation engine is still initializing. Please click again in a moment or export the CycloneDX CBOM.'
+      );
       return;
     }
 
@@ -772,7 +992,7 @@ export default function VyuhScanner() {
 
       doc.setTextColor(224, 167, 105);
       doc.setFontSize(16);
-      doc.text('Vyuh', M + 46, 56);
+      doc.text('VyUH', M + 46, 56);
 
       doc.setTextColor(197, 208, 220);
       doc.setFont('helvetica', 'normal');
@@ -796,7 +1016,7 @@ export default function VyuhScanner() {
         H - 38
       );
       doc.text(
-        'Vyuh is an enterprise cryptographic evaluation platform from UElement AdviQ. Results are indicative based on non-invasive inspection.',
+        'VyUH is an enterprise cryptographic evaluation platform from UElement AdviQ. Results are indicative based on non-invasive inspection.',
         M,
         H - 28
       );
@@ -875,7 +1095,13 @@ export default function VyuhScanner() {
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(9.5);
     doc.setTextColor(20, 20, 20);
-    doc.text(results.type === 'repo' ? 'Source & Manifest Inspection' : 'Endpoint & Protocol Handshake', M + 310, metaBaseY + 14);
+    doc.text(
+      results.type === 'repo'
+        ? 'Source & Manifest Inspection'
+        : 'Endpoint & Protocol Handshake',
+      M + 310,
+      metaBaseY + 14
+    );
 
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(7.5);
@@ -884,7 +1110,11 @@ export default function VyuhScanner() {
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(9.5);
     doc.setTextColor(20, 20, 20);
-    doc.text(`${profile.name || 'Executive'} · ${profile.company || 'Enterprise'}`, M + 18, metaBaseY + 58);
+    doc.text(
+      `${profile.name || 'Executive'} · ${profile.company || 'Enterprise'}`,
+      M + 18,
+      metaBaseY + 58
+    );
 
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(7.5);
@@ -899,7 +1129,12 @@ export default function VyuhScanner() {
 
     // Score Banner
     drawSectionTitle('Quantum Readiness Score & HNDL Risk');
-    const scoreColor = results.score < 40 ? [226, 96, 74] : results.score < 70 ? [214, 170, 20] : [95, 185, 139];
+    const scoreColor =
+      results.score < 40
+        ? [226, 96, 74]
+        : results.score < 70
+          ? [214, 170, 20]
+          : [95, 185, 139];
     doc.setFillColor(scoreColor[0], scoreColor[1], scoreColor[2]);
     doc.roundedRect(M, y, 92, 54, 6, 6, 'F');
 
@@ -918,7 +1153,11 @@ export default function VyuhScanner() {
     doc.setFontSize(8.8);
     doc.setTextColor(80, 80, 80);
     const scoreSummary = `${results.stats.broken} of ${results.stats.total} identified cryptographic primitives are breakable by Shor's algorithm, ${results.stats.weak} are weakened under Grover search, and ${results.stats.safe} hold today. Evaluated across a ${results.retention}-year data retention horizon.`;
-    doc.text(doc.splitTextToSize(scoreSummary, W - M * 2 - 114), M + 108, y + 36);
+    doc.text(
+      doc.splitTextToSize(scoreSummary, W - M * 2 - 114),
+      M + 108,
+      y + 36
+    );
 
     y += 76;
 
@@ -942,16 +1181,36 @@ export default function VyuhScanner() {
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(8);
     doc.setTextColor(70, 70, 70);
-    ['Asset Name', 'Active Primitive', 'Security Purpose', 'Verdict', 'Recommended Move'].forEach((header, i) => {
+    [
+      'Asset Name',
+      'Active Primitive',
+      'Security Purpose',
+      'Verdict',
+      'Recommended Move',
+    ].forEach((header, i) => {
       doc.text(header, tableCols[i] + 4, y + 3);
     });
     y += 18;
 
     results.cbom.forEach((row) => {
-      const verdictLabel = row.verdict === 'broken' ? 'Broken (Shor)' : row.verdict === 'weak' ? 'Weakened (Grover)' : 'Quantum-Safe';
-      const cellData = [row.asset, row.primitive, row.purpose, verdictLabel, row.replacement];
-      const wrappedCells = cellData.map((txt, i) => doc.splitTextToSize(String(txt), tableWidths[i] - 8));
-      const rowHeight = Math.max(...wrappedCells.map((lines) => lines.length)) * 11 + 9;
+      const verdictLabel =
+        row.verdict === 'broken'
+          ? 'Broken (Shor)'
+          : row.verdict === 'weak'
+            ? 'Weakened (Grover)'
+            : 'Quantum-Safe';
+      const cellData = [
+        row.asset,
+        row.primitive,
+        row.purpose,
+        verdictLabel,
+        row.replacement,
+      ];
+      const wrappedCells = cellData.map((txt, i) =>
+        doc.splitTextToSize(String(txt), tableWidths[i] - 8)
+      );
+      const rowHeight =
+        Math.max(...wrappedCells.map((lines) => lines.length)) * 11 + 9;
 
       checkPageRoom(rowHeight + 10);
       doc.setFont('helvetica', 'normal');
@@ -959,7 +1218,12 @@ export default function VyuhScanner() {
 
       wrappedCells.forEach((lines, i) => {
         if (i === 3) {
-          const col = row.verdict === 'broken' ? [200, 60, 40] : row.verdict === 'weak' ? [180, 130, 20] : [40, 145, 90];
+          const col =
+            row.verdict === 'broken'
+              ? [200, 60, 40]
+              : row.verdict === 'weak'
+                ? [180, 130, 20]
+                : [40, 145, 90];
           doc.setTextColor(col[0], col[1], col[2]);
         } else {
           doc.setTextColor(45, 45, 45);
@@ -974,7 +1238,10 @@ export default function VyuhScanner() {
     });
 
     y += 10;
-    drawParagraph(`Plus ${results.stats.total - results.cbom.length} additional cryptographic assets mapped in the CycloneDX 1.6 export.`, 8);
+    drawParagraph(
+      `Plus ${results.stats.total - results.cbom.length} additional cryptographic assets mapped in the CycloneDX 1.6 export.`,
+      8
+    );
 
     // Findings
     drawSectionTitle('Key Vulnerabilities & Remediation Actions');
@@ -1016,7 +1283,10 @@ export default function VyuhScanner() {
       y += 2;
       doc.setFontSize(8.5);
       doc.setTextColor(GOLD[0], GOLD[1], GOLD[2]);
-      const fixLines = doc.splitTextToSize(`Action: ${finding.fix}  [Standard: ${finding.std}]`, W - M * 2 - 14);
+      const fixLines = doc.splitTextToSize(
+        `Action: ${finding.fix}  [Standard: ${finding.std}]`,
+        W - M * 2 - 14
+      );
       fixLines.forEach((l: string) => {
         checkPageRoom(14);
         doc.text(l, M + 10, y);
@@ -1055,33 +1325,44 @@ export default function VyuhScanner() {
     // Next steps
     drawSectionTitle('Engagement with UElement AdviQ');
     drawParagraph(
-      'Vyuh provides single-target scanning. Estate-wide discovery, continuous automated CBOM monitoring, hardware security module (HSM) migration, and crypto-agility implementation are delivered by UElement AdviQ, our dedicated quantum security practice. Contact our cryptographic engineering team at contact@uelement.in or call +91 7620690561 to review your assessment.'
+      'VyUH provides single-target scanning. Estate-wide discovery, continuous automated CBOM monitoring, hardware security module (HSM) migration, and crypto-agility implementation are delivered by UElement AdviQ, our dedicated quantum security practice. Contact our cryptographic engineering team at contact@uelement.in or call +91 7620690561 to review your assessment.'
     );
 
     printFooter(page);
-    const sanitizedName = results.target.replace(/[^a-zA-Z0-9]/g, '_').substring(0, 36);
+    const sanitizedName = results.target
+      .replace(/[^a-zA-Z0-9]/g, '_')
+      .substring(0, 36);
     doc.save(`Vyuh_CBOM_Assessment_${sanitizedName}.pdf`);
   };
 
   return (
     <>
       {/* ═══════════════════════ HERO ═══════════════════════ */}
-      <div className="hero" style={{ position: 'relative', overflow: 'hidden' }}>
+      <div
+        className="hero"
+        style={{ position: 'relative', overflow: 'hidden' }}
+      >
         {/* Subtle Background Glow Elements */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute -top-40 -right-40 h-[650px] w-[650px] rounded-full opacity-20 blur-[130px]"
-          style={{ background: 'radial-gradient(circle, #e0a769 0%, transparent 70%)' }}
+          style={{
+            background: 'radial-gradient(circle, #e0a769 0%, transparent 70%)',
+          }}
         />
         <div
           aria-hidden="true"
           className="pointer-events-none absolute -bottom-40 -left-40 h-[600px] w-[600px] rounded-full opacity-35 blur-[140px]"
-          style={{ background: 'radial-gradient(circle, #071739 0%, #163068 60%, transparent 80%)' }}
+          style={{
+            background:
+              'radial-gradient(circle, #071739 0%, #163068 60%, transparent 80%)',
+          }}
         />
 
         <div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
           <div className="crumb">
-            <Link href="/">Home</Link> / <Link href="/adviq">AdviQ</Link> / Quantum Risk Assessment
+            <Link href="/">Home</Link> / <Link href="/adviq">AdviQ</Link> /
+            Quantum Risk Assessment
           </div>
 
           <div className="grid lg:grid-cols-12 gap-10 lg:gap-14 items-center pt-2 pb-8">
@@ -1092,22 +1373,28 @@ export default function VyuhScanner() {
                 Free Online Diagnostic Tool · UElement AdviQ
               </div>
 
-              <h1 className="display" style={{ fontSize: 'var(--text-display)', lineHeight: 1.08 }}>
+              <h1
+                className="display"
+                style={{ fontSize: 'var(--text-display)', lineHeight: 1.08 }}
+              >
                 Every certificate, cipher and key your stack depends on.{' '}
-                <span className="au">
-                  Vyuh
-                </span>{' '}
-                lays out the formation.
+                <span className="au">VyUH</span> lays out the formation.
               </h1>
 
-              <p className="serif-line" style={{ fontSize: 19, marginTop: 10, color: '#c88a3e' }}>
-                Automated Cryptographic Bill of Materials (CBOM) & NIST PQC Migration Roadmap
+              <p
+                className="serif-line"
+                style={{ fontSize: 19, marginTop: 10, color: '#c88a3e' }}
+              >
+                Automated Cryptographic Bill of Materials (CBOM) & NIST PQC
+                Migration Roadmap
               </p>
 
               <p className="lede" style={{ marginTop: 22 }}>
-                Point Vyuh at a public endpoint or a code repository. It constructs an actionable cryptographic bill of
-                materials, classifies what a quantum computer running Shor and Grover algorithms breaks, and outputs a clear
-                migration path to NIST FIPS 203, 204, and 205, in about ninety seconds.
+                Point VyUH at a public endpoint or a code repository. It
+                constructs an actionable cryptographic bill of materials,
+                classifies what a quantum computer running Shor and Grover
+                algorithms breaks, and outputs a clear migration path to NIST
+                FIPS 203, 204, and 205, in about ninety seconds.
               </p>
 
               {/* Action Buttons */}
@@ -1151,13 +1438,16 @@ export default function VyuhScanner() {
               {/* Trust checklist */}
               <div className="flex flex-wrap gap-x-6 gap-y-2 mt-7 text-xs text-[#c5d0dc]/80">
                 <span className="flex items-center gap-1.5">
-                  <Check className="w-4 h-4 text-[#e0a769]" /> No agent or sensor install
+                  <Check className="w-4 h-4 text-[#e0a769]" /> No agent or
+                  sensor install
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <Check className="w-4 h-4 text-[#e0a769]" /> CycloneDX 1.6 CBOM export
+                  <Check className="w-4 h-4 text-[#e0a769]" /> CycloneDX 1.6
+                  CBOM export
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <Check className="w-4 h-4 text-[#e0a769]" /> Board-ready PDF circulation
+                  <Check className="w-4 h-4 text-[#e0a769]" /> Board-ready PDF
+                  circulation
                 </span>
               </div>
             </div>
@@ -1171,46 +1461,85 @@ export default function VyuhScanner() {
                     <span className="w-2.5 h-2.5 rounded-full bg-red-500/70" />
                     <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/70" />
                     <span className="w-2.5 h-2.5 rounded-full bg-green-500/70" />
-                    <span className="ml-2 font-mono text-[11px] text-gray-400">vyuh · scan simulation session</span>
+                    <span className="ml-2 font-mono text-[11px] text-gray-400">
+                      vyuh · scan simulation session
+                    </span>
                   </div>
-                  <span className="text-[10px] uppercase font-mono tracking-widest text-[#e0a769]/80">LIVE INSPECTION</span>
+                  <span className="text-[10px] uppercase font-mono tracking-widest text-[#e0a769]/80">
+                    LIVE INSPECTION
+                  </span>
                 </div>
 
                 {/* Readout Body */}
                 <div className="p-5 font-mono text-[12px] leading-relaxed min-h-[220px] flex flex-col justify-center space-y-2 text-[#c5d0dc]">
-                  <div className={`transition-opacity duration-300 ${heroLinesVisible >= 1 ? 'opacity-100' : 'opacity-0'}`}>
+                  <div
+                    className={`transition-opacity duration-300 ${heroLinesVisible >= 1 ? 'opacity-100' : 'opacity-0'}`}
+                  >
                     <span className="text-[#e0a769]">→</span> target{' '}
-                    <span className="text-white font-semibold">https://netbanking.enterprise.in</span>
+                    <span className="text-white font-semibold">
+                      https://netbanking.enterprise.in
+                    </span>
                   </div>
-                  <div className={`transition-opacity duration-300 ${heroLinesVisible >= 2 ? 'opacity-100' : 'opacity-0'}`}>
-                    <span className="text-[#e0a769]">→</span> TLS 1.3 / 1.2 · 14 cipher suites enumerated
+                  <div
+                    className={`transition-opacity duration-300 ${heroLinesVisible >= 2 ? 'opacity-100' : 'opacity-0'}`}
+                  >
+                    <span className="text-[#e0a769]">→</span> TLS 1.3 / 1.2 · 14
+                    cipher suites enumerated
                   </div>
-                  <div className={`transition-opacity duration-300 ${heroLinesVisible >= 3 ? 'opacity-100' : 'opacity-0'}`}>
+                  <div
+                    className={`transition-opacity duration-300 ${heroLinesVisible >= 3 ? 'opacity-100' : 'opacity-0'}`}
+                  >
                     <span className="text-[#e0a769]">→</span> key exchange{' '}
                     <span className="text-white font-medium">ECDHE-P256</span>{' '}
-                    <span className="text-red-400 font-semibold">[breakable: Shor]</span>
+                    <span className="text-red-400 font-semibold">
+                      [breakable: Shor]
+                    </span>
                   </div>
-                  <div className={`transition-opacity duration-300 ${heroLinesVisible >= 4 ? 'opacity-100' : 'opacity-0'}`}>
-                    <span className="text-[#e0a769]">→</span> certificate signature{' '}
-                    <span className="text-white font-medium">RSA-2048 / SHA-256</span>{' '}
-                    <span className="text-red-400 font-semibold">[breakable: Shor]</span>
+                  <div
+                    className={`transition-opacity duration-300 ${heroLinesVisible >= 4 ? 'opacity-100' : 'opacity-0'}`}
+                  >
+                    <span className="text-[#e0a769]">→</span> certificate
+                    signature{' '}
+                    <span className="text-white font-medium">
+                      RSA-2048 / SHA-256
+                    </span>{' '}
+                    <span className="text-red-400 font-semibold">
+                      [breakable: Shor]
+                    </span>
                   </div>
-                  <div className={`transition-opacity duration-300 ${heroLinesVisible >= 5 ? 'opacity-100' : 'opacity-0'}`}>
-                    <span className="text-[#e0a769]">→</span> bulk transport cipher{' '}
+                  <div
+                    className={`transition-opacity duration-300 ${heroLinesVisible >= 5 ? 'opacity-100' : 'opacity-0'}`}
+                  >
+                    <span className="text-[#e0a769]">→</span> bulk transport
+                    cipher{' '}
                     <span className="text-white font-medium">AES-128-GCM</span>{' '}
-                    <span className="text-yellow-400 font-semibold">[weakened: Grover]</span>
+                    <span className="text-yellow-400 font-semibold">
+                      [weakened: Grover]
+                    </span>
                   </div>
-                  <div className={`transition-opacity duration-300 ${heroLinesVisible >= 6 ? 'opacity-100' : 'opacity-0'}`}>
+                  <div
+                    className={`transition-opacity duration-300 ${heroLinesVisible >= 6 ? 'opacity-100' : 'opacity-0'}`}
+                  >
                     <span className="text-[#e0a769]">→</span> hash digest{' '}
                     <span className="text-white font-medium">SHA-384</span>{' '}
-                    <span className="text-emerald-400 font-semibold">[quantum-safe]</span>
+                    <span className="text-emerald-400 font-semibold">
+                      [quantum-safe]
+                    </span>
                   </div>
-                  <div className={`transition-opacity duration-300 ${heroLinesVisible >= 7 ? 'opacity-100' : 'opacity-0'}`}>
-                    <span className="text-[#e0a769]">→</span> ML-KEM hybrid group{' '}
-                    <span className="text-red-400 font-semibold">[not offered]</span>
+                  <div
+                    className={`transition-opacity duration-300 ${heroLinesVisible >= 7 ? 'opacity-100' : 'opacity-0'}`}
+                  >
+                    <span className="text-[#e0a769]">→</span> ML-KEM hybrid
+                    group{' '}
+                    <span className="text-red-400 font-semibold">
+                      [not offered]
+                    </span>
                   </div>
-                  <div className={`transition-opacity duration-300 ${heroLinesVisible >= 8 ? 'opacity-100' : 'opacity-0'}`}>
-                    <span className="text-[#e0a769]">→</span> CBOM assembled · 27 assets mapped · 6 findings
+                  <div
+                    className={`transition-opacity duration-300 ${heroLinesVisible >= 8 ? 'opacity-100' : 'opacity-0'}`}
+                  >
+                    <span className="text-[#e0a769]">→</span> CBOM assembled ·
+                    27 assets mapped · 6 findings
                   </div>
                 </div>
 
@@ -1218,7 +1547,14 @@ export default function VyuhScanner() {
                 <div className="p-4 border-t border-white/10 bg-white/[0.02] flex items-center gap-4">
                   <div className="relative w-16 h-16 shrink-0">
                     <svg className="w-16 h-16 -rotate-90" viewBox="0 0 72 72">
-                      <circle cx="36" cy="36" r="30" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="6" />
+                      <circle
+                        cx="36"
+                        cy="36"
+                        r="30"
+                        fill="none"
+                        stroke="rgba(255,255,255,0.1)"
+                        strokeWidth="6"
+                      />
                       <circle
                         cx="36"
                         cy="36"
@@ -1228,7 +1564,9 @@ export default function VyuhScanner() {
                         strokeWidth="6"
                         strokeLinecap="round"
                         strokeDasharray={188.5}
-                        strokeDashoffset={188.5 - (188.5 * heroScoreValue) / 100}
+                        strokeDashoffset={
+                          188.5 - (188.5 * heroScoreValue) / 100
+                        }
                         style={{ transition: 'stroke-dashoffset 1s ease' }}
                       />
                     </svg>
@@ -1237,8 +1575,12 @@ export default function VyuhScanner() {
                     </div>
                   </div>
                   <div className="text-xs">
-                    <b className="block text-sm text-white font-heading font-semibold">Quantum Readiness Score</b>
-                    <span className="text-gray-400">Harvest-Now-Decrypt-Later exposure over 12-year horizon</span>
+                    <b className="block text-sm text-white font-heading font-semibold">
+                      Quantum Readiness Score
+                    </b>
+                    <span className="text-gray-400">
+                      Harvest-Now-Decrypt-Later exposure over 12-year horizon
+                    </span>
                   </div>
                 </div>
               </div>
@@ -1255,8 +1597,10 @@ export default function VyuhScanner() {
             Two ways in, <span className="au">one inventory out.</span>
           </h2>
           <p className="lede" style={{ marginTop: 14 }}>
-            Most organisations cannot answer a simple question: where is RSA or classical ECC running, and what relies on
-            it? Vyuh answers it from the outside in via protocol handshakes, or from the source out across repositories.
+            Most organisations cannot answer a simple question: where is RSA or
+            classical ECC running, and what relies on it? VyUH answers it from
+            the outside in via protocol handshakes, or from the source out
+            across repositories.
           </p>
 
           <div className="grid md:grid-cols-2 gap-8 mt-12">
@@ -1265,40 +1609,48 @@ export default function VyuhScanner() {
               <span className="inline-flex items-center font-mono text-xs font-semibold text-[#e0a769] bg-[#e0a769]/15 border border-[#e0a769]/30 px-3 py-1 rounded-md mb-4">
                 https://
               </span>
-              <h3 className="font-heading text-2xl font-bold text-white mb-3 tracking-tight">Public Web Endpoints</h3>
+              <h3 className="font-heading text-2xl font-bold text-white mb-3 tracking-tight">
+                Public Web Endpoints
+              </h3>
               <p className="text-[#c5d0dc] text-sm mb-6 leading-relaxed">
-                Vyuh negotiates directly with internet-facing services the way a client browser or API partner would,
-                evaluating negotiated and fallback cryptographic suites.
+                VyUH negotiates directly with internet-facing services the way a
+                client browser or API partner would, evaluating negotiated and
+                fallback cryptographic suites.
               </p>
               <ul className="space-y-3.5 border-t border-white/10 pt-5 text-sm">
                 <li className="flex items-start gap-3">
                   <span className="h-1.5 w-1.5 rounded-full bg-[#e0a769] mt-2 shrink-0 shadow-[0_0_8px_rgba(224,167,105,0.7)]" />
                   <span className="text-[#e4e8eb] font-normal leading-relaxed">
-                    TLS 1.3/1.2 versions, negotiated cipher suites, and key exchange groups
+                    TLS 1.3/1.2 versions, negotiated cipher suites, and key
+                    exchange groups
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="h-1.5 w-1.5 rounded-full bg-[#e0a769] mt-2 shrink-0 shadow-[0_0_8px_rgba(224,167,105,0.7)]" />
                   <span className="text-[#e4e8eb] font-normal leading-relaxed">
-                    Full X.509 certificate chain inspection: signature algorithms, key sizes, CA roots
+                    Full X.509 certificate chain inspection: signature
+                    algorithms, key sizes, CA roots
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="h-1.5 w-1.5 rounded-full bg-[#e0a769] mt-2 shrink-0 shadow-[0_0_8px_rgba(224,167,105,0.7)]" />
                   <span className="text-[#e4e8eb] font-normal leading-relaxed">
-                    Detection of hybrid post-quantum key encapsulation (e.g. X25519MLKEM768)
+                    Detection of hybrid post-quantum key encapsulation (e.g.
+                    X25519MLKEM768)
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="h-1.5 w-1.5 rounded-full bg-[#e0a769] mt-2 shrink-0 shadow-[0_0_8px_rgba(224,167,105,0.7)]" />
                   <span className="text-[#e4e8eb] font-normal leading-relaxed">
-                    HSTS, OCSP stapling validation, session ticket secrecy, and downgrade behavior
+                    HSTS, OCSP stapling validation, session ticket secrecy, and
+                    downgrade behavior
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="h-1.5 w-1.5 rounded-full bg-[#e0a769] mt-2 shrink-0 shadow-[0_0_8px_rgba(224,167,105,0.7)]" />
                   <span className="text-[#e4e8eb] font-normal leading-relaxed">
-                    Discovered subdomains and APIs harvested from Certificate Transparency logs
+                    Discovered subdomains and APIs harvested from Certificate
+                    Transparency logs
                   </span>
                 </li>
               </ul>
@@ -1309,40 +1661,48 @@ export default function VyuhScanner() {
               <span className="inline-flex items-center font-mono text-xs font-semibold text-[#e0a769] bg-[#e0a769]/15 border border-[#e0a769]/30 px-3 py-1 rounded-md mb-4">
                 git://
               </span>
-              <h3 className="font-heading text-2xl font-bold text-white mb-3 tracking-tight">Code Repositories</h3>
+              <h3 className="font-heading text-2xl font-bold text-white mb-3 tracking-tight">
+                Code Repositories
+              </h3>
               <p className="text-[#c5d0dc] text-sm mb-6 leading-relaxed">
-                Point Vyuh at a public repository or connect a private repo with a scoped read-only token. Vyuh traverses the
-                code tree to parse cryptographic primitives and dependencies.
+                Point VyUH at a public repository or connect a private repo with
+                a scoped read-only token. VyUH traverses the code tree to parse
+                cryptographic primitives and dependencies.
               </p>
               <ul className="space-y-3.5 border-t border-white/10 pt-5 text-sm">
                 <li className="flex items-start gap-3">
                   <span className="h-1.5 w-1.5 rounded-full bg-[#e0a769] mt-2 shrink-0 shadow-[0_0_8px_rgba(224,167,105,0.7)]" />
                   <span className="text-[#e4e8eb] font-normal leading-relaxed">
-                    Cryptographic API calls across Java, Python, Go, C/C++, TypeScript, and .NET
+                    Cryptographic API calls across Java, Python, Go, C/C++,
+                    TypeScript, and .NET
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="h-1.5 w-1.5 rounded-full bg-[#e0a769] mt-2 shrink-0 shadow-[0_0_8px_rgba(224,167,105,0.7)]" />
                   <span className="text-[#e4e8eb] font-normal leading-relaxed">
-                    Library versions: OpenSSL, BouncyCastle, PyCA/cryptography, libsodium
+                    Library versions: OpenSSL, BouncyCastle, PyCA/cryptography,
+                    libsodium
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="h-1.5 w-1.5 rounded-full bg-[#e0a769] mt-2 shrink-0 shadow-[0_0_8px_rgba(224,167,105,0.7)]" />
                   <span className="text-[#e4e8eb] font-normal leading-relaxed">
-                    Hardcoded private keys, weak pseudo-random generators, and legacy SHA-1/MD5 digests
+                    Hardcoded private keys, weak pseudo-random generators, and
+                    legacy SHA-1/MD5 digests
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="h-1.5 w-1.5 rounded-full bg-[#e0a769] mt-2 shrink-0 shadow-[0_0_8px_rgba(224,167,105,0.7)]" />
                   <span className="text-[#e4e8eb] font-normal leading-relaxed">
-                    Certificates, keystores (JKS/PKCS12), and PEM credentials committed to version control
+                    Certificates, keystores (JKS/PKCS12), and PEM credentials
+                    committed to version control
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="h-1.5 w-1.5 rounded-full bg-[#e0a769] mt-2 shrink-0 shadow-[0_0_8px_rgba(224,167,105,0.7)]" />
                   <span className="text-[#e4e8eb] font-normal leading-relaxed">
-                    Infrastructure-as-Code (Terraform, Kubernetes) and CI/CD TLS configuration audit
+                    Infrastructure-as-Code (Terraform, Kubernetes) and CI/CD TLS
+                    configuration audit
                   </span>
                 </li>
               </ul>
@@ -1359,63 +1719,89 @@ export default function VyuhScanner() {
             What comes back in <span className="au">ninety seconds.</span>
           </h2>
           <p className="lede" style={{ marginTop: 14 }}>
-            A comprehensive, verifiable report your security architects can execute on and your audit committee can
-            circulate, immediately downloadable as a PDF and exportable in CycloneDX 1.6 format.
+            A comprehensive, verifiable report your security architects can
+            execute on and your audit committee can circulate, immediately
+            downloadable as a PDF and exportable in CycloneDX 1.6 format.
           </p>
 
           {/* 6 Deliverables Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
             <div className="p-6 rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-md">
-              <span className="font-mono text-xs text-[#e0a769] font-semibold tracking-wider">01 · CBOM</span>
-              <h4 className="text-lg font-heading font-bold text-white mt-2 mb-2">Cryptographic Bill of Materials</h4>
+              <span className="font-mono text-xs text-[#e0a769] font-semibold tracking-wider">
+                01 · CBOM
+              </span>
+              <h4 className="text-lg font-heading font-bold text-white mt-2 mb-2">
+                Cryptographic Bill of Materials
+              </h4>
               <p className="text-sm text-[#c5d0dc]">
-                Every algorithm, key length, protocol, and certificate mapped to where it lives, exportable directly to
-                CycloneDX 1.6 for automated SBOM pipelines.
+                Every algorithm, key length, protocol, and certificate mapped to
+                where it lives, exportable directly to CycloneDX 1.6 for
+                automated SBOM pipelines.
               </p>
             </div>
 
             <div className="p-6 rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-md">
-              <span className="font-mono text-xs text-[#e0a769] font-semibold tracking-wider">02 · SCORE</span>
-              <h4 className="text-lg font-heading font-bold text-white mt-2 mb-2">Quantum Readiness Score</h4>
+              <span className="font-mono text-xs text-[#e0a769] font-semibold tracking-wider">
+                02 · SCORE
+              </span>
+              <h4 className="text-lg font-heading font-bold text-white mt-2 mb-2">
+                Quantum Readiness Score
+              </h4>
               <p className="text-sm text-[#c5d0dc]">
-                A single 0–100 index with full arithmetic exposed: assessing what survives Shor and Grover, and how much is
-                mission-critical.
+                A single 0–100 index with full arithmetic exposed: assessing
+                what survives Shor and Grover, and how much is mission-critical.
               </p>
             </div>
 
             <div className="p-6 rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-md">
-              <span className="font-mono text-xs text-[#e0a769] font-semibold tracking-wider">03 · HNDL</span>
-              <h4 className="text-lg font-heading font-bold text-white mt-2 mb-2">Harvest-Now-Decrypt-Later Exposure</h4>
+              <span className="font-mono text-xs text-[#e0a769] font-semibold tracking-wider">
+                03 · HNDL
+              </span>
+              <h4 className="text-lg font-heading font-bold text-white mt-2 mb-2">
+                Harvest-Now-Decrypt-Later Exposure
+              </h4>
               <p className="text-sm text-[#c5d0dc]">
-                Weighs exposure using your data retention timeline against the estimated quantum arrival horizon to quantify
-                active risk today.
+                Weighs exposure using your data retention timeline against the
+                estimated quantum arrival horizon to quantify active risk today.
               </p>
             </div>
 
             <div className="p-6 rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-md">
-              <span className="font-mono text-xs text-[#e0a769] font-semibold tracking-wider">04 · STANDARDS</span>
-              <h4 className="text-lg font-heading font-bold text-white mt-2 mb-2">Mapping to NIST FIPS 203/204/205</h4>
+              <span className="font-mono text-xs text-[#e0a769] font-semibold tracking-wider">
+                04 · STANDARDS
+              </span>
+              <h4 className="text-lg font-heading font-bold text-white mt-2 mb-2">
+                Mapping to NIST FIPS 203/204/205
+              </h4>
               <p className="text-sm text-[#c5d0dc]">
-                Each vulnerable asset is mapped to standardized replacements: ML-KEM, ML-DSA, and SLH-DSA, with hybrid
-                transitional paths.
+                Each vulnerable asset is mapped to standardized replacements:
+                ML-KEM, ML-DSA, and SLH-DSA, with hybrid transitional paths.
               </p>
             </div>
 
             <div className="p-6 rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-md">
-              <span className="font-mono text-xs text-[#e0a769] font-semibold tracking-wider">05 · FINDINGS</span>
-              <h4 className="text-lg font-heading font-bold text-white mt-2 mb-2">Severity-Ranked Findings</h4>
+              <span className="font-mono text-xs text-[#e0a769] font-semibold tracking-wider">
+                05 · FINDINGS
+              </span>
+              <h4 className="text-lg font-heading font-bold text-white mt-2 mb-2">
+                Severity-Ranked Findings
+              </h4>
               <p className="text-sm text-[#c5d0dc]">
-                Actionable findings prioritized by risk, including exact remediation recommendations rather than vague
-                vendor advisories.
+                Actionable findings prioritized by risk, including exact
+                remediation recommendations rather than vague vendor advisories.
               </p>
             </div>
 
             <div className="p-6 rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-md">
-              <span className="font-mono text-xs text-[#e0a769] font-semibold tracking-wider">06 · ROADMAP</span>
-              <h4 className="text-lg font-heading font-bold text-white mt-2 mb-2">4-Phase Migration Roadmap</h4>
+              <span className="font-mono text-xs text-[#e0a769] font-semibold tracking-wider">
+                06 · ROADMAP
+              </span>
+              <h4 className="text-lg font-heading font-bold text-white mt-2 mb-2">
+                4-Phase Migration Roadmap
+              </h4>
               <p className="text-sm text-[#c5d0dc]">
-                Discovery, crypto-agility, hybrid deployment, and classical retirement sequenced specifically against your
-                actual inventory.
+                Discovery, crypto-agility, hybrid deployment, and classical
+                retirement sequenced specifically against your actual inventory.
               </p>
             </div>
           </div>
@@ -1424,9 +1810,12 @@ export default function VyuhScanner() {
           <div className="mt-14 overflow-hidden rounded-xl border border-white/10 bg-white/[0.02]">
             <div className="p-5 border-b border-white/10 bg-white/[0.03] flex items-center justify-between">
               <div>
-                <h4 className="font-heading font-bold text-white text-base">NIST Quantum Vulnerability & Replacement Matrix</h4>
+                <h4 className="font-heading font-bold text-white text-base">
+                  NIST Quantum Vulnerability & Replacement Matrix
+                </h4>
                 <p className="text-xs text-gray-400 mt-1">
-                  How classical primitives perform under Shor’s and Grover’s algorithms and their approved PQC replacements
+                  How classical primitives perform under Shor’s and Grover’s
+                  algorithms and their approved PQC replacements
                 </p>
               </div>
               <span className="text-xs font-mono text-[#e0a769] border border-[#e0a769]/30 px-2.5 py-1 rounded">
@@ -1445,64 +1834,100 @@ export default function VyuhScanner() {
                 </thead>
                 <tbody className="divide-y divide-white/5 font-normal">
                   <tr className="hover:bg-white/[0.02]">
-                    <td className="py-3.5 px-5 font-mono text-white font-medium">RSA-2048 / RSA-4096</td>
-                    <td className="py-3.5 px-5">TLS certificates, code signing, JWT tokens</td>
+                    <td className="py-3.5 px-5 font-mono text-white font-medium">
+                      RSA-2048 / RSA-4096
+                    </td>
+                    <td className="py-3.5 px-5">
+                      TLS certificates, code signing, JWT tokens
+                    </td>
                     <td className="py-3.5 px-5">
                       <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-500/15 text-red-400 border border-red-500/20">
                         Broken by Shor
                       </span>
                     </td>
-                    <td className="py-3.5 px-5 font-mono text-emerald-300">ML-KEM-768 · ML-DSA-65</td>
+                    <td className="py-3.5 px-5 font-mono text-emerald-300">
+                      ML-KEM-768 · ML-DSA-65
+                    </td>
                   </tr>
                   <tr className="hover:bg-white/[0.02]">
-                    <td className="py-3.5 px-5 font-mono text-white font-medium">ECDSA P-256 / P-384</td>
-                    <td className="py-3.5 px-5">Certificate signatures, mTLS, zero-trust tokens</td>
+                    <td className="py-3.5 px-5 font-mono text-white font-medium">
+                      ECDSA P-256 / P-384
+                    </td>
+                    <td className="py-3.5 px-5">
+                      Certificate signatures, mTLS, zero-trust tokens
+                    </td>
                     <td className="py-3.5 px-5">
                       <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-500/15 text-red-400 border border-red-500/20">
                         Broken by Shor
                       </span>
                     </td>
-                    <td className="py-3.5 px-5 font-mono text-emerald-300">ML-DSA-65 · SLH-DSA</td>
+                    <td className="py-3.5 px-5 font-mono text-emerald-300">
+                      ML-DSA-65 · SLH-DSA
+                    </td>
                   </tr>
                   <tr className="hover:bg-white/[0.02]">
-                    <td className="py-3.5 px-5 font-mono text-white font-medium">ECDH / X25519</td>
-                    <td className="py-3.5 px-5">TLS session key exchange, VPN tunnels, SSH</td>
+                    <td className="py-3.5 px-5 font-mono text-white font-medium">
+                      ECDH / X25519
+                    </td>
+                    <td className="py-3.5 px-5">
+                      TLS session key exchange, VPN tunnels, SSH
+                    </td>
                     <td className="py-3.5 px-5">
                       <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-500/15 text-red-400 border border-red-500/20">
                         Broken by Shor
                       </span>
                     </td>
-                    <td className="py-3.5 px-5 font-mono text-emerald-300">X25519MLKEM768 Hybrid</td>
+                    <td className="py-3.5 px-5 font-mono text-emerald-300">
+                      X25519MLKEM768 Hybrid
+                    </td>
                   </tr>
                   <tr className="hover:bg-white/[0.02]">
-                    <td className="py-3.5 px-5 font-mono text-white font-medium">AES-128-GCM</td>
-                    <td className="py-3.5 px-5">Symmetric session encryption, database columns</td>
+                    <td className="py-3.5 px-5 font-mono text-white font-medium">
+                      AES-128-GCM
+                    </td>
+                    <td className="py-3.5 px-5">
+                      Symmetric session encryption, database columns
+                    </td>
                     <td className="py-3.5 px-5">
                       <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-yellow-500/15 text-yellow-400 border border-yellow-500/20">
                         Halved by Grover
                       </span>
                     </td>
-                    <td className="py-3.5 px-5 font-mono text-emerald-300">AES-256-GCM</td>
+                    <td className="py-3.5 px-5 font-mono text-emerald-300">
+                      AES-256-GCM
+                    </td>
                   </tr>
                   <tr className="hover:bg-white/[0.02]">
-                    <td className="py-3.5 px-5 font-mono text-white font-medium">SHA-1 / MD5</td>
-                    <td className="py-3.5 px-5">Legacy HMACs, file integrity, older microservices</td>
+                    <td className="py-3.5 px-5 font-mono text-white font-medium">
+                      SHA-1 / MD5
+                    </td>
+                    <td className="py-3.5 px-5">
+                      Legacy HMACs, file integrity, older microservices
+                    </td>
                     <td className="py-3.5 px-5">
                       <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-500/15 text-red-400 border border-red-500/20">
                         Already Insecure
                       </span>
                     </td>
-                    <td className="py-3.5 px-5 font-mono text-emerald-300">SHA-384 · SHA-3</td>
+                    <td className="py-3.5 px-5 font-mono text-emerald-300">
+                      SHA-384 · SHA-3
+                    </td>
                   </tr>
                   <tr className="hover:bg-white/[0.02]">
-                    <td className="py-3.5 px-5 font-mono text-white font-medium">AES-256-GCM / SHA-384</td>
-                    <td className="py-3.5 px-5">Modern high-assurance envelope encryption</td>
+                    <td className="py-3.5 px-5 font-mono text-white font-medium">
+                      AES-256-GCM / SHA-384
+                    </td>
+                    <td className="py-3.5 px-5">
+                      Modern high-assurance envelope encryption
+                    </td>
                     <td className="py-3.5 px-5">
                       <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/20">
                         Quantum-Safe
                       </span>
                     </td>
-                    <td className="py-3.5 px-5 font-mono text-gray-400">No modification required</td>
+                    <td className="py-3.5 px-5 font-mono text-gray-400">
+                      No modification required
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -1519,52 +1944,77 @@ export default function VyuhScanner() {
             How a scan <span className="au">runs.</span>
           </h2>
           <p className="lede" style={{ marginTop: 14 }}>
-            Vyuh is free to use and gated only by a verified professional identity, ensuring diagnostic telemetry and
-            cryptographic discoveries are shared strictly with verified organizational stewards.
+            VyUH is free to use and gated only by a verified professional
+            identity, ensuring diagnostic telemetry and cryptographic
+            discoveries are shared strictly with verified organizational
+            stewards.
           </p>
 
           <div className="mt-12 divide-y divide-gray-200 border-t border-b border-gray-200">
             <div className="py-7 grid md:grid-cols-12 gap-6 items-baseline">
-              <div className="md:col-span-1 font-serif text-3xl text-[#c88a3e] font-bold">1</div>
+              <div className="md:col-span-1 font-serif text-3xl text-[#c88a3e] font-bold">
+                1
+              </div>
               <div className="md:col-span-4">
-                <h3 className="font-heading text-lg font-bold text-[#071739]">Verify who you are</h3>
+                <h3 className="font-heading text-lg font-bold text-[#071739]">
+                  Verify who you are
+                </h3>
               </div>
               <div className="md:col-span-7 text-sm text-gray-600">
-                Work email and mobile number are confirmed via one-time verification codes, accompanied by your professional
-                LinkedIn profile. Personal free mailboxes are rejected to ensure accountability.
+                Work email and mobile number are confirmed via one-time
+                verification codes, accompanied by your professional LinkedIn
+                profile. Personal free mailboxes are rejected to ensure
+                accountability.
               </div>
             </div>
 
             <div className="py-7 grid md:grid-cols-12 gap-6 items-baseline">
-              <div className="md:col-span-1 font-serif text-3xl text-[#c88a3e] font-bold">2</div>
+              <div className="md:col-span-1 font-serif text-3xl text-[#c88a3e] font-bold">
+                2
+              </div>
               <div className="md:col-span-4">
-                <h3 className="font-heading text-lg font-bold text-[#071739]">Name the target</h3>
+                <h3 className="font-heading text-lg font-bold text-[#071739]">
+                  Name the target
+                </h3>
               </div>
               <div className="md:col-span-7 text-sm text-gray-600">
-                Provide a website URL or repository URI with explicit declaration of authorization. Vyuh executes only
-                read-only, non-invasive cryptographic inspection without injecting payloads.
+                Provide a website URL or repository URI with explicit
+                declaration of authorization. VyUH executes only read-only,
+                non-invasive cryptographic inspection without injecting
+                payloads.
               </div>
             </div>
 
             <div className="py-7 grid md:grid-cols-12 gap-6 items-baseline">
-              <div className="md:col-span-1 font-serif text-3xl text-[#c88a3e] font-bold">3</div>
+              <div className="md:col-span-1 font-serif text-3xl text-[#c88a3e] font-bold">
+                3
+              </div>
               <div className="md:col-span-4">
-                <h3 className="font-heading text-lg font-bold text-[#071739]">Vyuh probes and classifies</h3>
+                <h3 className="font-heading text-lg font-bold text-[#071739]">
+                  VyUH probes and classifies
+                </h3>
               </div>
               <div className="md:col-span-7 text-sm text-gray-600">
-                Handshakes, certificates, and AST source patterns are parsed. Every primitive is evaluated against NIST FIPS
-                203, 204, and 205 post-quantum standards and HNDL longevity formulas.
+                Handshakes, certificates, and AST source patterns are parsed.
+                Every primitive is evaluated against NIST FIPS 203, 204, and 205
+                post-quantum standards and HNDL longevity formulas.
               </div>
             </div>
 
             <div className="py-7 grid md:grid-cols-12 gap-6 items-baseline">
-              <div className="md:col-span-1 font-serif text-3xl text-[#c88a3e] font-bold">4</div>
+              <div className="md:col-span-1 font-serif text-3xl text-[#c88a3e] font-bold">
+                4
+              </div>
               <div className="md:col-span-4">
-                <h3 className="font-heading text-lg font-bold text-[#071739]">Inspect, export, and download</h3>
+                <h3 className="font-heading text-lg font-bold text-[#071739]">
+                  Inspect, export, and download
+                </h3>
               </div>
               <div className="md:col-span-7 text-sm text-gray-600">
-                Live findings display in your browser immediately. The full cryptographic assessment downloads as a
-                board-ready PDF report, with the machine-readable CBOM available in CycloneDX 1.6 format.
+                Live findings display in your browser immediately. The full
+                cryptographic assessment downloads as a board-ready PDF report,
+                with the machine-readable CBOM available in CycloneDX 1.6
+                format.
               </div>
             </div>
           </div>
@@ -1576,45 +2026,79 @@ export default function VyuhScanner() {
         <div className="wrap">
           <div className="kicker">Regulatory Alignment</div>
           <h2 className="display">
-            Classified against the standards <span className="au">your regulator cites.</span>
+            Classified against the standards{' '}
+            <span className="au">your regulator cites.</span>
           </h2>
           <p className="lede" style={{ marginTop: 14 }}>
-            Vyuh’s risk ratings and remediation mandates trace directly to authoritative guidance from global and sovereign
-            cryptographic bodies.
+            Vyuh’s risk ratings and remediation mandates trace directly to
+            authoritative guidance from global and sovereign cryptographic
+            bodies.
           </p>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-12">
             <div className="p-5 rounded-xl border border-white/10 bg-white/[0.02] hover:border-[#e0a769]/40 transition-colors">
-              <b className="block font-heading text-white text-base">NIST FIPS 203</b>
-              <span className="text-xs text-gray-400 mt-1 block">ML-KEM · Module-Lattice Key Encapsulation</span>
+              <b className="block font-heading text-white text-base">
+                NIST FIPS 203
+              </b>
+              <span className="text-xs text-gray-400 mt-1 block">
+                ML-KEM · Module-Lattice Key Encapsulation
+              </span>
             </div>
             <div className="p-5 rounded-xl border border-white/10 bg-white/[0.02] hover:border-[#e0a769]/40 transition-colors">
-              <b className="block font-heading text-white text-base">NIST FIPS 204</b>
-              <span className="text-xs text-gray-400 mt-1 block">ML-DSA · Module-Lattice Digital Signatures</span>
+              <b className="block font-heading text-white text-base">
+                NIST FIPS 204
+              </b>
+              <span className="text-xs text-gray-400 mt-1 block">
+                ML-DSA · Module-Lattice Digital Signatures
+              </span>
             </div>
             <div className="p-5 rounded-xl border border-white/10 bg-white/[0.02] hover:border-[#e0a769]/40 transition-colors">
-              <b className="block font-heading text-white text-base">NIST FIPS 205</b>
-              <span className="text-xs text-gray-400 mt-1 block">SLH-DSA · Stateless Hash-Based Signatures</span>
+              <b className="block font-heading text-white text-base">
+                NIST FIPS 205
+              </b>
+              <span className="text-xs text-gray-400 mt-1 block">
+                SLH-DSA · Stateless Hash-Based Signatures
+              </span>
             </div>
             <div className="p-5 rounded-xl border border-white/10 bg-white/[0.02] hover:border-[#e0a769]/40 transition-colors">
-              <b className="block font-heading text-white text-base">NIST SP 1800-38</b>
-              <span className="text-xs text-gray-400 mt-1 block">Enterprise Migration to Post-Quantum Cryptography</span>
+              <b className="block font-heading text-white text-base">
+                NIST SP 1800-38
+              </b>
+              <span className="text-xs text-gray-400 mt-1 block">
+                Enterprise Migration to Post-Quantum Cryptography
+              </span>
             </div>
             <div className="p-5 rounded-xl border border-white/10 bg-white/[0.02] hover:border-[#e0a769]/40 transition-colors">
-              <b className="block font-heading text-white text-base">CycloneDX 1.6</b>
-              <span className="text-xs text-gray-400 mt-1 block">Cryptographic Bill of Materials (CBOM) Schema</span>
+              <b className="block font-heading text-white text-base">
+                CycloneDX 1.6
+              </b>
+              <span className="text-xs text-gray-400 mt-1 block">
+                Cryptographic Bill of Materials (CBOM) Schema
+              </span>
             </div>
             <div className="p-5 rounded-xl border border-white/10 bg-white/[0.02] hover:border-[#e0a769]/40 transition-colors">
-              <b className="block font-heading text-white text-base">CNSA 2.0</b>
-              <span className="text-xs text-gray-400 mt-1 block">Commercial National Security Algorithm Suite</span>
+              <b className="block font-heading text-white text-base">
+                CNSA 2.0
+              </b>
+              <span className="text-xs text-gray-400 mt-1 block">
+                Commercial National Security Algorithm Suite
+              </span>
             </div>
             <div className="p-5 rounded-xl border border-white/10 bg-white/[0.02] hover:border-[#e0a769]/40 transition-colors">
-              <b className="block font-heading text-white text-base">RBI Cyber Resilience</b>
-              <span className="text-xs text-gray-400 mt-1 block">Supervisory Guidance on Quantum-Safe BFSI Readiness</span>
+              <b className="block font-heading text-white text-base">
+                RBI Cyber Resilience
+              </b>
+              <span className="text-xs text-gray-400 mt-1 block">
+                Supervisory Guidance on Quantum-Safe BFSI Readiness
+              </span>
             </div>
             <div className="p-5 rounded-xl border border-white/10 bg-white/[0.02] hover:border-[#e0a769]/40 transition-colors">
-              <b className="block font-heading text-white text-base">CERT-In PQC Framework</b>
-              <span className="text-xs text-gray-400 mt-1 block">National Security Advisory on Sovereign Encryption</span>
+              <b className="block font-heading text-white text-base">
+                CERT-In PQC Framework
+              </b>
+              <span className="text-xs text-gray-400 mt-1 block">
+                National Security Advisory on Sovereign Encryption
+              </span>
             </div>
           </div>
         </div>
@@ -1631,11 +2115,11 @@ export default function VyuhScanner() {
           <div className="mt-12 divide-y divide-gray-200 border-t border-b border-gray-200">
             {[
               {
-                q: 'Is Vyuh really free to use?',
+                q: 'Is VyUH really free to use?',
                 a: 'Yes. Scanning targets you own or are authorized to assess is completely free. There are no credit cards required, no trial expiration timers, and no paywalls on report generation. A verified professional identity is the sole requirement.',
               },
               {
-                q: 'Does Vyuh attack, disrupt, or exploit systems?',
+                q: 'Does VyUH attack, disrupt, or exploit systems?',
                 a: 'No. Web scans perform standard TLS cryptographic handshakes and consume public Certificate Transparency logs, exactly like a web browser. Repository scans inspect source syntax trees and package manifests. No exploits are executed, no intrusive probes occur, and no code or data is altered.',
               },
               {
@@ -1647,8 +2131,8 @@ export default function VyuhScanner() {
                 a: 'Scan results remain accessible under your session and are retained securely for ninety days so you can retrieve them, after which they are expunged. Source code is never persisted or stored; only the extracted cryptographic inventory metadata is retained.',
               },
               {
-                q: 'How does Vyuh relate to a full CBOM enterprise engagement?',
-                a: 'Vyuh provides focused diagnostics for single targets. Full enterprise discovery, automated CI/CD continuous monitoring, hardware security module (HSM) migration, and policy-driven crypto-agility are led by UElement AdviQ, our dedicated quantum security practice.',
+                q: 'How does VyUH relate to a full CBOM enterprise engagement?',
+                a: 'VyUH provides focused diagnostics for single targets. Full enterprise discovery, automated CI/CD continuous monitoring, hardware security module (HSM) migration, and policy-driven crypto-agility are led by UElement AdviQ, our dedicated quantum security practice.',
               },
               {
                 q: 'Can we scan private repositories or internal VPC services?',
@@ -1680,15 +2164,22 @@ export default function VyuhScanner() {
       </div>
 
       {/* ═══════════════════════ CLOSING CTA ═══════════════════════ */}
-      <div className="section text-center relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #071739 0%, #0c142d 100%)' }}>
+      <div
+        className="section text-center relative overflow-hidden"
+        style={{
+          background: 'linear-gradient(135deg, #071739 0%, #0c142d 100%)',
+        }}
+      >
         <div className="wrap max-w-3xl">
           <div className="tag mx-auto mb-4">UElement AdviQ Practice</div>
           <h2 className="display text-white">
-            You cannot migrate what you have <span className="au">not inventoried.</span>
+            You cannot migrate what you have{' '}
+            <span className="au">not inventoried.</span>
           </h2>
           <p className="text-[#c5d0dc] text-base mt-4 mb-8">
-            Start with one internet-facing endpoint or one critical repository. The first actionable CBOM and quantum
-            readiness verdict is ready in ninety seconds.
+            Start with one internet-facing endpoint or one critical repository.
+            The first actionable CBOM and quantum readiness verdict is ready in
+            ninety seconds.
           </p>
           <div className="flex flex-wrap justify-center items-center gap-4">
             <button
@@ -1746,9 +2237,7 @@ export default function VyuhScanner() {
             if (e.target === e.currentTarget) handleCloseModal();
           }}
         >
-          <div
-            className="relative w-full max-w-[96vw] xl:max-w-[95vw] 2xl:max-w-[1700px] h-[92vh] md:h-[94vh] max-h-[96vh] flex flex-col rounded-[24px] bg-[linear-gradient(165deg,#ffffff_0%,#fbfbfe_100%)] text-[#232223] border border-[#c88a3e]/30 shadow-[0px_20px_70px_rgba(7,23,57,0.35),0px_0px_35px_rgba(200,138,62,0.12)] p-4 sm:p-6 md:p-8 transition-all duration-300"
-          >
+          <div className="relative w-full max-w-[96vw] xl:max-w-[95vw] 2xl:max-w-[1700px] h-[92vh] md:h-[94vh] max-h-[96vh] flex flex-col rounded-[24px] bg-[linear-gradient(165deg,#ffffff_0%,#fbfbfe_100%)] text-[#232223] border border-[#c88a3e]/30 shadow-[0px_20px_70px_rgba(7,23,57,0.35),0px_0px_35px_rgba(200,138,62,0.12)] p-4 sm:p-6 md:p-8 transition-all duration-300">
             {/* Top Gold Accent Bar */}
             <div
               className="absolute top-0 left-0 right-0 h-[3px] rounded-t-[24px]"
@@ -1777,7 +2266,8 @@ export default function VyuhScanner() {
                     <>
                       {step === 3 && 'Step 1 of 2 · Target Endpoint'}
                       {step === 4 && 'Step 2 of 2 · Probing & Classification'}
-                      {step === 5 && 'Diagnostic Complete · Cryptographic Inventory'}
+                      {step === 5 &&
+                        'Diagnostic Complete · Cryptographic Inventory'}
                     </>
                   ) : (
                     <>
@@ -1785,7 +2275,8 @@ export default function VyuhScanner() {
                       {step === 2 && 'Step 2 of 4 · 2FA Code Verification'}
                       {step === 3 && 'Step 3 of 4 · Repository Configuration'}
                       {step === 4 && 'Step 4 of 4 · Codebase Analysis'}
-                      {step === 5 && 'Diagnostic Complete · Cryptographic Inventory'}
+                      {step === 5 &&
+                        'Diagnostic Complete · Cryptographic Inventory'}
                     </>
                   )}
                 </span>
@@ -1795,7 +2286,7 @@ export default function VyuhScanner() {
                 id="vyuh-modal-title"
                 className="text-20 sm:text-24 md:text-26 font-bold font-heading text-[#071739] tracking-tight leading-snug"
               >
-                Vyuh: <span className="au">Quantum CBOM Scanner</span>
+                VyUH: <span className="au">Quantum CBOM Scanner</span>
               </h2>
 
               <p className="text-12 sm:text-13 text-[#556987] mt-1 leading-normal font-body">
@@ -1805,9 +2296,10 @@ export default function VyuhScanner() {
                   'We have dispatched a six-digit verification code to your email and phone. Both must be confirmed before inspecting code repositories.'}
                 {step === 3 &&
                   (scanType === 'url'
-                    ? 'Enter any public domain, website, or API endpoint. Vyuh performs live non-invasive TLS 1.3 handshake and certificate chain analysis.'
-                    : 'Configure the repository to be inventoried. Vyuh performs read-only, non-invasive inspection of cryptographic primitives.')}
-                {step === 4 && 'Negotiating cryptographic handshakes and evaluating primitives against NIST standards...'}
+                    ? 'Enter any public domain, website, or API endpoint. VyUH performs live non-invasive TLS 1.3 handshake and certificate chain analysis.'
+                    : 'Configure the repository to be inventoried. VyUH performs read-only, non-invasive inspection of cryptographic primitives.')}
+                {step === 4 &&
+                  'Negotiating cryptographic handshakes and evaluating primitives against NIST standards...'}
                 {step === 5 &&
                   'Cryptographic Bill of Materials (CBOM) compiled. Review findings, migration timeline, and export formats below.'}
               </p>
@@ -1832,7 +2324,8 @@ export default function VyuhScanner() {
                 <div className="flex flex-col gap-3 sm:gap-3.5 max-w-4xl mx-auto w-full">
                   <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 p-3 rounded-xl bg-[#c88a3e]/10 border border-[#c88a3e]/30 text-xs">
                     <span className="text-[#071739] font-medium">
-                      Want to scan a public website or API endpoint instead? No login or verification required.
+                      Want to scan a public website or API endpoint instead? No
+                      login or verification required.
                     </span>
                     <button
                       type="button"
@@ -1854,12 +2347,18 @@ export default function VyuhScanner() {
                         type="text"
                         placeholder="Dr. Arjun Sharma"
                         value={profile.name}
-                        onChange={(e) => setProfile({ ...profile, name: e.target.value })}
+                        onChange={(e) =>
+                          setProfile({ ...profile, name: e.target.value })
+                        }
                         className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-sm text-[#232223] placeholder:text-[#808080] focus:outline-none focus:border-[#c88a3e] focus:bg-white transition-all ${
                           errors1.name ? 'border-red-500' : 'border-[#D7D7D7]'
                         }`}
                       />
-                      {errors1.name && <p className="text-red-600 text-xs mt-0.5 font-heading">{errors1.name}</p>}
+                      {errors1.name && (
+                        <p className="text-red-600 text-xs mt-0.5 font-heading">
+                          {errors1.name}
+                        </p>
+                      )}
                     </div>
 
                     <div>
@@ -1870,12 +2369,18 @@ export default function VyuhScanner() {
                         type="text"
                         placeholder="Chief Information Security Officer"
                         value={profile.title}
-                        onChange={(e) => setProfile({ ...profile, title: e.target.value })}
+                        onChange={(e) =>
+                          setProfile({ ...profile, title: e.target.value })
+                        }
                         className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-sm text-[#232223] placeholder:text-[#808080] focus:outline-none focus:border-[#c88a3e] focus:bg-white transition-all ${
                           errors1.title ? 'border-red-500' : 'border-[#D7D7D7]'
                         }`}
                       />
-                      {errors1.title && <p className="text-red-600 text-xs mt-0.5 font-heading">{errors1.title}</p>}
+                      {errors1.title && (
+                        <p className="text-red-600 text-xs mt-0.5 font-heading">
+                          {errors1.title}
+                        </p>
+                      )}
                     </div>
                   </div>
 
@@ -1888,12 +2393,20 @@ export default function VyuhScanner() {
                         type="text"
                         placeholder="State Bank / Enterprise Corp"
                         value={profile.company}
-                        onChange={(e) => setProfile({ ...profile, company: e.target.value })}
+                        onChange={(e) =>
+                          setProfile({ ...profile, company: e.target.value })
+                        }
                         className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-sm text-[#232223] placeholder:text-[#808080] focus:outline-none focus:border-[#c88a3e] focus:bg-white transition-all ${
-                          errors1.company ? 'border-red-500' : 'border-[#D7D7D7]'
+                          errors1.company
+                            ? 'border-red-500'
+                            : 'border-[#D7D7D7]'
                         }`}
                       />
-                      {errors1.company && <p className="text-red-600 text-xs mt-0.5 font-heading">{errors1.company}</p>}
+                      {errors1.company && (
+                        <p className="text-red-600 text-xs mt-0.5 font-heading">
+                          {errors1.company}
+                        </p>
+                      )}
                     </div>
 
                     <div>
@@ -1904,12 +2417,18 @@ export default function VyuhScanner() {
                         type="email"
                         placeholder="arjun@enterprise.in"
                         value={profile.email}
-                        onChange={(e) => setProfile({ ...profile, email: e.target.value })}
+                        onChange={(e) =>
+                          setProfile({ ...profile, email: e.target.value })
+                        }
                         className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-sm text-[#232223] placeholder:text-[#808080] focus:outline-none focus:border-[#c88a3e] focus:bg-white transition-all ${
                           errors1.email ? 'border-red-500' : 'border-[#D7D7D7]'
                         }`}
                       />
-                      {errors1.email && <p className="text-red-600 text-xs mt-0.5 font-heading">{errors1.email}</p>}
+                      {errors1.email && (
+                        <p className="text-red-600 text-xs mt-0.5 font-heading">
+                          {errors1.email}
+                        </p>
+                      )}
                     </div>
                   </div>
 
@@ -1921,7 +2440,12 @@ export default function VyuhScanner() {
                       <div className="flex gap-2">
                         <select
                           value={profile.countryCode}
-                          onChange={(e) => setProfile({ ...profile, countryCode: e.target.value })}
+                          onChange={(e) =>
+                            setProfile({
+                              ...profile,
+                              countryCode: e.target.value,
+                            })
+                          }
                           className="bg-[#f8f9fa] border border-[#D7D7D7] rounded-lg px-2.5 py-2 text-xs sm:text-sm text-[#232223] focus:outline-none focus:border-[#c88a3e] focus:bg-white"
                         >
                           <option value="+91">+91 (IN)</option>
@@ -1937,13 +2461,21 @@ export default function VyuhScanner() {
                           type="tel"
                           placeholder="9876543210"
                           value={profile.phone}
-                          onChange={(e) => setProfile({ ...profile, phone: e.target.value })}
+                          onChange={(e) =>
+                            setProfile({ ...profile, phone: e.target.value })
+                          }
                           className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-sm text-[#232223] placeholder:text-[#808080] focus:outline-none focus:border-[#c88a3e] focus:bg-white transition-all ${
-                            errors1.phone ? 'border-red-500' : 'border-[#D7D7D7]'
+                            errors1.phone
+                              ? 'border-red-500'
+                              : 'border-[#D7D7D7]'
                           }`}
                         />
                       </div>
-                      {errors1.phone && <p className="text-red-600 text-xs mt-0.5 font-heading">{errors1.phone}</p>}
+                      {errors1.phone && (
+                        <p className="text-red-600 text-xs mt-0.5 font-heading">
+                          {errors1.phone}
+                        </p>
+                      )}
                     </div>
 
                     <div>
@@ -1954,12 +2486,20 @@ export default function VyuhScanner() {
                         type="url"
                         placeholder="linkedin.com/in/arjun-sharma"
                         value={profile.linkedin}
-                        onChange={(e) => setProfile({ ...profile, linkedin: e.target.value })}
+                        onChange={(e) =>
+                          setProfile({ ...profile, linkedin: e.target.value })
+                        }
                         className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-sm text-[#232223] placeholder:text-[#808080] focus:outline-none focus:border-[#c88a3e] focus:bg-white transition-all ${
-                          errors1.linkedin ? 'border-red-500' : 'border-[#D7D7D7]'
+                          errors1.linkedin
+                            ? 'border-red-500'
+                            : 'border-[#D7D7D7]'
                         }`}
                       />
-                      {errors1.linkedin && <p className="text-red-600 text-xs mt-0.5 font-heading">{errors1.linkedin}</p>}
+                      {errors1.linkedin && (
+                        <p className="text-red-600 text-xs mt-0.5 font-heading">
+                          {errors1.linkedin}
+                        </p>
+                      )}
                     </div>
                   </div>
 
@@ -1969,14 +2509,27 @@ export default function VyuhScanner() {
                     </label>
                     <select
                       value={profile.purpose}
-                      onChange={(e) => setProfile({ ...profile, purpose: e.target.value })}
+                      onChange={(e) =>
+                        setProfile({ ...profile, purpose: e.target.value })
+                      }
                       className="w-full bg-[#f8f9fa] border border-[#D7D7D7] rounded-lg px-3 py-2 text-xs sm:text-sm text-[#232223] focus:outline-none focus:border-[#c88a3e] focus:bg-white"
                     >
-                      <option value="Preparing a post-quantum migration plan">Preparing a post-quantum migration plan</option>
-                      <option value="Responding to a regulator or audit mandate">Responding to a regulator or audit mandate (RBI, SEBI, CERT-In)</option>
-                      <option value="Building an enterprise cryptographic inventory (CBOM)">Building an enterprise cryptographic inventory (CBOM)</option>
-                      <option value="Evaluating vendor software or third-party risk">Evaluating vendor software or third-party risk</option>
-                      <option value="Academic research and sovereign security interest">Academic research and sovereign security interest</option>
+                      <option value="Preparing a post-quantum migration plan">
+                        Preparing a post-quantum migration plan
+                      </option>
+                      <option value="Responding to a regulator or audit mandate">
+                        Responding to a regulator or audit mandate (RBI, SEBI,
+                        CERT-In)
+                      </option>
+                      <option value="Building an enterprise cryptographic inventory (CBOM)">
+                        Building an enterprise cryptographic inventory (CBOM)
+                      </option>
+                      <option value="Evaluating vendor software or third-party risk">
+                        Evaluating vendor software or third-party risk
+                      </option>
+                      <option value="Academic research and sovereign security interest">
+                        Academic research and sovereign security interest
+                      </option>
                     </select>
                   </div>
 
@@ -1985,15 +2538,25 @@ export default function VyuhScanner() {
                       type="checkbox"
                       id="consentCheck"
                       checked={profile.consent}
-                      onChange={(e) => setProfile({ ...profile, consent: e.target.checked })}
+                      onChange={(e) =>
+                        setProfile({ ...profile, consent: e.target.checked })
+                      }
                       className="mt-0.5 rounded border-[#D7D7D7] text-[#c88a3e] focus:ring-[#c88a3e] accent-[#c88a3e]"
                     />
-                    <label htmlFor="consentCheck" className="cursor-pointer leading-snug">
-                      I confirm these details are mine and agree that UElement may contact me with this assessment report.
-                      Details are handled strictly under UElement’s privacy policy.
+                    <label
+                      htmlFor="consentCheck"
+                      className="cursor-pointer leading-snug"
+                    >
+                      I confirm these details are mine and agree that UElement
+                      may contact me with this assessment report. Details are
+                      handled strictly under UElement’s privacy policy.
                     </label>
                   </div>
-                  {errors1.consent && <p className="text-red-600 text-xs font-heading">{errors1.consent}</p>}
+                  {errors1.consent && (
+                    <p className="text-red-600 text-xs font-heading">
+                      {errors1.consent}
+                    </p>
+                  )}
                 </div>
               )}
 
@@ -2002,7 +2565,8 @@ export default function VyuhScanner() {
                 <div className="flex flex-col gap-3 sm:gap-3.5 max-w-4xl mx-auto w-full">
                   <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 p-3 rounded-xl bg-[#c88a3e]/10 border border-[#c88a3e]/30 text-xs">
                     <span className="text-[#071739] font-medium">
-                      Want to bypass 2FA? Public website scans require no verification.
+                      Want to bypass 2FA? Public website scans require no
+                      verification.
                     </span>
                     <button
                       type="button"
@@ -2019,7 +2583,10 @@ export default function VyuhScanner() {
                   <div className="p-4 sm:p-4.5 rounded-xl border border-[#c88a3e]/25 bg-[#f8f9fa] shadow-sm">
                     <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-[#556987] mb-2.5">
                       <span>
-                        Email code dispatched to: <b className="text-[#071739] font-mono">{profile.email}</b>
+                        Email code dispatched to:{' '}
+                        <b className="text-[#071739] font-mono">
+                          {profile.email}
+                        </b>
                       </span>
                       <span className="font-mono text-xs font-semibold text-[#a86e24] bg-[#c88a3e]/10 px-2.5 py-0.5 rounded border border-[#c88a3e]/30">
                         demo code: {demoCodes.email}
@@ -2033,7 +2600,12 @@ export default function VyuhScanner() {
                         placeholder="000000"
                         disabled={verified.email}
                         value={otpInputs.email}
-                        onChange={(e) => setOtpInputs({ ...otpInputs, email: e.target.value.replace(/\D/g, '') })}
+                        onChange={(e) =>
+                          setOtpInputs({
+                            ...otpInputs,
+                            email: e.target.value.replace(/\D/g, ''),
+                          })
+                        }
                         className="w-32 sm:w-36 bg-white border border-[#D7D7D7] rounded-lg px-3 py-1.5 text-center font-mono text-sm tracking-widest text-[#071739] focus:outline-none focus:border-[#c88a3e] disabled:opacity-50"
                       />
                       {!verified.email ? (
@@ -2063,7 +2635,9 @@ export default function VyuhScanner() {
                           disabled={resendTimers.email > 0}
                           className="text-xs text-[#c88a3e] hover:underline disabled:text-gray-400 cursor-pointer"
                         >
-                          {resendTimers.email > 0 ? `Resend in ${resendTimers.email}s` : 'Resend code'}
+                          {resendTimers.email > 0
+                            ? `Resend in ${resendTimers.email}s`
+                            : 'Resend code'}
                         </button>
                       )}
                     </div>
@@ -2078,7 +2652,10 @@ export default function VyuhScanner() {
                   <div className="p-4 sm:p-4.5 rounded-xl border border-[#c88a3e]/25 bg-[#f8f9fa] shadow-sm">
                     <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-[#556987] mb-2.5">
                       <span>
-                        SMS code dispatched to: <b className="text-[#071739] font-mono">{profile.phone}</b>
+                        SMS code dispatched to:{' '}
+                        <b className="text-[#071739] font-mono">
+                          {profile.phone}
+                        </b>
                       </span>
                       <span className="font-mono text-xs font-semibold text-[#a86e24] bg-[#c88a3e]/10 px-2.5 py-0.5 rounded border border-[#c88a3e]/30">
                         demo code: {demoCodes.phone}
@@ -2092,7 +2669,12 @@ export default function VyuhScanner() {
                         placeholder="000000"
                         disabled={verified.phone}
                         value={otpInputs.phone}
-                        onChange={(e) => setOtpInputs({ ...otpInputs, phone: e.target.value.replace(/\D/g, '') })}
+                        onChange={(e) =>
+                          setOtpInputs({
+                            ...otpInputs,
+                            phone: e.target.value.replace(/\D/g, ''),
+                          })
+                        }
                         className="w-32 sm:w-36 bg-white border border-[#D7D7D7] rounded-lg px-3 py-1.5 text-center font-mono text-sm tracking-widest text-[#071739] focus:outline-none focus:border-[#c88a3e] disabled:opacity-50"
                       />
                       {!verified.phone ? (
@@ -2122,7 +2704,9 @@ export default function VyuhScanner() {
                           disabled={resendTimers.phone > 0}
                           className="text-xs text-[#c88a3e] hover:underline disabled:text-gray-400 cursor-pointer"
                         >
-                          {resendTimers.phone > 0 ? `Resend in ${resendTimers.phone}s` : 'Resend code'}
+                          {resendTimers.phone > 0
+                            ? `Resend in ${resendTimers.phone}s`
+                            : 'Resend code'}
                         </button>
                       )}
                     </div>
@@ -2142,7 +2726,9 @@ export default function VyuhScanner() {
                     <div className="flex items-center gap-2 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-800">
                       <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
                       <span>
-                        <strong>Zero friction:</strong>{' '}Public endpoint &amp; TLS diagnostic is 100% free with no account or OTP required.
+                        <strong>Zero friction:</strong> Public endpoint &amp;
+                        TLS diagnostic is 100% free with no account or OTP
+                        required.
                       </span>
                     </div>
                   )}
@@ -2164,10 +2750,13 @@ export default function VyuhScanner() {
                     >
                       <div className="flex items-center gap-2 mb-1">
                         <Globe className="w-4 h-4 text-[#c88a3e] shrink-0" />
-                        <b className="font-heading text-sm text-[#071739]">Website or API Endpoint</b>
+                        <b className="font-heading text-sm text-[#071739]">
+                          Website or API Endpoint
+                        </b>
                       </div>
                       <span className="text-xs text-[#64748b] block leading-snug">
-                        TLS handshakes, cipher negotiation, full certificate chain
+                        TLS handshakes, cipher negotiation, full certificate
+                        chain
                       </span>
                     </button>
 
@@ -2177,7 +2766,10 @@ export default function VyuhScanner() {
                         if (!verified.email || !verified.phone) {
                           setScanType('repo');
                           setStep(1);
-                          triggerFooterMessage('Repository scanning requires corporate identity verification.', false);
+                          triggerFooterMessage(
+                            'Repository scanning requires corporate identity verification.',
+                            false
+                          );
                         } else {
                           setScanType('repo');
                           setTargetConfig((p) => ({ ...p, target: '' }));
@@ -2192,10 +2784,13 @@ export default function VyuhScanner() {
                     >
                       <div className="flex items-center gap-2 mb-1">
                         <GitBranch className="w-4 h-4 text-[#c88a3e] shrink-0" />
-                        <b className="font-heading text-sm text-[#071739]">Code Repository</b>
+                        <b className="font-heading text-sm text-[#071739]">
+                          Code Repository
+                        </b>
                       </div>
                       <span className="text-xs text-[#64748b] block leading-snug">
-                        Source AST, dependencies, committed credentials & keystores
+                        Source AST, dependencies, committed credentials &
+                        keystores
                       </span>
                     </button>
                   </div>
@@ -2203,7 +2798,9 @@ export default function VyuhScanner() {
                   {/* Target Input */}
                   <div>
                     <label className="font-heading text-xs sm:text-[12.5px] font-semibold text-[#071739] mb-1 block">
-                      {scanType === 'repo' ? 'Repository URL *' : 'Target Host / Endpoint URL *'}
+                      {scanType === 'repo'
+                        ? 'Repository URL *'
+                        : 'Target Host / Endpoint URL *'}
                     </label>
                     <input
                       type="text"
@@ -2213,10 +2810,19 @@ export default function VyuhScanner() {
                           : 'https://netbanking.yourbank.com'
                       }
                       value={targetConfig.target}
-                      onChange={(e) => setTargetConfig({ ...targetConfig, target: e.target.value })}
+                      onChange={(e) =>
+                        setTargetConfig({
+                          ...targetConfig,
+                          target: e.target.value,
+                        })
+                      }
                       className="w-full bg-[#f8f9fa] border border-[#D7D7D7] rounded-lg px-3.5 py-2 text-sm text-[#071739] font-mono focus:outline-none focus:border-[#c88a3e] focus:bg-white"
                     />
-                    {targetError && <p className="text-red-600 text-xs mt-1 font-heading">{targetError}</p>}
+                    {targetError && (
+                      <p className="text-red-600 text-xs mt-1 font-heading">
+                        {targetError}
+                      </p>
+                    )}
                   </div>
 
                   <div className="grid sm:grid-cols-2 gap-3">
@@ -2226,20 +2832,37 @@ export default function VyuhScanner() {
                       </label>
                       <select
                         value={targetConfig.depth}
-                        onChange={(e) => setTargetConfig({ ...targetConfig, depth: e.target.value })}
+                        onChange={(e) =>
+                          setTargetConfig({
+                            ...targetConfig,
+                            depth: e.target.value,
+                          })
+                        }
                         className="w-full bg-[#f8f9fa] border border-[#D7D7D7] rounded-lg px-3 py-2 text-xs text-[#071739] focus:outline-none focus:border-[#c88a3e]"
                       >
                         {scanType === 'repo' ? (
                           <>
-                            <option value="standard">Standard: default branch</option>
-                            <option value="deep">Deep: all branches & history</option>
-                            <option value="single">Manifests & direct dependencies only</option>
+                            <option value="standard">
+                              Standard: default branch
+                            </option>
+                            <option value="deep">
+                              Deep: all branches & history
+                            </option>
+                            <option value="single">
+                              Manifests & direct dependencies only
+                            </option>
                           </>
                         ) : (
                           <>
-                            <option value="standard">Standard: target & primary hostnames</option>
-                            <option value="deep">Deep: discovered subdomains & CT logs</option>
-                            <option value="single">Single host endpoint only</option>
+                            <option value="standard">
+                              Standard: target & primary hostnames
+                            </option>
+                            <option value="deep">
+                              Deep: discovered subdomains & CT logs
+                            </option>
+                            <option value="single">
+                              Single host endpoint only
+                            </option>
                           </>
                         )}
                       </select>
@@ -2251,13 +2874,26 @@ export default function VyuhScanner() {
                       </label>
                       <select
                         value={targetConfig.retention}
-                        onChange={(e) => setTargetConfig({ ...targetConfig, retention: parseInt(e.target.value, 10) })}
+                        onChange={(e) =>
+                          setTargetConfig({
+                            ...targetConfig,
+                            retention: parseInt(e.target.value, 10),
+                          })
+                        }
                         className="w-full bg-[#f8f9fa] border border-[#D7D7D7] rounded-lg px-3 py-2 text-xs text-[#071739] focus:outline-none focus:border-[#c88a3e]"
                       >
-                        <option value={5}>5 years (standard operational data)</option>
-                        <option value={8}>8 years (corporate & regulatory records)</option>
-                        <option value={12}>12 years (financial & health archives)</option>
-                        <option value={20}>20 years or more (national sovereign secrets)</option>
+                        <option value={5}>
+                          5 years (standard operational data)
+                        </option>
+                        <option value={8}>
+                          8 years (corporate & regulatory records)
+                        </option>
+                        <option value={12}>
+                          12 years (financial & health archives)
+                        </option>
+                        <option value={20}>
+                          20 years or more (national sovereign secrets)
+                        </option>
                       </select>
                     </div>
                   </div>
@@ -2267,12 +2903,21 @@ export default function VyuhScanner() {
                       type="checkbox"
                       id="authCheck"
                       checked={targetConfig.authorized}
-                      onChange={(e) => setTargetConfig({ ...targetConfig, authorized: e.target.checked })}
+                      onChange={(e) =>
+                        setTargetConfig({
+                          ...targetConfig,
+                          authorized: e.target.checked,
+                        })
+                      }
                       className="mt-0.5 rounded border-[#D7D7D7] text-[#c88a3e] focus:ring-[#c88a3e] accent-[#c88a3e]"
                     />
-                    <label htmlFor="authCheck" className="cursor-pointer leading-snug">
-                      I own this target or am explicitly authorized to have it assessed. I understand Vyuh performs
-                      read-only, non-invasive cryptographic inspection only.
+                    <label
+                      htmlFor="authCheck"
+                      className="cursor-pointer leading-snug"
+                    >
+                      I own this target or am explicitly authorized to have it
+                      assessed. I understand VyUH performs read-only,
+                      non-invasive cryptographic inspection only.
                     </label>
                   </div>
                 </div>
@@ -2283,13 +2928,18 @@ export default function VyuhScanner() {
                 <div className="py-4 max-w-4xl mx-auto w-full">
                   <div className="flex items-center justify-between mb-1">
                     <h4 className="font-heading font-bold text-[#071739] text-xl">
-                      {scanType === 'repo' ? 'Analyzing Codebase & Dependencies' : 'Probing Target Endpoints'}
+                      {scanType === 'repo'
+                        ? 'Analyzing Codebase & Dependencies'
+                        : 'Probing Target Endpoints'}
                     </h4>
                     <span className="font-mono text-xs text-[#a86e24] font-semibold">
-                      Stage {scanStageIndex + 1} of {SCAN_STAGES[scanType].length}
+                      Stage {scanStageIndex + 1} of{' '}
+                      {SCAN_STAGES[scanType].length}
                     </span>
                   </div>
-                  <p className="font-mono text-xs text-[#64748b] mb-6 truncate">{targetConfig.target}</p>
+                  <p className="font-mono text-xs text-[#64748b] mb-6 truncate">
+                    {targetConfig.target}
+                  </p>
 
                   <div className="space-y-3 font-mono text-xs mb-6">
                     {SCAN_STAGES[scanType].map((stage, idx) => {
@@ -2337,20 +2987,36 @@ export default function VyuhScanner() {
                   {/* Top Score Summary Banner */}
                   <div className="flex flex-col sm:flex-row items-center gap-6 p-5 rounded-2xl border border-[#e2e8f0] bg-[#f8f9fa] mb-6 shadow-sm">
                     <div className="relative w-24 h-24 shrink-0">
-                      <svg className="w-24 h-24 -rotate-90" viewBox="0 0 112 112">
-                        <circle cx="56" cy="56" r="47" fill="none" stroke="#e2e8f0" strokeWidth="9" />
+                      <svg
+                        className="w-24 h-24 -rotate-90"
+                        viewBox="0 0 112 112"
+                      >
+                        <circle
+                          cx="56"
+                          cy="56"
+                          r="47"
+                          fill="none"
+                          stroke="#e2e8f0"
+                          strokeWidth="9"
+                        />
                         <circle
                           cx="56"
                           cy="56"
                           r="47"
                           fill="none"
                           stroke={
-                            results.score < 40 ? '#e2604a' : results.score < 70 ? '#f5c116' : '#10b981'
+                            results.score < 40
+                              ? '#e2604a'
+                              : results.score < 70
+                                ? '#f5c116'
+                                : '#10b981'
                           }
                           strokeWidth="9"
                           strokeLinecap="round"
                           strokeDasharray={295.3}
-                          strokeDashoffset={295.3 - (295.3 * resScoreDisplay) / 100}
+                          strokeDashoffset={
+                            295.3 - (295.3 * resScoreDisplay) / 100
+                          }
                           style={{ transition: 'stroke-dashoffset 1s ease' }}
                         />
                       </svg>
@@ -2363,15 +3029,24 @@ export default function VyuhScanner() {
                       <div
                         className="font-heading font-bold text-lg mb-1"
                         style={{
-                          color: results.score < 40 ? '#dc2626' : results.score < 70 ? '#d97706' : '#059669',
+                          color:
+                            results.score < 40
+                              ? '#dc2626'
+                              : results.score < 70
+                                ? '#d97706'
+                                : '#059669',
                         }}
                       >
                         {results.band}
                       </div>
-                      <div className="font-mono text-xs text-[#071739] font-semibold break-all">{results.target}</div>
+                      <div className="font-mono text-xs text-[#071739] font-semibold break-all">
+                        {results.target}
+                      </div>
                       <p className="text-xs text-[#556987] mt-2 leading-relaxed">
-                        {results.stats.broken} of {results.stats.total} cryptographic assets fall to Shor’s algorithm,
-                        assessed across a {results.retention}-year data retention horizon.
+                        {results.stats.broken} of {results.stats.total}{' '}
+                        cryptographic assets fall to Shor’s algorithm, assessed
+                        across a {results.retention}-year data retention
+                        horizon.
                       </p>
                     </div>
                   </div>
@@ -2379,20 +3054,36 @@ export default function VyuhScanner() {
                   {/* 4 KPI Cards */}
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
                     <div className="p-4 rounded-xl border border-[#e2e8f0] bg-white shadow-sm">
-                      <b className="block text-2xl font-heading font-bold text-[#071739]">{results.stats.total}</b>
-                      <span className="text-[11px] text-[#64748b]">Total Crypto Assets</span>
+                      <b className="block text-2xl font-heading font-bold text-[#071739]">
+                        {results.stats.total}
+                      </b>
+                      <span className="text-[11px] text-[#64748b]">
+                        Total Crypto Assets
+                      </span>
                     </div>
                     <div className="p-4 rounded-xl border border-red-200 bg-red-50/60 shadow-sm">
-                      <b className="block text-2xl font-heading font-bold text-red-600">{results.stats.broken}</b>
-                      <span className="text-[11px] text-red-700">Breakable by Shor</span>
+                      <b className="block text-2xl font-heading font-bold text-red-600">
+                        {results.stats.broken}
+                      </b>
+                      <span className="text-[11px] text-red-700">
+                        Breakable by Shor
+                      </span>
                     </div>
                     <div className="p-4 rounded-xl border border-amber-200 bg-amber-50/60 shadow-sm">
-                      <b className="block text-2xl font-heading font-bold text-amber-600">{results.stats.weak}</b>
-                      <span className="text-[11px] text-amber-700">Halved by Grover</span>
+                      <b className="block text-2xl font-heading font-bold text-amber-600">
+                        {results.stats.weak}
+                      </b>
+                      <span className="text-[11px] text-amber-700">
+                        Halved by Grover
+                      </span>
                     </div>
                     <div className="p-4 rounded-xl border border-emerald-200 bg-emerald-50/60 shadow-sm">
-                      <b className="block text-2xl font-heading font-bold text-emerald-600">{results.stats.safe}</b>
-                      <span className="text-[11px] text-emerald-700">Quantum-Safe Today</span>
+                      <b className="block text-2xl font-heading font-bold text-emerald-600">
+                        {results.stats.safe}
+                      </b>
+                      <span className="text-[11px] text-emerald-700">
+                        Quantum-Safe Today
+                      </span>
                     </div>
                   </div>
 
@@ -2456,9 +3147,15 @@ export default function VyuhScanner() {
                         <tbody className="divide-y divide-[#e2e8f0]">
                           {results.cbom.map((item, idx) => (
                             <tr key={idx} className="hover:bg-[#f8f9fa]">
-                              <td className="py-2.5 px-3 text-[#071739] font-semibold">{item.asset}</td>
-                              <td className="py-2.5 px-3 font-mono text-[#0f172a]">{item.primitive}</td>
-                              <td className="py-2.5 px-3 text-[#64748b]">{item.purpose}</td>
+                              <td className="py-2.5 px-3 text-[#071739] font-semibold">
+                                {item.asset}
+                              </td>
+                              <td className="py-2.5 px-3 font-mono text-[#0f172a]">
+                                {item.primitive}
+                              </td>
+                              <td className="py-2.5 px-3 text-[#64748b]">
+                                {item.purpose}
+                              </td>
                               <td className="py-2.5 px-3">
                                 {item.verdict === 'broken' && (
                                   <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-red-50 text-red-700 border border-red-200">
@@ -2476,14 +3173,17 @@ export default function VyuhScanner() {
                                   </span>
                                 )}
                               </td>
-                              <td className="py-2.5 px-3 font-mono text-[#a86e24] font-semibold">{item.replacement}</td>
+                              <td className="py-2.5 px-3 font-mono text-[#a86e24] font-semibold">
+                                {item.replacement}
+                              </td>
                             </tr>
                           ))}
                         </tbody>
                       </table>
                       <div className="p-3 text-[11px] text-[#64748b] border-t border-[#e2e8f0] bg-[#f8f9fa]">
-                        Plus {results.stats.total - results.cbom.length} further assets itemized in the downloadable PDF
-                        and CycloneDX 1.6 export.
+                        Plus {results.stats.total - results.cbom.length} further
+                        assets itemized in the downloadable PDF and CycloneDX
+                        1.6 export.
                       </div>
                     </div>
                   )}
@@ -2518,12 +3218,21 @@ export default function VyuhScanner() {
                             >
                               {f.sev}
                             </span>
-                            <h5 className="font-heading font-bold text-[#071739] text-sm">{f.title}</h5>
+                            <h5 className="font-heading font-bold text-[#071739] text-sm">
+                              {f.title}
+                            </h5>
                           </div>
-                          <p className="text-[#334155] mb-2 leading-relaxed">{f.detail}</p>
+                          <p className="text-[#334155] mb-2 leading-relaxed">
+                            {f.detail}
+                          </p>
                           <div className="text-[11px] text-[#64748b]">
-                            <b className="text-[#071739]">Recommended Action:</b> {f.fix} ·{' '}
-                            <span className="text-[#071739] font-mono font-semibold">[{f.std}]</span>
+                            <b className="text-[#071739]">
+                              Recommended Action:
+                            </b>{' '}
+                            {f.fix} ·{' '}
+                            <span className="text-[#071739] font-mono font-semibold">
+                              [{f.std}]
+                            </span>
                           </div>
                         </div>
                       ))}
@@ -2534,10 +3243,19 @@ export default function VyuhScanner() {
                   {activeTab === 'plan' && (
                     <div className="space-y-3.5 max-h-80 overflow-y-auto pr-1">
                       {results.plan.map((p, idx) => (
-                        <div key={idx} className="p-4 rounded-xl border border-[#e2e8f0] bg-[#f8f9fa] shadow-sm">
-                          <span className="font-heading font-bold text-xs text-[#a86e24] block mb-1">{p.phase}</span>
-                          <h5 className="font-heading font-bold text-[#071739] text-sm mb-1">{p.title}</h5>
-                          <p className="text-xs text-[#556987] leading-relaxed">{p.desc}</p>
+                        <div
+                          key={idx}
+                          className="p-4 rounded-xl border border-[#e2e8f0] bg-[#f8f9fa] shadow-sm"
+                        >
+                          <span className="font-heading font-bold text-xs text-[#a86e24] block mb-1">
+                            {p.phase}
+                          </span>
+                          <h5 className="font-heading font-bold text-[#071739] text-sm mb-1">
+                            {p.title}
+                          </h5>
+                          <p className="text-xs text-[#556987] leading-relaxed">
+                            {p.desc}
+                          </p>
                         </div>
                       ))}
                     </div>
@@ -2550,8 +3268,12 @@ export default function VyuhScanner() {
                         <tbody className="divide-y divide-[#e2e8f0]">
                           {results.detail.map(([k, v], idx) => (
                             <tr key={idx} className="hover:bg-[#f8f9fa]">
-                              <td className="py-2.5 px-3 text-[#64748b] w-1/2">{k}</td>
-                              <td className="py-2.5 px-3 font-mono text-[#071739] font-medium w-1/2">{v}</td>
+                              <td className="py-2.5 px-3 text-[#64748b] w-1/2">
+                                {k}
+                              </td>
+                              <td className="py-2.5 px-3 font-mono text-[#071739] font-medium w-1/2">
+                                {v}
+                              </td>
                             </tr>
                           ))}
                         </tbody>
@@ -2565,29 +3287,31 @@ export default function VyuhScanner() {
             {/* Modal Footer matching Contact Us modal */}
             <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 pt-3 sm:pt-3.5 border-t border-black/[0.08] mt-3 sm:mt-4 shrink-0">
               <div className="text-12 text-[#64748b] font-body flex items-center gap-1.5 order-2 sm:order-1">
-                {step > 1 && step < 4 && !(step === 3 && scanType === 'url') && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      if (step === 3 && scanType === 'repo') {
-                        setStep(2);
-                      } else {
-                        setStep(step - 1);
-                      }
-                    }}
-                    className="btn btn-ghost btn-sm cursor-pointer mr-2 !inline-flex items-center justify-center whitespace-nowrap"
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      whiteSpace: 'nowrap',
-                      color: '#071739',
-                      borderColor: '#cbd5e1',
-                    }}
-                  >
-                    Back
-                  </button>
-                )}
+                {step > 1 &&
+                  step < 4 &&
+                  !(step === 3 && scanType === 'url') && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (step === 3 && scanType === 'repo') {
+                          setStep(2);
+                        } else {
+                          setStep(step - 1);
+                        }
+                      }}
+                      className="btn btn-ghost btn-sm cursor-pointer mr-2 !inline-flex items-center justify-center whitespace-nowrap"
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        whiteSpace: 'nowrap',
+                        color: '#071739',
+                        borderColor: '#cbd5e1',
+                      }}
+                    >
+                      Back
+                    </button>
+                  )}
                 {step === 5 && (
                   <button
                     type="button"
@@ -2608,8 +3332,18 @@ export default function VyuhScanner() {
                     Scan Another Target
                   </button>
                 )}
-                <span className={footerMsg?.isError ? 'text-red-600 font-medium' : 'text-[#64748b]'}>
-                  {footerMsg ? footerMsg.text : step === 5 ? 'CycloneDX 1.6 CBOM ready' : 'Free · No credit card required'}
+                <span
+                  className={
+                    footerMsg?.isError
+                      ? 'text-red-600 font-medium'
+                      : 'text-[#64748b]'
+                  }
+                >
+                  {footerMsg
+                    ? footerMsg.text
+                    : step === 5
+                      ? 'CycloneDX 1.6 CBOM ready'
+                      : 'Free · No credit card required'}
                 </span>
               </div>
 

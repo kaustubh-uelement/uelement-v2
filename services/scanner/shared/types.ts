@@ -1,14 +1,26 @@
 /**
- * Shared scan contract for the Vyuh backend.
+ * Shared scan contract for the VyUH backend.
  *
  * Measurement rules:
  *  - `null` means "not measured". It never collapses to `false` or `0`.
  *  - `*Measured: false` means the related field was not observed on the wire.
  *  - `'UNKNOWN'` risk is excluded from summary rates and averages.
  */
-export type QuantumRiskLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'HYBRID_TRANSITIONAL' | 'QUANTUM_SAFE' | 'UNKNOWN';
+export type QuantumRiskLevel =
+  | 'CRITICAL'
+  | 'HIGH'
+  | 'MEDIUM'
+  | 'HYBRID_TRANSITIONAL'
+  | 'QUANTUM_SAFE'
+  | 'UNKNOWN';
 
-export type AlgorithmCategory = 'ASYMMETRIC_ENCRYPTION' | 'KEY_EXCHANGE' | 'DIGITAL_SIGNATURE' | 'SYMMETRIC_CIPHER' | 'HASH_FUNCTION' | 'HYBRID_KEM';
+export type AlgorithmCategory =
+  | 'ASYMMETRIC_ENCRYPTION'
+  | 'KEY_EXCHANGE'
+  | 'DIGITAL_SIGNATURE'
+  | 'SYMMETRIC_CIPHER'
+  | 'HASH_FUNCTION'
+  | 'HYBRID_KEM';
 
 export interface CryptoAlgorithmInfo {
   name: string;
@@ -17,7 +29,15 @@ export interface CryptoAlgorithmInfo {
   quantumSecurityBits: number;
   shorVulnerable: boolean;
   groverVulnerable: boolean;
-  nistStatus: 'DEPRECATED' | 'CLASSICAL_LEGACY' | 'PQC_HYBRID' | 'FIPS_203_ML_KEM' | 'FIPS_204_ML_DSA' | 'FIPS_205_SLH_DSA' | 'FIPS_206_FN_DSA' | 'STATEFUL_HASH';
+  nistStatus:
+    | 'DEPRECATED'
+    | 'CLASSICAL_LEGACY'
+    | 'PQC_HYBRID'
+    | 'FIPS_203_ML_KEM'
+    | 'FIPS_204_ML_DSA'
+    | 'FIPS_205_SLH_DSA'
+    | 'FIPS_206_FN_DSA'
+    | 'STATEFUL_HASH';
   cnsa2Compliance: 'NON_COMPLIANT' | 'TRANSITIONAL' | 'FULLY_COMPLIANT';
   recommendedReplacement: string;
 }
@@ -75,7 +95,11 @@ export interface DiscoveredEndpoint {
   tls: TlsHandshakeInfo;
   certificate: CertificateInfo;
   dnsRecords: DnsRecord[];
-  discoveredVia: 'CERTIFICATE_TRANSPARENCY' | 'DNS_ENUMERATION' | 'DIRECT_PROBE' | 'SUBDOMAIN_PERMUTATION';
+  discoveredVia:
+    | 'CERTIFICATE_TRANSPARENCY'
+    | 'DNS_ENUMERATION'
+    | 'DIRECT_PROBE'
+    | 'SUBDOMAIN_PERMUTATION';
   quantumVulnerabilityScore: number;
   hndlExposureScore: number;
   quantumRisk: QuantumRiskLevel;
