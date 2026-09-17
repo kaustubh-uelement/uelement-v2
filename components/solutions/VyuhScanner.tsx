@@ -168,6 +168,20 @@ export default function VyuhScanner() {
   const [results, setResults] = useState<ScanResults | null>(null);
   const [resScoreDisplay, setResScoreDisplay] = useState<number>(0);
 
+  // PDF download lead gate state
+  const [showPdfLeadModal, setShowPdfLeadModal] = useState(false);
+  const [pdfLeadForm, setPdfLeadForm] = useState({
+    name: '',
+    email: '',
+    company: '',
+    title: '',
+    phone: '',
+  });
+  const [pdfLeadErrors, setPdfLeadErrors] = useState<Record<string, string>>(
+    {}
+  );
+  const [isSubmittingPdfLead, setIsSubmittingPdfLead] = useState(false);
+
   // FAQ open states
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -329,9 +343,99 @@ export default function VyuhScanner() {
     setOtpErrors({ email: false, phone: false });
   };
 
+  /* ── Enterprise Lead Dispatcher (FormSubmit & Web3Forms) ── */
+  const dispatchLeadCapture = async (
+    stage: string,
+    extra: Record<string, any> = {},
+    customProfile?: typeof profile
+  ) => {
+    const activeProfile = customProfile || profile;
+    if (!activeProfile.name && !activeProfile.email) return;
+
+    const payload = {
+      _subject: `[VyUH Lead] ${activeProfile.name || 'Executive'} (${activeProfile.company || 'Enterprise'}) · ${stage}`,
+      _template: 'table',
+      _captcha: 'false',
+      name: activeProfile.name,
+      email: activeProfile.email,
+      'Job Title': activeProfile.title || 'N/A',
+      'Company / Organisation': activeProfile.company || 'N/A',
+      'Mobile Phone': activeProfile.phone?.startsWith('+')
+        ? activeProfile.phone
+        : `${activeProfile.countryCode || '+91'} ${activeProfile.phone || 'N/A'}`,
+      'LinkedIn Profile': activeProfile.linkedin || 'N/A',
+      'Evaluation Purpose':
+        activeProfile.purpose || 'Cryptographic Assessment & CBOM',
+      'Consent Given': activeProfile.consent ? 'Yes' : 'No',
+      'Scan Type': scanType,
+      'Registration Stage': stage,
+      'Submission Timestamp': new Date().toLocaleString('en-IN', {
+        timeZone: 'Asia/Kolkata',
+      }),
+      'Source Page':
+        typeof window !== 'undefined'
+          ? window.location.href
+          : 'https://uelement.in/vuyh',
+      ...extra,
+    };
+
+    // Primary delivery: FormSubmit AJAX to NEXT_PUBLIC_FORM_SUBMIT_EMAIL
+    const formSubmitEmail =
+      process.env.NEXT_PUBLIC_FORM_SUBMIT_EMAIL || 'kaustubh@uelement.in';
+    let dispatched = false;
+
+    if (formSubmitEmail) {
+      try {
+        const res = await fetch(
+          `https://formsubmit.co/ajax/${formSubmitEmail}`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Accept: 'application/json',
+            },
+            body: JSON.stringify(payload),
+          }
+        );
+        if (res.ok) {
+          dispatched = true;
+          console.log('[VyuhScanner] Lead captured via FormSubmit.');
+        }
+      } catch (err) {
+        console.warn('[VyuhScanner] FormSubmit non-fatal notice:', err);
+      }
+    }
+
+    // Secondary / Fallback delivery: Web3Forms
+    const web3Key =
+      process.env.NEXT_PUBLIC_WEB3FORMS_KEY ||
+      '5f0b55f8-1ed0-46cd-a518-c13ca9686c6f';
+    if (!dispatched && web3Key) {
+      try {
+        await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          body: JSON.stringify({
+            access_key: web3Key,
+            from_name: 'VyUH Quantum Scanner',
+            subject: payload._subject,
+            ...payload,
+          }),
+        });
+        console.log('[VyuhScanner] Lead captured via Web3Forms.');
+      } catch (err) {
+        console.warn('[VyuhScanner] Web3Forms non-fatal notice:', err);
+      }
+    }
+  };
+
   const handleProceedFromStep1 = () => {
     if (validateStep1()) {
       generateCodes();
+      dispatchLeadCapture('Step 1: Corporate Profile Submitted (2FA Pending)');
       setStep(2);
     } else {
       triggerFooterMessage(
@@ -360,6 +464,7 @@ export default function VyuhScanner() {
 
   const handleProceedFromStep2 = () => {
     if (verified.email && verified.phone) {
+      dispatchLeadCapture('Step 2: Dual-Channel 2FA Verified');
       setStep(3);
     } else {
       triggerFooterMessage(
@@ -377,13 +482,18 @@ export default function VyuhScanner() {
       return false;
     }
     if (scanType === 'repo') {
+      const cleanRepo = val.trim().replace(/^https?:\/\//i, '');
       const isRepo =
         /^https?:\/\/(www\.)?(github\.com|gitlab\.com|bitbucket\.org|dev\.azure\.com)\/[\w.\-]+\/[\w.\-]+/i.test(
           val
-        );
+        ) ||
+        /^(github\.com|gitlab\.com|bitbucket\.org|dev\.azure\.com)\/[\w.\-]+\/[\w.\-]+/i.test(
+          cleanRepo
+        ) ||
+        /^[\w.\-]+\/[\w.\-]+$/i.test(cleanRepo);
       if (!isRepo) {
         setTargetError(
-          'Enter a valid GitHub, GitLab, Bitbucket, or Azure DevOps repository URL.'
+          'Enter a valid GitHub repository URL (e.g. https://github.com/owner/repo or owner/repo).'
         );
         return false;
       }
@@ -416,6 +526,15 @@ export default function VyuhScanner() {
   const executeScan = async (target: string) => {
     setStep(4);
     setScanStageIndex(0);
+
+    if (scanType === 'repo' || profile.email) {
+      dispatchLeadCapture('Step 3: Scan Target Launched', {
+        'Target Asset': target,
+        'Scan Depth': targetConfig.depth,
+        'Retention Period': `${targetConfig.retention} Months`,
+      });
+    }
+
     const stages = SCAN_STAGES[scanType];
     let idx = 0;
 
@@ -426,80 +545,60 @@ export default function VyuhScanner() {
       }
     }, 700);
 
-    if (scanType === 'url') {
-      try {
-        const apiUrl =
-          process.env.NEXT_PUBLIC_SCANNER_API_URL || 'http://localhost:8080';
-        const res = await fetch(`${apiUrl}/api/scan`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            target,
-            type: scanType,
-            depth: targetConfig.depth,
-            retention: targetConfig.retention,
-          }),
-        });
+    try {
+      const apiUrl =
+        process.env.NEXT_PUBLIC_SCANNER_API_URL || 'http://localhost:8080';
+      const res = await fetch(`${apiUrl}/api/scan`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          target,
+          type: scanType,
+          depth: targetConfig.depth,
+          retention: targetConfig.retention,
+        }),
+      });
 
-        if (!res.ok) {
-          const errData = await res.json().catch(() => ({}));
-          throw new Error(
-            errData.error || `Scan service responded with status ${res.status}`
-          );
-        }
-
-        const scanData = await res.json();
-        clearInterval(stageInterval);
-        setScanStageIndex(stages.length - 1);
-
-        const formattedResults: ScanResults = {
-          ...scanData,
-          when: new Date(scanData.when || Date.now()),
-          raw: scanData.raw,
-        };
-
-        setTimeout(() => {
-          setResults(formattedResults);
-          setStep(5);
-        }, 500);
-      } catch (err: any) {
-        clearInterval(stageInterval);
-        console.error('PQC Scan error:', err);
-        setStep(3);
-        const isNetworkErr =
-          err?.message === 'Failed to fetch' || err?.name === 'TypeError';
-        const userMsg = isNetworkErr
-          ? 'Unable to connect to the VyUH Scanner backend service (http://localhost:8080). Please ensure the scanner microservice is running or deployed.'
-          : err?.message ||
-            'Diagnostic scan failed. Please check the target and try again.';
-        setTargetError(userMsg);
-        triggerFooterMessage(userMsg, true);
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(
+          errData.error || `Scan service responded with status ${res.status}`
+        );
       }
-    } else {
-      const mockInterval = setInterval(() => {
-        idx++;
-        if (idx < stages.length) {
-          setScanStageIndex(idx);
-        } else {
-          clearInterval(mockInterval);
-          clearInterval(stageInterval);
-          const scanRes = generateScanResults(
-            target,
-            scanType,
-            targetConfig.depth,
-            targetConfig.retention
-          );
-          setResults(scanRes);
-          setStep(5);
-        }
-      }, 550);
+
+      const scanData = await res.json();
+      clearInterval(stageInterval);
+      setScanStageIndex(stages.length - 1);
+
+      const formattedResults: ScanResults = {
+        ...scanData,
+        when: new Date(scanData.when || Date.now()),
+        raw: scanData.raw,
+      };
+
+      setTimeout(() => {
+        setResults(formattedResults);
+        setStep(5);
+      }, 500);
+    } catch (err: any) {
+      clearInterval(stageInterval);
+      console.error('Scan error:', err);
+      setStep(3);
+      const isNetworkErr =
+        err?.message === 'Failed to fetch' || err?.name === 'TypeError';
+      const userMsg = isNetworkErr
+        ? 'Unable to connect to the VyUH Scanner backend service (http://localhost:8080). Please ensure the scanner microservice is running or deployed.'
+        : err?.message ||
+          'Diagnostic scan failed. Please check the target and try again.';
+      setTargetError(userMsg);
+      triggerFooterMessage(userMsg, true);
     }
   };
 
   const handleStartScan = () => {
     if (validateStep3()) {
       let t = targetConfig.target.trim();
-      if (scanType === 'url' && !/^https?:\/\//i.test(t)) {
+      if (!/^https?:\/\//i.test(t)) {
         t = `https://${t}`;
         setTargetConfig((prev) => ({ ...prev, target: t }));
       }
@@ -951,7 +1050,7 @@ export default function VyuhScanner() {
   };
 
   /* ── Client-side PDF Report Generation ── */
-  const downloadPDFReport = () => {
+  const downloadPDFReport = (overrideProfile?: Partial<typeof profile>) => {
     if (!results) return;
     const jspdfObj = (window as any).jspdf?.jsPDF;
     if (!jspdfObj) {
@@ -1110,11 +1209,10 @@ export default function VyuhScanner() {
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(9.5);
     doc.setTextColor(20, 20, 20);
-    doc.text(
-      `${profile.name || 'Executive'} · ${profile.company || 'Enterprise'}`,
-      M + 18,
-      metaBaseY + 58
-    );
+    const clientName = overrideProfile?.name || profile.name || 'Executive';
+    const clientCompany =
+      overrideProfile?.company || profile.company || 'Enterprise';
+    doc.text(`${clientName} · ${clientCompany}`, M + 18, metaBaseY + 58);
 
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(7.5);
@@ -1333,6 +1431,86 @@ export default function VyuhScanner() {
       .replace(/[^a-zA-Z0-9]/g, '_')
       .substring(0, 36);
     doc.save(`Vyuh_CBOM_Assessment_${sanitizedName}.pdf`);
+  };
+
+  /* ── PDF Download Handler with Basic Info Gating ── */
+  const handlePdfButtonClick = () => {
+    // If the user already completed registration (e.g. from repo scan or previously submitted lead)
+    if (profile.email && profile.name) {
+      downloadPDFReport();
+    } else {
+      setPdfLeadForm((prev) => ({
+        ...prev,
+        name: profile.name || '',
+        email: profile.email || '',
+        company: profile.company || '',
+        title: profile.title || '',
+        phone: profile.phone || '',
+      }));
+      setPdfLeadErrors({});
+      setShowPdfLeadModal(true);
+    }
+  };
+
+  const handlePdfLeadSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    const errs: Record<string, string> = {};
+    if (!pdfLeadForm.name.trim()) errs.name = 'Please enter your full name.';
+    if (!pdfLeadForm.company.trim())
+      errs.company = 'Please enter your organisation name.';
+
+    const emailTrim = pdfLeadForm.email.trim().toLowerCase();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
+    if (!emailRegex.test(emailTrim)) {
+      errs.email = 'Please enter a valid work email address.';
+    } else {
+      const domain = emailTrim.split('@')[1];
+      if (FREE_EMAIL_DOMAINS.includes(domain)) {
+        errs.email = 'Please provide your official corporate email address.';
+      }
+    }
+
+    setPdfLeadErrors(errs);
+    if (Object.keys(errs).length > 0) return;
+
+    setIsSubmittingPdfLead(true);
+
+    const updatedProfile = {
+      ...profile,
+      name: pdfLeadForm.name.trim(),
+      email: emailTrim,
+      company: pdfLeadForm.company.trim(),
+      title: pdfLeadForm.title.trim() || profile.title,
+      phone: pdfLeadForm.phone.trim() || profile.phone,
+    };
+
+    setProfile(updatedProfile);
+
+    // Dispatch lead capture immediately to corporate email & Web3Forms
+    await dispatchLeadCapture(
+      'PDF Assessment Report Downloaded (Web Scanner)',
+      {
+        'Scanned Target': results?.target || targetConfig.target,
+        'Scan Type': results?.type || scanType,
+        'Quantum Readiness Score':
+          results?.score != null ? `${results.score}/100` : 'N/A',
+        'Risk Band': results?.band || 'N/A',
+        'Breakable Assets (Shor)': results?.stats?.broken ?? 0,
+        'Weakened Assets (Grover)': results?.stats?.weak ?? 0,
+        'Safe Assets': results?.stats?.safe ?? 0,
+        'Evaluation Horizon': `${results?.retention || targetConfig.retention} Years`,
+      },
+      updatedProfile
+    );
+
+    setIsSubmittingPdfLead(false);
+    setShowPdfLeadModal(false);
+
+    // Immediately trigger personalized PDF download
+    downloadPDFReport(updatedProfile);
+    triggerFooterMessage(
+      'Your personalized assessment report has been downloaded.'
+    );
   };
 
   return (
@@ -1805,136 +1983,187 @@ export default function VyuhScanner() {
               </p>
             </div>
           </div>
+        </div>
+      </div>
 
-          {/* Algorithm Vulnerability Table */}
-          <div className="mt-14 overflow-hidden rounded-xl border border-white/10 bg-white/[0.02]">
-            <div className="p-5 border-b border-white/10 bg-white/[0.03] flex items-center justify-between">
-              <div>
-                <h4 className="font-heading font-bold text-white text-base">
-                  NIST Quantum Vulnerability & Replacement Matrix
-                </h4>
-                <p className="text-xs text-gray-400 mt-1">
-                  How classical primitives perform under Shor’s and Grover’s
-                  algorithms and their approved PQC replacements
-                </p>
-              </div>
-              <span className="text-xs font-mono text-[#e0a769] border border-[#e0a769]/30 px-2.5 py-1 rounded">
-                NIST FIPS Validated
-              </span>
+      {/* ═══════════════════════ NIST QUANTUM VULNERABILITY MATRIX ═══════════════════════ */}
+      <section className="relative overflow-hidden bg-white">
+        <div className="container-padding pt-12 sm:pt-16 lg:pt-20 pb-16 sm:pb-24 relative z-10">
+          {/* Header in the top blue half */}
+          <div className="wrap text-center !mb-10 !sm:mb-12 !lg:mb-14">
+            <div className="kicker justify-center mx-auto">
+              NIST FIPS Standards
             </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm text-[#c5d0dc]">
-                <thead className="bg-white/[0.04] text-xs font-heading font-semibold text-gray-300 uppercase tracking-wider">
-                  <tr>
-                    <th className="py-3.5 px-5">Classical Primitive</th>
-                    <th className="py-3.5 px-5">Common Enterprise Location</th>
-                    <th className="py-3.5 px-5">Quantum Verdict</th>
-                    <th className="py-3.5 px-5">NIST FIPS Replacement</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-white/5 font-normal">
-                  <tr className="hover:bg-white/[0.02]">
-                    <td className="py-3.5 px-5 font-mono text-white font-medium">
-                      RSA-2048 / RSA-4096
-                    </td>
-                    <td className="py-3.5 px-5">
-                      TLS certificates, code signing, JWT tokens
-                    </td>
-                    <td className="py-3.5 px-5">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-500/15 text-red-400 border border-red-500/20">
-                        Broken by Shor
-                      </span>
-                    </td>
-                    <td className="py-3.5 px-5 font-mono text-emerald-300">
-                      ML-KEM-768 · ML-DSA-65
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-white/[0.02]">
-                    <td className="py-3.5 px-5 font-mono text-white font-medium">
-                      ECDSA P-256 / P-384
-                    </td>
-                    <td className="py-3.5 px-5">
-                      Certificate signatures, mTLS, zero-trust tokens
-                    </td>
-                    <td className="py-3.5 px-5">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-500/15 text-red-400 border border-red-500/20">
-                        Broken by Shor
-                      </span>
-                    </td>
-                    <td className="py-3.5 px-5 font-mono text-emerald-300">
-                      ML-DSA-65 · SLH-DSA
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-white/[0.02]">
-                    <td className="py-3.5 px-5 font-mono text-white font-medium">
-                      ECDH / X25519
-                    </td>
-                    <td className="py-3.5 px-5">
-                      TLS session key exchange, VPN tunnels, SSH
-                    </td>
-                    <td className="py-3.5 px-5">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-500/15 text-red-400 border border-red-500/20">
-                        Broken by Shor
-                      </span>
-                    </td>
-                    <td className="py-3.5 px-5 font-mono text-emerald-300">
-                      X25519MLKEM768 Hybrid
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-white/[0.02]">
-                    <td className="py-3.5 px-5 font-mono text-white font-medium">
-                      AES-128-GCM
-                    </td>
-                    <td className="py-3.5 px-5">
-                      Symmetric session encryption, database columns
-                    </td>
-                    <td className="py-3.5 px-5">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-yellow-500/15 text-yellow-400 border border-yellow-500/20">
-                        Halved by Grover
-                      </span>
-                    </td>
-                    <td className="py-3.5 px-5 font-mono text-emerald-300">
-                      AES-256-GCM
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-white/[0.02]">
-                    <td className="py-3.5 px-5 font-mono text-white font-medium">
-                      SHA-1 / MD5
-                    </td>
-                    <td className="py-3.5 px-5">
-                      Legacy HMACs, file integrity, older microservices
-                    </td>
-                    <td className="py-3.5 px-5">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-500/15 text-red-400 border border-red-500/20">
-                        Already Insecure
-                      </span>
-                    </td>
-                    <td className="py-3.5 px-5 font-mono text-emerald-300">
-                      SHA-384 · SHA-3
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-white/[0.02]">
-                    <td className="py-3.5 px-5 font-mono text-white font-medium">
-                      AES-256-GCM / SHA-384
-                    </td>
-                    <td className="py-3.5 px-5">
-                      Modern high-assurance envelope encryption
-                    </td>
-                    <td className="py-3.5 px-5">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/20">
-                        Quantum-Safe
-                      </span>
-                    </td>
-                    <td className="py-3.5 px-5 font-mono text-gray-400">
-                      No modification required
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+            <h2 className="display text-white mx-auto">
+              NIST Quantum Vulnerability &amp;{' '}
+              <span className="au">Replacement Matrix.</span>
+            </h2>
+            <p
+              className="lede mx-auto text-[#c5d0dc]"
+              style={{ marginTop: 16, maxWidth: 760 }}
+            >
+              How classical cryptographic primitives perform under Shor’s and
+              Grover’s algorithms, and their certified NIST FIPS 203, 204, and
+              205 post-quantum replacements.
+            </p>
+          </div>
+
+          {/* Plate wrapper with exact 50-50 split behind the plate */}
+          <div className="relative max-w-[1140px] mx-auto">
+            {/* Top Blue background: extends from top of section down to exactly 50% of the plate */}
+            <div
+              className="absolute -top-[2000px] left-1/2 -translate-x-1/2 w-screen bg-hero-gradient pointer-events-none -z-10"
+              style={{ bottom: '50%' }}
+            />
+
+            {/* The Plate: matching footer contact form */}
+            <div className="bg-white rounded-[20px] p-6 sm:p-8 lg:p-10 shadow-[0px_4px_72.2px_0px_rgba(0,0,0,0.25)]">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 mb-6 border-b border-gray-100">
+                <div>
+                  <h4 className="font-heading font-bold text-[#071739] text-xl sm:text-2xl">
+                    Algorithm Vulnerability &amp; Replacement Matrix
+                  </h4>
+                  <p className="text-xs sm:text-sm text-gray-500 mt-1">
+                    Classical primitives vs quantum threats and NIST FIPS
+                    targets
+                  </p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-mono font-medium text-[#e0a769] bg-[#e0a769]/10 border border-[#e0a769]/30 px-3 py-1 rounded-md">
+                    NIST FIPS Validated
+                  </span>
+                  <span className="text-xs font-mono font-medium text-[#071739] bg-slate-100 border border-slate-200 px-3 py-1 rounded-md">
+                    6 Primitives Mapped
+                  </span>
+                </div>
+              </div>
+
+              <div className="overflow-x-auto rounded-xl border border-slate-200/80">
+                <table className="w-full text-left text-sm text-slate-700">
+                  <thead className="bg-slate-50 text-[11px] font-heading font-semibold text-slate-600 uppercase tracking-wider border-b border-slate-200">
+                    <tr>
+                      <th className="py-3 px-4">Classical Primitive</th>
+                      <th className="py-3 px-4">Enterprise Location</th>
+                      <th className="py-3 px-4">Quantum Verdict</th>
+                      <th className="py-3 px-4">NIST FIPS Replacement</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 font-normal text-xs sm:text-sm">
+                    <tr className="hover:bg-slate-50/70 transition-colors">
+                      <td className="py-3.5 px-4 font-mono text-[#071739] font-semibold whitespace-nowrap">
+                        RSA-2048 / RSA-4096
+                      </td>
+                      <td className="py-3.5 px-4 text-slate-600">
+                        TLS certificates, code signing, JWT tokens
+                      </td>
+                      <td className="py-3.5 px-4 whitespace-nowrap">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-50 text-red-700 border border-red-200">
+                          Broken by Shor
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-4 font-mono text-emerald-700 font-medium whitespace-nowrap">
+                        ML-KEM-768 · ML-DSA-65
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-slate-50/70 transition-colors">
+                      <td className="py-3.5 px-4 font-mono text-[#071739] font-semibold whitespace-nowrap">
+                        ECDSA P-256 / P-384
+                      </td>
+                      <td className="py-3.5 px-4 text-slate-600">
+                        Certificate signatures, mTLS, zero-trust tokens
+                      </td>
+                      <td className="py-3.5 px-4 whitespace-nowrap">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-50 text-red-700 border border-red-200">
+                          Broken by Shor
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-4 font-mono text-emerald-700 font-medium whitespace-nowrap">
+                        ML-DSA-65 · SLH-DSA
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-slate-50/70 transition-colors">
+                      <td className="py-3.5 px-4 font-mono text-[#071739] font-semibold whitespace-nowrap">
+                        ECDH / X25519
+                      </td>
+                      <td className="py-3.5 px-4 text-slate-600">
+                        TLS session key exchange, VPN tunnels, SSH
+                      </td>
+                      <td className="py-3.5 px-4 whitespace-nowrap">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-50 text-red-700 border border-red-200">
+                          Broken by Shor
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-4 font-mono text-emerald-700 font-medium whitespace-nowrap">
+                        X25519MLKEM768 Hybrid
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-slate-50/70 transition-colors">
+                      <td className="py-3.5 px-4 font-mono text-[#071739] font-semibold whitespace-nowrap">
+                        AES-128-GCM
+                      </td>
+                      <td className="py-3.5 px-4 text-slate-600">
+                        Symmetric session encryption, database columns
+                      </td>
+                      <td className="py-3.5 px-4 whitespace-nowrap">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200">
+                          Halved by Grover
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-4 font-mono text-emerald-700 font-medium whitespace-nowrap">
+                        AES-256-GCM
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-slate-50/70 transition-colors">
+                      <td className="py-3.5 px-4 font-mono text-[#071739] font-semibold whitespace-nowrap">
+                        SHA-1 / MD5
+                      </td>
+                      <td className="py-3.5 px-4 text-slate-600">
+                        Legacy HMACs, file integrity, older microservices
+                      </td>
+                      <td className="py-3.5 px-4 whitespace-nowrap">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200">
+                          Already Insecure
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-4 font-mono text-emerald-700 font-medium whitespace-nowrap">
+                        SHA-384 · SHA-3
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-slate-50/70 transition-colors">
+                      <td className="py-3.5 px-4 font-mono text-[#071739] font-semibold whitespace-nowrap">
+                        AES-256-GCM / SHA-384
+                      </td>
+                      <td className="py-3.5 px-4 text-slate-600">
+                        Modern high-assurance envelope encryption
+                      </td>
+                      <td className="py-3.5 px-4 whitespace-nowrap">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                          Quantum-Safe
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-4 font-mono text-slate-400 whitespace-nowrap">
+                        No modification required
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div className="mt-5 pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+                <span>
+                  Standards baseline:{' '}
+                  <strong className="text-slate-700 font-medium">
+                    NIST SP 800-208 / FIPS 203, 204, 205
+                  </strong>
+                </span>
+                <span className="text-slate-400">
+                  CycloneDX 1.6 Cryptographic BOM format compatible
+                </span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* ═══════════════════════ SCAN SEQUENCE STEPS ═══════════════════════ */}
       <div className="section alt">
@@ -3427,7 +3656,7 @@ export default function VyuhScanner() {
                     </button>
                     <button
                       type="button"
-                      onClick={downloadPDFReport}
+                      onClick={handlePdfButtonClick}
                       className="btn btn-gold btn-sm cursor-pointer text-xs !inline-flex items-center justify-center gap-2 whitespace-nowrap"
                       style={{
                         display: 'inline-flex',
@@ -3445,6 +3674,219 @@ export default function VyuhScanner() {
                 )}
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* ═══════════════════════ PDF Lead Gate Modal ═══════════════════════ */}
+      {showPdfLeadModal && (
+        <div
+          className="fixed inset-0 z-[10000] flex items-center justify-center p-3 sm:p-4 animate-fadeIn"
+          style={{
+            backgroundColor: 'rgba(7, 23, 57, 0.75)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+          }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setShowPdfLeadModal(false);
+          }}
+        >
+          <div
+            className="w-full max-w-lg bg-white rounded-2xl border border-[#c88a3e]/30 shadow-2xl overflow-hidden flex flex-col"
+            style={{
+              boxShadow: '0 25px 60px -15px rgba(7, 23, 57, 0.4)',
+            }}
+          >
+            {/* Modal Header */}
+            <div className="bg-[#071739] px-5 py-4 sm:px-6 sm:py-5 border-b border-[#c88a3e]/20 relative">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-lg bg-[#c88a3e]/15 border border-[#c88a3e]/40 flex items-center justify-center text-[#c88a3e]">
+                    <Download className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-mono tracking-wider uppercase text-[#c88a3e] font-semibold block">
+                      Board-Ready CBOM Report
+                    </span>
+                    <h3 className="font-heading text-white text-base sm:text-lg font-bold leading-tight">
+                      Download Assessment Report (PDF)
+                    </h3>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowPdfLeadModal(false)}
+                  className="text-white/60 hover:text-white p-1 rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
+                  aria-label="Close"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              <p className="text-xs text-[#94a3b8] mt-2.5 leading-relaxed">
+                Please provide your corporate details to generate and
+                personalize your NIST FIPS 203/204/205 quantum readiness audit
+                report for{' '}
+                <b className="text-white font-mono">{results?.target}</b>.
+              </p>
+            </div>
+
+            {/* Modal Form */}
+            <form
+              onSubmit={handlePdfLeadSubmit}
+              className="p-5 sm:p-6 space-y-3.5"
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <div>
+                  <label className="font-heading text-xs font-semibold text-[#071739] mb-1 block">
+                    Full Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Dr. Arjun Sharma"
+                    value={pdfLeadForm.name}
+                    onChange={(e) => {
+                      setPdfLeadForm({ ...pdfLeadForm, name: e.target.value });
+                      if (pdfLeadErrors.name)
+                        setPdfLeadErrors({ ...pdfLeadErrors, name: '' });
+                    }}
+                    className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-xs sm:text-sm text-[#232223] placeholder:text-[#808080] focus:outline-none focus:border-[#c88a3e] focus:bg-white transition-all ${
+                      pdfLeadErrors.name ? 'border-red-500' : 'border-[#D7D7D7]'
+                    }`}
+                  />
+                  {pdfLeadErrors.name && (
+                    <p className="text-red-600 text-[11px] mt-1 font-heading">
+                      {pdfLeadErrors.name}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="font-heading text-xs font-semibold text-[#071739] mb-1 block">
+                    Work Email *
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    placeholder="arjun@enterprise.com"
+                    value={pdfLeadForm.email}
+                    onChange={(e) => {
+                      setPdfLeadForm({ ...pdfLeadForm, email: e.target.value });
+                      if (pdfLeadErrors.email)
+                        setPdfLeadErrors({ ...pdfLeadErrors, email: '' });
+                    }}
+                    className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-xs sm:text-sm text-[#232223] placeholder:text-[#808080] focus:outline-none focus:border-[#c88a3e] focus:bg-white transition-all ${
+                      pdfLeadErrors.email
+                        ? 'border-red-500'
+                        : 'border-[#D7D7D7]'
+                    }`}
+                  />
+                  {pdfLeadErrors.email && (
+                    <p className="text-red-600 text-[11px] mt-1 font-heading">
+                      {pdfLeadErrors.email}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <div>
+                  <label className="font-heading text-xs font-semibold text-[#071739] mb-1 block">
+                    Organisation / Company *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. State Bank of India"
+                    value={pdfLeadForm.company}
+                    onChange={(e) => {
+                      setPdfLeadForm({
+                        ...pdfLeadForm,
+                        company: e.target.value,
+                      });
+                      if (pdfLeadErrors.company)
+                        setPdfLeadErrors({ ...pdfLeadErrors, company: '' });
+                    }}
+                    className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-xs sm:text-sm text-[#232223] placeholder:text-[#808080] focus:outline-none focus:border-[#c88a3e] focus:bg-white transition-all ${
+                      pdfLeadErrors.company
+                        ? 'border-red-500'
+                        : 'border-[#D7D7D7]'
+                    }`}
+                  />
+                  {pdfLeadErrors.company && (
+                    <p className="text-red-600 text-[11px] mt-1 font-heading">
+                      {pdfLeadErrors.company}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="font-heading text-xs font-semibold text-[#071739] mb-1 block">
+                    Job Title
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. CISO, VP of Security"
+                    value={pdfLeadForm.title}
+                    onChange={(e) =>
+                      setPdfLeadForm({ ...pdfLeadForm, title: e.target.value })
+                    }
+                    className="w-full bg-[#f8f9fa] border border-[#D7D7D7] rounded-lg px-3 py-2 text-xs sm:text-sm text-[#232223] placeholder:text-[#808080] focus:outline-none focus:border-[#c88a3e] focus:bg-white transition-all"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="font-heading text-xs font-semibold text-[#071739] mb-1 block">
+                  Mobile Number (Optional)
+                </label>
+                <input
+                  type="tel"
+                  placeholder="+91 98765 43210"
+                  value={pdfLeadForm.phone}
+                  onChange={(e) =>
+                    setPdfLeadForm({ ...pdfLeadForm, phone: e.target.value })
+                  }
+                  className="w-full bg-[#f8f9fa] border border-[#D7D7D7] rounded-lg px-3 py-2 text-xs sm:text-sm text-[#232223] placeholder:text-[#808080] focus:outline-none focus:border-[#c88a3e] focus:bg-white transition-all"
+                />
+              </div>
+
+              <div className="flex items-center justify-between gap-3 pt-3.5 border-t border-slate-100">
+                <span className="text-[11px] text-[#64748b]">
+                  Instant download · Stamped with your organisation
+                </span>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowPdfLeadModal(false)}
+                    className="btn btn-ghost btn-sm text-xs cursor-pointer"
+                    style={{ color: '#071739', borderColor: '#cbd5e1' }}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={isSubmittingPdfLead}
+                    className="btn btn-gold btn-sm text-xs cursor-pointer !inline-flex items-center justify-center gap-2 whitespace-nowrap"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      whiteSpace: 'nowrap',
+                      gap: '6px',
+                      minHeight: '38px',
+                    }}
+                  >
+                    <Download className="w-3.5 h-3.5 shrink-0" />
+                    <span>
+                      {isSubmittingPdfLead
+                        ? 'Generating...'
+                        : 'Generate & Download PDF'}
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       )}
