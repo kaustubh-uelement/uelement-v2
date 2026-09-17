@@ -329,9 +329,94 @@ export default function VyuhScanner() {
     setOtpErrors({ email: false, phone: false });
   };
 
+  /* ── Enterprise Lead Dispatcher (FormSubmit & Web3Forms) ── */
+  const dispatchLeadCapture = async (
+    stage: string,
+    extra: Record<string, any> = {}
+  ) => {
+    if (!profile.name && !profile.email) return;
+
+    const payload = {
+      _subject: `[VyUH Lead] ${profile.name || 'Executive'} (${profile.company || 'Enterprise'}) · ${stage}`,
+      _template: 'table',
+      _captcha: 'false',
+      name: profile.name,
+      email: profile.email,
+      'Job Title': profile.title,
+      'Company / Organisation': profile.company,
+      'Mobile Phone': `${profile.countryCode} ${profile.phone}`,
+      'LinkedIn Profile': profile.linkedin,
+      'Evaluation Purpose': profile.purpose,
+      'Consent Given': profile.consent ? 'Yes' : 'No',
+      'Scan Type': scanType,
+      'Registration Stage': stage,
+      'Submission Timestamp': new Date().toLocaleString('en-IN', {
+        timeZone: 'Asia/Kolkata',
+      }),
+      'Source Page':
+        typeof window !== 'undefined'
+          ? window.location.href
+          : 'https://uelement.in/vuyh',
+      ...extra,
+    };
+
+    // Primary delivery: FormSubmit AJAX to NEXT_PUBLIC_FORM_SUBMIT_EMAIL
+    const formSubmitEmail =
+      process.env.NEXT_PUBLIC_FORM_SUBMIT_EMAIL || 'kaustubh@uelement.in';
+    let dispatched = false;
+
+    if (formSubmitEmail) {
+      try {
+        const res = await fetch(
+          `https://formsubmit.co/ajax/${formSubmitEmail}`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Accept: 'application/json',
+            },
+            body: JSON.stringify(payload),
+          }
+        );
+        if (res.ok) {
+          dispatched = true;
+          console.log('[VyuhScanner] Lead captured via FormSubmit.');
+        }
+      } catch (err) {
+        console.warn('[VyuhScanner] FormSubmit non-fatal notice:', err);
+      }
+    }
+
+    // Secondary / Fallback delivery: Web3Forms
+    const web3Key =
+      process.env.NEXT_PUBLIC_WEB3FORMS_KEY ||
+      '5f0b55f8-1ed0-46cd-a518-c13ca9686c6f';
+    if (!dispatched && web3Key) {
+      try {
+        await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          body: JSON.stringify({
+            access_key: web3Key,
+            from_name: 'VyUH Quantum Scanner',
+            subject: payload._subject,
+            ...payload,
+          }),
+        });
+        console.log('[VyuhScanner] Lead captured via Web3Forms.');
+      } catch (err) {
+        console.warn('[VyuhScanner] Web3Forms non-fatal notice:', err);
+      }
+    }
+  };
+
   const handleProceedFromStep1 = () => {
     if (validateStep1()) {
       generateCodes();
+      dispatchLeadCapture('Step 1: Corporate Profile Submitted (2FA Pending)');
       setStep(2);
     } else {
       triggerFooterMessage(
@@ -360,6 +445,7 @@ export default function VyuhScanner() {
 
   const handleProceedFromStep2 = () => {
     if (verified.email && verified.phone) {
+      dispatchLeadCapture('Step 2: Dual-Channel 2FA Verified');
       setStep(3);
     } else {
       triggerFooterMessage(
@@ -421,6 +507,15 @@ export default function VyuhScanner() {
   const executeScan = async (target: string) => {
     setStep(4);
     setScanStageIndex(0);
+
+    if (scanType === 'repo' || profile.email) {
+      dispatchLeadCapture('Step 3: Scan Target Launched', {
+        'Target Asset': target,
+        'Scan Depth': targetConfig.depth,
+        'Retention Period': `${targetConfig.retention} Months`,
+      });
+    }
+
     const stages = SCAN_STAGES[scanType];
     let idx = 0;
 
