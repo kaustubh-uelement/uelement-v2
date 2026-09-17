@@ -177,7 +177,9 @@ export default function VyuhScanner() {
     title: '',
     phone: '',
   });
-  const [pdfLeadErrors, setPdfLeadErrors] = useState<Record<string, string>>({});
+  const [pdfLeadErrors, setPdfLeadErrors] = useState<Record<string, string>>(
+    {}
+  );
   const [isSubmittingPdfLead, setIsSubmittingPdfLead] = useState(false);
 
   // FAQ open states
@@ -1210,11 +1212,7 @@ export default function VyuhScanner() {
     const clientName = overrideProfile?.name || profile.name || 'Executive';
     const clientCompany =
       overrideProfile?.company || profile.company || 'Enterprise';
-    doc.text(
-      `${clientName} · ${clientCompany}`,
-      M + 18,
-      metaBaseY + 58
-    );
+    doc.text(`${clientName} · ${clientCompany}`, M + 18, metaBaseY + 58);
 
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(7.5);
@@ -1985,136 +1983,187 @@ export default function VyuhScanner() {
               </p>
             </div>
           </div>
+        </div>
+      </div>
 
-          {/* Algorithm Vulnerability Table */}
-          <div className="mt-14 overflow-hidden rounded-xl border border-white/10 bg-white/[0.02]">
-            <div className="p-5 border-b border-white/10 bg-white/[0.03] flex items-center justify-between">
-              <div>
-                <h4 className="font-heading font-bold text-white text-base">
-                  NIST Quantum Vulnerability & Replacement Matrix
-                </h4>
-                <p className="text-xs text-gray-400 mt-1">
-                  How classical primitives perform under Shor’s and Grover’s
-                  algorithms and their approved PQC replacements
-                </p>
-              </div>
-              <span className="text-xs font-mono text-[#e0a769] border border-[#e0a769]/30 px-2.5 py-1 rounded">
-                NIST FIPS Validated
-              </span>
+      {/* ═══════════════════════ NIST QUANTUM VULNERABILITY MATRIX ═══════════════════════ */}
+      <section className="relative overflow-hidden bg-white">
+        <div className="container-padding pt-12 sm:pt-16 lg:pt-20 pb-16 sm:pb-24 relative z-10">
+          {/* Header in the top blue half */}
+          <div className="wrap text-center !mb-10 !sm:mb-12 !lg:mb-14">
+            <div className="kicker justify-center mx-auto">
+              NIST FIPS Standards
             </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm text-[#c5d0dc]">
-                <thead className="bg-white/[0.04] text-xs font-heading font-semibold text-gray-300 uppercase tracking-wider">
-                  <tr>
-                    <th className="py-3.5 px-5">Classical Primitive</th>
-                    <th className="py-3.5 px-5">Common Enterprise Location</th>
-                    <th className="py-3.5 px-5">Quantum Verdict</th>
-                    <th className="py-3.5 px-5">NIST FIPS Replacement</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-white/5 font-normal">
-                  <tr className="hover:bg-white/[0.02]">
-                    <td className="py-3.5 px-5 font-mono text-white font-medium">
-                      RSA-2048 / RSA-4096
-                    </td>
-                    <td className="py-3.5 px-5">
-                      TLS certificates, code signing, JWT tokens
-                    </td>
-                    <td className="py-3.5 px-5">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-500/15 text-red-400 border border-red-500/20">
-                        Broken by Shor
-                      </span>
-                    </td>
-                    <td className="py-3.5 px-5 font-mono text-emerald-300">
-                      ML-KEM-768 · ML-DSA-65
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-white/[0.02]">
-                    <td className="py-3.5 px-5 font-mono text-white font-medium">
-                      ECDSA P-256 / P-384
-                    </td>
-                    <td className="py-3.5 px-5">
-                      Certificate signatures, mTLS, zero-trust tokens
-                    </td>
-                    <td className="py-3.5 px-5">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-500/15 text-red-400 border border-red-500/20">
-                        Broken by Shor
-                      </span>
-                    </td>
-                    <td className="py-3.5 px-5 font-mono text-emerald-300">
-                      ML-DSA-65 · SLH-DSA
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-white/[0.02]">
-                    <td className="py-3.5 px-5 font-mono text-white font-medium">
-                      ECDH / X25519
-                    </td>
-                    <td className="py-3.5 px-5">
-                      TLS session key exchange, VPN tunnels, SSH
-                    </td>
-                    <td className="py-3.5 px-5">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-500/15 text-red-400 border border-red-500/20">
-                        Broken by Shor
-                      </span>
-                    </td>
-                    <td className="py-3.5 px-5 font-mono text-emerald-300">
-                      X25519MLKEM768 Hybrid
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-white/[0.02]">
-                    <td className="py-3.5 px-5 font-mono text-white font-medium">
-                      AES-128-GCM
-                    </td>
-                    <td className="py-3.5 px-5">
-                      Symmetric session encryption, database columns
-                    </td>
-                    <td className="py-3.5 px-5">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-yellow-500/15 text-yellow-400 border border-yellow-500/20">
-                        Halved by Grover
-                      </span>
-                    </td>
-                    <td className="py-3.5 px-5 font-mono text-emerald-300">
-                      AES-256-GCM
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-white/[0.02]">
-                    <td className="py-3.5 px-5 font-mono text-white font-medium">
-                      SHA-1 / MD5
-                    </td>
-                    <td className="py-3.5 px-5">
-                      Legacy HMACs, file integrity, older microservices
-                    </td>
-                    <td className="py-3.5 px-5">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-500/15 text-red-400 border border-red-500/20">
-                        Already Insecure
-                      </span>
-                    </td>
-                    <td className="py-3.5 px-5 font-mono text-emerald-300">
-                      SHA-384 · SHA-3
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-white/[0.02]">
-                    <td className="py-3.5 px-5 font-mono text-white font-medium">
-                      AES-256-GCM / SHA-384
-                    </td>
-                    <td className="py-3.5 px-5">
-                      Modern high-assurance envelope encryption
-                    </td>
-                    <td className="py-3.5 px-5">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/20">
-                        Quantum-Safe
-                      </span>
-                    </td>
-                    <td className="py-3.5 px-5 font-mono text-gray-400">
-                      No modification required
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+            <h2 className="display text-white mx-auto">
+              NIST Quantum Vulnerability &amp;{' '}
+              <span className="au">Replacement Matrix.</span>
+            </h2>
+            <p
+              className="lede mx-auto text-[#c5d0dc]"
+              style={{ marginTop: 16, maxWidth: 760 }}
+            >
+              How classical cryptographic primitives perform under Shor’s and
+              Grover’s algorithms, and their certified NIST FIPS 203, 204, and
+              205 post-quantum replacements.
+            </p>
+          </div>
+
+          {/* Plate wrapper with exact 50-50 split behind the plate */}
+          <div className="relative max-w-[1140px] mx-auto">
+            {/* Top Blue background: extends from top of section down to exactly 50% of the plate */}
+            <div
+              className="absolute -top-[2000px] left-1/2 -translate-x-1/2 w-screen bg-hero-gradient pointer-events-none -z-10"
+              style={{ bottom: '50%' }}
+            />
+
+            {/* The Plate: matching footer contact form */}
+            <div className="bg-white rounded-[20px] p-6 sm:p-8 lg:p-10 shadow-[0px_4px_72.2px_0px_rgba(0,0,0,0.25)]">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 mb-6 border-b border-gray-100">
+                <div>
+                  <h4 className="font-heading font-bold text-[#071739] text-xl sm:text-2xl">
+                    Algorithm Vulnerability &amp; Replacement Matrix
+                  </h4>
+                  <p className="text-xs sm:text-sm text-gray-500 mt-1">
+                    Classical primitives vs quantum threats and NIST FIPS
+                    targets
+                  </p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-mono font-medium text-[#e0a769] bg-[#e0a769]/10 border border-[#e0a769]/30 px-3 py-1 rounded-md">
+                    NIST FIPS Validated
+                  </span>
+                  <span className="text-xs font-mono font-medium text-[#071739] bg-slate-100 border border-slate-200 px-3 py-1 rounded-md">
+                    6 Primitives Mapped
+                  </span>
+                </div>
+              </div>
+
+              <div className="overflow-x-auto rounded-xl border border-slate-200/80">
+                <table className="w-full text-left text-sm text-slate-700">
+                  <thead className="bg-slate-50 text-[11px] font-heading font-semibold text-slate-600 uppercase tracking-wider border-b border-slate-200">
+                    <tr>
+                      <th className="py-3 px-4">Classical Primitive</th>
+                      <th className="py-3 px-4">Enterprise Location</th>
+                      <th className="py-3 px-4">Quantum Verdict</th>
+                      <th className="py-3 px-4">NIST FIPS Replacement</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 font-normal text-xs sm:text-sm">
+                    <tr className="hover:bg-slate-50/70 transition-colors">
+                      <td className="py-3.5 px-4 font-mono text-[#071739] font-semibold whitespace-nowrap">
+                        RSA-2048 / RSA-4096
+                      </td>
+                      <td className="py-3.5 px-4 text-slate-600">
+                        TLS certificates, code signing, JWT tokens
+                      </td>
+                      <td className="py-3.5 px-4 whitespace-nowrap">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-50 text-red-700 border border-red-200">
+                          Broken by Shor
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-4 font-mono text-emerald-700 font-medium whitespace-nowrap">
+                        ML-KEM-768 · ML-DSA-65
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-slate-50/70 transition-colors">
+                      <td className="py-3.5 px-4 font-mono text-[#071739] font-semibold whitespace-nowrap">
+                        ECDSA P-256 / P-384
+                      </td>
+                      <td className="py-3.5 px-4 text-slate-600">
+                        Certificate signatures, mTLS, zero-trust tokens
+                      </td>
+                      <td className="py-3.5 px-4 whitespace-nowrap">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-50 text-red-700 border border-red-200">
+                          Broken by Shor
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-4 font-mono text-emerald-700 font-medium whitespace-nowrap">
+                        ML-DSA-65 · SLH-DSA
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-slate-50/70 transition-colors">
+                      <td className="py-3.5 px-4 font-mono text-[#071739] font-semibold whitespace-nowrap">
+                        ECDH / X25519
+                      </td>
+                      <td className="py-3.5 px-4 text-slate-600">
+                        TLS session key exchange, VPN tunnels, SSH
+                      </td>
+                      <td className="py-3.5 px-4 whitespace-nowrap">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-50 text-red-700 border border-red-200">
+                          Broken by Shor
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-4 font-mono text-emerald-700 font-medium whitespace-nowrap">
+                        X25519MLKEM768 Hybrid
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-slate-50/70 transition-colors">
+                      <td className="py-3.5 px-4 font-mono text-[#071739] font-semibold whitespace-nowrap">
+                        AES-128-GCM
+                      </td>
+                      <td className="py-3.5 px-4 text-slate-600">
+                        Symmetric session encryption, database columns
+                      </td>
+                      <td className="py-3.5 px-4 whitespace-nowrap">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200">
+                          Halved by Grover
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-4 font-mono text-emerald-700 font-medium whitespace-nowrap">
+                        AES-256-GCM
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-slate-50/70 transition-colors">
+                      <td className="py-3.5 px-4 font-mono text-[#071739] font-semibold whitespace-nowrap">
+                        SHA-1 / MD5
+                      </td>
+                      <td className="py-3.5 px-4 text-slate-600">
+                        Legacy HMACs, file integrity, older microservices
+                      </td>
+                      <td className="py-3.5 px-4 whitespace-nowrap">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200">
+                          Already Insecure
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-4 font-mono text-emerald-700 font-medium whitespace-nowrap">
+                        SHA-384 · SHA-3
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-slate-50/70 transition-colors">
+                      <td className="py-3.5 px-4 font-mono text-[#071739] font-semibold whitespace-nowrap">
+                        AES-256-GCM / SHA-384
+                      </td>
+                      <td className="py-3.5 px-4 text-slate-600">
+                        Modern high-assurance envelope encryption
+                      </td>
+                      <td className="py-3.5 px-4 whitespace-nowrap">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                          Quantum-Safe
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-4 font-mono text-slate-400 whitespace-nowrap">
+                        No modification required
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div className="mt-5 pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+                <span>
+                  Standards baseline:{' '}
+                  <strong className="text-slate-700 font-medium">
+                    NIST SP 800-208 / FIPS 203, 204, 205
+                  </strong>
+                </span>
+                <span className="text-slate-400">
+                  CycloneDX 1.6 Cryptographic BOM format compatible
+                </span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* ═══════════════════════ SCAN SEQUENCE STEPS ═══════════════════════ */}
       <div className="section alt">
@@ -3674,13 +3723,18 @@ export default function VyuhScanner() {
                 </button>
               </div>
               <p className="text-xs text-[#94a3b8] mt-2.5 leading-relaxed">
-                Please provide your corporate details to generate and personalize your NIST FIPS 203/204/205 quantum readiness audit report for{' '}
+                Please provide your corporate details to generate and
+                personalize your NIST FIPS 203/204/205 quantum readiness audit
+                report for{' '}
                 <b className="text-white font-mono">{results?.target}</b>.
               </p>
             </div>
 
             {/* Modal Form */}
-            <form onSubmit={handlePdfLeadSubmit} className="p-5 sm:p-6 space-y-3.5">
+            <form
+              onSubmit={handlePdfLeadSubmit}
+              className="p-5 sm:p-6 space-y-3.5"
+            >
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                 <div>
                   <label className="font-heading text-xs font-semibold text-[#071739] mb-1 block">
