@@ -168,6 +168,18 @@ export default function VyuhScanner() {
   const [results, setResults] = useState<ScanResults | null>(null);
   const [resScoreDisplay, setResScoreDisplay] = useState<number>(0);
 
+  // PDF download lead gate state
+  const [showPdfLeadModal, setShowPdfLeadModal] = useState(false);
+  const [pdfLeadForm, setPdfLeadForm] = useState({
+    name: '',
+    email: '',
+    company: '',
+    title: '',
+    phone: '',
+  });
+  const [pdfLeadErrors, setPdfLeadErrors] = useState<Record<string, string>>({});
+  const [isSubmittingPdfLead, setIsSubmittingPdfLead] = useState(false);
+
   // FAQ open states
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -332,22 +344,27 @@ export default function VyuhScanner() {
   /* ── Enterprise Lead Dispatcher (FormSubmit & Web3Forms) ── */
   const dispatchLeadCapture = async (
     stage: string,
-    extra: Record<string, any> = {}
+    extra: Record<string, any> = {},
+    customProfile?: typeof profile
   ) => {
-    if (!profile.name && !profile.email) return;
+    const activeProfile = customProfile || profile;
+    if (!activeProfile.name && !activeProfile.email) return;
 
     const payload = {
-      _subject: `[VyUH Lead] ${profile.name || 'Executive'} (${profile.company || 'Enterprise'}) · ${stage}`,
+      _subject: `[VyUH Lead] ${activeProfile.name || 'Executive'} (${activeProfile.company || 'Enterprise'}) · ${stage}`,
       _template: 'table',
       _captcha: 'false',
-      name: profile.name,
-      email: profile.email,
-      'Job Title': profile.title,
-      'Company / Organisation': profile.company,
-      'Mobile Phone': `${profile.countryCode} ${profile.phone}`,
-      'LinkedIn Profile': profile.linkedin,
-      'Evaluation Purpose': profile.purpose,
-      'Consent Given': profile.consent ? 'Yes' : 'No',
+      name: activeProfile.name,
+      email: activeProfile.email,
+      'Job Title': activeProfile.title || 'N/A',
+      'Company / Organisation': activeProfile.company || 'N/A',
+      'Mobile Phone': activeProfile.phone?.startsWith('+')
+        ? activeProfile.phone
+        : `${activeProfile.countryCode || '+91'} ${activeProfile.phone || 'N/A'}`,
+      'LinkedIn Profile': activeProfile.linkedin || 'N/A',
+      'Evaluation Purpose':
+        activeProfile.purpose || 'Cryptographic Assessment & CBOM',
+      'Consent Given': activeProfile.consent ? 'Yes' : 'No',
       'Scan Type': scanType,
       'Registration Stage': stage,
       'Submission Timestamp': new Date().toLocaleString('en-IN', {
@@ -1031,7 +1048,7 @@ export default function VyuhScanner() {
   };
 
   /* ── Client-side PDF Report Generation ── */
-  const downloadPDFReport = () => {
+  const downloadPDFReport = (overrideProfile?: Partial<typeof profile>) => {
     if (!results) return;
     const jspdfObj = (window as any).jspdf?.jsPDF;
     if (!jspdfObj) {
@@ -1190,8 +1207,11 @@ export default function VyuhScanner() {
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(9.5);
     doc.setTextColor(20, 20, 20);
+    const clientName = overrideProfile?.name || profile.name || 'Executive';
+    const clientCompany =
+      overrideProfile?.company || profile.company || 'Enterprise';
     doc.text(
-      `${profile.name || 'Executive'} · ${profile.company || 'Enterprise'}`,
+      `${clientName} · ${clientCompany}`,
       M + 18,
       metaBaseY + 58
     );
@@ -1413,6 +1433,86 @@ export default function VyuhScanner() {
       .replace(/[^a-zA-Z0-9]/g, '_')
       .substring(0, 36);
     doc.save(`Vyuh_CBOM_Assessment_${sanitizedName}.pdf`);
+  };
+
+  /* ── PDF Download Handler with Basic Info Gating ── */
+  const handlePdfButtonClick = () => {
+    // If the user already completed registration (e.g. from repo scan or previously submitted lead)
+    if (profile.email && profile.name) {
+      downloadPDFReport();
+    } else {
+      setPdfLeadForm((prev) => ({
+        ...prev,
+        name: profile.name || '',
+        email: profile.email || '',
+        company: profile.company || '',
+        title: profile.title || '',
+        phone: profile.phone || '',
+      }));
+      setPdfLeadErrors({});
+      setShowPdfLeadModal(true);
+    }
+  };
+
+  const handlePdfLeadSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    const errs: Record<string, string> = {};
+    if (!pdfLeadForm.name.trim()) errs.name = 'Please enter your full name.';
+    if (!pdfLeadForm.company.trim())
+      errs.company = 'Please enter your organisation name.';
+
+    const emailTrim = pdfLeadForm.email.trim().toLowerCase();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
+    if (!emailRegex.test(emailTrim)) {
+      errs.email = 'Please enter a valid work email address.';
+    } else {
+      const domain = emailTrim.split('@')[1];
+      if (FREE_EMAIL_DOMAINS.includes(domain)) {
+        errs.email = 'Please provide your official corporate email address.';
+      }
+    }
+
+    setPdfLeadErrors(errs);
+    if (Object.keys(errs).length > 0) return;
+
+    setIsSubmittingPdfLead(true);
+
+    const updatedProfile = {
+      ...profile,
+      name: pdfLeadForm.name.trim(),
+      email: emailTrim,
+      company: pdfLeadForm.company.trim(),
+      title: pdfLeadForm.title.trim() || profile.title,
+      phone: pdfLeadForm.phone.trim() || profile.phone,
+    };
+
+    setProfile(updatedProfile);
+
+    // Dispatch lead capture immediately to corporate email & Web3Forms
+    await dispatchLeadCapture(
+      'PDF Assessment Report Downloaded (Web Scanner)',
+      {
+        'Scanned Target': results?.target || targetConfig.target,
+        'Scan Type': results?.type || scanType,
+        'Quantum Readiness Score':
+          results?.score != null ? `${results.score}/100` : 'N/A',
+        'Risk Band': results?.band || 'N/A',
+        'Breakable Assets (Shor)': results?.stats?.broken ?? 0,
+        'Weakened Assets (Grover)': results?.stats?.weak ?? 0,
+        'Safe Assets': results?.stats?.safe ?? 0,
+        'Evaluation Horizon': `${results?.retention || targetConfig.retention} Years`,
+      },
+      updatedProfile
+    );
+
+    setIsSubmittingPdfLead(false);
+    setShowPdfLeadModal(false);
+
+    // Immediately trigger personalized PDF download
+    downloadPDFReport(updatedProfile);
+    triggerFooterMessage(
+      'Your personalized assessment report has been downloaded.'
+    );
   };
 
   return (
@@ -3507,7 +3607,7 @@ export default function VyuhScanner() {
                     </button>
                     <button
                       type="button"
-                      onClick={downloadPDFReport}
+                      onClick={handlePdfButtonClick}
                       className="btn btn-gold btn-sm cursor-pointer text-xs !inline-flex items-center justify-center gap-2 whitespace-nowrap"
                       style={{
                         display: 'inline-flex',
@@ -3525,6 +3625,214 @@ export default function VyuhScanner() {
                 )}
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* ═══════════════════════ PDF Lead Gate Modal ═══════════════════════ */}
+      {showPdfLeadModal && (
+        <div
+          className="fixed inset-0 z-[10000] flex items-center justify-center p-3 sm:p-4 animate-fadeIn"
+          style={{
+            backgroundColor: 'rgba(7, 23, 57, 0.75)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+          }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setShowPdfLeadModal(false);
+          }}
+        >
+          <div
+            className="w-full max-w-lg bg-white rounded-2xl border border-[#c88a3e]/30 shadow-2xl overflow-hidden flex flex-col"
+            style={{
+              boxShadow: '0 25px 60px -15px rgba(7, 23, 57, 0.4)',
+            }}
+          >
+            {/* Modal Header */}
+            <div className="bg-[#071739] px-5 py-4 sm:px-6 sm:py-5 border-b border-[#c88a3e]/20 relative">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-lg bg-[#c88a3e]/15 border border-[#c88a3e]/40 flex items-center justify-center text-[#c88a3e]">
+                    <Download className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-mono tracking-wider uppercase text-[#c88a3e] font-semibold block">
+                      Board-Ready CBOM Report
+                    </span>
+                    <h3 className="font-heading text-white text-base sm:text-lg font-bold leading-tight">
+                      Download Assessment Report (PDF)
+                    </h3>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowPdfLeadModal(false)}
+                  className="text-white/60 hover:text-white p-1 rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
+                  aria-label="Close"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              <p className="text-xs text-[#94a3b8] mt-2.5 leading-relaxed">
+                Please provide your corporate details to generate and personalize your NIST FIPS 203/204/205 quantum readiness audit report for{' '}
+                <b className="text-white font-mono">{results?.target}</b>.
+              </p>
+            </div>
+
+            {/* Modal Form */}
+            <form onSubmit={handlePdfLeadSubmit} className="p-5 sm:p-6 space-y-3.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <div>
+                  <label className="font-heading text-xs font-semibold text-[#071739] mb-1 block">
+                    Full Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Dr. Arjun Sharma"
+                    value={pdfLeadForm.name}
+                    onChange={(e) => {
+                      setPdfLeadForm({ ...pdfLeadForm, name: e.target.value });
+                      if (pdfLeadErrors.name)
+                        setPdfLeadErrors({ ...pdfLeadErrors, name: '' });
+                    }}
+                    className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-xs sm:text-sm text-[#232223] placeholder:text-[#808080] focus:outline-none focus:border-[#c88a3e] focus:bg-white transition-all ${
+                      pdfLeadErrors.name ? 'border-red-500' : 'border-[#D7D7D7]'
+                    }`}
+                  />
+                  {pdfLeadErrors.name && (
+                    <p className="text-red-600 text-[11px] mt-1 font-heading">
+                      {pdfLeadErrors.name}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="font-heading text-xs font-semibold text-[#071739] mb-1 block">
+                    Work Email *
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    placeholder="arjun@enterprise.com"
+                    value={pdfLeadForm.email}
+                    onChange={(e) => {
+                      setPdfLeadForm({ ...pdfLeadForm, email: e.target.value });
+                      if (pdfLeadErrors.email)
+                        setPdfLeadErrors({ ...pdfLeadErrors, email: '' });
+                    }}
+                    className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-xs sm:text-sm text-[#232223] placeholder:text-[#808080] focus:outline-none focus:border-[#c88a3e] focus:bg-white transition-all ${
+                      pdfLeadErrors.email
+                        ? 'border-red-500'
+                        : 'border-[#D7D7D7]'
+                    }`}
+                  />
+                  {pdfLeadErrors.email && (
+                    <p className="text-red-600 text-[11px] mt-1 font-heading">
+                      {pdfLeadErrors.email}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <div>
+                  <label className="font-heading text-xs font-semibold text-[#071739] mb-1 block">
+                    Organisation / Company *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. State Bank of India"
+                    value={pdfLeadForm.company}
+                    onChange={(e) => {
+                      setPdfLeadForm({
+                        ...pdfLeadForm,
+                        company: e.target.value,
+                      });
+                      if (pdfLeadErrors.company)
+                        setPdfLeadErrors({ ...pdfLeadErrors, company: '' });
+                    }}
+                    className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-xs sm:text-sm text-[#232223] placeholder:text-[#808080] focus:outline-none focus:border-[#c88a3e] focus:bg-white transition-all ${
+                      pdfLeadErrors.company
+                        ? 'border-red-500'
+                        : 'border-[#D7D7D7]'
+                    }`}
+                  />
+                  {pdfLeadErrors.company && (
+                    <p className="text-red-600 text-[11px] mt-1 font-heading">
+                      {pdfLeadErrors.company}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="font-heading text-xs font-semibold text-[#071739] mb-1 block">
+                    Job Title
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. CISO, VP of Security"
+                    value={pdfLeadForm.title}
+                    onChange={(e) =>
+                      setPdfLeadForm({ ...pdfLeadForm, title: e.target.value })
+                    }
+                    className="w-full bg-[#f8f9fa] border border-[#D7D7D7] rounded-lg px-3 py-2 text-xs sm:text-sm text-[#232223] placeholder:text-[#808080] focus:outline-none focus:border-[#c88a3e] focus:bg-white transition-all"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="font-heading text-xs font-semibold text-[#071739] mb-1 block">
+                  Mobile Number (Optional)
+                </label>
+                <input
+                  type="tel"
+                  placeholder="+91 98765 43210"
+                  value={pdfLeadForm.phone}
+                  onChange={(e) =>
+                    setPdfLeadForm({ ...pdfLeadForm, phone: e.target.value })
+                  }
+                  className="w-full bg-[#f8f9fa] border border-[#D7D7D7] rounded-lg px-3 py-2 text-xs sm:text-sm text-[#232223] placeholder:text-[#808080] focus:outline-none focus:border-[#c88a3e] focus:bg-white transition-all"
+                />
+              </div>
+
+              <div className="flex items-center justify-between gap-3 pt-3.5 border-t border-slate-100">
+                <span className="text-[11px] text-[#64748b]">
+                  Instant download · Stamped with your organisation
+                </span>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowPdfLeadModal(false)}
+                    className="btn btn-ghost btn-sm text-xs cursor-pointer"
+                    style={{ color: '#071739', borderColor: '#cbd5e1' }}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={isSubmittingPdfLead}
+                    className="btn btn-gold btn-sm text-xs cursor-pointer !inline-flex items-center justify-center gap-2 whitespace-nowrap"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      whiteSpace: 'nowrap',
+                      gap: '6px',
+                      minHeight: '38px',
+                    }}
+                  >
+                    <Download className="w-3.5 h-3.5 shrink-0" />
+                    <span>
+                      {isSubmittingPdfLead
+                        ? 'Generating...'
+                        : 'Generate & Download PDF'}
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       )}
