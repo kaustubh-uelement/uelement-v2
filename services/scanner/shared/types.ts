@@ -1,5 +1,5 @@
 /**
- * Shared scan contract for the VyUH backend.
+ * Shared scan contract for the Vyuh backend.
  *
  * Measurement rules:
  *  - `null` means "not measured". It never collapses to `false` or `0`.

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# deploy-gcp.sh - Deploy VyUH PQC Scanner backend to GCP Cloud Run
+# deploy-gcp.sh - Deploy Vyuh PQC Scanner backend to GCP Cloud Run
 
 set -euo pipefail
 
