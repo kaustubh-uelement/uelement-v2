@@ -157,6 +157,7 @@ export default function VyuhScanner() {
   // Step 3: Target state
   const [targetConfig, setTargetConfig] = useState({
     target: '',
+    githubToken: '',
     depth: 'standard',
     retention: 12,
     authorized: false,
@@ -570,6 +571,7 @@ export default function VyuhScanner() {
         body: JSON.stringify({
           target,
           type: scanType,
+          token: targetConfig.githubToken?.trim() || undefined,
           depth: targetConfig.depth,
           retention: targetConfig.retention,
         }),
@@ -579,9 +581,26 @@ export default function VyuhScanner() {
 
       if (!res.ok) {
         const errData = await res.json().catch(() => ({}));
-        throw new Error(
-          errData.error || `Scan service responded with status ${res.status}`
-        );
+        const errMsg =
+          errData.error ||
+          errData.details ||
+          `Scan service responded with status ${res.status}`;
+
+        if (
+          errData.isAccessError ||
+          res.status === 400 ||
+          res.status === 403 ||
+          errMsg.includes('Unable to access') ||
+          errMsg.includes('private') ||
+          errMsg.includes('token')
+        ) {
+          clearInterval(stageInterval);
+          setTargetError(errMsg);
+          setStep(3);
+          return;
+        }
+
+        throw new Error(errMsg);
       }
 
       const scanData = await res.json();
@@ -3069,7 +3088,7 @@ export default function VyuhScanner() {
                     </button>
                   </div>
 
-                  {/* Target Input */}
+                    {/* Target Input */}
                   <div>
                     <label className="font-heading text-xs sm:text-[12.5px] font-semibold text-[#071739] mb-1 block">
                       {scanType === 'repo'
@@ -3096,6 +3115,30 @@ export default function VyuhScanner() {
                       <p className="text-red-600 text-xs mt-1 font-heading">
                         {targetError}
                       </p>
+                    )}
+
+                    {/* Optional Token for Private Repositories */}
+                    {scanType === 'repo' && (
+                      <div className="mt-3">
+                        <label className="font-heading text-xs sm:text-[12.5px] font-semibold text-[#071739] mb-1 flex items-center justify-between">
+                          <span>GitHub Access Token <span className="text-[#64748b] font-normal font-sans">(Optional — for private repos)</span></span>
+                        </label>
+                        <input
+                          type="password"
+                          placeholder="ghp_... or github_pat_..."
+                          value={targetConfig.githubToken}
+                          onChange={(e) =>
+                            setTargetConfig({
+                              ...targetConfig,
+                              githubToken: e.target.value,
+                            })
+                          }
+                          className="w-full bg-[#f8f9fa] border border-[#D7D7D7] rounded-lg px-3.5 py-2 text-xs text-[#071739] font-mono focus:outline-none focus:border-[#c88a3e] focus:bg-white"
+                        />
+                        <span className="text-[11px] text-[#64748b] mt-1 block leading-tight">
+                          Required only for private repositories. Transmitted in-memory and never logged or stored.
+                        </span>
+                      </div>
                     )}
                   </div>
 

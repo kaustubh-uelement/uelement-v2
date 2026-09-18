@@ -83,5 +83,28 @@ describe('Repository Cryptographic Scanner', () => {
       assert(Array.isArray(result.detail));
       assert(Array.isArray(result.plan));
     });
+
+    it('throws a descriptive access error when target repository does not exist or is private without token', async () => {
+      const norm = normalizeRepoUrl('https://github.com/definitely-non-existent-org-99999/private-repo-12345');
+      assert.equal(norm.ok, true);
+      if (!norm.ok) return;
+
+      await assert.rejects(
+        async () => {
+          await runRepoScan(norm, { token: '' });
+        },
+        (err) => {
+          assert(err instanceof Error);
+          assert(
+            err.message.includes('Unable to access repository') ||
+            err.message.includes('private') ||
+            err.message.includes('does not exist')
+          );
+          // Verify no token syntax leaks
+          assert(!err.message.includes('x-access-token'));
+          return true;
+        }
+      );
+    });
   });
 });

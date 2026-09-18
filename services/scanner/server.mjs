@@ -308,7 +308,7 @@ const server = http.createServer(async (req, res) => {
           return;
         }
 
-        // Branch 1: Public GitHub Repository Scan
+        // Branch 1: Public & Private GitHub Repository Scan
         if (scanType === 'repo') {
           const normRepo = normalizeRepoUrl(rawTarget);
           if (!normRepo.ok) {
@@ -317,9 +317,46 @@ const server = http.createServer(async (req, res) => {
             return;
           }
 
-          const repoResult = await runRepoScan(normRepo, body.options);
-          res.writeHead(200, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify(repoResult));
+          // Extract token from request body, headers, or server environment
+          const authHeader = req.headers['authorization'] || '';
+          const token = (
+            body.token ||
+            body.githubToken ||
+            body.options?.token ||
+            body.options?.githubToken ||
+            (authHeader.startsWith('Bearer ') ? authHeader.slice(7).trim() : '') ||
+            req.headers['x-github-token'] ||
+            process.env.GITHUB_TOKEN ||
+            ''
+          ).trim();
+
+          const scanOptions = {
+            ...(body.options || {}),
+            token,
+          };
+
+          try {
+            const repoResult = await runRepoScan(normRepo, scanOptions);
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(repoResult));
+          } catch (repoErr) {
+            const errMsg =
+              repoErr instanceof Error ? repoErr.message : String(repoErr);
+            const isAccessError =
+              errMsg.includes('Unable to access') ||
+              errMsg.includes('private') ||
+              errMsg.includes('not found') ||
+              errMsg.includes('token');
+            const statusCode = isAccessError ? 400 : 500;
+            res.writeHead(statusCode, { 'Content-Type': 'application/json' });
+            res.end(
+              JSON.stringify({
+                error: errMsg,
+                details: errMsg,
+                isAccessError,
+              })
+            );
+          }
           return;
         }
 

@@ -996,31 +996,56 @@ export async function runRepoScan(repoInfo, options = {}) {
   let commitSha = 'HEAD';
   let defaultBranch = 'main';
 
+  const token = (
+    options.token ||
+    options.githubToken ||
+    process.env.GITHUB_TOKEN ||
+    ''
+  ).trim();
+
+  // If token is provided, construct authenticated clone URL
+  const authCloneUrl = token
+    ? `https://x-access-token:${encodeURIComponent(token)}@github.com/${owner}/${repo}.git`
+    : cloneUrl;
+
   try {
     // 1. Perform shallow snapshot clone
     try {
       await execFileAsync(
         'git',
-        ['clone', '--depth', '1', '--single-branch', cloneUrl, tempDir],
+        ['clone', '--depth', '1', '--single-branch', authCloneUrl, tempDir],
         {
           timeout: CLONE_TIMEOUT_MS,
           maxBuffer: 10 * 1024 * 1024,
+          env: {
+            ...process.env,
+            GIT_TERMINAL_PROMPT: '0',
+          },
         }
       );
     } catch (cloneErr) {
-      console.error(`Git clone failed for ${cloneUrl}:`, cloneErr);
-      const msg =
+      const rawMsg =
         cloneErr instanceof Error ? cloneErr.message : String(cloneErr);
+      // Guarantee token is never leaked in error logs or output
+      const safeMsg = rawMsg.replace(/https:\/\/[^@]+@github\.com/g, 'https://github.com');
+      console.error(`Git clone failed for ${repoFullName}:`, safeMsg);
+
       if (
-        msg.includes('Repository not found') ||
-        msg.includes('Authentication failed') ||
-        msg.includes('could not read Username')
+        safeMsg.includes('Repository not found') ||
+        safeMsg.includes('Authentication failed') ||
+        safeMsg.includes('could not read Username') ||
+        safeMsg.includes('terminal prompts disabled')
       ) {
+        if (token) {
+          throw new Error(
+            `Unable to access repository '${repoFullName}'. The provided GitHub token may be invalid, expired, or lack read permissions for this repository.`
+          );
+        }
         throw new Error(
-          `Unable to access public repository '${repoFullName}'. Please verify that the repository exists on GitHub and is public.`
+          `Unable to access repository '${repoFullName}'. The repository is private or does not exist on GitHub. To scan a private repository, please provide a GitHub Personal Access Token.`
         );
       }
-      throw new Error(`Git clone failed: ${msg.split('\n')[0]}`);
+      throw new Error(`Git clone failed: ${safeMsg.split('\n')[0]}`);
     }
 
     // Inspect commit SHA & branch
