@@ -73,7 +73,7 @@ export default function HomePage() {
         <div className="wrap">
           <div className="kicker" id="portfolio"  >The portfolio</div>
           <h2 className="display text-navy-gradient">
-            Two programs. One practice.
+            Three programs. One practice.
             <br />
             Every layer of <span className="au">Sovereignty.</span>
           </h2>

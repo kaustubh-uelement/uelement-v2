@@ -1,7 +1,7 @@
 FROM node:22-alpine
 
-# Install OpenSSL with TLS 1.3 support
-RUN apk update && apk add --no-cache openssl ca-certificates
+# Install OpenSSL with TLS 1.3 support and Git for repo scanning
+RUN apk update && apk add --no-cache openssl ca-certificates git
 
 WORKDIR /app
 
