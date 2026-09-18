@@ -3121,7 +3121,7 @@ export default function VyuhScanner() {
                     {scanType === 'repo' && (
                       <div className="mt-3">
                         <label className="font-heading text-xs sm:text-[12.5px] font-semibold text-[#071739] mb-1 flex items-center justify-between">
-                          <span>GitHub Access Token <span className="text-[#64748b] font-normal font-sans">(Optional — for private repos)</span></span>
+                          <span>GitHub Access Token <span className="text-[#64748b] font-normal font-sans">(Optional - for private repos)</span></span>
                         </label>
                         <input
                           type="password"
