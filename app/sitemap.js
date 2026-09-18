@@ -12,6 +12,7 @@ export default async function sitemap() {
       "app/**/_*/**",
       "app/**/(*)/**",
       "app/api/**",
+      "app/vuyh/**",
     ],
   });
 

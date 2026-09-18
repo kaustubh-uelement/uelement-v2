@@ -375,7 +375,7 @@ export default function VyuhScanner() {
       'Source Page':
         typeof window !== 'undefined'
           ? window.location.href
-          : 'https://uelement.in/vuyh',
+          : 'https://uelement.in/vyuh',
       ...extra,
     };
 

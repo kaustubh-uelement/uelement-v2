@@ -1,0 +1,5 @@
+# Cloudflare Pages Redirects
+# Redirect deprecated /vuyh to /vyuh
+/vuyh /vyuh/ 301
+/vuyh/ /vyuh/ 301
+/vuyh/* /vyuh/:splat 301
