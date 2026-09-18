@@ -60,7 +60,7 @@ export default function U92Page() {
             }}
           >
             <Link href="/vyuh" className="btn btn-gold">
-              Request a quantum risk assessment
+              Request a quantum risk assessment 
             </Link>
             <Link href="/u92pqc" className="btn btn-line">
               Explore the practice
