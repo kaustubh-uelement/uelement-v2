@@ -559,9 +559,9 @@ export default function VyuhScanner() {
       }
       const apiUrl = rawApiUrl.replace(/\/+$/, '');
 
-      // 4-second timeout to prevent UI hang if backend server is unreachable
+      // 25-second timeout to allow comprehensive real TLS and repository analysis
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 4000);
+      const timeoutId = setTimeout(() => controller.abort(), 25000);
 
       const res = await fetch(`${apiUrl}/api/scan`, {
         method: 'POST',
