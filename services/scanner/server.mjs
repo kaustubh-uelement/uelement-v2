@@ -2,6 +2,8 @@
 import http from 'node:http';
 import { normalizeDomain, parseScanOptions, runPqcScan } from './lib/pqc-scan.mjs';
 import { normalizeRepoUrl, runRepoScan } from './lib/repo-scan.mjs';
+import { createEmailOtp, verifyEmailOtp } from './lib/otp-store.mjs';
+import { sendOtpEmail } from './lib/email-service.mjs';
 
 const PORT = Number(process.env.PORT || 8080);
 const HOST = process.env.HOST || '0.0.0.0';
@@ -276,6 +278,99 @@ const server = http.createServer(async (req, res) => {
   if (path === '/' || path === '/health') {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ status: 'ok', service: 'vyuh-pqc-scanner', version: '0.1.0' }));
+    return;
+  }
+
+  // OTP Endpoint 1: Send Corporate Email Verification Code
+  if (path === '/api/otp/send-email' && req.method === 'POST') {
+    let bodyRaw = '';
+    req.on('data', chunk => {
+      bodyRaw += chunk;
+      if (bodyRaw.length > 16 * 1024) req.destroy();
+    });
+
+    req.on('end', async () => {
+      try {
+        const body = JSON.parse(bodyRaw || '{}');
+        const email = String(body.email || '').trim().toLowerCase();
+        const name = String(body.name || '').trim();
+
+        if (!email || !email.includes('@')) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Please provide a valid corporate email address.' }));
+          return;
+        }
+
+        const otpResult = createEmailOtp(email);
+        if (!otpResult.ok) {
+          res.writeHead(429, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: otpResult.error, retryAfterSeconds: otpResult.retryAfterSeconds }));
+          return;
+        }
+
+        const sendResult = await sendOtpEmail(email, otpResult.code, name);
+        if (!sendResult.ok) {
+          res.writeHead(500, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: sendResult.error || 'Failed to dispatch email verification code.' }));
+          return;
+        }
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({
+          success: true,
+          message: `Verification code sent to ${email}`,
+          expiresAt: otpResult.expiresAt,
+        }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Internal server error processing OTP request.' }));
+      }
+    });
+    return;
+  }
+
+  // OTP Endpoint 2: Verify Corporate Email Verification Code
+  if (path === '/api/otp/verify-email' && req.method === 'POST') {
+    let bodyRaw = '';
+    req.on('data', chunk => {
+      bodyRaw += chunk;
+      if (bodyRaw.length > 16 * 1024) req.destroy();
+    });
+
+    req.on('end', async () => {
+      try {
+        const body = JSON.parse(bodyRaw || '{}');
+        const email = String(body.email || '').trim().toLowerCase();
+        const code = String(body.code || '').trim();
+
+        if (!email || !code) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Email and 6-digit verification code are required.' }));
+          return;
+        }
+
+        const verifyResult = verifyEmailOtp(email, code);
+        if (!verifyResult.ok) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({
+            error: verifyResult.error,
+            attemptsRemaining: verifyResult.attemptsRemaining,
+          }));
+          return;
+        }
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({
+          success: true,
+          verified: true,
+          email,
+          message: 'Corporate email address successfully verified.',
+        }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Internal server error verifying code.' }));
+      }
+    });
     return;
   }
 

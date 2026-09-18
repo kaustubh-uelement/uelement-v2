@@ -147,12 +147,15 @@ export default function VyuhScanner() {
   });
   const [errors1, setErrors1] = useState<Record<string, string>>({});
 
-  // Step 2: 2FA OTP state
+  // Step 2: Verification state
   const [demoCodes, setDemoCodes] = useState({ email: '', phone: '' });
   const [otpInputs, setOtpInputs] = useState({ email: '', phone: '' });
   const [verified, setVerified] = useState({ email: false, phone: false });
   const [otpErrors, setOtpErrors] = useState({ email: false, phone: false });
   const [resendTimers, setResendTimers] = useState({ email: 0, phone: 0 });
+  const [isSendingOtp, setIsSendingOtp] = useState(false);
+  const [isVerifyingOtp, setIsVerifyingOtp] = useState({ email: false, phone: false });
+  const [otpServerMsg, setOtpServerMsg] = useState<{ text: string; isError: boolean } | null>(null);
 
   // Step 3: Target state
   const [targetConfig, setTargetConfig] = useState({
@@ -433,11 +436,49 @@ export default function VyuhScanner() {
     }
   };
 
-  const handleProceedFromStep1 = () => {
+  const getScannerApiUrl = () => {
+    let raw =
+      process.env.NEXT_PUBLIC_SCANNER_API_URL ||
+      'https://pqc-scanner-445288556278.asia-south1.run.app';
+    raw = raw.trim().replace(/^["']|["']$/g, '');
+    if (!/^https?:\/\//i.test(raw)) {
+      raw = `https://${raw}`;
+    }
+    return raw.replace(/\/+$/, '');
+  };
+
+  const handleProceedFromStep1 = async () => {
     if (validateStep1()) {
+      setIsSendingOtp(true);
+      setOtpServerMsg(null);
       generateCodes();
-      dispatchLeadCapture('Step 1: Corporate Profile Submitted (2FA Pending)');
-      setStep(2);
+      dispatchLeadCapture('Step 1: Corporate Profile Submitted (Email Verification Pending)');
+
+      try {
+        const apiUrl = getScannerApiUrl();
+        const res = await fetch(`${apiUrl}/api/otp/send-email`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: profile.email.trim(),
+            name: profile.name.trim(),
+          }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          triggerFooterMessage(
+            data.error || 'Failed to dispatch verification email. Please try again.',
+            true
+          );
+        } else {
+          setResendTimers((prev) => ({ ...prev, email: 30 }));
+        }
+      } catch (err) {
+        console.warn('[VyuhScanner] Email dispatch notice:', err);
+      } finally {
+        setIsSendingOtp(false);
+        setStep(2);
+      }
     } else {
       triggerFooterMessage(
         'Please complete all required fields correctly.',
@@ -446,30 +487,123 @@ export default function VyuhScanner() {
     }
   };
 
-  const handleVerifyOtp = (type: 'email' | 'phone') => {
-    if (otpInputs[type].trim() === demoCodes[type]) {
-      setVerified((prev) => ({ ...prev, [type]: true }));
-      setOtpErrors((prev) => ({ ...prev, [type]: false }));
-    } else {
+  const handleVerifyOtp = async (type: 'email' | 'phone') => {
+    const code = otpInputs[type].trim();
+    if (code.length !== 6) {
       setOtpErrors((prev) => ({ ...prev, [type]: true }));
+      setOtpServerMsg({
+        text: 'Please enter the complete 6-digit verification code.',
+        isError: true,
+      });
+      return;
+    }
+
+    if (type === 'email') {
+      setIsVerifyingOtp((prev) => ({ ...prev, email: true }));
+      setOtpServerMsg(null);
+
+      try {
+        const apiUrl = getScannerApiUrl();
+        const res = await fetch(`${apiUrl}/api/otp/verify-email`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: profile.email.trim(),
+            code,
+          }),
+        });
+        const data = await res.json().catch(() => ({}));
+
+        if (res.ok && data.verified) {
+          setVerified((prev) => ({ ...prev, email: true }));
+          setOtpErrors((prev) => ({ ...prev, email: false }));
+          setOtpServerMsg({
+            text: 'Corporate email address successfully verified.',
+            isError: false,
+          });
+        } else {
+          setOtpErrors((prev) => ({ ...prev, email: true }));
+          setOtpServerMsg({
+            text: data.error || 'Invalid verification code. Please try again.',
+            isError: true,
+          });
+        }
+      } catch (err) {
+        // Fallback for demo code if backend unreachable
+        if (code === demoCodes.email) {
+          setVerified((prev) => ({ ...prev, email: true }));
+          setOtpErrors((prev) => ({ ...prev, email: false }));
+        } else {
+          setOtpErrors((prev) => ({ ...prev, email: true }));
+          setOtpServerMsg({
+            text: 'Verification service error. Please try again.',
+            isError: true,
+          });
+        }
+      } finally {
+        setIsVerifyingOtp((prev) => ({ ...prev, email: false }));
+      }
+    } else {
+      // Phone verification
+      if (otpInputs.phone.trim() === demoCodes.phone) {
+        setVerified((prev) => ({ ...prev, phone: true }));
+        setOtpErrors((prev) => ({ ...prev, phone: false }));
+      } else {
+        setOtpErrors((prev) => ({ ...prev, phone: true }));
+      }
     }
   };
 
-  const handleResendCode = (type: 'email' | 'phone') => {
-    const newCode = String(Math.floor(100000 + Math.random() * 900000));
-    setDemoCodes((prev) => ({ ...prev, [type]: newCode }));
-    setResendTimers((prev) => ({ ...prev, [type]: 30 }));
-    setOtpErrors((prev) => ({ ...prev, [type]: false }));
-    setOtpInputs((prev) => ({ ...prev, [type]: '' }));
+  const handleResendCode = async (type: 'email' | 'phone') => {
+    if (resendTimers[type] > 0) return;
+
+    if (type === 'email') {
+      setOtpInputs((prev) => ({ ...prev, email: '' }));
+      setOtpErrors((prev) => ({ ...prev, email: false }));
+      setOtpServerMsg(null);
+
+      try {
+        const apiUrl = getScannerApiUrl();
+        const res = await fetch(`${apiUrl}/api/otp/send-email`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: profile.email.trim(),
+            name: profile.name.trim(),
+          }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          setOtpServerMsg({
+            text: data.error || 'Failed to resend code.',
+            isError: true,
+          });
+        } else {
+          setResendTimers((prev) => ({ ...prev, email: 30 }));
+          setOtpServerMsg({
+            text: 'A fresh 6-digit code has been dispatched to your corporate email.',
+            isError: false,
+          });
+        }
+      } catch {
+        setResendTimers((prev) => ({ ...prev, email: 30 }));
+      }
+    } else {
+      const newCode = String(Math.floor(100000 + Math.random() * 900000));
+      setDemoCodes((prev) => ({ ...prev, phone: newCode }));
+      setResendTimers((prev) => ({ ...prev, phone: 30 }));
+      setOtpErrors((prev) => ({ ...prev, phone: false }));
+      setOtpInputs((prev) => ({ ...prev, phone: '' }));
+    }
   };
 
   const handleProceedFromStep2 = () => {
-    if (verified.email && verified.phone) {
-      dispatchLeadCapture('Step 2: Dual-Channel 2FA Verified');
+    if (verified.email) {
+      dispatchLeadCapture('Step 2: Corporate Email Verified');
       setStep(3);
     } else {
       triggerFooterMessage(
-        'Both email and SMS verification codes must be confirmed.',
+        'Please verify your corporate email address to proceed.',
         true
       );
     }
@@ -2853,13 +2987,12 @@ export default function VyuhScanner() {
                 </div>
               )}
 
-              {/* ── STEP 2: 2FA Verification ── */}
+              {/* ── STEP 2: Email Verification ── */}
               {step === 2 && (
-                <div className="flex flex-col gap-3 sm:gap-3.5 max-w-4xl mx-auto w-full">
+                <div className="flex flex-col gap-3.5 max-w-4xl mx-auto w-full">
                   <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 p-3 rounded-xl bg-[#c88a3e]/10 border border-[#c88a3e]/30 text-xs">
                     <span className="text-[#071739] font-medium">
-                      Want to bypass 2FA? Public website scans require no
-                      verification.
+                      Want to bypass email verification? Public website scans require no verification.
                     </span>
                     <button
                       type="button"
@@ -2872,61 +3005,68 @@ export default function VyuhScanner() {
                       Switch to Free URL Scan
                     </button>
                   </div>
-                  {/* Email OTP Card */}
-                  <div className="p-4 sm:p-4.5 rounded-xl border border-[#c88a3e]/25 bg-[#f8f9fa] shadow-sm">
-                    <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-[#556987] mb-2.5">
+
+                  {/* Corporate Email Verification Card */}
+                  <div className="p-4 sm:p-5 rounded-xl border border-[#c88a3e]/30 bg-[#f8f9fa] shadow-sm">
+                    <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-[#556987] mb-3">
                       <span>
-                        Email code dispatched to:{' '}
+                        Verification code dispatched to:{' '}
                         <b className="text-[#071739] font-mono">
                           {profile.email}
                         </b>
                       </span>
-                      <span className="font-mono text-xs font-semibold text-[#a86e24] bg-[#c88a3e]/10 px-2.5 py-0.5 rounded border border-[#c88a3e]/30">
-                        demo code: {demoCodes.email}
+                      <span className="font-mono text-[11px] font-semibold text-[#a86e24] bg-[#c88a3e]/10 px-2.5 py-0.5 rounded border border-[#c88a3e]/30">
+                        ⏳ Valid for 5 minutes
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-3">
+                    <div className="flex flex-wrap items-center gap-3">
                       <input
                         type="text"
                         maxLength={6}
                         placeholder="000000"
-                        disabled={verified.email}
+                        disabled={verified.email || isVerifyingOtp.email}
                         value={otpInputs.email}
-                        onChange={(e) =>
-                          setOtpInputs({
-                            ...otpInputs,
-                            email: e.target.value.replace(/\D/g, ''),
-                          })
-                        }
-                        className="w-32 sm:w-36 bg-white border border-[#D7D7D7] rounded-lg px-3 py-1.5 text-center font-mono text-sm tracking-widest text-[#071739] focus:outline-none focus:border-[#c88a3e] disabled:opacity-50"
+                        onChange={(e) => {
+                          const val = e.target.value.replace(/\D/g, '');
+                          setOtpInputs((prev) => ({ ...prev, email: val }));
+                          if (otpErrors.email) {
+                            setOtpErrors((prev) => ({ ...prev, email: false }));
+                            setOtpServerMsg(null);
+                          }
+                        }}
+                        className="w-36 bg-white border border-[#D7D7D7] rounded-lg px-3.5 py-2 text-center font-mono text-base tracking-widest text-[#071739] focus:outline-none focus:border-[#c88a3e] disabled:opacity-60"
                       />
+
                       {!verified.email ? (
                         <button
+                          type="button"
                           onClick={() => handleVerifyOtp('email')}
-                          className="btn btn-line btn-sm cursor-pointer !inline-flex items-center justify-center whitespace-nowrap"
+                          disabled={isVerifyingOtp.email || otpInputs.email.length !== 6}
+                          className="btn btn-gold btn-sm cursor-pointer !inline-flex items-center justify-center whitespace-nowrap disabled:opacity-50"
                           style={{
                             display: 'inline-flex',
                             alignItems: 'center',
                             justifyContent: 'center',
                             whiteSpace: 'nowrap',
-                            color: '#071739',
-                            borderColor: '#cbd5e1',
+                            minHeight: '38px',
                           }}
                         >
-                          Verify Code
+                          {isVerifyingOtp.email ? 'Verifying...' : 'Verify Email Code'}
                         </button>
                       ) : (
-                        <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-600">
-                          <CheckCircle2 className="w-4 h-4 shrink-0" /> Verified
+                        <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-600 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-lg">
+                          <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-600" />
+                          Corporate Email Verified
                         </span>
                       )}
 
                       {!verified.email && (
                         <button
+                          type="button"
                           onClick={() => handleResendCode('email')}
                           disabled={resendTimers.email > 0}
-                          className="text-xs text-[#c88a3e] hover:underline disabled:text-gray-400 cursor-pointer"
+                          className="text-xs text-[#c88a3e] hover:underline disabled:text-gray-400 cursor-pointer ml-auto"
                         >
                           {resendTimers.email > 0
                             ? `Resend in ${resendTimers.email}s`
@@ -2934,80 +3074,30 @@ export default function VyuhScanner() {
                         </button>
                       )}
                     </div>
-                    {otpErrors.email && (
-                      <p className="text-red-600 text-xs mt-1.5 font-heading">
-                        Incorrect code. Try entering {demoCodes.email}.
+
+                    {otpServerMsg && (
+                      <p
+                        className={`text-xs mt-2.5 font-heading ${
+                          otpServerMsg.isError ? 'text-red-600' : 'text-emerald-600 font-semibold'
+                        }`}
+                      >
+                        {otpServerMsg.text}
                       </p>
                     )}
                   </div>
 
-                  {/* SMS OTP Card */}
-                  <div className="p-4 sm:p-4.5 rounded-xl border border-[#c88a3e]/25 bg-[#f8f9fa] shadow-sm">
-                    <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-[#556987] mb-2.5">
+                  {/* Contact Summary Confirmation */}
+                  <div className="flex flex-wrap items-center justify-between p-3 rounded-xl border border-slate-200 bg-white/70 text-xs text-[#556987]">
+                    <div className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-emerald-500" />
                       <span>
-                        SMS code dispatched to:{' '}
-                        <b className="text-[#071739] font-mono">
-                          {profile.phone}
-                        </b>
-                      </span>
-                      <span className="font-mono text-xs font-semibold text-[#a86e24] bg-[#c88a3e]/10 px-2.5 py-0.5 rounded border border-[#c88a3e]/30">
-                        demo code: {demoCodes.phone}
+                        Corporate Profile:{' '}
+                        <b className="text-[#071739]">{profile.name}</b> · {profile.company} ({profile.title})
                       </span>
                     </div>
-
-                    <div className="flex items-center gap-3">
-                      <input
-                        type="text"
-                        maxLength={6}
-                        placeholder="000000"
-                        disabled={verified.phone}
-                        value={otpInputs.phone}
-                        onChange={(e) =>
-                          setOtpInputs({
-                            ...otpInputs,
-                            phone: e.target.value.replace(/\D/g, ''),
-                          })
-                        }
-                        className="w-32 sm:w-36 bg-white border border-[#D7D7D7] rounded-lg px-3 py-1.5 text-center font-mono text-sm tracking-widest text-[#071739] focus:outline-none focus:border-[#c88a3e] disabled:opacity-50"
-                      />
-                      {!verified.phone ? (
-                        <button
-                          onClick={() => handleVerifyOtp('phone')}
-                          className="btn btn-line btn-sm cursor-pointer !inline-flex items-center justify-center whitespace-nowrap"
-                          style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            whiteSpace: 'nowrap',
-                            color: '#071739',
-                            borderColor: '#cbd5e1',
-                          }}
-                        >
-                          Verify Code
-                        </button>
-                      ) : (
-                        <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-600">
-                          <CheckCircle2 className="w-4 h-4 shrink-0" /> Verified
-                        </span>
-                      )}
-
-                      {!verified.phone && (
-                        <button
-                          onClick={() => handleResendCode('phone')}
-                          disabled={resendTimers.phone > 0}
-                          className="text-xs text-[#c88a3e] hover:underline disabled:text-gray-400 cursor-pointer"
-                        >
-                          {resendTimers.phone > 0
-                            ? `Resend in ${resendTimers.phone}s`
-                            : 'Resend code'}
-                        </button>
-                      )}
-                    </div>
-                    {otpErrors.phone && (
-                      <p className="text-red-600 text-xs mt-1.5 font-heading">
-                        Incorrect code. Try entering {demoCodes.phone}.
-                      </p>
-                    )}
+                    <span className="text-[11px] text-[#64748b]">
+                      Direct phone: <b className="font-mono text-[#071739]">{profile.phone}</b>
+                    </span>
                   </div>
                 </div>
               )}
