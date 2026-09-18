@@ -549,8 +549,15 @@ export default function VyuhScanner() {
     let isFallback = false;
 
     try {
-      const apiUrl =
-        process.env.NEXT_PUBLIC_SCANNER_API_URL || 'http://localhost:8080';
+      let rawApiUrl =
+        process.env.NEXT_PUBLIC_SCANNER_API_URL ||
+        'https://pqc-scanner-445288556278.asia-south1.run.app';
+
+      rawApiUrl = rawApiUrl.trim().replace(/^["']|["']$/g, '');
+      if (!/^https?:\/\//i.test(rawApiUrl)) {
+        rawApiUrl = `https://${rawApiUrl}`;
+      }
+      const apiUrl = rawApiUrl.replace(/\/+$/, '');
 
       // 4-second timeout to prevent UI hang if backend server is unreachable
       const controller = new AbortController();
