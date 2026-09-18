@@ -88,7 +88,9 @@ export function normalizeRepoUrl(raw) {
   cleaned = cleaned.replace(/\.git\/?$/i, '').replace(/\/+$/, '');
 
   // Handle shorthand: owner/repo
-  const shorthandMatch = cleaned.match(/^([a-zA-Z0-9_.-]+)\/([a-zA-Z0-9_.-]+)$/);
+  const shorthandMatch = cleaned.match(
+    /^([a-zA-Z0-9_.-]+)\/([a-zA-Z0-9_.-]+)$/
+  );
   if (shorthandMatch && !cleaned.includes('http') && !cleaned.includes('.')) {
     const owner = shorthandMatch[1];
     const repo = shorthandMatch[2];
@@ -328,7 +330,8 @@ const KNOWN_PACKAGES = {
     primitive: 'Bouncy Castle Security Provider (FIPS 203/204 Supported)',
     purpose: 'Enterprise Cryptography & Certificate Management',
     verdict: 'safe',
-    replacement: 'Maintained (Ensure ML-KEM and ML-DSA providers are instantiated)',
+    replacement:
+      'Maintained (Ensure ML-KEM and ML-DSA providers are instantiated)',
     quantumSecurityLevel: 3,
     shorRisk: false,
     groverRisk: false,
@@ -653,7 +656,8 @@ function scanCertificateOrKeyFile(content, relPath) {
       primitive: `Unencrypted ${keyType} Private Key (Direct Exposure)`,
       purpose: 'Private Key Storage (Critical Compromise)',
       verdict: 'broken',
-      replacement: 'Immediately Revoke Key, Purge from Git History & Rotate to FIPS 204 / Vault KMS',
+      replacement:
+        'Immediately Revoke Key, Purge from Git History & Rotate to FIPS 204 / Vault KMS',
       quantumSecurityLevel: 0,
       shorRisk: true,
       groverRisk: false,
@@ -713,7 +717,8 @@ function scanSourceCode(content, relPath) {
         line: i + 1,
         name: `SHA-1 Invocations`,
         asset: `${relPath}:${i + 1}`,
-        primitive: 'SHA-1 Digest (Shattered / Deprecated Collision Vulnerability)',
+        primitive:
+          'SHA-1 Digest (Shattered / Deprecated Collision Vulnerability)',
         purpose: 'Cryptographic Integrity / Signature Digest',
         verdict: 'broken',
         replacement: 'SHA-384 / SHA-512 (CNSA 2.0 Minimum)',
@@ -779,10 +784,12 @@ function scanSourceCode(content, relPath) {
         line: i + 1,
         name: `AES-128 Cipher`,
         asset: `${relPath}:${i + 1}`,
-        primitive: 'AES-128 (128-bit Symmetric Key - Grover Degraded to 64-bit)',
+        primitive:
+          'AES-128 (128-bit Symmetric Key - Grover Degraded to 64-bit)',
         purpose: 'Symmetric Block Encryption',
         verdict: 'weak',
-        replacement: 'AES-256-GCM (256-bit Key / 128-bit Post-Quantum Strength)',
+        replacement:
+          'AES-256-GCM (256-bit Key / 128-bit Post-Quantum Strength)',
         quantumSecurityLevel: 1,
         shorRisk: false,
         groverRisk: true,
@@ -801,7 +808,8 @@ function scanSourceCode(content, relPath) {
         line: i + 1,
         name: `RSA Key Generation`,
         asset: `${relPath}:${i + 1}`,
-        primitive: 'RSA Key Pair Generation (Shor Vulnerable Polynomial Factoring)',
+        primitive:
+          'RSA Key Pair Generation (Shor Vulnerable Polynomial Factoring)',
         purpose: 'Asymmetric Key Generation & Exchange',
         verdict: 'broken',
         replacement: 'NIST FIPS 203 (ML-KEM-768) / FIPS 204 (ML-DSA-65)',
@@ -888,7 +896,8 @@ function buildRepoCbomDocument(repoFullName, assets) {
         ...(isCert
           ? {
               certificateProperties: {
-                subjectName: asset.certInfo?.subject || 'Repository Certificate',
+                subjectName:
+                  asset.certInfo?.subject || 'Repository Certificate',
                 issuerName: asset.certInfo?.issuer || 'Self-Signed / Internal',
                 validNotAfter: asset.certInfo?.validTo || '',
                 signatureAlgorithmRef: asset.primitive,
@@ -934,7 +943,8 @@ function buildRepoCbomDocument(repoFullName, assets) {
         quantumSecurityLevel: 5,
         shorRisk: false,
         groverRisk: false,
-        replacementRecommendation: 'No vulnerable classical cryptographic primitives detected in repository manifests.',
+        replacementRecommendation:
+          'No vulnerable classical cryptographic primitives detected in repository manifests.',
       },
     });
   }
@@ -956,7 +966,7 @@ function buildRepoCbomDocument(repoFullName, assets) {
       tools: [
         {
           vendor: 'UElement Technologies',
-          name: 'VyUH Repository Cryptographic BOM Engine',
+          name: 'Vyuh Repository Cryptographic BOM Engine',
           version: '2.4.0',
         },
       ],
@@ -999,7 +1009,8 @@ export async function runRepoScan(repoInfo, options = {}) {
       );
     } catch (cloneErr) {
       console.error(`Git clone failed for ${cloneUrl}:`, cloneErr);
-      const msg = cloneErr instanceof Error ? cloneErr.message : String(cloneErr);
+      const msg =
+        cloneErr instanceof Error ? cloneErr.message : String(cloneErr);
       if (
         msg.includes('Repository not found') ||
         msg.includes('Authentication failed') ||
@@ -1097,7 +1108,10 @@ export async function runRepoScan(repoInfo, options = {}) {
       } else if (baseName === 'Cargo.toml') {
         const items = scanCargoToml(content, rel);
         items.forEach(addAsset);
-      } else if (baseName === 'pom.xml' || baseName.startsWith('build.gradle')) {
+      } else if (
+        baseName === 'pom.xml' ||
+        baseName.startsWith('build.gradle')
+      ) {
         const items = scanPomXml(content, rel);
         items.forEach(addAsset);
       }
@@ -1116,7 +1130,10 @@ export async function runRepoScan(repoInfo, options = {}) {
     }
 
     // 3. Compile CycloneDX 1.6 CBOM
-    const { cbom, validation } = buildRepoCbomDocument(repoFullName, discoveredAssets);
+    const { cbom, validation } = buildRepoCbomDocument(
+      repoFullName,
+      discoveredAssets
+    );
 
     // 4. Calculate Risk Metrics & Score
     let brokenCount = 0;
@@ -1133,7 +1150,10 @@ export async function runRepoScan(repoInfo, options = {}) {
     let band = 'No Cryptographic Exposure Detected';
 
     if (discoveredAssets.length > 0) {
-      score = Math.max(5, Math.min(100, Math.round(100 - (brokenCount * 12 + weakCount * 5))));
+      score = Math.max(
+        5,
+        Math.min(100, Math.round(100 - (brokenCount * 12 + weakCount * 5)))
+      );
       if (brokenCount > 0 && score > 90) {
         score = 85;
       }
@@ -1162,7 +1182,9 @@ export async function runRepoScan(repoInfo, options = {}) {
     // Generate Tailored Findings
     const findings = [];
 
-    const committedKeys = discoveredAssets.filter((a) => a.source === 'private-key');
+    const committedKeys = discoveredAssets.filter(
+      (a) => a.source === 'private-key'
+    );
     if (committedKeys.length > 0) {
       findings.push({
         sev: 'critical',
@@ -1173,38 +1195,57 @@ export async function runRepoScan(repoInfo, options = {}) {
       });
     }
 
-    const shorVulns = discoveredAssets.filter((a) => a.shorRisk && a.source !== 'private-key');
+    const shorVulns = discoveredAssets.filter(
+      (a) => a.shorRisk && a.source !== 'private-key'
+    );
     if (shorVulns.length > 0) {
       findings.push({
         sev: 'high',
         title: 'Shor-Vulnerable Classical Asymmetric Primitives & Dependencies',
-        detail: `The codebase utilizes classical asymmetric algorithms (RSA, ECDSA, Ed25519) across dependencies or source calls (${shorVulns.slice(0, 3).map((v) => v.file).join(', ')}). Shor's quantum algorithm can solve discrete logarithms and factor integers in polynomial time.`,
+        detail: `The codebase utilizes classical asymmetric algorithms (RSA, ECDSA, Ed25519) across dependencies or source calls (${shorVulns
+          .slice(0, 3)
+          .map((v) => v.file)
+          .join(
+            ', '
+          )}). Shor's quantum algorithm can solve discrete logarithms and factor integers in polynomial time.`,
         fix: 'Plan migration to NIST FIPS 204 (ML-DSA-65) for digital signatures and token verification, and NIST FIPS 203 (ML-KEM-768) for key establishment.',
         std: 'NIST FIPS 203 / NIST FIPS 204 / NSA CNSA 2.0',
       });
     }
 
     const brokenHashes = discoveredAssets.filter(
-      (a) => a.verdict === 'broken' && (a.primitive.includes('MD5') || a.primitive.includes('SHA-1'))
+      (a) =>
+        a.verdict === 'broken' &&
+        (a.primitive.includes('MD5') || a.primitive.includes('SHA-1'))
     );
     if (brokenHashes.length > 0) {
       findings.push({
         sev: 'high',
         title: 'Deprecated Collision-Compromised Hash Algorithms (MD5 / SHA-1)',
-        detail: `Discovered active invocations of MD5 or SHA-1 message digests (${brokenHashes.slice(0, 3).map((h) => h.asset).join(', ')}). These algorithms possess practical collision attacks and violate federal security mandates.`,
+        detail: `Discovered active invocations of MD5 or SHA-1 message digests (${brokenHashes
+          .slice(0, 3)
+          .map((h) => h.asset)
+          .join(
+            ', '
+          )}). These algorithms possess practical collision attacks and violate federal security mandates.`,
         fix: 'Refactor cryptographic digests to SHA-384, SHA-512 (NIST FIPS 180-4), or SHA3-256 (FIPS 202).',
         std: 'NIST SP 800-131A Rev. 2 / FIPS 180-4',
       });
     }
 
     const groverVulns = discoveredAssets.filter(
-      (a) => a.groverRisk && !a.primitive.includes('MD5') && !a.primitive.includes('SHA-1')
+      (a) =>
+        a.groverRisk &&
+        !a.primitive.includes('MD5') &&
+        !a.primitive.includes('SHA-1')
     );
     if (groverVulns.length > 0) {
       findings.push({
         sev: 'medium',
-        title: '128-Bit Symmetric Ciphers Vulnerable to Grover Quadratic Speedup',
-        detail: 'Detected symmetric encryption algorithms utilizing 128-bit key lengths. Grover’s algorithm reduces effective security margin to 64 bits, below minimum requirements for quantum resistance.',
+        title:
+          '128-Bit Symmetric Ciphers Vulnerable to Grover Quadratic Speedup',
+        detail:
+          'Detected symmetric encryption algorithms utilizing 128-bit key lengths. Grover’s algorithm reduces effective security margin to 64 bits, below minimum requirements for quantum resistance.',
         fix: 'Upgrade symmetric encryption algorithms to 256-bit key spaces (AES-256-GCM / ChaCha20-Poly1305).',
         std: 'NIST SP 800-57 / CNSA 2.0',
       });
@@ -1257,14 +1298,15 @@ export async function runRepoScan(repoInfo, options = {}) {
         desc: 'Refactor symmetric encryption invocations from 128-bit blocks to AES-256-GCM. Introduce crypto-agile wrapper modules so underlying signature and KEM implementations can be swapped without rewriting business logic.',
       },
       {
-        phase: 'Phase 3: Post-Quantum Authentication & Signatures (6–18 Months)',
+        phase:
+          'Phase 3: Post-Quantum Authentication & Signatures (6–18 Months)',
         title: 'Adopt NIST FIPS 204 (ML-DSA) for Token & Identity Signing',
         desc: 'Update JWT signing profiles, API tokens, and microservice authentication to NIST FIPS 204 (ML-DSA-65). Deploy hybrid ML-KEM-768 for internal RPC communication.',
       },
       {
         phase: 'Phase 4: Continuous CBOM Pipeline Integration (18+ Months)',
         title: 'Automated CI/CD CycloneDX 1.6 Verification',
-        desc: 'Embed VyUH CBOM generation as an automated gate in GitHub Actions / GitLab CI. Block pull requests that introduce legacy classical primitives or Shor-vulnerable dependencies.',
+        desc: 'Embed Vyuh CBOM generation as an automated gate in GitHub Actions / GitLab CI. Block pull requests that introduce legacy classical primitives or Shor-vulnerable dependencies.',
       },
     ];
 

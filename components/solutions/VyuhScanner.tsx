@@ -353,7 +353,7 @@ export default function VyuhScanner() {
     if (!activeProfile.name && !activeProfile.email) return;
 
     const payload = {
-      _subject: `[VyUH Lead] ${activeProfile.name || 'Executive'} (${activeProfile.company || 'Enterprise'}) · ${stage}`,
+      _subject: `[Vyuh Lead] ${activeProfile.name || 'Executive'} (${activeProfile.company || 'Enterprise'}) · ${stage}`,
       _template: 'table',
       _captcha: 'false',
       name: activeProfile.name,
@@ -420,7 +420,7 @@ export default function VyuhScanner() {
           },
           body: JSON.stringify({
             access_key: web3Key,
-            from_name: 'VyUH Quantum Scanner',
+            from_name: 'Vyuh Quantum Scanner',
             subject: payload._subject,
             ...payload,
           }),
@@ -1039,7 +1039,7 @@ export default function VyuhScanner() {
           tools: [
             {
               vendor: 'UElement Technologies',
-              name: 'VyUH Quantum CBOM Scanner',
+              name: 'Vyuh Quantum CBOM Scanner',
               version: '2.4.0',
             },
           ],
@@ -1129,7 +1129,7 @@ export default function VyuhScanner() {
 
       doc.setTextColor(224, 167, 105);
       doc.setFontSize(16);
-      doc.text('VyUH', M + 46, 56);
+      doc.text('Vyuh', M + 46, 56);
 
       doc.setTextColor(197, 208, 220);
       doc.setFont('helvetica', 'normal');
@@ -1153,7 +1153,7 @@ export default function VyuhScanner() {
         H - 38
       );
       doc.text(
-        'VyUH is an enterprise cryptographic evaluation platform from UElement AdviQ. Results are indicative based on non-invasive inspection.',
+        'Vyuh is an enterprise cryptographic evaluation platform from UElement AdviQ. Results are indicative based on non-invasive inspection.',
         M,
         H - 28
       );
@@ -1461,7 +1461,7 @@ export default function VyuhScanner() {
     // Next steps
     drawSectionTitle('Engagement with UElement AdviQ');
     drawParagraph(
-      'VyUH provides single-target scanning. Estate-wide discovery, continuous automated CBOM monitoring, hardware security module (HSM) migration, and crypto-agility implementation are delivered by UElement AdviQ, our dedicated quantum security practice. Contact our cryptographic engineering team at contact@uelement.in or call +91 7620690561 to review your assessment.'
+      'Vyuh provides single-target scanning. Estate-wide discovery, continuous automated CBOM monitoring, hardware security module (HSM) migration, and crypto-agility implementation are delivered by UElement AdviQ, our dedicated quantum security practice. Contact our cryptographic engineering team at contact@uelement.in or call +91 7620690561 to review your assessment.'
     );
 
     printFooter(page);
@@ -1594,7 +1594,7 @@ export default function VyuhScanner() {
                 style={{ fontSize: 'var(--text-display)', lineHeight: 1.08 }}
               >
                 Every certificate, cipher and key your stack depends on.{' '}
-                <span className="au">VyUH</span> lays out the formation.
+                <span className="au">Vyuh</span> lays out the formation.
               </h1>
 
               <p
@@ -1606,7 +1606,7 @@ export default function VyuhScanner() {
               </p>
 
               <p className="lede" style={{ marginTop: 22 }}>
-                Point VyUH at a public endpoint or a code repository. It
+                Point Vyuh at a public endpoint or a code repository. It
                 constructs an actionable cryptographic bill of materials,
                 classifies what a quantum computer running Shor and Grover
                 algorithms breaks, and outputs a clear migration path to NIST
@@ -1814,7 +1814,7 @@ export default function VyuhScanner() {
           </h2>
           <p className="lede" style={{ marginTop: 14 }}>
             Most organisations cannot answer a simple question: where is RSA or
-            classical ECC running, and what relies on it? VyUH answers it from
+            classical ECC running, and what relies on it? Vyuh answers it from
             the outside in via protocol handshakes, or from the source out
             across repositories.
           </p>
@@ -1829,7 +1829,7 @@ export default function VyuhScanner() {
                 Public Web Endpoints
               </h3>
               <p className="text-[#c5d0dc] text-sm mb-6 leading-relaxed">
-                VyUH negotiates directly with internet-facing services the way a
+                Vyuh negotiates directly with internet-facing services the way a
                 client browser or API partner would, evaluating negotiated and
                 fallback cryptographic suites.
               </p>
@@ -1881,8 +1881,8 @@ export default function VyuhScanner() {
                 Code Repositories
               </h3>
               <p className="text-[#c5d0dc] text-sm mb-6 leading-relaxed">
-                Point VyUH at a public repository or connect a private repo with
-                a scoped read-only token. VyUH traverses the code tree to parse
+                Point Vyuh at a public repository or connect a private repo with
+                a scoped read-only token. Vyuh traverses the code tree to parse
                 cryptographic primitives and dependencies.
               </p>
               <ul className="space-y-3.5 border-t border-white/10 pt-5 text-sm">
@@ -2211,7 +2211,7 @@ export default function VyuhScanner() {
             How a scan <span className="au">runs.</span>
           </h2>
           <p className="lede" style={{ marginTop: 14 }}>
-            VyUH is free to use and gated only by a verified professional
+            Vyuh is free to use and gated only by a verified professional
             identity, ensuring diagnostic telemetry and cryptographic
             discoveries are shared strictly with verified organizational
             stewards.
@@ -2246,7 +2246,7 @@ export default function VyuhScanner() {
               </div>
               <div className="md:col-span-7 text-sm text-gray-600">
                 Provide a website URL or repository URI with explicit
-                declaration of authorization. VyUH executes only read-only,
+                declaration of authorization. Vyuh executes only read-only,
                 non-invasive cryptographic inspection without injecting
                 payloads.
               </div>
@@ -2258,7 +2258,7 @@ export default function VyuhScanner() {
               </div>
               <div className="md:col-span-4">
                 <h3 className="font-heading text-lg font-bold text-[#071739]">
-                  VyUH probes and classifies
+                  Vyuh probes and classifies
                 </h3>
               </div>
               <div className="md:col-span-7 text-sm text-gray-600">
@@ -2382,11 +2382,11 @@ export default function VyuhScanner() {
           <div className="mt-12 divide-y divide-gray-200 border-t border-b border-gray-200">
             {[
               {
-                q: 'Is VyUH really free to use?',
+                q: 'Is Vyuh really free to use?',
                 a: 'Yes. Scanning targets you own or are authorized to assess is completely free. There are no credit cards required, no trial expiration timers, and no paywalls on report generation. A verified professional identity is the sole requirement.',
               },
               {
-                q: 'Does VyUH attack, disrupt, or exploit systems?',
+                q: 'Does Vyuh attack, disrupt, or exploit systems?',
                 a: 'No. Web scans perform standard TLS cryptographic handshakes and consume public Certificate Transparency logs, exactly like a web browser. Repository scans inspect source syntax trees and package manifests. No exploits are executed, no intrusive probes occur, and no code or data is altered.',
               },
               {
@@ -2398,8 +2398,8 @@ export default function VyuhScanner() {
                 a: 'Scan results remain accessible under your session and are retained securely for ninety days so you can retrieve them, after which they are expunged. Source code is never persisted or stored; only the extracted cryptographic inventory metadata is retained.',
               },
               {
-                q: 'How does VyUH relate to a full CBOM enterprise engagement?',
-                a: 'VyUH provides focused diagnostics for single targets. Full enterprise discovery, automated CI/CD continuous monitoring, hardware security module (HSM) migration, and policy-driven crypto-agility are led by UElement AdviQ, our dedicated quantum security practice.',
+                q: 'How does Vyuh relate to a full CBOM enterprise engagement?',
+                a: 'Vyuh provides focused diagnostics for single targets. Full enterprise discovery, automated CI/CD continuous monitoring, hardware security module (HSM) migration, and policy-driven crypto-agility are led by UElement AdviQ, our dedicated quantum security practice.',
               },
               {
                 q: 'Can we scan private repositories or internal VPC services?',
@@ -2553,7 +2553,7 @@ export default function VyuhScanner() {
                 id="vyuh-modal-title"
                 className="text-20 sm:text-24 md:text-26 font-bold font-heading text-[#071739] tracking-tight leading-snug"
               >
-                VyUH: <span className="au">Quantum CBOM Scanner</span>
+                Vyuh: <span className="au">Quantum CBOM Scanner</span>
               </h2>
 
               <p className="text-12 sm:text-13 text-[#556987] mt-1 leading-normal font-body">
@@ -2563,8 +2563,8 @@ export default function VyuhScanner() {
                   'We have dispatched a six-digit verification code to your email and phone. Both must be confirmed before inspecting code repositories.'}
                 {step === 3 &&
                   (scanType === 'url'
-                    ? 'Enter any public domain, website, or API endpoint. VyUH performs live non-invasive TLS 1.3 handshake and certificate chain analysis.'
-                    : 'Configure the repository to be inventoried. VyUH performs read-only, non-invasive inspection of cryptographic primitives.')}
+                    ? 'Enter any public domain, website, or API endpoint. Vyuh performs live non-invasive TLS 1.3 handshake and certificate chain analysis.'
+                    : 'Configure the repository to be inventoried. Vyuh performs read-only, non-invasive inspection of cryptographic primitives.')}
                 {step === 4 &&
                   'Negotiating cryptographic handshakes and evaluating primitives against NIST standards...'}
                 {step === 5 &&
@@ -3183,7 +3183,7 @@ export default function VyuhScanner() {
                       className="cursor-pointer leading-snug"
                     >
                       I own this target or am explicitly authorized to have it
-                      assessed. I understand VyUH performs read-only,
+                      assessed. I understand Vyuh performs read-only,
                       non-invasive cryptographic inspection only.
                     </label>
                   </div>

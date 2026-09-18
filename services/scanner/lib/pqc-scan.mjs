@@ -1,6 +1,6 @@
 // @ts-check
 /**
- * lib/pqc-scan.mjs - live PQC readiness scan for VyUH.
+ * lib/pqc-scan.mjs - live PQC readiness scan for Vyuh.
  */
 import { randomBytes, randomUUID } from 'node:crypto';
 import { isIP } from 'node:net';
