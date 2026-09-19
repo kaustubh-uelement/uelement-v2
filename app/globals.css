@@ -2185,3 +2185,22 @@ table.spec td:first-child {
   outline: none !important;
   box-shadow: none !important;
 }
+
+/* Fallback helpers for modal buttons */
+.btn-sm {
+  padding: 6px 16px !important;
+  font-size: 12px !important;
+  line-height: 1.4 !important;
+}
+
+.btn-ghost {
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1 !important;
+  color: #071739 !important;
+}
+
+.btn-ghost:hover {
+  background-color: #f8f9fa;
+  border-color: #94a3b8 !important;
+}
+

@@ -2664,7 +2664,7 @@ export default function VyuhScanner() {
             if (e.target === e.currentTarget) handleCloseModal();
           }}
         >
-          <div className="relative w-full max-w-[96vw] xl:max-w-[95vw] 2xl:max-w-[1700px] h-[92vh] md:h-[94vh] max-h-[96vh] flex flex-col rounded-[24px] bg-[linear-gradient(165deg,#ffffff_0%,#fbfbfe_100%)] text-[#232223] border border-[#c88a3e]/30 shadow-[0px_20px_70px_rgba(7,23,57,0.35),0px_0px_35px_rgba(200,138,62,0.12)] p-4 sm:p-6 md:p-8 transition-all duration-300">
+          <div className="relative w-full max-w-[96vw] lg:max-w-5xl xl:max-w-6xl 2xl:max-w-[1400px] h-[92vh] md:h-[94vh] max-h-[96vh] flex flex-col rounded-[24px] bg-[linear-gradient(165deg,#ffffff_0%,#fbfbfe_100%)] text-[#232223] border border-[#c88a3e]/30 shadow-[0px_20px_70px_rgba(7,23,57,0.35),0px_0px_35px_rgba(200,138,62,0.12)] p-4 sm:p-6 md:p-7 transition-all duration-300">
             {/* Top Gold Accent Bar */}
             <div
               className="absolute top-0 left-0 right-0 h-[3px] rounded-t-[24px]"
@@ -2745,7 +2745,7 @@ export default function VyuhScanner() {
             </div>
 
             {/* Modal Body Content */}
-            <div className="flex-1 min-h-0 overflow-y-auto custom-modal-scrollbar pr-1 sm:pr-2 py-1">
+            <div className="flex-1 min-h-0 overflow-y-auto custom-modal-scrollbar px-2 sm:px-5 py-2">
               {/* ── STEP 1: Details ── */}
               {step === 1 && (
                 <div className="flex flex-col gap-3 sm:gap-3.5 max-w-4xl mx-auto w-full">
@@ -2760,7 +2760,7 @@ export default function VyuhScanner() {
                         setScanType('url');
                         setStep(3);
                       }}
-                      className="px-3 py-1.5 rounded-lg bg-[#c88a3e] text-white font-semibold hover:bg-[#b0752f] transition-colors shrink-0 cursor-pointer"
+                      className="px-3.5 py-1.5 rounded-full bg-[#c88a3e] text-white font-semibold hover:bg-[#b0752f] transition-colors shrink-0 cursor-pointer text-xs"
                     >
                       Instant Free URL Scan
                     </button>
@@ -2777,7 +2777,7 @@ export default function VyuhScanner() {
                         onChange={(e) =>
                           setProfile({ ...profile, name: e.target.value })
                         }
-                        className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-sm text-[#232223] placeholder:text-[#808080] focus:outline-none focus:border-[#c88a3e] focus:bg-white transition-all ${
+                        className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-sm text-[#232223] placeholder:text-[#808080] outline-none focus:outline-none focus-visible:outline-none focus:border-[#c88a3e] focus:ring-2 focus:ring-[#c88a3e]/20 focus:bg-white transition-all ${
                           errors1.name ? 'border-red-500' : 'border-[#D7D7D7]'
                         }`}
                       />
@@ -2799,7 +2799,7 @@ export default function VyuhScanner() {
                         onChange={(e) =>
                           setProfile({ ...profile, title: e.target.value })
                         }
-                        className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-sm text-[#232223] placeholder:text-[#808080] focus:outline-none focus:border-[#c88a3e] focus:bg-white transition-all ${
+                        className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-sm text-[#232223] placeholder:text-[#808080] outline-none focus:outline-none focus-visible:outline-none focus:border-[#c88a3e] focus:ring-2 focus:ring-[#c88a3e]/20 focus:bg-white transition-all ${
                           errors1.title ? 'border-red-500' : 'border-[#D7D7D7]'
                         }`}
                       />
@@ -2823,7 +2823,7 @@ export default function VyuhScanner() {
                         onChange={(e) =>
                           setProfile({ ...profile, company: e.target.value })
                         }
-                        className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-sm text-[#232223] placeholder:text-[#808080] focus:outline-none focus:border-[#c88a3e] focus:bg-white transition-all ${
+                        className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-sm text-[#232223] placeholder:text-[#808080] outline-none focus:outline-none focus-visible:outline-none focus:border-[#c88a3e] focus:ring-2 focus:ring-[#c88a3e]/20 focus:bg-white transition-all ${
                           errors1.company
                             ? 'border-red-500'
                             : 'border-[#D7D7D7]'
@@ -2847,7 +2847,7 @@ export default function VyuhScanner() {
                         onChange={(e) =>
                           setProfile({ ...profile, email: e.target.value })
                         }
-                        className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-sm text-[#232223] placeholder:text-[#808080] focus:outline-none focus:border-[#c88a3e] focus:bg-white transition-all ${
+                        className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-sm text-[#232223] placeholder:text-[#808080] outline-none focus:outline-none focus-visible:outline-none focus:border-[#c88a3e] focus:ring-2 focus:ring-[#c88a3e]/20 focus:bg-white transition-all ${
                           errors1.email ? 'border-red-500' : 'border-[#D7D7D7]'
                         }`}
                       />
@@ -2873,7 +2873,7 @@ export default function VyuhScanner() {
                               countryCode: e.target.value,
                             })
                           }
-                          className="bg-[#f8f9fa] border border-[#D7D7D7] rounded-lg px-2.5 py-2 text-xs sm:text-sm text-[#232223] focus:outline-none focus:border-[#c88a3e] focus:bg-white"
+                          className="bg-[#f8f9fa] border border-[#D7D7D7] rounded-lg px-2.5 py-2 text-xs sm:text-sm text-[#232223] outline-none focus:outline-none focus-visible:outline-none focus:border-[#c88a3e] focus:ring-2 focus:ring-[#c88a3e]/20 focus:bg-white transition-all cursor-pointer"
                         >
                           <option value="+91">+91 (IN)</option>
                           <option value="+1">+1 (US)</option>
@@ -2891,7 +2891,7 @@ export default function VyuhScanner() {
                           onChange={(e) =>
                             setProfile({ ...profile, phone: e.target.value })
                           }
-                          className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-sm text-[#232223] placeholder:text-[#808080] focus:outline-none focus:border-[#c88a3e] focus:bg-white transition-all ${
+                          className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-sm text-[#232223] placeholder:text-[#808080] outline-none focus:outline-none focus-visible:outline-none focus:border-[#c88a3e] focus:ring-2 focus:ring-[#c88a3e]/20 focus:bg-white transition-all ${
                             errors1.phone
                               ? 'border-red-500'
                               : 'border-[#D7D7D7]'
@@ -2916,7 +2916,7 @@ export default function VyuhScanner() {
                         onChange={(e) =>
                           setProfile({ ...profile, linkedin: e.target.value })
                         }
-                        className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-sm text-[#232223] placeholder:text-[#808080] focus:outline-none focus:border-[#c88a3e] focus:bg-white transition-all ${
+                        className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-sm text-[#232223] placeholder:text-[#808080] outline-none focus:outline-none focus-visible:outline-none focus:border-[#c88a3e] focus:ring-2 focus:ring-[#c88a3e]/20 focus:bg-white transition-all ${
                           errors1.linkedin
                             ? 'border-red-500'
                             : 'border-[#D7D7D7]'
@@ -2939,7 +2939,7 @@ export default function VyuhScanner() {
                       onChange={(e) =>
                         setProfile({ ...profile, purpose: e.target.value })
                       }
-                      className="w-full bg-[#f8f9fa] border border-[#D7D7D7] rounded-lg px-3 py-2 text-xs sm:text-sm text-[#232223] focus:outline-none focus:border-[#c88a3e] focus:bg-white"
+                      className="w-full bg-[#f8f9fa] border border-[#D7D7D7] rounded-lg px-3 py-2 text-xs sm:text-sm text-[#232223] outline-none focus:outline-none focus-visible:outline-none focus:border-[#c88a3e] focus:ring-2 focus:ring-[#c88a3e]/20 focus:bg-white transition-all cursor-pointer"
                     >
                       <option value="Preparing a post-quantum migration plan">
                         Preparing a post-quantum migration plan
@@ -2968,7 +2968,7 @@ export default function VyuhScanner() {
                       onChange={(e) =>
                         setProfile({ ...profile, consent: e.target.checked })
                       }
-                      className="mt-0.5 rounded border-[#D7D7D7] text-[#c88a3e] focus:ring-[#c88a3e] accent-[#c88a3e]"
+                      className="mt-0.5 rounded border-[#D7D7D7] text-[#c88a3e] focus:ring-2 focus:ring-[#c88a3e]/30 focus:ring-offset-0 accent-[#c88a3e] cursor-pointer"
                     />
                     <label
                       htmlFor="consentCheck"
@@ -3000,7 +3000,7 @@ export default function VyuhScanner() {
                         setScanType('url');
                         setStep(3);
                       }}
-                      className="px-3 py-1.5 rounded-lg bg-[#c88a3e] text-white font-semibold hover:bg-[#b0752f] transition-colors shrink-0 cursor-pointer"
+                      className="px-3.5 py-1.5 rounded-full bg-[#c88a3e] text-white font-semibold hover:bg-[#b0752f] transition-colors shrink-0 cursor-pointer text-xs"
                     >
                       Switch to Free URL Scan
                     </button>
@@ -3035,7 +3035,7 @@ export default function VyuhScanner() {
                             setOtpServerMsg(null);
                           }
                         }}
-                        className="w-36 bg-white border border-[#D7D7D7] rounded-lg px-3.5 py-2 text-center font-mono text-base tracking-widest text-[#071739] focus:outline-none focus:border-[#c88a3e] disabled:opacity-60"
+                        className="w-36 bg-white border border-[#D7D7D7] rounded-lg px-3.5 py-2 text-center font-mono text-base tracking-widest text-[#071739] outline-none focus:outline-none focus-visible:outline-none focus:border-[#c88a3e] focus:ring-2 focus:ring-[#c88a3e]/20 disabled:opacity-60 transition-all"
                       />
 
                       {!verified.email ? (
@@ -3043,14 +3043,7 @@ export default function VyuhScanner() {
                           type="button"
                           onClick={() => handleVerifyOtp('email')}
                           disabled={isVerifyingOtp.email || otpInputs.email.length !== 6}
-                          className="btn btn-gold btn-sm cursor-pointer !inline-flex items-center justify-center whitespace-nowrap disabled:opacity-50"
-                          style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            whiteSpace: 'nowrap',
-                            minHeight: '38px',
-                          }}
+                          className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full text-xs sm:text-sm font-heading font-semibold text-white bg-gradient-to-r from-[#a87228] via-[#c88a3e] to-[#b0752f] hover:brightness-105 shadow-[0_2px_10px_rgba(200,138,62,0.25)] active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none transition-all cursor-pointer whitespace-nowrap min-h-[38px]"
                         >
                           {isVerifyingOtp.email ? 'Verifying...' : 'Verify Email Code'}
                         </button>
@@ -3127,7 +3120,7 @@ export default function VyuhScanner() {
                       }}
                       className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
                         scanType === 'url'
-                          ? 'border-[#c88a3e] bg-[#c88a3e]/10 text-[#071739] shadow-sm'
+                          ? 'border-[#c88a3e] bg-[#c88a3e]/10 text-[#071739] shadow-sm ring-1 ring-[#c88a3e]/30'
                           : 'border-[#e2e8f0] bg-[#f8f9fa] text-[#556987] hover:border-[#c88a3e]/40'
                       }`}
                     >
@@ -3161,7 +3154,7 @@ export default function VyuhScanner() {
                       }}
                       className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
                         scanType === 'repo'
-                          ? 'border-[#c88a3e] bg-[#c88a3e]/10 text-[#071739] shadow-sm'
+                          ? 'border-[#c88a3e] bg-[#c88a3e]/10 text-[#071739] shadow-sm ring-1 ring-[#c88a3e]/30'
                           : 'border-[#e2e8f0] bg-[#f8f9fa] text-[#556987] hover:border-[#c88a3e]/40'
                       }`}
                     >
@@ -3199,7 +3192,7 @@ export default function VyuhScanner() {
                           target: e.target.value,
                         })
                       }
-                      className="w-full bg-[#f8f9fa] border border-[#D7D7D7] rounded-lg px-3.5 py-2 text-sm text-[#071739] font-mono focus:outline-none focus:border-[#c88a3e] focus:bg-white"
+                      className="w-full bg-[#f8f9fa] border border-[#D7D7D7] rounded-lg px-3.5 py-2.5 text-sm text-[#071739] font-mono outline-none focus:outline-none focus-visible:outline-none focus:border-[#c88a3e] focus:ring-2 focus:ring-[#c88a3e]/20 focus:bg-white transition-all shadow-none"
                     />
                     {targetError && (
                       <p className="text-red-600 text-xs mt-1 font-heading">
@@ -3223,7 +3216,7 @@ export default function VyuhScanner() {
                               githubToken: e.target.value,
                             })
                           }
-                          className="w-full bg-[#f8f9fa] border border-[#D7D7D7] rounded-lg px-3.5 py-2 text-xs text-[#071739] font-mono focus:outline-none focus:border-[#c88a3e] focus:bg-white"
+                          className="w-full bg-[#f8f9fa] border border-[#D7D7D7] rounded-lg px-3.5 py-2 text-xs text-[#071739] font-mono outline-none focus:outline-none focus-visible:outline-none focus:border-[#c88a3e] focus:ring-2 focus:ring-[#c88a3e]/20 focus:bg-white transition-all shadow-none"
                         />
                         <span className="text-[11px] text-[#64748b] mt-1 block leading-tight">
                           Required only for private repositories. Transmitted in-memory and never logged or stored.
@@ -3245,7 +3238,7 @@ export default function VyuhScanner() {
                             depth: e.target.value,
                           })
                         }
-                        className="w-full bg-[#f8f9fa] border border-[#D7D7D7] rounded-lg px-3 py-2 text-xs text-[#071739] focus:outline-none focus:border-[#c88a3e]"
+                        className="w-full bg-[#f8f9fa] border border-[#D7D7D7] rounded-lg px-3 py-2 text-xs text-[#071739] outline-none focus:outline-none focus-visible:outline-none focus:border-[#c88a3e] focus:ring-2 focus:ring-[#c88a3e]/20 focus:bg-white transition-all cursor-pointer"
                       >
                         {scanType === 'repo' ? (
                           <>
@@ -3287,7 +3280,7 @@ export default function VyuhScanner() {
                             retention: parseInt(e.target.value, 10),
                           })
                         }
-                        className="w-full bg-[#f8f9fa] border border-[#D7D7D7] rounded-lg px-3 py-2 text-xs text-[#071739] focus:outline-none focus:border-[#c88a3e]"
+                        className="w-full bg-[#f8f9fa] border border-[#D7D7D7] rounded-lg px-3 py-2 text-xs text-[#071739] outline-none focus:outline-none focus-visible:outline-none focus:border-[#c88a3e] focus:ring-2 focus:ring-[#c88a3e]/20 focus:bg-white transition-all cursor-pointer"
                       >
                         <option value={5}>
                           5 years (standard operational data)
@@ -3316,7 +3309,7 @@ export default function VyuhScanner() {
                           authorized: e.target.checked,
                         })
                       }
-                      className="mt-0.5 rounded border-[#D7D7D7] text-[#c88a3e] focus:ring-[#c88a3e] accent-[#c88a3e]"
+                      className="mt-0.5 rounded border-[#D7D7D7] text-[#c88a3e] focus:ring-2 focus:ring-[#c88a3e]/30 focus:ring-offset-0 accent-[#c88a3e] cursor-pointer"
                     />
                     <label
                       htmlFor="authCheck"
@@ -3495,7 +3488,7 @@ export default function VyuhScanner() {
                   </div>
 
                   {/* Tabs Navigation */}
-                  <div className="flex border-b border-[#e2e8f0] mb-4 gap-1 overflow-x-auto text-xs font-heading">
+                  <div className="flex border-b border-[#e2e8f0] mb-4 gap-1 overflow-x-auto custom-modal-scrollbar text-xs font-heading">
                     <button
                       onClick={() => setActiveTab('cbom')}
                       className={`py-2.5 px-4 font-semibold border-b-2 transition-colors cursor-pointer whitespace-nowrap ${
@@ -3540,47 +3533,50 @@ export default function VyuhScanner() {
 
                   {/* Tab 1: CBOM Table */}
                   {activeTab === 'cbom' && (
-                    <div className="overflow-x-auto max-h-80 overflow-y-auto border border-[#e2e8f0] rounded-xl">
-                      <table className="w-full text-left text-xs text-[#334155]">
-                        <thead className="sticky top-0 bg-[#f1f5f9] text-[11px] font-heading font-semibold text-[#475569] uppercase">
+                    <div className="overflow-x-auto max-h-80 overflow-y-auto border border-[#e2e8f0] rounded-xl custom-modal-scrollbar shadow-sm">
+                      <table className="w-full min-w-[720px] text-left text-xs text-[#334155]">
+                        <thead className="sticky top-0 bg-[#f1f5f9] text-[11px] font-heading font-semibold text-[#475569] uppercase border-b border-[#e2e8f0] z-10">
                           <tr>
-                            <th className="py-2.5 px-3">Asset</th>
-                            <th className="py-2.5 px-3">Primitive</th>
-                            <th className="py-2.5 px-3">Purpose</th>
-                            <th className="py-2.5 px-3">Verdict</th>
-                            <th className="py-2.5 px-3">Target Standard</th>
+                            <th className="py-2.5 px-3 min-w-[90px] whitespace-nowrap">Asset</th>
+                            <th className="py-2.5 px-3 min-w-[120px] whitespace-nowrap">Primitive</th>
+                            <th className="py-2.5 px-3 min-w-[160px] whitespace-nowrap">Purpose</th>
+                            <th className="py-2.5 px-3 min-w-[140px] whitespace-nowrap">Verdict</th>
+                            <th className="py-2.5 px-3 min-w-[210px] whitespace-nowrap">Target Standard</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-[#e2e8f0]">
                           {results.cbom.map((item, idx) => (
-                            <tr key={idx} className="hover:bg-[#f8f9fa]">
-                              <td className="py-2.5 px-3 text-[#071739] font-semibold">
+                            <tr key={idx} className="hover:bg-[#f8f9fa] transition-colors">
+                              <td className="py-2.5 px-3 text-[#071739] font-semibold whitespace-nowrap">
                                 {item.asset}
                               </td>
-                              <td className="py-2.5 px-3 font-mono text-[#0f172a]">
+                              <td className="py-2.5 px-3 font-mono text-[#0f172a] whitespace-nowrap">
                                 {item.primitive}
                               </td>
                               <td className="py-2.5 px-3 text-[#64748b]">
                                 {item.purpose}
                               </td>
-                              <td className="py-2.5 px-3">
+                              <td className="py-2.5 px-3 whitespace-nowrap">
                                 {item.verdict === 'broken' && (
-                                  <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-red-50 text-red-700 border border-red-200">
+                                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-red-50 text-red-700 border border-red-200 whitespace-nowrap shrink-0">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0" />
                                     Broken (Shor)
                                   </span>
                                 )}
                                 {item.verdict === 'weak' && (
-                                  <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-50 text-amber-700 border border-amber-200">
+                                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-700 border border-amber-200 whitespace-nowrap shrink-0">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" />
                                     Weakened (Grover)
                                   </span>
                                 )}
                                 {item.verdict === 'safe' && (
-                                  <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 whitespace-nowrap shrink-0">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
                                     Quantum-Safe
                                   </span>
                                 )}
                               </td>
-                              <td className="py-2.5 px-3 font-mono text-[#a86e24] font-semibold">
+                              <td className="py-2.5 px-3 font-mono text-[#a86e24] font-medium text-[11px]">
                                 {item.replacement}
                               </td>
                             </tr>
@@ -3691,9 +3687,10 @@ export default function VyuhScanner() {
               )}
             </div>
 
-            {/* Modal Footer matching Contact Us modal */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 pt-3 sm:pt-3.5 border-t border-black/[0.08] mt-3 sm:mt-4 shrink-0">
-              <div className="text-12 text-[#64748b] font-body flex items-center gap-1.5 order-2 sm:order-1">
+            {/* Modal Footer */}
+            <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-3 sm:gap-4 pt-3.5 sm:pt-4 border-t border-black/[0.08] mt-3 sm:mt-4 shrink-0">
+              {/* Left / Secondary Action & Status */}
+              <div className="flex flex-wrap items-center justify-between sm:justify-start gap-2.5 w-full sm:w-auto text-xs text-[#64748b]">
                 {step > 1 &&
                   step < 4 &&
                   !(step === 3 && scanType === 'url') && (
@@ -3706,15 +3703,7 @@ export default function VyuhScanner() {
                           setStep(step - 1);
                         }
                       }}
-                      className="btn btn-ghost btn-sm cursor-pointer mr-2 !inline-flex items-center justify-center whitespace-nowrap"
-                      style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        whiteSpace: 'nowrap',
-                        color: '#071739',
-                        borderColor: '#cbd5e1',
-                      }}
+                      className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full text-xs sm:text-sm font-heading font-medium text-[#071739] bg-white hover:bg-slate-50 border border-slate-300 hover:border-[#c88a3e]/50 shadow-sm active:scale-[0.98] transition-all cursor-pointer whitespace-nowrap"
                     >
                       Back
                     </button>
@@ -3726,48 +3715,39 @@ export default function VyuhScanner() {
                       setStep(3);
                       setTargetConfig((p) => ({ ...p, target: '' }));
                     }}
-                    className="btn btn-ghost btn-sm cursor-pointer mr-2 !inline-flex items-center justify-center whitespace-nowrap"
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      whiteSpace: 'nowrap',
-                      color: '#071739',
-                      borderColor: '#cbd5e1',
-                    }}
+                    className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full text-xs sm:text-sm font-heading font-semibold text-[#071739] bg-white hover:bg-slate-50 border border-slate-300 hover:border-[#c88a3e]/60 shadow-sm active:scale-[0.98] transition-all cursor-pointer whitespace-nowrap"
                   >
-                    Scan Another Target
+                    <RefreshCw className="w-3.5 h-3.5 text-[#a86e24] shrink-0" />
+                    <span>Scan Another Target</span>
                   </button>
                 )}
-                <span
-                  className={
-                    footerMsg?.isError
-                      ? 'text-red-600 font-medium'
-                      : 'text-[#64748b]'
-                  }
-                >
-                  {footerMsg
-                    ? footerMsg.text
-                    : step === 5
-                      ? 'CycloneDX 1.6 CBOM ready'
-                      : 'Free · No credit card required'}
-                </span>
+                <div className="flex items-center gap-1.5">
+                  {step === 5 && (
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+                  )}
+                  <span
+                    className={
+                      footerMsg?.isError
+                        ? 'text-red-600 font-medium'
+                        : 'text-[#64748b] text-[11.5px]'
+                    }
+                  >
+                    {footerMsg
+                      ? footerMsg.text
+                      : step === 5
+                        ? 'CycloneDX 1.6 CBOM ready'
+                        : 'Free · No credit card required'}
+                  </span>
+                </div>
               </div>
 
-              <div className="flex items-center gap-3 order-1 sm:order-2 w-full sm:w-auto justify-end">
+              {/* Right / Primary Action Buttons */}
+              <div className="flex items-center gap-2.5 w-full sm:w-auto justify-end">
                 {step === 1 && (
                   <button
                     type="button"
                     onClick={handleProceedFromStep1}
-                    className="btn btn-gold cursor-pointer w-full sm:w-auto !inline-flex items-center justify-center gap-2 whitespace-nowrap"
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      whiteSpace: 'nowrap',
-                      gap: '8px',
-                      minHeight: '42px',
-                    }}
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full text-xs sm:text-sm font-heading font-semibold text-white bg-gradient-to-r from-[#a87228] via-[#c88a3e] to-[#b0752f] hover:brightness-105 shadow-[0_4px_14px_rgba(200,138,62,0.3)] hover:shadow-[0_6px_20px_rgba(200,138,62,0.4)] active:scale-[0.98] transition-all cursor-pointer whitespace-nowrap"
                   >
                     <span>Continue</span>
                     <ArrowRight className="w-4 h-4 shrink-0" />
@@ -3778,15 +3758,7 @@ export default function VyuhScanner() {
                   <button
                     type="button"
                     onClick={handleProceedFromStep2}
-                    className="btn btn-gold cursor-pointer w-full sm:w-auto !inline-flex items-center justify-center gap-2 whitespace-nowrap"
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      whiteSpace: 'nowrap',
-                      gap: '8px',
-                      minHeight: '42px',
-                    }}
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full text-xs sm:text-sm font-heading font-semibold text-white bg-gradient-to-r from-[#a87228] via-[#c88a3e] to-[#b0752f] hover:brightness-105 shadow-[0_4px_14px_rgba(200,138,62,0.3)] hover:shadow-[0_6px_20px_rgba(200,138,62,0.4)] active:scale-[0.98] transition-all cursor-pointer whitespace-nowrap"
                   >
                     <span>Continue to Target</span>
                     <ArrowRight className="w-4 h-4 shrink-0" />
@@ -3797,15 +3769,7 @@ export default function VyuhScanner() {
                   <button
                     type="button"
                     onClick={handleStartScan}
-                    className="btn btn-gold cursor-pointer w-full sm:w-auto !inline-flex items-center justify-center gap-2 whitespace-nowrap"
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      whiteSpace: 'nowrap',
-                      gap: '8px',
-                      minHeight: '42px',
-                    }}
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full text-xs sm:text-sm font-heading font-semibold text-white bg-gradient-to-r from-[#a87228] via-[#c88a3e] to-[#b0752f] hover:brightness-105 shadow-[0_4px_14px_rgba(200,138,62,0.3)] hover:shadow-[0_6px_20px_rgba(200,138,62,0.4)] active:scale-[0.98] transition-all cursor-pointer whitespace-nowrap"
                   >
                     <span>Start Diagnostic Scan</span>
                     <Shield className="w-4 h-4 shrink-0" />
@@ -3813,42 +3777,26 @@ export default function VyuhScanner() {
                 )}
 
                 {step === 5 && (
-                  <>
+                  <div className="grid grid-cols-2 gap-2 w-full sm:w-auto sm:flex sm:items-center sm:gap-2.5">
                     <button
                       type="button"
                       onClick={exportCycloneDX}
-                      className="btn btn-ghost btn-sm cursor-pointer text-xs !inline-flex items-center justify-center gap-2 whitespace-nowrap"
+                      className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-full text-xs sm:text-sm font-heading font-semibold text-[#071739] bg-white hover:bg-slate-50 border border-slate-300 hover:border-[#c88a3e]/60 shadow-sm active:scale-[0.98] transition-all cursor-pointer whitespace-nowrap"
                       title="Download CycloneDX 1.6 JSON CBOM"
-                      style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        whiteSpace: 'nowrap',
-                        gap: '6px',
-                        color: '#071739',
-                        borderColor: '#cbd5e1',
-                      }}
                     >
-                      <FileCode className="w-3.5 h-3.5 text-[#a86e24] shrink-0" />
-                      <span>CycloneDX JSON</span>
+                      <FileCode className="w-4 h-4 text-[#a86e24] shrink-0" />
+                      <span className="truncate">CycloneDX JSON</span>
                     </button>
                     <button
                       type="button"
                       onClick={handlePdfButtonClick}
-                      className="btn btn-gold btn-sm cursor-pointer text-xs !inline-flex items-center justify-center gap-2 whitespace-nowrap"
-                      style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        whiteSpace: 'nowrap',
-                        gap: '6px',
-                      }}
+                      className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-full text-xs sm:text-sm font-heading font-semibold text-white bg-gradient-to-r from-[#a87228] via-[#c88a3e] to-[#b0752f] hover:brightness-105 shadow-[0_4px_14px_rgba(200,138,62,0.3)] hover:shadow-[0_6px_20px_rgba(200,138,62,0.4)] active:scale-[0.98] transition-all cursor-pointer whitespace-nowrap"
                       title="Download formal PDF assessment report"
                     >
-                      <Download className="w-3.5 h-3.5 shrink-0" />
-                      <span>Download Report (PDF)</span>
+                      <Download className="w-4 h-4 shrink-0" />
+                      <span className="truncate">Download Report (PDF)</span>
                     </button>
-                  </>
+                  </div>
                 )}
               </div>
             </div>
@@ -3928,7 +3876,7 @@ export default function VyuhScanner() {
                       if (pdfLeadErrors.name)
                         setPdfLeadErrors({ ...pdfLeadErrors, name: '' });
                     }}
-                    className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-xs sm:text-sm text-[#232223] placeholder:text-[#808080] focus:outline-none focus:border-[#c88a3e] focus:bg-white transition-all ${
+                    className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-xs sm:text-sm text-[#232223] placeholder:text-[#808080] outline-none focus:outline-none focus-visible:outline-none focus:border-[#c88a3e] focus:ring-2 focus:ring-[#c88a3e]/20 focus:bg-white transition-all ${
                       pdfLeadErrors.name ? 'border-red-500' : 'border-[#D7D7D7]'
                     }`}
                   />
@@ -3953,7 +3901,7 @@ export default function VyuhScanner() {
                       if (pdfLeadErrors.email)
                         setPdfLeadErrors({ ...pdfLeadErrors, email: '' });
                     }}
-                    className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-xs sm:text-sm text-[#232223] placeholder:text-[#808080] focus:outline-none focus:border-[#c88a3e] focus:bg-white transition-all ${
+                    className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-xs sm:text-sm text-[#232223] placeholder:text-[#808080] outline-none focus:outline-none focus-visible:outline-none focus:border-[#c88a3e] focus:ring-2 focus:ring-[#c88a3e]/20 focus:bg-white transition-all ${
                       pdfLeadErrors.email
                         ? 'border-red-500'
                         : 'border-[#D7D7D7]'
@@ -3985,7 +3933,7 @@ export default function VyuhScanner() {
                       if (pdfLeadErrors.company)
                         setPdfLeadErrors({ ...pdfLeadErrors, company: '' });
                     }}
-                    className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-xs sm:text-sm text-[#232223] placeholder:text-[#808080] focus:outline-none focus:border-[#c88a3e] focus:bg-white transition-all ${
+                    className={`w-full bg-[#f8f9fa] border rounded-lg px-3 py-2 text-xs sm:text-sm text-[#232223] placeholder:text-[#808080] outline-none focus:outline-none focus-visible:outline-none focus:border-[#c88a3e] focus:ring-2 focus:ring-[#c88a3e]/20 focus:bg-white transition-all ${
                       pdfLeadErrors.company
                         ? 'border-red-500'
                         : 'border-[#D7D7D7]'
@@ -4009,7 +3957,7 @@ export default function VyuhScanner() {
                     onChange={(e) =>
                       setPdfLeadForm({ ...pdfLeadForm, title: e.target.value })
                     }
-                    className="w-full bg-[#f8f9fa] border border-[#D7D7D7] rounded-lg px-3 py-2 text-xs sm:text-sm text-[#232223] placeholder:text-[#808080] focus:outline-none focus:border-[#c88a3e] focus:bg-white transition-all"
+                    className="w-full bg-[#f8f9fa] border border-[#D7D7D7] rounded-lg px-3 py-2 text-xs sm:text-sm text-[#232223] placeholder:text-[#808080] outline-none focus:outline-none focus-visible:outline-none focus:border-[#c88a3e] focus:ring-2 focus:ring-[#c88a3e]/20 focus:bg-white transition-all"
                   />
                 </div>
               </div>
@@ -4025,7 +3973,7 @@ export default function VyuhScanner() {
                   onChange={(e) =>
                     setPdfLeadForm({ ...pdfLeadForm, phone: e.target.value })
                   }
-                  className="w-full bg-[#f8f9fa] border border-[#D7D7D7] rounded-lg px-3 py-2 text-xs sm:text-sm text-[#232223] placeholder:text-[#808080] focus:outline-none focus:border-[#c88a3e] focus:bg-white transition-all"
+                  className="w-full bg-[#f8f9fa] border border-[#D7D7D7] rounded-lg px-3 py-2 text-xs sm:text-sm text-[#232223] placeholder:text-[#808080] outline-none focus:outline-none focus-visible:outline-none focus:border-[#c88a3e] focus:ring-2 focus:ring-[#c88a3e]/20 focus:bg-white transition-all"
                 />
               </div>
 
@@ -4037,23 +3985,14 @@ export default function VyuhScanner() {
                   <button
                     type="button"
                     onClick={() => setShowPdfLeadModal(false)}
-                    className="btn btn-ghost btn-sm text-xs cursor-pointer"
-                    style={{ color: '#071739', borderColor: '#cbd5e1' }}
+                    className="inline-flex items-center justify-center px-4 py-2 rounded-full text-xs sm:text-sm font-heading font-medium text-[#071739] bg-white hover:bg-slate-50 border border-slate-300 hover:border-[#c88a3e]/50 shadow-sm active:scale-[0.98] transition-all cursor-pointer whitespace-nowrap"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={isSubmittingPdfLead}
-                    className="btn btn-gold btn-sm text-xs cursor-pointer !inline-flex items-center justify-center gap-2 whitespace-nowrap"
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      whiteSpace: 'nowrap',
-                      gap: '6px',
-                      minHeight: '38px',
-                    }}
+                    className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-heading font-semibold text-white bg-gradient-to-r from-[#a87228] via-[#c88a3e] to-[#b0752f] hover:brightness-105 shadow-[0_4px_14px_rgba(200,138,62,0.3)] hover:shadow-[0_6px_20px_rgba(200,138,62,0.4)] active:scale-[0.98] disabled:opacity-60 transition-all cursor-pointer whitespace-nowrap"
                   >
                     <Download className="w-3.5 h-3.5 shrink-0" />
                     <span>
