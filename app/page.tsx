@@ -36,11 +36,10 @@ export default function HomePage() {
 
             <p className="lede mt-6 md:mt-8">
               Engineering{' '}
-              <span className="italic font-medium">Quantum-secure</span> and{' '}
-              resilient autonomous systems <br className="hidden md:block" />
-              that create a seamless{' '}
-              <span className="italic font-medium">Digital-fabric</span> for the
-              tactical edge.
+              <span className="italic font-medium">Quantum-secure</span> and
+              resilient autonomous systems that create a seamless{' '}
+              <span className="italic font-medium">Digital fabric</span> for the
+              advanced Enterprise.
             </p>
 
             {/* CTA Buttons: re-enable pointer events just here */}
@@ -71,7 +70,9 @@ export default function HomePage() {
       {/* ═══════ THE PORTFOLIO ═══════ */}
       <div className="section alt">
         <div className="wrap">
-          <div className="kicker" id="portfolio"  >The portfolio</div>
+          <div className="kicker" id="portfolio">
+            The portfolio
+          </div>
           <h2 className="display text-navy-gradient">
             Three programs. One practice.
             <br />
@@ -194,7 +195,9 @@ export default function HomePage() {
       {/* ═══════ INDUSTRIES ═══════ */}
       <div className="section navy">
         <div className="wrap">
-          <div className="kicker" id='industries'>Industries</div>
+          <div className="kicker" id="industries">
+            Industries
+          </div>
           <h2 className="display">
             Built where failure is <span className="au">not an option</span>.
           </h2>
