@@ -63,20 +63,6 @@ const organisations: Organisation[] = [
     ),
   },
   {
-    name: "MahaVaani",
-    url: "https://mahavaani.uelement.in/",
-    category: "Civic AI & Governance",
-    description: "Statewide conversational AI & citizen engagement fabric",
-    altText: "MahaVaani logo",
-    renderLogo: () => (
-      <img
-        src="/images/organisations/mahavaani-dark.svg"
-        alt="MahaVaani"
-        className="h-8 w-auto max-w-[170px] object-contain"
-      />
-    ),
-  },
-  {
     name: "Bioflow",
     url: "https://main.dgvywblrwouqh.amplifyapp.com/",
     category: "Connected Health & Biometrics",
@@ -180,25 +166,6 @@ const organisations: Organisation[] = [
         />
         <span className="font-bold text-[15px] tracking-widest text-[#071739] group-hover:text-[#c88a3e] transition-colors">
           KSHANA
-        </span>
-      </div>
-    ),
-  },
-  {
-    name: "Curiosity AI",
-    url: "https://www.curiosityai.co/",
-    category: "Enterprise Intelligence",
-    description: "AI-powered workspace search & contextual synthesis",
-    altText: "Curiosity AI logo",
-    renderLogo: () => (
-      <div className="flex items-center gap-2.5">
-        <img
-          src="/images/organisations/curiosity-ai-icon.png"
-          alt="Curiosity AI"
-          className="h-6 w-6 object-contain"
-        />
-        <span className="font-bold text-[16px] text-[#071739] tracking-tight group-hover:text-[#c88a3e] transition-colors whitespace-nowrap">
-          Curiosity <span className="text-[#0284c7]">AI</span>
         </span>
       </div>
     ),
