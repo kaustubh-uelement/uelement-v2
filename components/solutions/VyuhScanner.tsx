@@ -434,6 +434,35 @@ export default function VyuhScanner() {
         console.warn('[VyuhScanner] Web3Forms non-fatal notice:', err);
       }
     }
+
+    // Tertiary delivery: Google Sheets Live Sync (via Google Apps Script Webhook)
+    const sheetsWebhook = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_WEBHOOK_URL;
+    if (sheetsWebhook) {
+      try {
+        await fetch(sheetsWebhook, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            timestamp: payload['Submission Timestamp'],
+            name: activeProfile.name || '',
+            email: activeProfile.email || '',
+            phone: payload['Mobile Phone'] || '',
+            title: activeProfile.title || '',
+            company: activeProfile.company || '',
+            linkedin: activeProfile.linkedin || '',
+            purpose: activeProfile.purpose || '',
+            stage: stage,
+            targetAsset: extra['Target Asset'] || 'N/A',
+            verified: verified.email ? 'Yes' : (stage.includes('Verified') ? 'Yes' : 'Pending'),
+            source: payload['Source Page'],
+          }),
+        });
+        console.log('[VyuhScanner] Lead profile synced to Google Sheets.');
+      } catch (err) {
+        console.warn('[VyuhScanner] Google Sheets sync non-fatal notice:', err);
+      }
+    }
   };
 
   const getScannerApiUrl = () => {
