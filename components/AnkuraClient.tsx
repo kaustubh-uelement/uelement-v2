@@ -3,6 +3,7 @@
 import Link from "next/link";
 import SpectralCanvas from "./SpectralCanvas";
 import PillarCard from "./PillarCard";
+import AnkuraOrganisationsCarousel from "./AnkuraOrganisationsCarousel";
 
 export default function AnkuraClient() {
   return (
@@ -63,6 +64,9 @@ export default function AnkuraClient() {
           </div>
         </div>
       </div>
+
+      {/* ═══════ ORGANISATIONS RUNNING ON ANKURA PLATFORM ═══════ */}
+      <AnkuraOrganisationsCarousel />
 
       {/* ═══════ THE PROBLEM BEHIND THE COMPLEXITY ═══════ */}
       <div className="section alt" id="problem">

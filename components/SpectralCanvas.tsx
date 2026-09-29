@@ -52,9 +52,6 @@ void main(){
   vec4 mvPosition = modelViewMatrix * vec4(pos,1.0);
   gl_Position = projectionMatrix * mvPosition;
 
-  // Critical fix: Explicit point size with perspective attenuation.
-  // Required by WebGL spec when rendering points. Without this, gl_PointSize is undefined
-  // and expands to 64px-256px squares on Mali/Android GPUs, blowing out into white screen.
   gl_PointSize = clamp(20.0 / -mvPosition.z, 1.2, 2.5);
 }
 `;
@@ -75,7 +72,6 @@ varying float vDist;
 
 vec3 goldenSpectral(float t){
   t = clamp(t, 0.0, 1.0);
-  // Rich golden tones: Bronze Gold -> Warm Amber Gold -> Luminous Champagne Gold
   vec3 c1 = vec3(0.784, 0.541, 0.243); // #c88a3e
   vec3 c2 = vec3(0.878, 0.655, 0.412); // #e0a769
   vec3 c3 = vec3(0.960, 0.820, 0.550); // warm champagne gold
@@ -109,7 +105,6 @@ uniform vec3 uColorPeak;
 varying float vElevation;
 varying float vDist;
 void main(){
-  // Circular point clipping so point sprites render as smooth micro-dots instead of squares
   vec2 coord = gl_PointCoord - vec2(0.5);
   if (length(coord) > 0.5) discard;
 
@@ -162,155 +157,104 @@ uniform float uGlitch;
 uniform float uIsMobile;
 varying vec2 vUv;
 
-float rand(vec2 c){ return fract(sin(dot(c,vec2(12.9898,78.233)))*43758.5453); }
-
 void main(){
   vec2 uv = vUv;
-  float scan = sin(uv.y * 800.0) * 0.008;
-  vec3 base;
-  float glitchAmt = uGlitch;
-  if(glitchAmt > 0.001){
-    float sliceY = floor(uv.y * 40.0);
-    float sliceShift = (rand(vec2(sliceY, floor(uTime * 8.0))) - 0.5) * glitchAmt * 0.06;
-    float r = texture2D(tScene, uv + vec2(sliceShift + glitchAmt * 0.004, 0.0)).r;
-    float g = texture2D(tScene, uv + vec2(sliceShift, 0.0)).g;
-    float b = texture2D(tScene, uv + vec2(sliceShift - glitchAmt * 0.004, 0.0)).b;
-    base = vec3(r, g, b);
-  } else {
-    base = texture2D(tScene, uv).rgb;
-  }
-  vec3 bloom = texture2D(tBloom, uv).rgb;
 
-  // Website signature navy gradient: #071739 -> #0d2450 -> #163068
-  vec3 navyDeep  = vec3(0.0274, 0.0902, 0.2235); // #071739 (Primary Blue)
-  vec3 navyMid   = vec3(0.0510, 0.1412, 0.3137); // #0d2450 (Mid Hero Blue)
-  vec3 navyLight = vec3(0.0863, 0.1882, 0.4078); // #163068 (Hero Accent Blue)
-  
-  float gradT = uv.x * 0.65 + (1.0 - uv.y) * 0.35;
-  vec3 bgNavy = mix(navyDeep, mix(navyMid, navyLight, uv.x), clamp(gradT, 0.0, 1.0));
-
-  // Text readability mask:
-  // On desktop: fades left 0% to 55% for horizontal layout
-  // On mobile: text is stacked vertically at top, so ensure dark navy behind hero text
-  float textFade;
-  if (uIsMobile > 0.5) {
-    float horizFade = smoothstep(0.04, 0.45, uv.x);
-    float vertFade  = smoothstep(0.65, 0.28, uv.y);
-    textFade = max(horizFade * 0.5, vertFade);
-    textFade = clamp(textFade, 0.0, 1.0);
-  } else {
-    textFade = smoothstep(0.08, 0.55, uv.x);
+  if(uGlitch > 0.001){
+    float g = uGlitch;
+    float blockY = floor(uv.y * 30.0);
+    float r1 = fract(sin(blockY * 43.12 + uTime * 20.0) * 43758.5453);
+    if(r1 > 0.85){
+      uv.x += (fract(sin(blockY * 12.98) * 43758.5453) - 0.5) * 0.04 * g;
+    }
   }
 
-  // Softened golden fabric + bloom glow
-  vec3 rawFabric = (base * 0.85 + bloom * 0.95) * textFade;
+  vec4 colScene = texture2D(tScene, uv);
+  vec4 colBloom = texture2D(tBloom, uv);
 
-  // Tone-mapping to prevent oversaturation/white-out blowout on all screens:
-  // Preserves deep bronze (#c88a3e) and golden glow without clipping to #ffffff
-  vec3 fabric = rawFabric / (vec3(1.0) + rawFabric * 0.4);
+  // Luminous golden bloom factor
+  float bloomBoost = uIsMobile > 0.5 ? 1.6 : 1.95;
+  vec3 color = colScene.rgb + colBloom.rgb * bloomBoost;
 
-  // Composite fabric on top of website navy background
-  vec3 color = bgNavy + fabric - scan;
+  // Gentle vignette towards borders for seamless edge fade
+  float vig = uv.x * uv.y * (1.0 - uv.x) * (1.0 - uv.y);
+  float vigFade = clamp(pow(16.0 * vig, 0.25), 0.0, 1.0);
+  color *= (0.35 + 0.65 * vigFade);
 
-  // Subtle vignette for cinematic depth
-  vec2 vig = uv - 0.5;
-  float vigAmt = 1.0 - dot(vig, vig) * 0.45;
-  color *= vigAmt;
-
-  // Rich contrast curve
-  color = pow(max(color, vec3(0.0)), vec3(0.94));
-  gl_FragColor = vec4(color, 1.0);
+  gl_FragColor = vec4(color, colScene.a);
 }
 `;
 
-interface Pulse {
-  x: number;
-  y: number;
-  t: number;
-}
-
 export default function SpectralCanvas() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    let W = canvas.clientWidth || window.innerWidth;
-    let H = canvas.clientHeight || window.innerHeight;
-    const DPR = Math.min(window.devicePixelRatio || 1, 2);
+    let isVisible = true;
+    let isDocVisible = true;
+    let isMobile = window.innerWidth < 768;
+    const DPR = Math.min(window.devicePixelRatio || 1, isMobile ? 1.0 : 1.5);
 
     const renderer = new THREE.WebGLRenderer({
       canvas,
-      antialias: true,
-      alpha: false,
+      antialias: false,
+      alpha: true,
+      powerPreference: 'high-performance',
+      stencil: false,
+      depth: true,
     });
     renderer.setPixelRatio(DPR);
+
+    let W = canvas.clientWidth || window.innerWidth;
+    let H = canvas.clientHeight || window.innerHeight;
     renderer.setSize(W, H, false);
-    renderer.setClearColor(0x000000, 1);
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, W / H, 0.1, 100);
-    camera.position.set(-0.6, 3.4, 5.2);
+    const camera = new THREE.PerspectiveCamera(48, W / H, 0.1, 100);
+    camera.position.set(-0.6, 3.4, 6.2);
     camera.lookAt(1.0, 0, -2.0);
 
-    const mouse = new THREE.Vector2(0, 0);
-    const mouseTarget = new THREE.Vector2(0, 0);
-    let clickPulses: Pulse[] = [];
+    const mouse = { x: 0, y: 0 };
+    const mouseTarget = { x: 0, y: 0 };
+    let clickPulses: { x: number; y: number; t: number }[] = [];
 
     const handleMouseMove = (e: MouseEvent) => {
-      if (!canvas) return;
-      const rect = canvas.getBoundingClientRect();
-      const nx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-      const ny = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
-      mouseTarget.x = Math.max(-1.5, Math.min(1.5, nx));
-      mouseTarget.y = Math.max(-1.5, Math.min(1.5, ny));
+      mouseTarget.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mouseTarget.y = -(e.clientY / window.innerHeight) * 2 + 1;
     };
 
     const handleTouchMove = (e: TouchEvent) => {
-      if (!canvas || e.touches.length === 0) return;
-      const rect = canvas.getBoundingClientRect();
-      const t = e.touches[0];
-      const nx = ((t.clientX - rect.left) / rect.width) * 2 - 1;
-      const ny = -(((t.clientY - rect.top) / rect.height) * 2 - 1);
-      mouseTarget.x = Math.max(-1.5, Math.min(1.5, nx));
-      mouseTarget.y = Math.max(-1.5, Math.min(1.5, ny));
-    };
-
-    const handleClick = (e: MouseEvent) => {
-      if (!canvas) return;
-      const rect = canvas.getBoundingClientRect();
-      if (
-        e.clientY >= rect.top &&
-        e.clientY <= rect.bottom &&
-        e.clientX >= rect.left &&
-        e.clientX <= rect.right
-      ) {
-        const nx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-        const ny = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
-        clickPulses.push({ x: nx, y: ny, t: 0 });
+      if (e.touches.length > 0) {
+        mouseTarget.x = (e.touches[0].clientX / window.innerWidth) * 2 - 1;
+        mouseTarget.y = -(e.touches[0].clientY / window.innerHeight) * 2 + 1;
       }
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    const handleClick = (e: MouseEvent) => {
+      if (clickPulses.length >= 8) clickPulses.shift();
+      const x = (e.clientX / window.innerWidth) * 2 - 1;
+      const y = -(e.clientY / window.innerHeight) * 2 + 1;
+      clickPulses.push({ x, y, t: 0.0 });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
     window.addEventListener('touchmove', handleTouchMove, { passive: true });
-    window.addEventListener('click', handleClick);
+    window.addEventListener('click', handleClick, { passive: true });
 
-    const isMobileInitial = (canvas.clientWidth || window.innerWidth) < 768;
-    const segX = isMobileInitial ? 70 : 140;
-    const segY = isMobileInitial ? 100 : 200;
-
+    // Grid geometry - high quality optimized density
+    const segX = isMobile ? 80 : 110;
+    const segY = isMobile ? 120 : 170;
     const gridGeo = new THREE.PlaneGeometry(14, 22, segX, segY);
     gridGeo.rotateX(-Math.PI / 2);
 
-    // Theme colors: #c88a3e (Gold-700) to #fbf3e6 (Cream Gold Light)
     const uniforms = {
       uTime: { value: 0 },
       uMouse: { value: new THREE.Vector2(0, 0) },
-      uColorBase: { value: new THREE.Color(0xc88a3e) },
-      uColorPeak: { value: new THREE.Color(0xfbf3e6) },
-      uPulses: { value: new Float32Array(8) },
+      uColorBase: { value: new THREE.Color(0x0c1a3e) }, // deep midnight navy
+      uColorPeak: { value: new THREE.Color(0xf5ead8) }, // radiant champagne gold
+      uPulses: { value: [0, 0, 0, 0, 0, 0, 0, 0] },
       uPulsePos: {
         value: Array.from({ length: 8 }, () => new THREE.Vector2(0, 0)),
       },
@@ -343,16 +287,22 @@ export default function SpectralCanvas() {
     dotMesh.position.set(1.5, 0, -3);
     scene.add(dotMesh);
 
-    // Standard UnsignedByteType render targets (100% compatible with all mobile GPUs without requiring extensions)
-    let rtScene = new THREE.WebGLRenderTarget(W * DPR, H * DPR);
-    let rtBloom1 = new THREE.WebGLRenderTarget(
-      Math.max(1, Math.floor(W * DPR * 0.5)),
-      Math.max(1, Math.floor(H * DPR * 0.5))
-    );
-    let rtBloom2 = new THREE.WebGLRenderTarget(
-      Math.max(1, Math.floor(W * DPR * 0.5)),
-      Math.max(1, Math.floor(H * DPR * 0.5))
-    );
+    // Optimized bloom render targets (half resolution for soft bloom & high performance)
+    const bloomW = Math.max(1, Math.floor(W * DPR * 0.5));
+    const bloomH = Math.max(1, Math.floor(H * DPR * 0.5));
+
+    let rtScene = new THREE.WebGLRenderTarget(W * DPR, H * DPR, {
+      minFilter: THREE.LinearFilter,
+      magFilter: THREE.LinearFilter,
+    });
+    let rtBloom1 = new THREE.WebGLRenderTarget(bloomW, bloomH, {
+      minFilter: THREE.LinearFilter,
+      magFilter: THREE.LinearFilter,
+    });
+    let rtBloom2 = new THREE.WebGLRenderTarget(bloomW, bloomH, {
+      minFilter: THREE.LinearFilter,
+      magFilter: THREE.LinearFilter,
+    });
 
     const quadScene = new THREE.Scene();
     const quadCam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
@@ -363,13 +313,8 @@ export default function SpectralCanvas() {
       fragmentShader: blurFragment,
       uniforms: {
         tDiffuse: { value: null },
-        uDir: { value: new THREE.Vector2(1, 0) },
-        uRes: {
-          value: new THREE.Vector2(
-            Math.max(1, Math.floor(W * DPR * 0.5)),
-            Math.max(1, Math.floor(H * DPR * 0.5))
-          ),
-        },
+        uDir: { value: new THREE.Vector2(1.2, 0) },
+        uRes: { value: new THREE.Vector2(bloomW, bloomH) },
       },
     });
     const blurMatV = new THREE.ShaderMaterial({
@@ -377,13 +322,8 @@ export default function SpectralCanvas() {
       fragmentShader: blurFragment,
       uniforms: {
         tDiffuse: { value: null },
-        uDir: { value: new THREE.Vector2(0, 1) },
-        uRes: {
-          value: new THREE.Vector2(
-            Math.max(1, Math.floor(W * DPR * 0.5)),
-            Math.max(1, Math.floor(H * DPR * 0.5))
-          ),
-        },
+        uDir: { value: new THREE.Vector2(0, 1.2) },
+        uRes: { value: new THREE.Vector2(bloomW, bloomH) },
       },
     });
     const compositeMat = new THREE.ShaderMaterial({
@@ -394,7 +334,7 @@ export default function SpectralCanvas() {
         tBloom: { value: null },
         uTime: { value: 0 },
         uGlitch: { value: 0 },
-        uIsMobile: { value: isMobileInitial ? 1.0 : 0.0 },
+        uIsMobile: { value: isMobile ? 1.0 : 0.0 },
       },
     });
 
@@ -402,7 +342,7 @@ export default function SpectralCanvas() {
     quadScene.add(quadMesh);
 
     const starGeo = new THREE.BufferGeometry();
-    const starCount = 400;
+    const starCount = 300;
     const starPos = new Float32Array(starCount * 3);
     for (let i = 0; i < starCount; i++) {
       starPos[i * 3] = (Math.random() - 0.5) * 30;
@@ -424,14 +364,17 @@ export default function SpectralCanvas() {
     let glitchActive = 0;
     const clock = new THREE.Clock();
     let rafId = 0;
+    let running = true;
 
     const resize = () => {
       if (!canvas) return;
       W = canvas.clientWidth || window.innerWidth;
       H = canvas.clientHeight || window.innerHeight;
+      isMobile = W < 768;
       renderer.setSize(W, H, false);
       camera.aspect = W / H;
       camera.updateProjectionMatrix();
+
       rtScene.setSize(W * DPR, H * DPR);
       const halfW = Math.max(1, Math.floor(W * DPR * 0.5));
       const halfH = Math.max(1, Math.floor(H * DPR * 0.5));
@@ -439,12 +382,42 @@ export default function SpectralCanvas() {
       rtBloom2.setSize(halfW, halfH);
       blurMatH.uniforms.uRes.value.set(halfW, halfH);
       blurMatV.uniforms.uRes.value.set(halfW, halfH);
-      compositeMat.uniforms.uIsMobile.value = W < 768 ? 1.0 : 0.0;
+      compositeMat.uniforms.uIsMobile.value = isMobile ? 1.0 : 0.0;
     };
 
-    window.addEventListener('resize', resize);
+    window.addEventListener('resize', resize, { passive: true });
+
+    // IntersectionObserver to pause when hero is scrolled out of view!
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          isVisible = entry.isIntersecting;
+          if (isVisible && !rafId && running) {
+            clock.start();
+            animate();
+          }
+        });
+      },
+      { threshold: 0.01 }
+    );
+    observer.observe(canvas);
+
+    // Document visibility listener
+    const handleVisibilityChange = () => {
+      isDocVisible = !document.hidden;
+      if (isDocVisible && isVisible && !rafId && running) {
+        clock.start();
+        animate();
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     const animate = () => {
+      if (!running || !isVisible || !isDocVisible) {
+        rafId = 0;
+        return;
+      }
+
       const dt = Math.min(clock.getDelta(), 0.1);
       const t = clock.elapsedTime;
 
@@ -496,19 +469,7 @@ export default function SpectralCanvas() {
       blurMatV.uniforms.tDiffuse.value = rtBloom1.texture;
       renderer.render(quadScene, quadCam);
 
-      // Pass 4: Bloom Horizontal (second pass)
-      renderer.setRenderTarget(rtBloom1);
-      quadMesh.material = blurMatH;
-      blurMatH.uniforms.tDiffuse.value = rtBloom2.texture;
-      renderer.render(quadScene, quadCam);
-
-      // Pass 5: Bloom Vertical (second pass)
-      renderer.setRenderTarget(rtBloom2);
-      quadMesh.material = blurMatV;
-      blurMatV.uniforms.tDiffuse.value = rtBloom1.texture;
-      renderer.render(quadScene, quadCam);
-
-      // Pass 6: Final Composite to Screen
+      // Pass 4: Final Composite to Screen
       renderer.setRenderTarget(null);
       quadMesh.material = compositeMat;
       compositeMat.uniforms.tScene.value = rtScene.texture;
@@ -519,10 +480,13 @@ export default function SpectralCanvas() {
     };
 
     resize();
-    rafId = requestAnimationFrame(animate);
+    animate();
 
     return () => {
-      cancelAnimationFrame(rafId);
+      running = false;
+      if (rafId) cancelAnimationFrame(rafId);
+      observer.disconnect();
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('resize', resize);
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('touchmove', handleTouchMove);
@@ -557,6 +521,7 @@ export default function SpectralCanvas() {
         height: '100%',
         zIndex: 0,
         display: 'block',
+        pointerEvents: 'none',
       }}
     />
   );
