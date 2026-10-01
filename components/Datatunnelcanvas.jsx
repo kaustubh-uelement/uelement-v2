@@ -6,13 +6,9 @@ import { useEffect, useRef } from 'react';
  * DataTunnelCanvas
  * Adapted from: https://codepen.io/sabosugi/pen/azZmLoB ("Data Tunnel")
  *
- * The original pen renders full-page and appends its canvas + lil-gui panel
- * to document.body. This version is scoped to its own container div so it
- * can be dropped into a hero section (or anywhere) without taking over the
- * whole page, and it sizes itself off the container instead of window.
- *
- * Requires the "three" and "lil-gui" packages:
- *   npm install three lil-gui
+ * Scoped WebGL Three.js canvas with high-performance zero-allocation geometry
+ * rendering, clamped DPR, downsampled bloom buffers, and reactive RAF loops
+ * triggered only when the hero is in viewport.
  */
 export default function DataTunnelCanvas({
   className = '',
@@ -28,12 +24,14 @@ export default function DataTunnelCanvas({
 
   useEffect(() => {
     let renderer, composer, camera, scene, contentGroup;
-    let animationFrameId;
+    let animationFrameId = null;
+    let isLoopRunning = false;
     let gui;
     let resizeObserver;
     let intersectionObserver;
     let resizeRaf = null;
     let isVisible = true;
+    let isDocVisible = typeof document !== 'undefined' ? document.visibilityState === 'visible' : true;
     let disposed = false;
 
     const container = containerRef.current;
@@ -122,8 +120,16 @@ export default function DataTunnelCanvas({
       camera.position.set(0, 0, 90);
       camera.lookAt(0, 0, 0);
 
-      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer = new THREE.WebGLRenderer({
+        antialias: true,
+        alpha: true,
+        powerPreference: 'high-performance',
+      });
+      const isMobile =
+        typeof window !== 'undefined' &&
+        (window.innerWidth < 768 || navigator.maxTouchPoints > 1);
+      const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.0 : 1.5);
+      renderer.setPixelRatio(dpr);
       renderer.setSize(width, height, false);
       renderer.setClearColor(0x000000, 0); // fully transparent clear
       renderer.domElement.style.position = 'absolute';
@@ -142,8 +148,9 @@ export default function DataTunnelCanvas({
 
       // --- POST-PROCESSING ---
       const renderScene = new RenderPass(scene, camera);
+      // Downsampled bloom resolution saves massive GPU fillrate bandwidth while keeping smooth glow
       const bloomPass = new UnrealBloomPass(
-        new THREE.Vector2(width, height),
+        new THREE.Vector2(Math.floor(width * 0.5), Math.floor(height * 0.5)),
         1.5,
         0.4,
         0.85
@@ -158,9 +165,6 @@ export default function DataTunnelCanvas({
       composer.addPass(bloomPass);
 
       // --- DYNAMIC GEOMETRY ADAPTATION ---
-      // Dynamically calculate curve and beam length based on visible camera frustum
-      // so the flare always starts from and extends off the right edge of the viewport
-      // regardless of aspect ratio (e.g. ultra-wide screens with short hero height).
       let lastW = 0;
       let lastH = 0;
 
@@ -191,8 +195,6 @@ export default function DataTunnelCanvas({
         );
 
         // Responsive end-to-end flare anchoring:
-        // Dynamically calculate exact top and bottom spread heights so the flare reaches
-        // the top-right and bottom-right corners at any screen aspect ratio & positionY.
         params.topSpreadHeight =
           Math.max(1, visibleHalfHeight - positionY) * topSpread;
         params.bottomSpreadHeight =
@@ -208,20 +210,30 @@ export default function DataTunnelCanvas({
         renderer.setSize(w, h, false);
         composer.setSize(w, h);
         if (bloomPass && bloomPass.resolution) {
-          bloomPass.resolution.set(w, h);
+          bloomPass.resolution.set(Math.floor(w * 0.5), Math.floor(h * 0.5));
         }
       }
 
       updateDimensions();
 
-      // --- POINTER EVENT HANDLERS ---
+      // --- POINTER EVENT HANDLERS (cached bounding rect to avoid layout thrashing) ---
+      let cachedRect = null;
+      function getContainerRect() {
+        if (!cachedRect) {
+          cachedRect = container.getBoundingClientRect();
+        }
+        return cachedRect;
+      }
+
+      const invalidateRect = () => {
+        cachedRect = null;
+      };
+
       const handlePointerMove = (e) => {
         if (!container || !camera) return;
-        // Ignore touch dragging (e.g. mobile page scrolling) to prevent layout thrashing
         if (e.pointerType === 'touch') return;
 
-        const rect = container.getBoundingClientRect();
-        // If container is scrolled out of the viewport, skip calculation
+        const rect = getContainerRect();
         if (rect.bottom < 0 || rect.top > window.innerHeight) {
           targetMouseHover = 0;
           return;
@@ -238,7 +250,6 @@ export default function DataTunnelCanvas({
           const relX = e.clientX - rect.left;
           const relY = e.clientY - rect.top;
 
-          // Note: The canvas has CSS transform: scaleX(-1), so screen X is flipped in Three.js NDC space
           const effectiveNdcX = 1 - 2 * (relX / Math.max(1, rect.width));
           const effectiveNdcY = -(relY / Math.max(1, rect.height)) * 2 + 1;
 
@@ -266,9 +277,10 @@ export default function DataTunnelCanvas({
       window.addEventListener('pointerleave', handlePointerLeave, {
         passive: true,
       });
+      window.addEventListener('scroll', invalidateRect, { passive: true });
 
-      // --- MATH & PATH CALCULATION ---
-      function getPathPoint(t, lineIndex, time) {
+      // --- ZERO-ALLOCATION PATH CALCULATION ---
+      function computePathPoint(outArray, offset, t, lineIndex, time) {
         const totalLen = params.curveLength + params.straightLength;
         const currentX = -params.curveLength + t * totalLen;
 
@@ -283,7 +295,7 @@ export default function DataTunnelCanvas({
 
         if (currentX < 0) {
           const ratio = (currentX + params.curveLength) / params.curveLength;
-          let shapeFactor = (Math.cos(ratio * Math.PI) + 1) / 2;
+          let shapeFactor = (Math.cos(ratio * Math.PI) + 1) * 0.5;
           shapeFactor = Math.pow(shapeFactor, params.curvePower);
 
           // Asymmetric flare heights calculated dynamically from camera viewport
@@ -363,8 +375,10 @@ export default function DataTunnelCanvas({
           }
         }
 
-        // When currentX >= 0 (single output string), y and z remain strictly 0 (steady beam)
-        return new THREE.Vector3(currentX, y, z);
+        // Direct write to target array buffer
+        outArray[offset] = currentX;
+        outArray[offset + 1] = y;
+        outArray[offset + 2] = z;
       }
 
       // --- OBJECTS MANAGEMENT ---
@@ -453,7 +467,8 @@ export default function DataTunnelCanvas({
           laneIndex: Math.floor(Math.random() * params.lineCount),
           speed: 0.2 + Math.random() * 0.5,
           progress: Math.random(),
-          history: [],
+          historyPositions: new Float32Array(maxTrail * 3),
+          historyCount: 0,
           assignedColor: pickSignalColor(),
         });
       }
@@ -563,14 +578,30 @@ export default function DataTunnelCanvas({
           .name('Wave Speed');
       }
 
-      // --- ANIMATION LOOP ---
+      // --- ANIMATION LOOP & LIFECYCLE CONTROLS ---
       const clock = new THREE.Clock();
 
-      function animate() {
+      function startLoop() {
+        if (isLoopRunning || !isVisible || !isDocVisible || disposed) return;
+        isLoopRunning = true;
         animationFrameId = requestAnimationFrame(animate);
+      }
 
-        // Pause expensive rendering and geometry updates if hero is off-screen
-        if (!isVisible) return;
+      function stopLoop() {
+        isLoopRunning = false;
+        if (animationFrameId) {
+          cancelAnimationFrame(animationFrameId);
+          animationFrameId = null;
+        }
+      }
+
+      function animate() {
+        if (!isVisible || !isDocVisible || disposed) {
+          isLoopRunning = false;
+          return;
+        }
+
+        animationFrameId = requestAnimationFrame(animate);
 
         const time = clock.getElapsedTime();
 
@@ -597,7 +628,7 @@ export default function DataTunnelCanvas({
         // Check line crossing to excite pluck impulses on strings (only for flared strings region mouse.x < 0)
         if (mouseHover > 0.05 && mouse.x < 0 && mouse.x > -params.curveLength) {
           const ratio = (mouse.x + params.curveLength) / params.curveLength;
-          let sf = (Math.cos(ratio * Math.PI) + 1) / 2;
+          let sf = (Math.cos(ratio * Math.PI) + 1) * 0.5;
           sf = Math.pow(sf, params.curvePower);
 
           for (let i = 0; i < params.lineCount; i++) {
@@ -625,85 +656,110 @@ export default function DataTunnelCanvas({
           }
         }
 
-        backgroundLines.forEach((line) => {
+        // Background lines zero-allocation buffer update
+        const segCount = CONSTANTS.segmentCount;
+        const invSeg = 1 / (segCount - 1);
+        for (let i = 0; i < backgroundLines.length; i++) {
+          const line = backgroundLines[i];
           const positions = line.geometry.attributes.position.array;
           const lineId = line.userData.id;
-          for (let j = 0; j < CONSTANTS.segmentCount; j++) {
-            const t = j / (CONSTANTS.segmentCount - 1);
-            const vec = getPathPoint(t, lineId, time);
-            positions[j * 3] = vec.x;
-            positions[j * 3 + 1] = vec.y;
-            positions[j * 3 + 2] = vec.z;
+          for (let j = 0; j < segCount; j++) {
+            computePathPoint(positions, j * 3, j * invSeg, lineId, time);
           }
           line.geometry.attributes.position.needsUpdate = true;
-        });
+        }
 
-        signals.forEach((sig) => {
+        // Signals zero-allocation buffer update
+        for (let sIdx = 0; sIdx < signals.length; sIdx++) {
+          const sig = signals[sIdx];
           sig.progress += sig.speed * 0.005 * params.speedGlobal;
 
           if (sig.progress > 1.0) {
             sig.progress = 0;
             sig.laneIndex = Math.floor(Math.random() * params.lineCount);
-            sig.history = [];
+            sig.historyCount = 0;
             sig.assignedColor = pickSignalColor();
           }
 
-          const pos = getPathPoint(sig.progress, sig.laneIndex, time);
-          sig.history.push(pos);
-
-          if (sig.history.length > params.trailLength + 1) {
-            sig.history.shift();
+          const maxPoints = Math.max(1, params.trailLength + 1);
+          const copyCount = Math.min(sig.historyCount, maxPoints - 1);
+          if (copyCount > 0) {
+            sig.historyPositions.copyWithin(3, 0, copyCount * 3);
           }
+          computePathPoint(
+            sig.historyPositions,
+            0,
+            sig.progress,
+            sig.laneIndex,
+            time
+          );
+          sig.historyCount = Math.min(sig.historyCount + 1, maxPoints);
 
           const positions = sig.mesh.geometry.attributes.position.array;
           const colors = sig.mesh.geometry.attributes.color.array;
-
           const drawCount = Math.max(1, params.trailLength);
-          const currentLen = sig.history.length;
+          const invTrail =
+            params.trailLength > 0 ? 1 / params.trailLength : 0;
+          const col = sig.assignedColor;
 
           for (let i = 0; i < drawCount; i++) {
-            let index = currentLen - 1 - i;
-            if (index < 0) index = 0;
+            const srcIdx = Math.min(i, sig.historyCount - 1) * 3;
+            const dstIdx = i * 3;
 
-            const p = sig.history[index] || new THREE.Vector3();
+            positions[dstIdx] = sig.historyPositions[srcIdx];
+            positions[dstIdx + 1] = sig.historyPositions[srcIdx + 1];
+            positions[dstIdx + 2] = sig.historyPositions[srcIdx + 2];
 
-            positions[i * 3] = p.x;
-            positions[i * 3 + 1] = p.y;
-            positions[i * 3 + 2] = p.z;
+            const alpha =
+              params.trailLength > 0 ? Math.max(0, 1 - i * invTrail) : 1;
 
-            let alpha = 1;
-            if (params.trailLength > 0) {
-              alpha = Math.max(0, 1 - i / params.trailLength);
-            }
-
-            colors[i * 3] = sig.assignedColor.r * alpha;
-            colors[i * 3 + 1] = sig.assignedColor.g * alpha;
-            colors[i * 3 + 2] = sig.assignedColor.b * alpha;
+            colors[dstIdx] = col.r * alpha;
+            colors[dstIdx + 1] = col.g * alpha;
+            colors[dstIdx + 2] = col.b * alpha;
           }
 
           sig.mesh.geometry.setDrawRange(0, drawCount);
           sig.mesh.geometry.attributes.position.needsUpdate = true;
           sig.mesh.geometry.attributes.color.needsUpdate = true;
-        });
+        }
 
         composer.render();
       }
 
-      animate();
+      startLoop();
 
-      // --- VISIBILITY OBSERVER (pause render when scrolled out of view) ---
+      // --- VISIBILITY OBSERVERS (pauses loop completely when scrolled away or backgrounded) ---
       if (typeof IntersectionObserver !== 'undefined') {
         intersectionObserver = new IntersectionObserver(
           ([entry]) => {
             isVisible = entry.isIntersecting;
+            if (isVisible) {
+              startLoop();
+            } else {
+              stopLoop();
+            }
           },
-          { threshold: 0 }
+          { threshold: 0.05 }
         );
         intersectionObserver.observe(container);
       }
 
+      const handleVisibilityChange = () => {
+        isDocVisible =
+          typeof document !== 'undefined'
+            ? document.visibilityState === 'visible'
+            : true;
+        if (isDocVisible && isVisible) {
+          startLoop();
+        } else {
+          stopLoop();
+        }
+      };
+      document.addEventListener('visibilitychange', handleVisibilityChange);
+
       // --- RESIZE (debounced with RAF, scoped to container & window) ---
       const handleResize = () => {
+        invalidateRect();
         if (resizeRaf) cancelAnimationFrame(resizeRaf);
         resizeRaf = requestAnimationFrame(() => {
           updateDimensions();
@@ -716,10 +772,16 @@ export default function DataTunnelCanvas({
 
       // Stash cleanup handles
       init._cleanup = () => {
-        cancelAnimationFrame(animationFrameId);
+        disposed = true;
+        stopLoop();
         if (resizeRaf) cancelAnimationFrame(resizeRaf);
         intersectionObserver?.disconnect();
+        document.removeEventListener(
+          'visibilitychange',
+          handleVisibilityChange
+        );
         window.removeEventListener('resize', handleResize);
+        window.removeEventListener('scroll', invalidateRect);
         window.removeEventListener('pointermove', handlePointerMove);
         window.removeEventListener('pointerleave', handlePointerLeave);
         resizeObserver?.disconnect();
