@@ -1,7 +1,10 @@
 import Link from 'next/link';
 import GoldenRatioSphere from '@/components/ui/GoldenRatioSphere';
+import { getDictionary, branding } from '@/lib/content/dictionary';
 
 export default function HomePage() {
+  const dict = getDictionary();
+
   return (
     <>
       {/* ═══════ HERO ═══════ */}
@@ -24,7 +27,7 @@ export default function HomePage() {
           <div className="flex flex-col items-center md:items-start max-w-full md:max-w-[65%] gap-0 text-center md:text-left mx-auto md:mx-0">
             {/* Kicker */}
             <div className="text-(--gold-500) mb-2 text-[13px] tracking-[1px]">
-              सशक्त · सक्षम · सुरक्षित
+              {dict.hero.kicker}
             </div>
 
             <h1 className="display-sm mb-0">
@@ -85,18 +88,13 @@ export default function HomePage() {
               style={{ textDecoration: 'none' }}
             >
               <div className="proglabel">Quantum Security</div>
-              <h4>AdviQ</h4>
-              <p>
-                Named for uranium&apos;s atomic number, engineered for the
-                quantum decade. Post-quantum cryptography, quantum key
-                distribution, and crypto-agility for banks, governments, and
-                critical infrastructure.
-              </p>
+              <h4>{branding.adviq}</h4>
+              <p>{dict.portfolio.adviqSummary}</p>
               <p
                 className="mono"
                 style={{ marginTop: 14, color: 'var(--gold-500)' }}
               >
-                PQC · QKD · Crypto-Agility →
+                {branding.quantumSecuritySub}
               </p>
             </Link>
             <Link
@@ -104,19 +102,14 @@ export default function HomePage() {
               className="card link"
               style={{ textDecoration: 'none' }}
             >
-              <div className="proglabel slate">Enterpirse Fabric</div>
-              <h4>StamBH</h4>
-              <p>
-                The enterprise platform trio. Ankura projects your business
-                outward, Vizor watches every digital signal, Kayak commands the
-                physical world. One control plane, one identity, one audit
-                trail.
-              </p>
+              <div className="proglabel slate">Enterprise Fabric</div>
+              <h4>{branding.stambh}</h4>
+              <p>{dict.portfolio.stambhSummary}</p>
               <p
                 className="mono"
                 style={{ marginTop: 14, color: 'var(--gold-500)' }}
               >
-                Ankura · Vizor · Kayak →
+                {branding.enterpriseFabricSub}
               </p>
             </Link>
             <Link
@@ -125,18 +118,13 @@ export default function HomePage() {
               style={{ textDecoration: 'none' }}
             >
               <div className="proglabel slate">Edge Platform</div>
-              <h4>TRIpura</h4>
-              <p>
-                Autonomous resilience for the tactical edge. A sovereign MLOps
-                ecosystem for denied, degraded, intermittent and limited
-                environments. We don&apos;t connect the edge to the cloud; we
-                turn the edge into the cloud.
-              </p>
+              <h4>{branding.tripura}</h4>
+              <p>{dict.portfolio.tripuraSummary}</p>
               <p
                 className="mono"
                 style={{ marginTop: 14, color: 'var(--gold-500)' }}
               >
-                KalAMOS · BoSC3 · NobisGRID →
+                {branding.edgePlatformSub}
               </p>
             </Link>
           </div>
@@ -219,10 +207,7 @@ export default function HomePage() {
               style={{ textDecoration: 'none' }}
             >
               <h4>Banking &amp; Financial Services</h4>
-              <p>
-                Quantum-safe transactions, UPI/CBS journey observability, RBI
-                and SEBI compliance fabric.
-              </p>
+              <p>{dict.industries.bfsi}</p>
             </Link>
             <Link
               href="/industries"
@@ -241,10 +226,7 @@ export default function HomePage() {
               style={{ textDecoration: 'none' }}
             >
               <h4>Government &amp; Public Sector</h4>
-              <p>
-                Sovereign cloud, CERT-In 6-hour reporting, Make-in-India GeM
-                procurement readiness.
-              </p>
+              <p>{dict.industries.gov}</p>
             </Link>
             <Link
               href="/industries"
@@ -252,10 +234,7 @@ export default function HomePage() {
               style={{ textDecoration: 'none' }}
             >
               <h4>Healthcare &amp; Pharma</h4>
-              <p>
-                HIPAA and DPDP compliance, clinical uptime, serialized
-                provenance from factory to patient.
-              </p>
+              <p>{dict.industries.health}</p>
             </Link>
             <Link
               href="/industries"
@@ -293,7 +272,7 @@ export default function HomePage() {
               textTransform: 'uppercase',
             }}
           >
-            The TRIpura thesis
+            {branding.tripuraThesis}
           </p>
           <Link
             href="/tripura"

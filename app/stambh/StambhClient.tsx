@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import PillarCard from '../../components/PillarCard';
 import DataTunnelCanvas from '@/components/Datatunnelcanvas';
+import { branding } from '@/lib/content/branding';
 
 export default function StambhClient() {
   return (
@@ -15,10 +16,10 @@ export default function StambhClient() {
         <DataTunnelCanvas />
         <div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
           <div className="crumb">
-            <Link href="/">Home</Link> / StamBH
+            <Link href="/">Home</Link> / {branding.stambh}
           </div>
           <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>
-            StamBH
+            {branding.stambh}
           </h1>
           <p
             className="serif-line"
@@ -29,7 +30,7 @@ export default function StambhClient() {
           <p className="lede" style={{ marginTop: 26 }}>
             Every enterprise lives in three worlds at once: the outward-facing
             digital surfaces its customers touch, the internal signals its
-            operations emit, and the physical assets it actually owns. StamBH is
+            operations emit, and the physical assets it actually owns. {branding.stambh} is
             one platform family that governs all three, with shared tenant
             identity, shared RBAC, and one audit trail.
           </p>
@@ -65,7 +66,7 @@ export default function StambhClient() {
               style={{ textDecoration: 'none' }}
             >
               <div className="tag">The digital fabric</div>
-              <h4>Ankura</h4>
+              <h4>{branding.ankura}</h4>
               <p
                 className="serif-line"
                 style={{ fontSize: 16, marginBottom: 10, color: '#c88a3e' }}
@@ -157,7 +158,7 @@ export default function StambhClient() {
               <h4>Evidence & audit</h4>
               <p>
                 A tamper-evident, cryptographically signed ledger shared across
-                products. Consent capture from Ankura, detections from Vizor, and
+                products. Consent capture from {branding.ankura}, detections from Vizor, and
                 custody entries from Kayak land in the same append-only store.
               </p>
             </div>
@@ -237,7 +238,7 @@ export default function StambhClient() {
               <div className="proglabel slate">Interfaces</div>
               <h4>One API surface</h4>
               <p>
-                REST, GraphQL, and webhooks with shared conventions. An Ankura workflow can open a Vizor incident and trigger a Kayak
+                REST, GraphQL, and webhooks with shared conventions. An {branding.ankura} workflow can open a Vizor incident and trigger a Kayak
                 fulfillment without custom integration.
               </p>
             </div>
@@ -262,8 +263,8 @@ export default function StambhClient() {
             style={{ marginTop: 44, alignItems: 'stretch' }}
           >
             <PillarCard
-              label="Ankura &rarr; Vizor"
-              title="Ankura feeds Vizor"
+              label={`${branding.ankura} \u2192 Vizor`}
+              title={`${branding.ankura} feeds Vizor`}
               points={[
                 'Business KPIs and customer journeys instrumented natively — no separate agent deployment.',
                 'Consent capture, DPDP rights requests, and GDPR artifacts flow into the evidence plane.',
@@ -271,8 +272,8 @@ export default function StambhClient() {
               ]}
             />
             <PillarCard
-              label="Ankura &rarr; Kayak"
-              title="Ankura feeds Kayak"
+              label={`${branding.ankura} \u2192 Kayak`}
+              title={`${branding.ankura} feeds Kayak`}
               points={[
                 'A checkout can call fulfillment; a support portal can initiate a recall.',
                 'Provenance widgets embed directly in commerce and support surfaces.',

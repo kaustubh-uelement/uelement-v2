@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { branding } from '@/lib/content/branding';
 
 export default function AnkuraPosterClient() {
   const [copied, setCopied] = useState(false);
@@ -40,7 +41,7 @@ export default function AnkuraPosterClient() {
               <line x1="19" y1="12" x2="5" y2="12"></line>
               <polyline points="12 19 5 12 12 5"></polyline>
             </svg>
-            <span>Back to Ankura</span>
+            <span>Back to {branding.ankura}</span>
           </Link>
           <span className="toolbar-divider hidden sm:inline">/</span>
           <div className="toolbar-switcher hidden sm:flex">
@@ -119,8 +120,8 @@ export default function AnkuraPosterClient() {
           <div className="inner">
             {/* ══════ HERO / HEADER ══════ */}
             <header className="poster-hero">
-              <div className="eyebrow">StamBH</div>
-              <h1>Ankura</h1>
+              <div className="eyebrow">{branding.stambh}</div>
+              <h1>{branding.ankura}</h1>
               <div className="surface-deck">
                 <p className="surface-lede">
                   One platform for every outward-facing surface
@@ -301,7 +302,7 @@ export default function AnkuraPosterClient() {
                   Reply to this message to book a walkthrough.
                   <br />
                   UElement Technologies Pvt. Ltd. &nbsp;·&nbsp;{' '}
-                  <span className="dev">सशक्त · सक्षम · सुरक्षित</span>
+                  <span className="dev">{branding.tagline}</span>
                 </div>
               </div>
 

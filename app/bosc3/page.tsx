@@ -1,8 +1,9 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { branding } from '@/lib/content/branding';
 
 export const metadata: Metadata = {
-  title: 'BoSC3 | Agentic Command & Control | UElement',
+  title: `${branding.bosc3} | Agentic Command & Control | UElement`,
   description:
     'Agentic AI command, control, and communications engineered for graceful degradation.',
 };
@@ -17,19 +18,19 @@ export default function Bosc3Page() {
         <div className="hero-fabric" />
         <div className="wrap">
           <div className="crumb">
-            <Link href="/">Home</Link> / <Link href="/tripura">TRIpura</Link> /
-            BoSC3
+            <Link href="/">Home</Link> / <Link href="/tripura">{branding.tripura}</Link> /{' '}
+            {branding.bosc3}
           </div>
-          <div className="tag slate">TRIpura · The Commander</div>
+          <div className="tag slate">{branding.tripura} · The Commander</div>
           <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>
-            BoSC3
+            {branding.bosc3}
           </h1>
           <p className="serif-line">
             Command that survives the loss of most of itself.
           </p>
           <p className="lede" style={{ marginTop: 22 }}>
             Agentic AI command, control, and communications engineered for
-            graceful degradation. BoSC3 maintains mission continuity through
+            graceful degradation. {branding.bosc3} maintains mission continuity through
             the attrition of 60% or more of its nodes, reforming hierarchies,
             re-tasking assets, and preserving intent when links are cut.
           </p>

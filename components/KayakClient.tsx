@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import LedgerCanvas from './LedgerCanvas';
 import PillarCard from './PillarCard';
+import { branding } from '@/lib/content/branding';
 
 export default function KayakClient() {
   return (
@@ -12,14 +13,14 @@ export default function KayakClient() {
         <LedgerCanvas />
         <div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
           <div className="crumb">
-            <Link href="/">Home</Link> / <Link href="/stambh">StamBH</Link> / Kayak
+            <Link href="/">Home</Link> / <Link href="/stambh">{branding.stambh}</Link> / Kayak
           </div>
           <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>
             Everything you own, <br />
             <span className="au">as a service.</span>
           </h1>
           <p className="serif-line" style={{ fontSize: 20, marginTop: 8, color: '#c88a3e' }}>
-            StamBH &middot; the asset fabric
+            {branding.stambh} &middot; the asset fabric
           </p>
           <p className="lede" style={{ marginTop: 26 }}>
             Kayak turns every physical asset, inventory unit, cubic foot of space,
@@ -224,7 +225,7 @@ export default function KayakClient() {
       {/* ═══════ THE MAINSTAY TRIO ═══════ */}
       <div className="section alt">
         <div className="wrap">
-          <div className="kicker">The StamBH trio</div>
+          <div className="kicker">{branding.stambhTrio}</div>
           <h2 className="display text-navy-gradient">
             Kayak commands the physical.
             <br />
@@ -237,7 +238,7 @@ export default function KayakClient() {
               style={{ textDecoration: 'none' }}
             >
               <div className="tag">The digital fabric</div>
-              <h4>Ankura</h4>
+              <h4>{branding.ankura}</h4>
               <p
                 className="serif-line"
                 style={{ fontSize: 16, marginBottom: 10, color: '#c88a3e' }}

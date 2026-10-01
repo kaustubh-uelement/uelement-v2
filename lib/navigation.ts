@@ -19,13 +19,15 @@ export interface NavItem {
   megaVariant?: 'prod' | 'comp' | 'default';
 }
 
+import { branding } from '@/lib/content/branding';
+
 export const navItems: NavItem[] = [
   {
     label: 'Products',
     megaVariant: 'prod',
     groups: [
       {
-        heading: 'AdviQ',
+        heading: branding.adviq,
         headingHref: '/adviq',
         items: [
           {
@@ -46,11 +48,11 @@ export const navItems: NavItem[] = [
         ],
       },
       {
-        heading: 'StamBH',
+        heading: branding.stambh,
         headingHref: '/stambh',
         items: [
           {
-            label: 'Ankura',
+            label: branding.ankura,
             description: 'The Enterprise Digital Fabric',
             href: '/ankura',
           },
@@ -67,21 +69,21 @@ export const navItems: NavItem[] = [
         ],
       },
       {
-        heading: 'TRIpura',
+        heading: branding.tripura,
         headingHref: '/tripura',
         items: [
           {
-            label: 'KalAMOS',
+            label: branding.kalamos,
             description: 'Sovereign edge AI OS',
             href: '/kalamos',
           },
           {
-            label: 'BoSC3',
+            label: branding.bosc3,
             description: 'Agentic Command & Control',
             href: '/bosc3',
           },
           {
-            label: 'NobisGRID',
+            label: branding.nobisgrid,
             description: 'Resilient Decentralised Mesh',
             href: '/nobisgrid',
           },

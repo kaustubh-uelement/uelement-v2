@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { branding } from '@/lib/content/branding';
 
 export default function SitemapContent() {
   return (
@@ -28,7 +29,7 @@ export default function SitemapContent() {
           {/* AdviQ */}
           <div className="space-y-3">
             <h3 className="font-montserrat font-semibold text-13 md:text-15 xl:text-[17px] border-b border-[#DFDFDF] pb-2">
-              AdviQ
+              {branding.adviq}
             </h3>
             <div className="space-y-2 pl-2">
 
@@ -41,27 +42,24 @@ export default function SitemapContent() {
           {/* StamBH */}
           <div className="space-y-3">
             <h3 className="font-montserrat font-semibold text-13 md:text-15 xl:text-[17px] border-b border-[#DFDFDF] pb-2">
-              StamBH
+              {branding.stambh}
             </h3>
             <div className="space-y-2 pl-2">
-              <SitemapLink href="/ankura">Ankura</SitemapLink>
+              <SitemapLink href="/ankura">{branding.ankura}</SitemapLink>
               <SitemapLink href="/vizor">Vizor</SitemapLink>
               <SitemapLink href="/kayak">Kayak</SitemapLink>
             </div>
           </div>
 
-
-
-
           {/* TRipura */}
           <div className="space-y-3">
             <h3 className="font-montserrat font-semibold text-13 md:text-15 xl:text-[17px] border-b border-[#DFDFDF] pb-2">
-              TRIpura
+              {branding.tripura}
             </h3>
             <div className="space-y-2 pl-2">
-              <SitemapLink href="/kalamos">KalAMOS</SitemapLink>
-              <SitemapLink href="/bosc3">BoSC3</SitemapLink>
-              <SitemapLink href="/nobisgrid">NobisGRID</SitemapLink>
+              <SitemapLink href="/kalamos">{branding.kalamos}</SitemapLink>
+              <SitemapLink href="/bosc3">{branding.bosc3}</SitemapLink>
+              <SitemapLink href="/nobisgrid">{branding.nobisgrid}</SitemapLink>
             </div>
           </div>
 

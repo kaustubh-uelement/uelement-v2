@@ -9,6 +9,7 @@ import { useState } from 'react';
 import useWeb3Forms from '@web3forms/react';
 import { imgUrl } from '@/lib/imageUrl';
 import { FaGithub, FaLinkedin, FaInstagram, FaXTwitter } from 'react-icons/fa6';
+import { branding } from '@/lib/content/branding';
 
 const FooterV2 = () => {
   const pathname = usePathname();
@@ -40,7 +41,7 @@ const FooterV2 = () => {
             className="sm:col-start-4 text-[15px] font-medium tracking-wider text-center sm:text-left sm:ml-3"
             style={{ color: 'var(--gold-500)' }}
           >
-            सशक्त · सक्षम · सुरक्षित
+            {branding.tagline}
           </p>
         </div>
       </div>
@@ -567,7 +568,7 @@ const FooterContent = () => {
           <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 xl:gap-14">
             <div className="footer-links-group">
               <h6 className="font-semibold text-13 sm:text-14 font-heading text-[var(--gold-500)] mb-4 sm:mb-5 tracking-wider">
-                AdviQ
+                {branding.adviq}
               </h6>
               <div className="flex flex-col gap-3 sm:gap-4 font-heading font-light">
                 <Link
@@ -610,7 +611,7 @@ const FooterContent = () => {
 
             <div className="footer-links-group">
               <h6 className="font-semibold text-13 sm:text-14 font-heading text-[var(--gold-500)] mb-4 sm:mb-5 tracking-wider">
-                StamBH
+                {branding.stambh}
               </h6>
               <div className="flex flex-col gap-3 sm:gap-4 font-heading font-light">
                 <Link
@@ -623,7 +624,7 @@ const FooterContent = () => {
                   href="/ankura"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
-                  <span className="!text-[14px] !font-heading">Ankura</span>
+                  <span className="!text-[14px] !font-heading">{branding.ankura}</span>
                   <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
                     The Enterprise Digital Fabric
                   </span>
@@ -651,7 +652,7 @@ const FooterContent = () => {
 
             <div className="footer-links-group">
               <h6 className="font-semibold text-13 sm:text-14 font-heading text-[var(--gold-500)] mb-4 sm:mb-5 tracking-wider">
-                TRIpura
+                {branding.tripura}
               </h6>
               <div className="flex flex-col gap-3 sm:gap-4 font-heading font-light">
                 <Link
@@ -664,7 +665,7 @@ const FooterContent = () => {
                   href="/kalamos"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
-                  <span className="!text-[14px] !font-heading">KalAMOS</span>
+                  <span className="!text-[14px] !font-heading">{branding.kalamos}</span>
                   <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
                     Sovereign edge AI OS
                   </span>
@@ -673,7 +674,7 @@ const FooterContent = () => {
                   href="/bosc3"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
-                  <span className="!text-[14px] !font-heading">BoSC3</span>
+                  <span className="!text-[14px] !font-heading">{branding.bosc3}</span>
                   <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
                     Agentic Command & Control
                   </span>
@@ -682,7 +683,7 @@ const FooterContent = () => {
                   href="/nobisgrid"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
-                  <span className="!text-[14px] !font-heading">NobisGRID</span>
+                  <span className="!text-[14px] !font-heading">{branding.nobisgrid}</span>
                   <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
                     Resilient Decentralised Mesh
                   </span>
@@ -796,7 +797,7 @@ const FooterContent = () => {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 container-padding w-full">
             <div className="footer-links-group">
               <h6 className="font-semibold text-13 sm:text-14 font-heading text-[var(--gold-500)] uppercase mb-4 sm:mb-5 tracking-wider">
-                StamBH
+                {branding.stambh}
               </h6>
               <div className="flex flex-col gap-3 sm:gap-4 font-heading font-light">
                 <Link
@@ -809,7 +810,7 @@ const FooterContent = () => {
                   href="/ankura"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
-                  <span className="!text-[14px] !font-heading">Ankura</span>
+                  <span className="!text-[14px] !font-heading">{branding.ankura}</span>
                   <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
                     The Enterprise Digital Fabric
                   </span>
@@ -837,7 +838,7 @@ const FooterContent = () => {
 
             <div className="footer-links-group">
               <h6 className="font-semibold text-13 sm:text-14 font-heading text-[var(--gold-500)] uppercase mb-4 sm:mb-5 tracking-wider">
-                TRIpura
+                {branding.tripura}
               </h6>
               <div className="flex flex-col gap-3 sm:gap-4 font-heading font-light">
                 <Link
@@ -850,7 +851,7 @@ const FooterContent = () => {
                   href="/tripura#kalamos"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
-                  <span className="!text-[14px] !font-heading">KalAMOS</span>
+                  <span className="!text-[14px] !font-heading">{branding.kalamos}</span>
                   <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
                     Sovereign edge AI OS
                   </span>
@@ -859,7 +860,7 @@ const FooterContent = () => {
                   href="/tripura#bosc3"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
-                  <span className="!text-[14px] !font-heading">BoSC3</span>
+                  <span className="!text-[14px] !font-heading">{branding.bosc3}</span>
                   <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
                     Agentic Command & Control
                   </span>
@@ -868,7 +869,7 @@ const FooterContent = () => {
                   href="/tripura#nobisgrid"
                   className="group fl3 flex flex-col gap-0.5 !text-[#e2e2e2] hover:!text-white transition-colors"
                 >
-                  <span className="!text-[14px] !font-heading">NobisGRID</span>
+                  <span className="!text-[14px] !font-heading">{branding.nobisgrid}</span>
                   <span className="text-[#808080] group-hover:text-[#a0a0a0] !text-[12px] font-normal tracking-wide">
                     Resilient Decentralised Mesh
                   </span>
@@ -878,7 +879,7 @@ const FooterContent = () => {
 
             <div className="footer-links-group">
               <h6 className="font-semibold text-13 sm:text-14 font-heading text-[var(--gold-500)] uppercase mb-4 sm:mb-5 tracking-wider">
-                AdviQ
+                {branding.adviq}
               </h6>
               <div className="flex flex-col gap-3 sm:gap-4 font-heading font-light">
                 <Link

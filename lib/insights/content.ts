@@ -1,3 +1,4 @@
+import { branding } from "@/lib/content/branding";
 import type {
   CaseStudy,
   Publication,
@@ -22,9 +23,9 @@ export type {
 /* ---------------------------------------------------------------- labels */
 
 export const PROGRAM_LABEL: Record<Program, string> = {
-  adviq: 'AdviQ',
-  stambh: 'StamBH',
-  tripura: 'TRIpura',
+  adviq: branding.adviq,
+  stambh: branding.stambh,
+  tripura: branding.tripura,
 };
 
 export const INDUSTRY_LABEL: Record<Industry, string> = {

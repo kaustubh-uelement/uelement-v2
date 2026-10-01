@@ -1,4 +1,5 @@
 'use client';
+import { branding } from "@/lib/content/branding";
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -1175,7 +1176,7 @@ export default function VyuhScanner() {
       {
         phase: 'Phase 2 · 3–9 Months',
         title: 'Enterprise Crypto-Agility Abstraction',
-        desc: 'Decouple hardcoded cryptographic algorithms behind a unified abstraction interface (AdviQ Axis), allowing runtime algorithm rotation without source refactoring.',
+        desc: 'Decouple hardcoded cryptographic algorithms behind a unified abstraction interface ({branding.adviqAxis}), allowing runtime algorithm rotation without source refactoring.',
       },
       {
         phase: 'Phase 3 · 9–18 Months',
@@ -1240,7 +1241,7 @@ export default function VyuhScanner() {
         declarations: {
           assessors: [
             {
-              organization: { name: 'UElement AdviQ Quantum Practice' },
+              organization: { name: '{branding.adviqPractice} Quantum Practice' },
             },
           ],
         },
@@ -1342,7 +1343,7 @@ export default function VyuhScanner() {
         H - 38
       );
       doc.text(
-        'Vyuh is an enterprise cryptographic evaluation platform from UElement AdviQ. Results are indicative based on non-invasive inspection.',
+        'Vyuh is an enterprise cryptographic evaluation platform from {branding.adviqPractice}. Results are indicative based on non-invasive inspection.',
         M,
         H - 28
       );
@@ -1648,9 +1649,9 @@ export default function VyuhScanner() {
     });
 
     // Next steps
-    drawSectionTitle('Engagement with UElement AdviQ');
+    drawSectionTitle('Engagement with {branding.adviqPractice}');
     drawParagraph(
-      'Vyuh provides single-target scanning. Estate-wide discovery, continuous automated CBOM monitoring, hardware security module (HSM) migration, and crypto-agility implementation are delivered by UElement AdviQ, our dedicated quantum security practice. Contact our cryptographic engineering team at contact@uelement.in or call +91 7620690561 to review your assessment.'
+      'Vyuh provides single-target scanning. Estate-wide discovery, continuous automated CBOM monitoring, hardware security module (HSM) migration, and crypto-agility implementation are delivered by {branding.adviqPractice}, our dedicated quantum security practice. Contact our cryptographic engineering team at contact@uelement.in or call +91 7620690561 to review your assessment.'
     );
 
     printFooter(page);
@@ -1775,7 +1776,7 @@ export default function VyuhScanner() {
             <div className="lg:col-span-7">
               <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-[#e0a769]/30 bg-[#e0a769]/10 text-xs text-[#e0a769] font-medium tracking-wide mb-6">
                 <span className="h-2 w-2 rounded-full bg-[#f5c116] shadow-[0_0_8px_rgba(245,193,22,0.8)] animate-pulse" />
-                Free Online Diagnostic Tool · UElement AdviQ
+                Free Online Diagnostic Tool · {branding.adviqPractice}
               </div>
 
               <h1
@@ -2588,11 +2589,11 @@ export default function VyuhScanner() {
               },
               {
                 q: 'How does Vyuh relate to a full CBOM enterprise engagement?',
-                a: 'Vyuh provides focused diagnostics for single targets. Full enterprise discovery, automated CI/CD continuous monitoring, hardware security module (HSM) migration, and policy-driven crypto-agility are led by UElement AdviQ, our dedicated quantum security practice.',
+                a: 'Vyuh provides focused diagnostics for single targets. Full enterprise discovery, automated CI/CD continuous monitoring, hardware security module (HSM) migration, and policy-driven crypto-agility are led by {branding.adviqPractice}, our dedicated quantum security practice.',
               },
               {
                 q: 'Can we scan private repositories or internal VPC services?',
-                a: 'Yes. Private repositories can be scanned using fine-grained, read-only personal access tokens discarded immediately after analysis. For internal networks or air-gapped VPCs, UElement AdviQ provides containerized on-premise scanner agents.',
+                a: 'Yes. Private repositories can be scanned using fine-grained, read-only personal access tokens discarded immediately after analysis. For internal networks or air-gapped VPCs, {branding.adviqPractice} provides containerized on-premise scanner agents.',
               },
             ].map((faq, idx) => {
               const isOpenItem = openFaq === idx;
@@ -2627,7 +2628,7 @@ export default function VyuhScanner() {
         }}
       >
         <div className="wrap max-w-3xl">
-          <div className="tag mx-auto mb-4">UElement AdviQ Practice</div>
+          <div className="tag mx-auto mb-4">{branding.adviqPractice} Practice</div>
           <h2 className="display text-white">
             You cannot migrate what you have{' '}
             <span className="au">not inventoried.</span>

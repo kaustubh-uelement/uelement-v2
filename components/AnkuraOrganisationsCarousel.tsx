@@ -205,6 +205,8 @@ const organisations: Organisation[] = [
   },
 ];
 
+import { branding } from '@/lib/content/branding';
+
 export default function AnkuraOrganisationsCarousel() {
   const [isPaused, setIsPaused] = useState(false);
   const marqueeRef = useRef<HTMLDivElement>(null);
@@ -222,7 +224,7 @@ export default function AnkuraOrganisationsCarousel() {
         padding: "72px 0 80px",
         overflow: "hidden",
       }}
-      aria-label="Organisations running on Ankura platform"
+      aria-label={`Organisations running on ${branding.ankura} platform`}
     >
       <div className="wrap" style={{ position: "relative", zIndex: 1 }}>
         {/* Header */}
@@ -236,7 +238,7 @@ export default function AnkuraOrganisationsCarousel() {
             Enterprise Ecosystem
           </div>
           <h2 className="display text-navy-gradient">
-            Organisations running on <span className="au">Ankura platform</span>
+            Organisations running on <span className="au">{branding.ankura} platform</span>
           </h2>
           <p
             className="lede"
@@ -247,7 +249,7 @@ export default function AnkuraOrganisationsCarousel() {
               lineHeight: 1.6,
             }}
           >
-            Leading enterprises, sovereign platforms, and frontier technology builders run their digital surfaces, customer portals, and intelligent workflows on StamBH Ankura.
+            Leading enterprises, sovereign platforms, and frontier technology builders run their digital surfaces, customer portals, and intelligent workflows on {branding.stambhAnkura}.
           </p>
         </div>
       </div>

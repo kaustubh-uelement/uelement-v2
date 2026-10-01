@@ -1,4 +1,5 @@
 'use client';
+import { branding } from "@/lib/content/branding";
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -145,7 +146,7 @@ export default function CareersClient() {
             <div className="card">
               <h4>Grow with the programs</h4>
               <p>
-                U234 StamBH, U235 TRIpura, and AdviQ are compounding. Join while
+                {branding.stambh}, {branding.tripura}, and {branding.adviq} are compounding. Join while
                 the story is being written, not after.
               </p>
             </div>

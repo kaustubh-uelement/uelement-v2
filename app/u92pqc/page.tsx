@@ -1,8 +1,9 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { branding } from '@/lib/content/branding';
 
 export const metadata: Metadata = {
-  title: 'AdviQ PQC | Post-Quantum Cryptography | UElement',
+  title: `${branding.adviqPqc} | Post-Quantum Cryptography | UElement`,
   description:
     'A complete post-quantum migration practice: discover every cryptographic asset, prioritize by exposure, and migrate on NIST-standardized algorithms.',
 };
@@ -17,11 +18,11 @@ export default function U92PQCPage() {
         <div className="hero-fabric" />
         <div className="wrap">
           <div className="crumb">
-            <Link href="/">Home</Link> / <Link href="/adviq">AdviQ</Link> / PQC
+            <Link href="/">Home</Link> / <Link href="/adviq">{branding.adviq}</Link> / PQC
           </div>
-          <div className="tag">AdviQ · Post-Quantum Cryptography</div>
+          <div className="tag">{branding.adviq} · Post-Quantum Cryptography</div>
           <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>
-            AdviQ PQC
+            {branding.adviqPqc}
           </h1>
           <p className="serif-line">Migrate before the countdown ends.</p>
           <p className="lede" style={{ marginTop: 22 }}>

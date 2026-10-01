@@ -3,6 +3,9 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 
+import { branding } from '@/lib/content/branding';
+import { isGlobal } from '@/lib/content/locales';
+
 export default function SplashScreen() {
   const pathname = usePathname();
   const [show, setShow] = useState(true);
@@ -27,24 +30,7 @@ export default function SplashScreen() {
 
   if (!show || pathname?.includes('/poster')) return null;
 
-  const textArray = [
-    'स',
-    'श',
-    'क्त',
-    ' ',
-    '·',
-    ' ',
-    'स',
-    'क्ष',
-    'म',
-    ' ',
-    '·',
-    ' ',
-    'सु',
-    'र',
-    'क्षि',
-    'त',
-  ];
+  const textArray = branding.splashLetters;
 
   return (
     <div
@@ -65,7 +51,7 @@ export default function SplashScreen() {
       </div>
 
       {/* Main Content Wrapper */}
-      <div className="relative flex flex-col items-center justify-center gap-6 md:gap-10 z-10">
+      <div className="relative flex flex-col items-center justify-center gap-6 md:gap-10 z-10 px-4">
         {/* Top Glowing Line */}
         <div className="relative flex items-center justify-center w-[250px] md:w-[400px]">
           <div className="absolute w-full h-[1px] bg-gradient-to-r from-transparent via-[var(--gold-500)] to-transparent opacity-60"></div>
@@ -73,13 +59,19 @@ export default function SplashScreen() {
         </div>
 
         {/* Text */}
-        <div className="text-[var(--gold-500)] text-xl sm:text-2xl md:text-3xl font-medium tracking-[4px] md:tracking-[8px] pl-[4px] md:pl-[8px] text-center translate-x-[6px] md:translate-x-[12px] -translate-y-[6px] md:-translate-y-[8px]">
+        <div
+          className={`text-[var(--gold-500)] ${
+            isGlobal
+              ? 'text-sm sm:text-base md:text-xl font-medium tracking-[2px] md:tracking-[5px] pl-[2px] md:pl-[5px]'
+              : 'text-xl sm:text-2xl md:text-3xl font-medium tracking-[4px] md:tracking-[8px] pl-[4px] md:pl-[8px]'
+          } text-center translate-x-[2px] md:translate-x-[4px] -translate-y-[4px] md:-translate-y-[6px] whitespace-nowrap`}
+        >
           {textArray.map((char, index) => (
             <span
               key={index}
               className="inline-block opacity-0 translate-y-2 animate-letter-reveal"
               style={{
-                animationDelay: `${index * 0.08}s`,
+                animationDelay: `${index * 0.05}s`,
                 animationFillMode: 'forwards',
               }}
             >

@@ -4,7 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:in": "NEXT_PUBLIC_LOCALE=in next dev",
+    "dev:co": "NEXT_PUBLIC_LOCALE=co next dev",
     "build": "next build",
+    "build:in": "NEXT_PUBLIC_LOCALE=in next build",
+    "build:co": "NEXT_PUBLIC_LOCALE=co next build",
+    "preview": "npx serve out",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",

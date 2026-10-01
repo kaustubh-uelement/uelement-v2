@@ -1,3 +1,4 @@
+import { branding } from "@/lib/content/branding";
 // Team member data extracted from UElement_Website.html
 
 export interface TeamMember {
@@ -30,7 +31,7 @@ export const teamMembers: TeamMember[] = [
     initials: 'KN',
     title: 'Co-founder & CPO',
     description:
-      'Owns the StamBH product line, including the Vizor observability, security and GRC fabric.',
+      `Owns the ${branding.stambh} product line, including the Vizor observability, security and GRC fabric.`,
     photo: '/images/team/kaustubh.jpg',
     linkedIn: 'https://www.linkedin.com',
   },

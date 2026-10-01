@@ -1,26 +1,29 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { branding } from '@/lib/content/branding';
+import { SITE_URL } from '@/lib/content/locales';
 
 export const metadata: Metadata = {
-  title: 'UElement - AdviQ | Securing Enterprises for the Quantum decade',
+  title: `UElement - ${branding.adviq} | Securing Enterprises for the Quantum decade`,
   description:
     'a Quantum Security Program guiding enterprises to Discover, Prioritize and Migrate cryptography for Quantum resilience.',
   openGraph: {
-    title: 'UElement - AdviQ | Securing Enterprises for the Quantum decade',
+    title: `UElement - ${branding.adviq} | Securing Enterprises for the Quantum decade`,
     description:
       'a Quantum Security Program guiding enterprises to Discover, Prioritize and Migrate cryptography for Quantum resilience.',
+    url: `${SITE_URL}/adviq`,
     images: [
       {
         url: '/ue-adviq-og-image.png',
         width: 1200,
         height: 630,
-        alt: 'UElement - AdviQ | Securing Enterprises for the Quantum decade',
+        alt: `UElement - ${branding.adviq} | Securing Enterprises for the Quantum decade`,
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'UElement - AdviQ | Securing Enterprises for the Quantum decade',
+    title: `UElement - ${branding.adviq} | Securing Enterprises for the Quantum decade`,
     description:
       'a Quantum Security Program guiding enterprises to Discover, Prioritize and Migrate cryptography for Quantum resilience.',
     images: ['/ue-adviq-og-image.png'],
@@ -36,17 +39,17 @@ export default function U92Page() {
         <AdviqCanvas />
         <div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
           <div className="crumb">
-            <Link href="/">Home</Link> / AdviQ
+            <Link href="/">Home</Link> / {branding.adviq}
           </div>
           <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>
-            AdviQ
+            {branding.adviq}
           </h1>
           <p className="serif-line" style={{ fontSize: 20, marginTop: 8 }}>
             Named for the element that changed everything. Built for the
             computer that will.
           </p>
           <p className="lede" style={{ marginTop: 26 }}>
-            AdviQ is UElement&apos;s dedicated quantum security practice. We
+            {branding.adviq} is UElement&apos;s dedicated quantum security practice. We
             prepare banks, governments, telecoms, and critical infrastructure
             for the quantum decade: from cryptographic discovery to post-quantum
             migration, quantum key distribution, and lasting crypto-agility.
@@ -107,7 +110,7 @@ export default function U92Page() {
               className="card link"
               style={{ textDecoration: 'none' }}
             >
-              <h4>AdviQ PQC</h4>
+              <h4>{branding.adviqPqc}</h4>
               <p>
                 Discovery to migration: CBOM cryptographic inventory, NIST FIPS
                 203/204/205/206 alignment, hybrid key exchange, phased rollout.
@@ -124,7 +127,7 @@ export default function U92Page() {
               className="card link"
               style={{ textDecoration: 'none' }}
             >
-              <h4>AdviQ QKD</h4>
+              <h4>{branding.adviqQkd}</h4>
               <p>
                 Quantum key distribution for links where physics, not
                 mathematics, guarantees secrecy.
@@ -141,7 +144,7 @@ export default function U92Page() {
               className="card link"
               style={{ textDecoration: 'none' }}
             >
-              <h4>AdviQ Crypto-Agility</h4>
+              <h4>{branding.adviqAgility}</h4>
               <p>
                 Axis, Codex, and Crucible: the abstraction layer, registry, and
                 drill harness that make your next migration a config change.

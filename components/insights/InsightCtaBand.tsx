@@ -1,3 +1,4 @@
+import { branding } from "@/lib/content/branding";
 import Link from 'next/link';
 import React from 'react';
 import type { Program } from '@/lib/insights/content';
@@ -21,7 +22,7 @@ interface InsightCtaBandProps {
 const getCommitments = (program?: Program) => {
   if (program === 'stambh') {
     return {
-      title: 'StamBH Delivery Commitments',
+      title: `${branding.stambh} Delivery Commitments`,
       items: [
         '2-hour architecture mapping workshop',
         'Production-grade functional slice in 5 business days',
@@ -34,7 +35,7 @@ const getCommitments = (program?: Program) => {
   }
   if (program === 'adviq') {
     return {
-      title: 'AdviQ Advisory Commitments',
+      title: `${branding.adviq} Advisory Commitments`,
       items: [
         'Exhaustive Cryptographic Bill of Materials (CBOM)',
         'Post-quantum vulnerability exposure ranking',
@@ -47,7 +48,7 @@ const getCommitments = (program?: Program) => {
   }
   if (program === 'tripura') {
     return {
-      title: 'Tripura Research Commitments',
+      title: `${branding.tripura} Research Commitments`,
       items: [
         'Deterministic in-silico simulation models',
         'Pre-wet-lab target viability validation',

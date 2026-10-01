@@ -1,3 +1,4 @@
+import { branding } from "@/lib/content/branding";
 import Link from 'next/link';
 import React from 'react';
 import type { Program } from '@/lib/insights/content';
@@ -85,8 +86,8 @@ export default function NdaCallout({
           style={{ fontSize: 'clamp(15px, 1.4vw, 18px)', marginTop: '4px' }}
         >
           {isStambh
-            ? 'StamBH · Enterprise integrity protocol'
-            : 'AdviQ · Sovereign assurance protocol'}
+            ? `${branding.stambh} · Enterprise integrity protocol`
+            : `${branding.adviq} · Sovereign assurance protocol`}
         </p>
 
         {/* Body */}

@@ -1,8 +1,9 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { branding } from '@/lib/content/branding';
 
 export const metadata: Metadata = {
-  title: 'KalAMOS | Sovereign Edge AI OS | UElement',
+  title: `${branding.kalamos} | Sovereign Edge AI OS | UElement`,
   description:
     'A sovereign edge AI operating system that brings model inference, orchestration, and lifecycle management to nodes that may never see a datacenter.',
 };
@@ -17,12 +18,12 @@ export default function KalamosPage() {
         <div className="hero-fabric" />
         <div className="wrap">
           <div className="crumb">
-            <Link href="/">Home</Link> / <Link href="/tripura">TRIpura</Link>{' '}
-            / KalAMOS
+            <Link href="/">Home</Link> / <Link href="/tripura">{branding.tripura}</Link>{' '}
+            / {branding.kalamos}
           </div>
-          <div className="tag slate">TRIpura · The Brain</div>
+          <div className="tag slate">{branding.tripura} · The Brain</div>
           <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>
-            KalAMOS
+            {branding.kalamos}
           </h1>
           <p className="serif-line">
             The operating system for intelligence at the edge.

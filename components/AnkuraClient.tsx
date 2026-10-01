@@ -4,6 +4,7 @@ import Link from "next/link";
 import SpectralCanvas from "./SpectralCanvas";
 import PillarCard from "./PillarCard";
 import AnkuraOrganisationsCarousel from "./AnkuraOrganisationsCarousel";
+import { branding } from "@/lib/content/branding";
 
 export default function AnkuraClient() {
   return (
@@ -20,7 +21,7 @@ export default function AnkuraClient() {
         >
           <div style={{ maxWidth: "640px" }}>
             <div className="crumb" style={{ pointerEvents: "auto" }}>
-              <Link href="/">Home</Link> / <Link href="/stambh">StamBH</Link> / Ankura
+              <Link href="/">Home</Link> / <Link href="/stambh">{branding.stambh}</Link> / {branding.ankura}
             </div>
             <h1
               className="display"
@@ -38,7 +39,7 @@ export default function AnkuraClient() {
                 color: "#c88a3e",
               }}
             >
-              StamBH &middot; the digital fabric
+              {branding.stambh} &middot; the digital fabric
             </p>
             <p
               className="lede"
@@ -47,7 +48,7 @@ export default function AnkuraClient() {
                 textShadow: "0 2px 20px rgba(7, 23, 57, 0.85)",
               }}
             >
-              Ankura connects the digital experiences, workflows, data and intelligence your enterprise relies on, into one <strong style={{ color: "#fff" }}>unified, always-on platform</strong> built to simplify complexity and scale with your business.
+              {branding.ankura} connects the digital experiences, workflows, data and intelligence your enterprise relies on, into one <strong style={{ color: "#fff" }}>unified, always-on platform</strong> built to simplify complexity and scale with your business.
             </p>
             <div
               style={{
@@ -94,7 +95,7 @@ export default function AnkuraClient() {
                 What if they worked as one?
               </p>
               <p className="lede">
-                <strong>One platform. One connected data foundation. One clearer view of your business.</strong> Ankura helps reduce fragmentation so your teams have more room to focus on customers, operations and what comes next.
+                <strong>One platform. One connected data foundation. One clearer view of your business.</strong> {branding.ankura} helps reduce fragmentation so your teams have more room to focus on customers, operations and what comes next.
               </p>
             </div>
           </div>
@@ -111,7 +112,7 @@ export default function AnkuraClient() {
             Together, they become the <span className="au">fabric.</span>
           </h2>
           <p className="lede" style={{ marginTop: 20 }}>
-            Activate them independently. Run them as one. Ankura keeps the foundation connected underneath, so adding a capability doesn&apos;t mean adding another silo.
+            Activate them independently. Run them as one. {branding.ankura} keeps the foundation connected underneath, so adding a capability doesn&apos;t mean adding another silo.
           </p>
 
           <div className="grid2" style={{ marginTop: 44 }}>
@@ -178,7 +179,7 @@ export default function AnkuraClient() {
             Intelligence <span className="au">woven into the fabric.</span>
           </h2>
           <p className="lede" style={{ marginTop: 20 }}>
-            AI shouldn&apos;t sit beside your digital business. It should work within it. Ankura puts intelligence inside the fabric, where it can work with your workflows, data and experiences.
+            AI shouldn&apos;t sit beside your digital business. It should work within it. {branding.ankura} puts intelligence inside the fabric, where it can work with your workflows, data and experiences.
           </p>
 
           <div className="grid2" style={{ marginTop: 44 }}>
@@ -289,14 +290,14 @@ export default function AnkuraClient() {
       {/* ═══════ THE STAMBH TRIO ═══════ */}
       <div className="section alt" id="trio">
         <div className="wrap">
-          <div className="kicker">The StamBH trio</div>
+          <div className="kicker">{branding.stambhTrio}</div>
           <h2 className="display text-navy-gradient">
             Three platforms.
             <br />
             One connected <span className="au">enterprise.</span>
           </h2>
           <p className="lede" style={{ marginTop: 20 }}>
-            Ankura, Vizor and Kayak are designed to work together, connecting digital experience, visibility and the operational fabric behind what your business delivers.
+            {branding.ankura}, Vizor and Kayak are designed to work together, connecting digital experience, visibility and the operational fabric behind what your business delivers.
           </p>
           <div className="grid3" style={{ marginTop: 44 }}>
             <Link
@@ -305,7 +306,7 @@ export default function AnkuraClient() {
               style={{ textDecoration: "none", border: "1px solid #c88a3e" }}
             >
               <div className="tag">The digital fabric</div>
-              <h4>Ankura</h4>
+              <h4>{branding.ankura}</h4>
               <p
                 className="serif-line"
                 style={{ fontSize: 16, marginBottom: 10, color: "#c88a3e" }}

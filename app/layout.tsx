@@ -10,6 +10,7 @@ import './globals.css';
 import Header from '@/components/ui/Header';
 import Footer from '@/components/layout/FooterV2';
 import SplashScreen from '@/components/ui/SplashScreen';
+import { SITE_URL } from '@/lib/content/locales';
 
 const redditSans = Reddit_Sans({
   subsets: ['latin'],
@@ -52,13 +53,21 @@ export const metadata: Metadata = {
     'UElement Technologies | Building Sovereign DeepTech & Quantum Secure Enterprise Fabric',
   description:
     'a Global DeepTech company engineering Quantum-safe security, Autonomous systems and Enterprise-scale digital infrastructure.',
-  metadataBase: new URL('https://uelement.in'),
+  metadataBase: new URL(SITE_URL),
+  alternates: {
+    canonical: SITE_URL,
+    languages: {
+      'en-IN': 'https://uelement.in',
+      'en': 'https://uelement.co',
+      'x-default': 'https://uelement.co',
+    },
+  },
   openGraph: {
     title:
       'UElement Technologies | Building Sovereign DeepTech & Quantum Secure Enterprise Fabric',
     description:
       'a Global DeepTech company engineering Quantum-safe security, Autonomous systems and Enterprise-scale digital infrastructure.',
-    url: 'https://uelement.in/',
+    url: SITE_URL,
     siteName: 'UElement',
     locale: 'en_US',
     type: 'website',

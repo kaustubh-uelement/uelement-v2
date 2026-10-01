@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import './AnkuraLandscapePoster.css';
+import { branding } from '@/lib/content/branding';
 
 export default function AnkuraLandscapePosterClient() {
   const [copied, setCopied] = useState(false);
@@ -61,7 +62,7 @@ export default function AnkuraLandscapePosterClient() {
               <line x1="19" y1="12" x2="5" y2="12"></line>
               <polyline points="12 19 5 12 12 5"></polyline>
             </svg>
-            <span>Back to Ankura</span>
+            <span>Back to {branding.ankura}</span>
           </Link>
           <span className="alp-toolbar-divider hidden sm:inline">/</span>
 
@@ -231,7 +232,7 @@ export default function AnkuraLandscapePosterClient() {
               One platform. One data plane. Every experience connected.
             </div>
             <p className="alp-sub">
-              Ankura unifies your people, data and experiences on a single
+              {branding.ankura} unifies your people, data and experiences on a single
               fabric; so the business can spend its energy on growth, not on
               integration.
             </p>
@@ -1108,7 +1109,7 @@ export default function AnkuraLandscapePosterClient() {
           </footer>
 
           <div className="alp-mark">
-            <span className="alp-tagline">सशक्त · सक्षम · सुरक्षित</span>
+            <span className="alp-tagline">{branding.tagline}</span>
             <div className="alp-mark-logo">
               <Image
                 src="/icons/global/UElement_Tech_Logo_White.png"

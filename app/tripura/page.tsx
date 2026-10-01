@@ -1,28 +1,31 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { branding } from '@/lib/content/branding';
+import { SITE_URL } from '@/lib/content/locales';
 
 export const metadata: Metadata = {
-  title: 'UElement - TRIpura | Autonomous Resilience for the Tactical Edge',
+  title: `UElement - ${branding.tripura} | Autonomous Resilience for the Tactical Edge`,
   description:
-    'a sovereign MLOps ecosystem for D3 & DDIL. When the network goes dark, TRIpura keeps thinking; turning the Edge into Cloud',
+    `a sovereign MLOps ecosystem for D3 & DDIL. When the network goes dark, ${branding.tripura} keeps thinking; turning the Edge into Cloud`,
   openGraph: {
-    title: 'UElement - TRIpura | Autonomous Resilience for the Tactical Edge',
+    title: `UElement - ${branding.tripura} | Autonomous Resilience for the Tactical Edge`,
     description:
-      'a sovereign MLOps ecosystem for D3 & DDIL. When the network goes dark, TRIpura keeps thinking; turning the Edge into Cloud',
+      `a sovereign MLOps ecosystem for D3 & DDIL. When the network goes dark, ${branding.tripura} keeps thinking; turning the Edge into Cloud`,
+    url: `${SITE_URL}/tripura`,
     images: [
       {
         url: '/ue-tripura-og-image.png',
         width: 1200,
         height: 630,
-        alt: 'UElement - TRIpura | Autonomous Resilience for the Tactical Edge',
+        alt: `UElement - ${branding.tripura} | Autonomous Resilience for the Tactical Edge`,
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'UElement - TRIpura | Autonomous Resilience for the Tactical Edge',
+    title: `UElement - ${branding.tripura} | Autonomous Resilience for the Tactical Edge`,
     description:
-      'a sovereign MLOps ecosystem for D3 & DDIL. When the network goes dark, TRIpura keeps thinking; turning the Edge into Cloud',
+      `a sovereign MLOps ecosystem for D3 & DDIL. When the network goes dark, ${branding.tripura} keeps thinking; turning the Edge into Cloud`,
     images: ['/ue-tripura-og-image.png'],
   },
 };
@@ -34,10 +37,10 @@ export default function MainsparPage() {
         <div className="hero-fabric" />
         <div className="wrap">
           <div className="crumb">
-            <Link href="/">Home</Link> / TRIpura
+            <Link href="/">Home</Link> / {branding.tripura}
           </div>
           <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>
-            TRIpura
+            {branding.tripura}
           </h1>
           <p className="serif-line" style={{ fontSize: 20, marginTop: 8 }}>
             Autonomous Resilience for the Tactical Edge.
@@ -45,7 +48,7 @@ export default function MainsparPage() {
           <p className="lede" style={{ marginTop: 26 }}>
             A sovereign MLOps ecosystem for D3 and DDIL environments: denied,
             degraded, intermittent, limited. When the network goes dark and the
-            cloud is a memory, TRIpura keeps thinking. We don&apos;t connect the
+            cloud is a memory, {branding.tripura} keeps thinking. We don&apos;t connect the
             edge to the cloud. We turn the edge into the cloud.
           </p>
           <div
@@ -77,7 +80,7 @@ export default function MainsparPage() {
               style={{ textDecoration: 'none' }}
             >
               <div className="tag slate">The Brain</div>
-              <h4>KalAMOS</h4>
+              <h4>{branding.kalamos}</h4>
               <p>
                 A sovereign edge AI operating system in Light and Standard
                 builds: inference, orchestration, and model lifecycle at the
@@ -91,7 +94,7 @@ export default function MainsparPage() {
               style={{ textDecoration: 'none' }}
             >
               <div className="tag slate">The Commander</div>
-              <h4>BoSC3</h4>
+              <h4>{branding.bosc3}</h4>
               <p>
                 Agentic AI command, control and communications: mission
                 continuity through 60%+ node attrition.
@@ -104,7 +107,7 @@ export default function MainsparPage() {
               style={{ textDecoration: 'none' }}
             >
               <div className="tag slate">The Fabric</div>
-              <h4>NobisGRID</h4>
+              <h4>{branding.nobisgrid}</h4>
               <p>
                 A resilient decentralised mesh with stochastic path
                 optimisation. Self-healing by construction.

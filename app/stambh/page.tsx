@@ -1,14 +1,14 @@
 import type { Metadata } from 'next';
 import StambhClient from './StambhClient';
 
+import { branding } from '@/lib/content/branding';
+
 export const metadata: Metadata = {
-  title:
-    'UElement - StamBH | Enterprise Digital Fabric for Managing, Monitoring and Building the next big Company',
+  title: `UElement - ${branding.stambh} | Enterprise Digital Fabric for Managing, Monitoring and Building the next big Company`,
   description:
     'a single platform governing Digital touchpoints, Internal operations and Physical assets with unified Identity, RBAC and Audit..',
   openGraph: {
-    title:
-      'UElement - StamBH | Enterprise Digital Fabric for Managing, Monitoring and Building the next big Company',
+    title: `UElement - ${branding.stambh} | Enterprise Digital Fabric for Managing, Monitoring and Building the next big Company`,
     description:
       'a single platform governing Digital touchpoints, Internal operations and Physical assets with unified Identity, RBAC and Audit..',
     images: [
@@ -16,14 +16,13 @@ export const metadata: Metadata = {
         url: '/ue-stambh-og-image.png',
         width: 1200,
         height: 630,
-        alt: 'UElement - StamBH | Enterprise Digital Fabric for Managing, Monitoring and Building the next big Company',
+        alt: `UElement - ${branding.stambh} | Enterprise Digital Fabric for Managing, Monitoring and Building the next big Company`,
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title:
-      'UElement - StamBH | Enterprise Digital Fabric for Managing, Monitoring and Building the next big Company',
+    title: `UElement - ${branding.stambh} | Enterprise Digital Fabric for Managing, Monitoring and Building the next big Company`,
     description:
       'a single platform governing Digital touchpoints, Internal operations and Physical assets with unified Identity, RBAC and Audit..',
     images: ['/ue-stambh-og-image.png'],

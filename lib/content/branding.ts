@@ -1,0 +1,116 @@
+import { CURRENT_LOCALE } from './locales';
+
+export const BRANDING = {
+  in: {
+    tagline: 'सशक्त · सक्षम · सुरक्षित',
+    splashLetters: [
+      'स',
+      'श',
+      'क्त',
+      ' ',
+      '·',
+      ' ',
+      'स',
+      'क्ष',
+      'म',
+      ' ',
+      '·',
+      ' ',
+      'सु',
+      'र',
+      'क्षि',
+      'त',
+    ],
+    // Primary Platform Names
+    stambh: 'StamBH',
+    ankura: 'Ankura',
+    adviq: 'AdviQ',
+    tripura: 'TRIpura',
+    kalamos: 'KalAMOS',
+    bosc3: 'BoSC3',
+    nobisgrid: 'NobisGRID',
+
+    // Specific combined brandings & phrases
+    adviqPqc: 'AdviQ PQC',
+    adviqQkd: 'AdviQ QKD',
+    adviqAgility: 'AdviQ Crypto-Agility',
+    adviqAxis: 'AdviQ Axis',
+    adviqCodex: 'AdviQ Codex',
+    adviqCrucible: 'AdviQ Crucible',
+    adviqPractice: 'UElement AdviQ Practice',
+    adviqTeam: 'UElement AdviQ',
+
+    stambhTrio: 'The StamBH trio',
+    stambhAnkura: 'StamBH Ankura',
+    tripuraThesis: 'The TRIpura thesis',
+    tripuraProgram: 'TRIpura Program',
+
+    // Program Sub-lines
+    quantumSecuritySub: 'PQC · QKD · Crypto-Agility →',
+    enterpriseFabricSub: 'Ankura · Vizor · Kayak →',
+    edgePlatformSub: 'KalAMOS · BoSC3 · NobisGRID →',
+  },
+  co: {
+    tagline: 'Resilient · Capable · Secure',
+    splashLetters: [
+      'R',
+      'e',
+      's',
+      'i',
+      'l',
+      'i',
+      'e',
+      'n',
+      't',
+      ' ',
+      '·',
+      ' ',
+      'C',
+      'a',
+      'p',
+      'a',
+      'b',
+      'l',
+      'e',
+      ' ',
+      '·',
+      ' ',
+      'S',
+      'e',
+      'c',
+      'u',
+      'r',
+      'e',
+    ],
+    // Primary Platform Names
+    stambh: 'MainSTAY',
+    ankura: 'Nexus',
+    adviq: 'U92 Quantum',
+    tripura: 'MainSPAR',
+    kalamos: 'MerlinOS',
+    bosc3: 'MustangC3',
+    nobisgrid: 'MesoGRID',
+
+    // Specific combined brandings & phrases
+    adviqPqc: 'U92 PQC',
+    adviqQkd: 'U92 QKD',
+    adviqAgility: 'U92 Crypto-Agility',
+    adviqAxis: 'U92 Axis',
+    adviqCodex: 'U92 Codex',
+    adviqCrucible: 'U92 Crucible',
+    adviqPractice: 'U92 Quantum Practice',
+    adviqTeam: 'U92 Quantum Team',
+
+    stambhTrio: 'The MainSTAY trio',
+    stambhAnkura: 'MainSTAY Nexus',
+    tripuraThesis: 'The MainSPAR thesis',
+    tripuraProgram: 'MainSPAR Program',
+
+    // Program Sub-lines
+    quantumSecuritySub: 'PQC · QKD · Crypto-Agility →',
+    enterpriseFabricSub: 'Nexus · Vizor · Kayak →',
+    edgePlatformSub: 'MerlinOS · MustangC3 · MesoGRID →',
+  },
+};
+
+export const branding = BRANDING[CURRENT_LOCALE];

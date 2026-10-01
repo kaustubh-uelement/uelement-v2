@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import ScopeCanvas from './ScopeCanvas';
 import PillarCard from './PillarCard';
+import { branding } from '@/lib/content/branding';
 
 export default function VizorClient() {
   return (
@@ -12,14 +13,14 @@ export default function VizorClient() {
         <ScopeCanvas />
         <div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
           <div className="crumb">
-            <Link href="/">Home</Link> / <Link href="/stambh">StamBH</Link> / Vizor
+            <Link href="/">Home</Link> / <Link href="/stambh">{branding.stambh}</Link> / Vizor
           </div>
           <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>
             One platform. Seven dimensions. <br />
             <span className="au">Zero blind spots.</span>
           </h1>
           <p className="serif-line" style={{ fontSize: 20, marginTop: 8, color: '#c88a3e' }}>
-            StamBH &middot; Watches the digital
+            {branding.stambh} &middot; Watches the digital
           </p>
           <p className="lede" style={{ marginTop: 26 }}>
             The unified observability, security, and compliance fabric for enterprise IT and
@@ -249,9 +250,9 @@ export default function VizorClient() {
       {/* ═══════ THE MAINSTAY TRIO ═══════ */}
       <div className="section alt">
         <div className="wrap">
-          <div className="kicker">The StamBH trio</div>
+          <div className="kicker">{branding.stambhTrio}</div>
           <h2 className="display text-navy-gradient">
-            Vizor watches what Ankura builds.
+            Vizor watches what {branding.ankura} builds.
             <br />
             Kayak commands the <span className="au">physical.</span>
           </h2>
@@ -262,7 +263,7 @@ export default function VizorClient() {
               style={{ textDecoration: 'none' }}
             >
               <div className="tag">The digital fabric</div>
-              <h4>Ankura</h4>
+              <h4>{branding.ankura}</h4>
               <p
                 className="serif-line"
                 style={{ fontSize: 16, marginBottom: 10, color: '#c88a3e' }}
@@ -270,7 +271,7 @@ export default function VizorClient() {
                 The Enterprise Digital Fabric
               </p>
               <p>
-                Business journeys and compliance artifacts flow in from Ankura without separate agents to deploy.
+                Business journeys and compliance artifacts flow in from {branding.ankura} without separate agents to deploy.
               </p>
             </Link>
             <Link
