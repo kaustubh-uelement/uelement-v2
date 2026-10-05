@@ -53,7 +53,7 @@ export const metadata: Metadata = {
   description:
     'UElement is a DeepTech company in Pune, India. We help banks, insurers and critical infrastructure move to quantum-safe cryptography, and we run the digital front door of growing companies on the MainSTAY platform.',
   icons: {
-    icon: '/favicon.svg',
+    icon: '/favicon.ico',
   },
   openGraph: {
     title: 'Quantum-safe security and the MainSTAY platform · UElement',
@@ -94,7 +94,7 @@ export default function RootLayout({
       <head>
         <meta name="theme-color" content="#0D1A34" />
         <meta name="color-scheme" content="light" />
-        <link rel="icon" href="/favicon.svg" />
+        <link rel="icon" href="/favicon.ico" />
       </head>
       <body>
         <a className="skip" href="#main">
