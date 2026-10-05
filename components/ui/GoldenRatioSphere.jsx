@@ -92,11 +92,17 @@ const GoldenRatioSphere = ({
     updateCameraDistance(width, height);
 
     const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
-    const renderer = new THREE.WebGLRenderer({
-      antialias: true,
-      alpha: true,
-      powerPreference: 'high-performance',
-    });
+    let renderer;
+    try {
+      renderer = new THREE.WebGLRenderer({
+        antialias: true,
+        alpha: true,
+        powerPreference: 'high-performance',
+      });
+    } catch (e) {
+      console.warn('WebGL not supported:', e);
+      return;
+    }
     renderer.setPixelRatio(pixelRatio);
     renderer.setSize(width, height);
     renderer.domElement.style.display = 'block';
