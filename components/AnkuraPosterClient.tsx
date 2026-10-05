@@ -956,7 +956,11 @@ export default function AnkuraPosterClient() {
 
         .oneline em {
           font-style: normal;
-          color: #e0a769;
+          background: linear-gradient(118deg, #7a5a1e 0%, #b98e3a 22%, #f1d894 42%, #c49a45 58%, #e9cc80 76%, #8f6a28 100%);
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent !important;
+          -webkit-text-fill-color: transparent !important;
         }
 
         .oneline .sub {
@@ -1453,7 +1457,11 @@ export default function AnkuraPosterClient() {
 
           .oneline em {
             font-style: normal !important;
-            color: #e0a769 !important;
+            background: linear-gradient(118deg, #7a5a1e 0%, #b98e3a 22%, #f1d894 42%, #c49a45 58%, #e9cc80 76%, #8f6a28 100%) !important;
+            -webkit-background-clip: text !important;
+            background-clip: text !important;
+            color: transparent !important;
+            -webkit-text-fill-color: transparent !important;
           }
 
           .oneline .sub {
