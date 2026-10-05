@@ -16,7 +16,9 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test:e2e": "playwright test",
-    "deploy": "npm run build && wrangler pages deploy out"
+    "deploy": "npm run build && wrangler pages deploy out",
+    "push:staging": "./push-staging.sh",
+    "push:staging:force": "./push-staging.sh --force"
   },
   "dependencies": {
     "@amcharts/amcharts5": "^5.20.2",

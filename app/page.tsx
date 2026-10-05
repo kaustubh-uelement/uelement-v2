@@ -44,6 +44,7 @@ export default function Home() {
           <div className="earth__dotted-globe">
             <HeroDottedGlobe />
           </div>
+          <div className="earth__halo" />
         </div>
         <div className="wrap">
           <div className="earth__inner">
