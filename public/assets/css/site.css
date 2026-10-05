@@ -138,8 +138,26 @@ a:hover{color:var(--text-strong)}
 /* ---------- header: navy enamel with a gold hairline ---------- */
 .header{background:linear-gradient(180deg,#112142 0%,var(--enamel) 100%);border-bottom:0;box-shadow:0 1px 0 rgba(0,0,0,.25)}
 .header:after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--gold-rule);opacity:.7}
-.header__bar{gap:28px}
-.nav{margin-left:auto}
+.header .wrap,
+.header__bar {
+  max-width: 1180px !important;
+  margin-inline: auto !important;
+  padding-inline: 24px !important;
+  gap: 28px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+.header .brand { flex-shrink: 0; }
+.header .header__cta { margin-left: auto !important; display: flex !important; align-items: center !important; gap: 12px !important; }
+@media (min-width: 1041px) {
+  .header .nav {
+    margin-left: 36px !important;
+    margin-right: auto !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+}
 .nav__link,.nav__trigger{color:#D9DEE8;border-radius:2px;font-size:.8125rem;font-weight:600;letter-spacing:.02em}
 .nav__link:hover,.nav__trigger:hover,.nav__trigger[aria-expanded=true],.nav__link[aria-current=page]{color:#fff;background:rgba(255,255,255,.07)}
 .menu-btn{border-radius:9999px !important;color:#fff}
@@ -422,20 +440,26 @@ button[type="submit"] {
 /* ==========================================================================
    SentinelOne-style Platform Mega Menu & Tabs
    ========================================================================== */
-.mega--platform {
+.mega--platform,
+.mega--solutions {
+  position: fixed !important;
+  top: 72px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
   width: min(1080px, calc(100vw - 32px)) !important;
   flex-direction: column !important;
   padding: 24px 28px 20px !important;
   grid-template-columns: none !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
+  z-index: 100 !important;
 }
 
-.mega--platform[hidden] {
+.mega--platform[hidden],
+.mega--solutions[hidden] {
   display: none !important;
 }
 
-.mega--platform:not([hidden]) {
+.mega--platform:not([hidden]),
+.mega--solutions:not([hidden]) {
   display: flex !important;
 }
 
@@ -560,10 +584,8 @@ button[type="submit"] {
   gap: 12px;
 }
 
-.platform-grid--6 {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
+.platform-grid--6,
+.platform-grid--5,
 .platform-grid--3 {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
@@ -637,6 +659,7 @@ button[type="submit"] {
     padding-bottom: 12px;
   }
   .platform-grid--6,
+  .platform-grid--5,
   .platform-grid--3 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }

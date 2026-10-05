@@ -105,31 +105,36 @@
 
   /* ---------------------------------------------------------------- platform tabs (SentinelOne style) */
   function initPlatformTabs() {
-    var tabs = Array.prototype.slice.call(document.querySelectorAll(".platform-tab"));
-    var panels = Array.prototype.slice.call(document.querySelectorAll(".platform-panel"));
-    if (!tabs.length) return;
+    var megaContainers = Array.prototype.slice.call(document.querySelectorAll(".mega"));
+    if (!megaContainers.length) return;
 
-    tabs.forEach(function (tab) {
-      if (tab._bound) return;
-      tab._bound = true;
+    megaContainers.forEach(function (mega) {
+      var tabs = Array.prototype.slice.call(mega.querySelectorAll(".platform-tab"));
+      var panels = Array.prototype.slice.call(mega.querySelectorAll(".platform-panel"));
+      if (!tabs.length) return;
 
-      function activate() {
-        var targetId = tab.getAttribute("data-target");
-        tabs.forEach(function (t) {
-          var active = t === tab;
-          t.classList.toggle("is-active", active);
-          t.setAttribute("aria-selected", active ? "true" : "false");
+      tabs.forEach(function (tab) {
+        if (tab._bound) return;
+        tab._bound = true;
+
+        function activate() {
+          var targetId = tab.getAttribute("data-target");
+          tabs.forEach(function (t) {
+            var active = t === tab;
+            t.classList.toggle("is-active", active);
+            t.setAttribute("aria-selected", active ? "true" : "false");
+          });
+          panels.forEach(function (panel) {
+            panel.hidden = panel.id !== targetId;
+          });
+        }
+
+        tab.addEventListener("mouseenter", activate);
+        tab.addEventListener("focus", activate);
+        tab.addEventListener("click", function (e) {
+          e.preventDefault();
+          activate();
         });
-        panels.forEach(function (panel) {
-          panel.hidden = panel.id !== targetId;
-        });
-      }
-
-      tab.addEventListener("mouseenter", activate);
-      tab.addEventListener("focus", activate);
-      tab.addEventListener("click", function (e) {
-        e.preventDefault();
-        activate();
       });
     });
   }
