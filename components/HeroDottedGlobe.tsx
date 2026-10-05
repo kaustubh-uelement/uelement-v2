@@ -9,9 +9,60 @@ interface HeroDottedGlobeProps {
   radius?: number;
 }
 
+// Ultra-fast GLSL Shaders for Butter-Smooth Particle Rendering
+const vertexShader = `
+  uniform float uPixelRatio;
+  uniform float uPointSize;
+  attribute float aBrightness;
+  attribute vec3 aColor;
+  varying vec3 vColor;
+  varying float vAlpha;
+
+  void main() {
+    vec4 worldPos = modelMatrix * vec4(position, 1.0);
+    
+    // Normalized vertical height on sphere (-1.0 to +1.0)
+    float normY = worldPos.y / 200.0;
+    
+    // Smooth fade going to bottom:
+    // Full opacity on upper hemisphere, fading through the equator to 0 below -0.35
+    float fade = smoothstep(-0.38, 0.22, normY);
+    
+    vAlpha = fade * aBrightness;
+    vColor = aColor;
+    
+    vec4 mvPosition = viewMatrix * worldPos;
+    
+    // Size attenuation with smooth perspective scaling
+    gl_PointSize = uPointSize * uPixelRatio * (280.0 / -mvPosition.z) * (0.85 + 0.35 * fade);
+    gl_Position = projectionMatrix * mvPosition;
+  }
+`;
+
+const fragmentShader = `
+  precision mediump float;
+  varying vec3 vColor;
+  varying float vAlpha;
+
+  void main() {
+    // Instant discard for invisible points on lower half (zero fragment cost!)
+    if (vAlpha <= 0.015) discard;
+    
+    // Circular particle with smooth anti-aliased edge
+    vec2 coord = gl_PointCoord - vec2(0.5);
+    float distSq = dot(coord, coord);
+    if (distSq > 0.25) discard;
+    
+    float dist = sqrt(distSq);
+    float soft = smoothstep(0.5, 0.12, dist);
+    
+    gl_FragColor = vec4(vColor, vAlpha * soft);
+  }
+`;
+
 export default function HeroDottedGlobe({
   className = '',
-  totalPoints = 8800,
+  totalPoints = 22000, // Significantly increased density (22k points)
   radius = 200,
 }: HeroDottedGlobeProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -22,27 +73,6 @@ export default function HeroDottedGlobe({
 
     let animId: number;
     let isVisible = true;
-
-    // Helper: create smooth circular dot texture with soft falloff
-    const createDotTexture = () => {
-      const canvas = document.createElement('canvas');
-      canvas.width = 64;
-      canvas.height = 64;
-      const ctx = canvas.getContext('2d');
-      if (ctx) {
-        const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
-        grad.addColorStop(0, 'rgba(255, 255, 255, 1)');
-        grad.addColorStop(0.25, 'rgba(255, 255, 255, 0.9)');
-        grad.addColorStop(0.65, 'rgba(255, 255, 255, 0.35)');
-        grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
-        ctx.fillStyle = grad;
-        ctx.fillRect(0, 0, 64, 64);
-      }
-      const texture = new THREE.CanvasTexture(canvas);
-      return texture;
-    };
-
-    const dotTexture = createDotTexture();
 
     // Scene & Camera
     const scene = new THREE.Scene();
@@ -57,7 +87,7 @@ export default function HeroDottedGlobe({
       2000
     );
 
-    // Calculate camera distance so sphere fills ~94% of container width
+    // Camera distance calibrated so sphere diameter fills ~94% of container width
     const halfFovRad = (fov / 2) * (Math.PI / 180);
     const updateCameraDistance = (w: number, h: number) => {
       const aspect = w / h;
@@ -72,92 +102,93 @@ export default function HeroDottedGlobe({
 
     updateCameraDistance(initialWidth, initialHeight);
 
-    // WebGL Renderer
+    // Highly optimized WebGL Renderer (no depth/stencil buffer overhead, antialias via shader)
+    const pixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
     const renderer = new THREE.WebGLRenderer({
-      antialias: true,
+      antialias: false,
       alpha: true,
       powerPreference: 'high-performance',
+      depth: false,
+      stencil: false,
     });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setPixelRatio(pixelRatio);
     renderer.setSize(initialWidth, initialHeight);
     container.appendChild(renderer.domElement);
 
-    // Generate Golden Ratio (Fibonacci) Points
-    const phi = 0.618033988749895; // Golden ratio fractional part
+    // Generate Dense Golden Ratio (Fibonacci) Points
+    const phi = 0.618033988749895;
     const goldenAngle = 2 * Math.PI * phi;
 
-    const basePositions: number[] = [];
-    const highlightPositions: number[] = [];
+    const positions = new Float32Array(totalPoints * 3);
+    const colors = new Float32Array(totalPoints * 3);
+    const brightnesses = new Float32Array(totalPoints);
 
-    // Distribute points across sphere
-    const highlightRatio = 0.08; // ~8% highlight points
+    // Base color: Metallic Warm Gold (#E0A769)
+    const baseR = 0.878;
+    const baseG = 0.655;
+    const baseB = 0.412;
+
+    // Highlight color: Luminous Champagne Gold (#FFF8E7)
+    const highR = 1.0;
+    const highG = 0.972;
+    const highB = 0.906;
+
     for (let i = 0; i < totalPoints; i++) {
-      const y = 1 - (i / (totalPoints - 1)) * 2; // +1 at top to -1 at bottom
+      const y = 1 - (i / (totalPoints - 1)) * 2;
       const r = Math.sqrt(Math.max(0, 1 - y * y));
       const theta = goldenAngle * i;
       const x = Math.cos(theta) * r;
       const z = Math.sin(theta) * r;
 
-      const px = x * radius;
-      const py = y * radius;
-      const pz = z * radius;
+      const idx = i * 3;
+      positions[idx] = x * radius;
+      positions[idx + 1] = y * radius;
+      positions[idx + 2] = z * radius;
 
-      if (i % 12 === 0 && Math.random() < highlightRatio * 12) {
-        highlightPositions.push(px, py, pz);
+      // ~9% highlight points distributed systematically
+      const isHighlight = i % 11 === 0;
+
+      if (isHighlight) {
+        colors[idx] = highR;
+        colors[idx + 1] = highG;
+        colors[idx + 2] = highB;
+        brightnesses[i] = 0.98;
       } else {
-        basePositions.push(px, py, pz);
+        // Subtle natural variation in base dots
+        const shade = 0.82 + (i % 5) * 0.04;
+        colors[idx] = baseR * shade;
+        colors[idx + 1] = baseG * shade;
+        colors[idx + 2] = baseB * shade;
+        brightnesses[i] = shade;
       }
     }
 
-    const group = new THREE.Group();
-    scene.add(group);
-
-    // Initial tilt to show the globe's curvature aesthetically
-    group.rotation.x = 0.28;
-    group.rotation.z = -0.12;
-
-    // Base Points Mesh (Warm Metallic Gold: #E0A769)
-    const baseGeo = new THREE.BufferGeometry();
-    baseGeo.setAttribute(
-      'position',
-      new THREE.Float32BufferAttribute(basePositions, 3)
-    );
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('aColor', new THREE.BufferAttribute(colors, 3));
+    geometry.setAttribute('aBrightness', new THREE.BufferAttribute(brightnesses, 1));
 
     const isMobile = window.innerWidth < 768;
-    const baseMaterial = new THREE.PointsMaterial({
-      color: new THREE.Color('#E0A769'),
-      size: isMobile ? 3.0 : 2.4,
-      map: dotTexture,
+    const shaderMaterial = new THREE.ShaderMaterial({
+      uniforms: {
+        uPixelRatio: { value: pixelRatio },
+        uPointSize: { value: isMobile ? 2.2 : 1.75 },
+      },
+      vertexShader,
+      fragmentShader,
       transparent: true,
-      opacity: 0.88,
       depthWrite: false,
       blending: THREE.AdditiveBlending,
     });
 
-    const baseMesh = new THREE.Points(baseGeo, baseMaterial);
-    group.add(baseMesh);
+    const pointsMesh = new THREE.Points(geometry, shaderMaterial);
+    scene.add(pointsMesh);
 
-    // Shimmer Highlight Points (Bright White-Gold: #FFF8E7)
-    const highlightGeo = new THREE.BufferGeometry();
-    highlightGeo.setAttribute(
-      'position',
-      new THREE.Float32BufferAttribute(highlightPositions, 3)
-    );
+    // Initial aesthetic tilt of the globe
+    pointsMesh.rotation.x = 0.28;
+    pointsMesh.rotation.z = -0.12;
 
-    const highlightMaterial = new THREE.PointsMaterial({
-      color: new THREE.Color('#FFF8E7'),
-      size: isMobile ? 3.8 : 3.2,
-      map: dotTexture,
-      transparent: true,
-      opacity: 0.95,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending,
-    });
-
-    const highlightMesh = new THREE.Points(highlightGeo, highlightMaterial);
-    group.add(highlightMesh);
-
-    // Interactive pointer parallax tracking
+    // Interactive pointer parallax (subtle and lag-free)
     let targetTiltX = 0;
     let targetTiltY = 0;
     let currentTiltX = 0;
@@ -166,8 +197,8 @@ export default function HeroDottedGlobe({
     const onPointerMove = (e: PointerEvent) => {
       const nx = (e.clientX / window.innerWidth) * 2 - 1;
       const ny = (e.clientY / window.innerHeight) * 2 - 1;
-      targetTiltX = ny * 0.12;
-      targetTiltY = nx * 0.18;
+      targetTiltX = ny * 0.09;
+      targetTiltY = nx * 0.14;
     };
 
     window.addEventListener('pointermove', onPointerMove, { passive: true });
@@ -177,14 +208,16 @@ export default function HeroDottedGlobe({
       if (!container || !renderer) return;
       const w = container.clientWidth || window.innerWidth;
       const h = container.clientHeight || w;
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      const currentRatio = Math.min(window.devicePixelRatio || 1, 1.5);
+      renderer.setPixelRatio(currentRatio);
       renderer.setSize(w, h);
+      shaderMaterial.uniforms.uPixelRatio.value = currentRatio;
       updateCameraDistance(w, h);
     };
 
     window.addEventListener('resize', handleResize);
 
-    // Pause rendering when hero is out of viewport
+    // Pause rendering when hero is scrolled out of viewport
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -195,7 +228,7 @@ export default function HeroDottedGlobe({
     );
     observer.observe(container);
 
-    // Animation Loop
+    // Animation Loop with delta timing for smooth 60-120fps across all screens
     let lastTime = performance.now();
     const animate = (time: number) => {
       animId = requestAnimationFrame(animate);
@@ -205,20 +238,15 @@ export default function HeroDottedGlobe({
       const delta = Math.min((time - lastTime) / 1000, 0.1);
       lastTime = time;
 
-      // Base rotation
-      baseMesh.rotation.y += 0.0018 * 60 * delta;
-      baseMesh.rotation.x += 0.0006 * 60 * delta;
+      // Continuous smooth orbital rotation
+      pointsMesh.rotation.y += 0.0016 * 60 * delta;
 
-      // Highlight subtle counter-shimmer rotation
-      highlightMesh.rotation.y += 0.0022 * 60 * delta;
-      highlightMesh.rotation.x += 0.0007 * 60 * delta;
+      // Damped pointer parallax
+      currentTiltX += (targetTiltX - currentTiltX) * 0.05;
+      currentTiltY += (targetTiltY - currentTiltY) * 0.05;
 
-      // Smooth pointer parallax damping
-      currentTiltX += (targetTiltX - currentTiltX) * 0.04;
-      currentTiltY += (targetTiltY - currentTiltY) * 0.04;
-
-      group.rotation.x = 0.28 + currentTiltX;
-      group.rotation.y = currentTiltY;
+      pointsMesh.rotation.x = 0.28 + currentTiltX;
+      pointsMesh.rotation.z = -0.12 + currentTiltY;
 
       renderer.render(scene, camera);
     };
@@ -236,11 +264,8 @@ export default function HeroDottedGlobe({
         container.removeChild(renderer.domElement);
       }
 
-      baseGeo.dispose();
-      baseMaterial.dispose();
-      highlightGeo.dispose();
-      highlightMaterial.dispose();
-      dotTexture.dispose();
+      geometry.dispose();
+      shaderMaterial.dispose();
       renderer.dispose();
     };
   }, [totalPoints, radius]);
@@ -253,6 +278,7 @@ export default function HeroDottedGlobe({
         width: '100%',
         height: '100%',
         display: 'block',
+        willChange: 'transform',
       }}
     />
   );
