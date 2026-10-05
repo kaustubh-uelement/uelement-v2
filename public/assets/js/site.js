@@ -32,6 +32,7 @@
       var item = b.closest(".nav__item");
       if (item) {
         item.addEventListener("mouseenter", function () {
+          if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
           if (window.innerWidth >= 1024) {
             closeAll(b);
             b.setAttribute("aria-expanded", "true");
@@ -58,12 +59,49 @@
         if (p) p.hidden = open;
       });
     });
-    document.addEventListener("click", function (ev) {
-      if (!ev.target.closest || !ev.target.closest(".nav__item")) closeAll(null);
+    if (!document._headerBound) {
+      document._headerBound = true;
+      document.addEventListener("click", function (ev) {
+        if (!ev.target.closest || !ev.target.closest(".nav__item")) closeAll(null);
+      });
+      document.addEventListener("keydown", function (ev) {
+        if (ev.key === "Escape") { closeAll(null); closeDrawer(); }
+      });
+    }
+
+    var megaLinks = Array.prototype.slice.call(document.querySelectorAll(".mega a"));
+    megaLinks.forEach(function (lnk) {
+      if (lnk._boundClose) return;
+      lnk._boundClose = true;
+      lnk.addEventListener("click", function () {
+        closeAll(null);
+      });
     });
-    document.addEventListener("keydown", function (ev) {
-      if (ev.key === "Escape") { closeAll(null); closeDrawer(); }
-    });
+
+    var btn = document.querySelector(".menu-btn");
+    var drawer = document.getElementById("drawer");
+    var ICON_OPEN = '<svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>';
+    var ICON_CLOSE = '<svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 4l12 12M16 4 4 16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>';
+    function closeDrawer() {
+      if (!btn || !drawer) return;
+      drawer.hidden = true;
+      btn.setAttribute("aria-expanded", "false");
+      btn.setAttribute("aria-label", "Open menu");
+      btn.innerHTML = ICON_OPEN;
+    }
+    if (btn && drawer && !btn._bound) {
+      btn._bound = true;
+      btn.addEventListener("click", function () {
+        var open = btn.getAttribute("aria-expanded") === "true";
+        if (open) { closeDrawer(); return; }
+        drawer.hidden = false;
+        btn.setAttribute("aria-expanded", "true");
+        btn.setAttribute("aria-label", "Close menu");
+        btn.innerHTML = ICON_CLOSE;
+      });
+      window.addEventListener("resize", function () { if (window.innerWidth > 1040) closeDrawer(); });
+    }
+  }
 
   /* ---------------------------------------------------------------- platform tabs (SentinelOne style) */
   function initPlatformTabs() {
@@ -94,31 +132,6 @@
         activate();
       });
     });
-  }
-
-    var btn = document.querySelector(".menu-btn");
-    var drawer = document.getElementById("drawer");
-    var ICON_OPEN = '<svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>';
-    var ICON_CLOSE = '<svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 4l12 12M16 4 4 16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>';
-    function closeDrawer() {
-      if (!btn || !drawer) return;
-      drawer.hidden = true;
-      btn.setAttribute("aria-expanded", "false");
-      btn.setAttribute("aria-label", "Open menu");
-      btn.innerHTML = ICON_OPEN;
-    }
-    if (btn && drawer && !btn._bound) {
-      btn._bound = true;
-      btn.addEventListener("click", function () {
-        var open = btn.getAttribute("aria-expanded") === "true";
-        if (open) { closeDrawer(); return; }
-        drawer.hidden = false;
-        btn.setAttribute("aria-expanded", "true");
-        btn.setAttribute("aria-label", "Close menu");
-        btn.innerHTML = ICON_CLOSE;
-      });
-      window.addEventListener("resize", function () { if (window.innerWidth > 1040) closeDrawer(); });
-    }
   }
 
   /* ---------------------------------------------------------------- line art */

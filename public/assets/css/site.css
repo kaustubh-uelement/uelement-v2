@@ -309,12 +309,19 @@ button[type="submit"] {
    ========================================================================== */
 .mega--platform {
   width: min(1080px, calc(100vw - 32px)) !important;
-  display: flex !important;
   flex-direction: column !important;
   padding: 24px 28px 20px !important;
   grid-template-columns: none !important;
   left: 50% !important;
   transform: translateX(-50%) !important;
+}
+
+.mega--platform[hidden] {
+  display: none !important;
+}
+
+.mega--platform:not([hidden]) {
+  display: flex !important;
 }
 
 .platform-head {
@@ -381,10 +388,17 @@ button[type="submit"] {
 }
 
 .platform-panel {
-  display: flex;
   flex-direction: column;
   gap: 16px;
   animation: platformPanelFade 0.18s ease;
+}
+
+.platform-panel[hidden] {
+  display: none !important;
+}
+
+.platform-panel:not([hidden]) {
+  display: flex !important;
 }
 
 @keyframes platformPanelFade {
