@@ -29,11 +29,18 @@
   --enamel:#0D1A34; --enamel-2:#132548; --enamel-ink:#0E1B36;
   /* metal */
   --gold-ink:#8A6522; --gold-ink-press:#6E4F18; --gold-on-navy:#DDBB6E;
-  --gold-metal:linear-gradient(118deg,#7A5A1E 0%,#B98E3A 22%,#F1D894 42%,#C49A45 58%,#E9CC80 76%,#8F6A28 100%);
+  --metal-gold:linear-gradient(105deg,#c88a3e 0%,#e0a769 28%,#f5ead8 70%,#e0a769 90%,#c88a3e 100%);
+  --gold-metal:linear-gradient(105deg,#c88a3e 0%,#e0a769 28%,#f5ead8 70%,#e0a769 90%,#c88a3e 100%);
   --gold-button:linear-gradient(118deg,#C99D48 0%,#F2DA98 38%,#D6B163 62%,#EFD58C 82%,#C8A050 100%);
   --gold-rule:linear-gradient(90deg,#9A7428 0%,#E9CD84 45%,#B48632 70%,#F0D898 100%);
   --shadow-paper:0 1px 2px rgba(13,26,52,.06),0 22px 48px -22px rgba(13,26,52,.28);
+  --font-display:var(--font-reddit-sans-loaded), "Reddit Sans", -apple-system, "Segoe UI", sans-serif;
+  --font-hero:var(--font-reddit-sans-loaded), "Reddit Sans", -apple-system, "Segoe UI", sans-serif;
+  --font-heading:var(--font-montserrat-loaded), "Montserrat", -apple-system, "Segoe UI", sans-serif;
+  --font-body:var(--font-noto-sans-loaded), "Noto Sans", -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-serif:var(--font-dm-serif-loaded), "DM Serif Text", Georgia, "Times New Roman", serif;
+  --font-mono:var(--font-roboto-mono-loaded), "Roboto Mono", ui-monospace, monospace;
+  --font-deva:"Noto Sans Devanagari", "Noto Sans", sans-serif;
 
   /* semantic tokens the whole site already uses */
   --bg:var(--creme); --surface:var(--creme-card); --surface-2:#F0E7D7;
@@ -44,7 +51,6 @@
   --highlight:#B8860B; --paper:var(--creme);
   --line:rgba(13,26,52,.11); --line-2:rgba(13,26,52,.2);
   --focus:#B8862F;
-  --font-body:var(--font-noto-sans-loaded), "Noto Sans", -apple-system, "Segoe UI", Roboto, sans-serif;
   --radius:3px; --radius-sm:2px;
   --section:clamp(80px,10vw,152px);
 }
@@ -61,33 +67,70 @@
 .hero--earth{
   --text:#E4E8EB; --text-strong:#FFFFFF; --text-2:#A4B5C4; --text-3:#8D8D8D;
   --accent:#E0A769; --accent-line:#e0a7696b; --line:#ffffff17; --line-2:#ffffff2e;
-  font-family:"Noto Sans",-apple-system,"Segoe UI",Roboto,sans-serif; color:var(--text);
+  font-family:var(--font-body); color:var(--text);
 }
-.hero--earth .display{font-family:"DM Serif Text",Georgia,serif;font-weight:400;letter-spacing:-.012em;line-height:1.04}
-.hero--earth .display em{color:#E0A769;font-style:italic;background:none;-webkit-text-fill-color:currentColor}
-.hero--earth .lede{color:#CDD5DB;font-family:"Noto Sans",-apple-system,sans-serif}
-.hero--earth .eyebrow{background:none;-webkit-text-fill-color:currentColor}
+.hero--earth .display{
+  font-family:var(--font-hero);
+  font-weight:800;
+  letter-spacing:-0.035em;
+  line-height:1.06;
+  color:#FFFFFF;
+}
+.hero--earth .display em,
+.hero--earth .display .au{
+  font-style:normal;
+  font-weight:800;
+  background:var(--metal-gold);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  -webkit-text-fill-color:transparent;
+  padding-right:.02em;
+}
+.hero--earth .lede{
+  color:#CDD5DB;
+  font-family:var(--font-body);
+  font-size:clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+  line-height:1.7;
+  font-weight:400;
+  max-width:68ch;
+}
+.hero--earth .lede em,
+.hero--earth .lede span.italic,
+.hero--earth .lede i{
+  font-style:italic;
+  font-weight:500;
+  color:#FFFFFF;
+}
+.hero--earth .eyebrow{
+  background:none;
+  -webkit-text-fill-color:currentColor;
+  color:var(--accent);
+  letter-spacing:0.12em;
+  font-weight:600;
+}
 
 /* ---------- base ---------- */
-body{background:var(--bg);color:var(--text);font-size:1.0625rem;line-height:1.7}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:1.0625rem;line-height:1.7}
 a{color:var(--accent)}
 a:hover{color:var(--text-strong)}
 ::selection{background:#E9CD84;color:var(--enamel-ink)}
 .skip{background:var(--enamel);color:#fff;border-radius:9999px !important}
 
 /* ---------- type ---------- */
-.eyebrow{color:var(--accent);letter-spacing:.18em;font-weight:700;font-size:.72rem}
-.display{font-family:var(--font-heading);font-weight:700;letter-spacing:-.035em;line-height:1}
-.h-section{font-family:var(--font-heading);font-weight:700;letter-spacing:-.03em;line-height:1.04;font-size:clamp(2.1rem,1.4rem + 2.6vw,3.6rem)}
-.display em,.h-section em{font-style:normal;font-weight:700;background:var(--gold-metal);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding-right:.04em}
-.h-card{font-family:var(--font-heading);font-weight:700;letter-spacing:-.01em;color:var(--text-strong)}
-.h-sub{font-family:var(--font-heading);font-weight:700;letter-spacing:-.015em}
-.lede{color:var(--text);font-family:var(--font-body);font-size:clamp(1.125rem,1.03rem + .4vw,1.3125rem);line-height:1.6}
-.body{font-family:var(--font-body);line-height:1.75}
+.eyebrow{font-family:var(--font-heading);color:var(--accent);letter-spacing:.18em;font-weight:700;font-size:.72rem;text-transform:uppercase}
+.display{font-family:var(--font-hero);font-weight:800;letter-spacing:-.035em;line-height:1.06}
+.h-section{font-family:var(--font-heading);font-weight:700;letter-spacing:-.03em;line-height:1.08;font-size:clamp(2.1rem,1.4rem + 2.6vw,3.6rem)}
+.display em,.display .au,.h-section em,.h-section .au{font-style:normal;font-weight:800;background:var(--metal-gold);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding-right:.03em}
+.h-card{font-family:var(--font-heading);font-weight:700;letter-spacing:-.01em;color:var(--text-strong);line-height:1.3}
+.h-sub{font-family:var(--font-heading);font-weight:700;letter-spacing:-.015em;line-height:1.25}
+.lede{color:var(--text-2);font-family:var(--font-body);font-size:clamp(1.0625rem,1rem + .35vw,1.25rem);line-height:1.7;font-weight:400}
+.lede em,.lede span.italic,.lede i{font-style:italic;font-weight:500}
+.body{font-family:var(--font-body);font-weight:400;line-height:1.75}
 .small{font-family:var(--font-body);color:var(--text-2);font-size:1rem;line-height:1.7}
-.tiny{color:var(--text-3)}
-.code{color:var(--text-3)}
-.deva{font-family:var(--font-deva)}
+.tiny{color:var(--text-3);font-family:var(--font-body)}
+.code{font-family:var(--font-mono);color:var(--text-3)}
+.deva{font-family:var(--font-deva),var(--font-heading);letter-spacing:.08em}
 
 /* ---------- buttons and links ---------- */
 .btn{border-radius:9999px !important;text-transform:uppercase;letter-spacing:.09em;font-size:.75rem;font-weight:700;min-height:50px;padding:0 26px}
@@ -216,7 +259,7 @@ input[type=range]::-moz-range-thumb{background:#FFFCF6;border-color:#B48632}
 
 /* ---------- forms: filled paper fields ---------- */
 .field label{color:var(--text-strong)}
-.field input,.field select,.field textarea{background:var(--creme-input);border:1px solid transparent;border-radius:2px;color:var(--text-strong);font-family:var(--font-serif)}
+.field input,.field select,.field textarea{background:var(--creme-input);border:1px solid transparent;border-radius:2px;color:var(--text-strong);font-family:var(--font-body)}
 .field input::placeholder,.field textarea::placeholder{color:#8B8FA0;font-style:italic}
 .field input:focus,.field select:focus,.field textarea:focus{background:#FFFCF6;border-color:#B48632;box-shadow:0 0 0 3px rgba(196,154,69,.2)}
 .field .err{color:#9A3412}
@@ -228,9 +271,9 @@ input[type=range]::-moz-range-thumb{background:#FFFCF6;border-color:#B48632}
 .footer{background:radial-gradient(120% 120% at 100% 0%,#14284f 0%,var(--enamel) 60%);border-top:0;position:relative;padding-block:88px 40px}
 .footer:before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:var(--gold-rule)}
 .footer>.wrap:before{content:"We believe";display:block;font-family:var(--font-heading);font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-on-navy);margin-bottom:14px}
-.footer__grid:before{content:"No Plan B. No Planet B.";grid-column:1/-1;text-wrap:balance;font-family:var(--font-heading);font-weight:700;letter-spacing:-.03em;line-height:1.05;font-size:clamp(2rem,1.4rem + 2.6vw,3.4rem);background:var(--gold-metal);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding-bottom:32px;margin-bottom:8px;border-bottom:1px solid rgba(255,255,255,.12)}
+.footer__grid:before{content:"सशक्त · सक्षम · सुरक्षित";grid-column:1/-1;text-wrap:balance;font-family:var(--font-deva),var(--font-hero);font-weight:700;letter-spacing:.06em;line-height:1.15;font-size:clamp(2rem,1.4rem + 2.6vw,3.4rem);background:var(--metal-gold);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding-bottom:32px;margin-bottom:8px;border-bottom:1px solid rgba(255,255,255,.12)}
 .footer h2{color:var(--gold-on-navy);letter-spacing:.16em}
-.footer ul a{color:#C4CCDA;font-family:var(--font-serif)}
+.footer ul a{color:#C4CCDA;font-family:var(--font-body)}
 .footer ul a:hover{color:#fff}
 .footer .small,.footer address{color:#B4BED0}
 .footer__base{border-top-color:rgba(255,255,255,.12)}
