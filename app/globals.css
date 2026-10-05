@@ -204,7 +204,17 @@ mark,
 .mega{
   --bg:var(--creme); --surface:var(--creme-card); --text:#2B3452; --text-strong:var(--enamel-ink); --text-2:#4E5774; --text-3:#6E7590;
   --accent:var(--gold-ink); --accent-line:rgba(138,101,34,.42); --line:rgba(13,26,52,.11); --line-2:rgba(13,26,52,.2);
-  background:var(--creme-card);border:0;border-radius:3px;box-shadow:0 30px 70px -20px rgba(4,10,25,.55);color:var(--text)
+  background:var(--creme-card);border:0;border-radius:3px;box-shadow:0 30px 70px -20px rgba(4,10,25,.55);color:var(--text);
+  opacity:0;
+  transform:translateY(-8px) scale(0.985);
+  pointer-events:none;
+  transition:opacity 0.22s cubic-bezier(0.16,1,0.3,1), transform 0.22s cubic-bezier(0.16,1,0.3,1);
+  will-change:opacity,transform;
+}
+.mega.is-open{
+  opacity:1;
+  transform:translateY(0) scale(1);
+  pointer-events:auto;
 }
 .mega:before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:var(--gold-rule)}
 .mega__link:hover{background:rgba(184,134,47,.1)}
@@ -269,8 +279,13 @@ mark,
 .steps>li:last-child:before{background:repeating-linear-gradient(90deg,#B48632 0 6px,transparent 6px 12px)}
 .cap{border-top-color:var(--line-2)}
 .spec dd{color:var(--text-strong)}
-.faq summary{font-size:1.125rem}
-.faq summary .plus{border-radius:2px;color:var(--accent)}
+.faq details{transition:background-color .2s ease}
+.faq summary{font-size:1.125rem;transition:color .2s cubic-bezier(0.16,1,0.3,1)}
+.faq summary:hover{color:var(--accent)}
+.faq summary .plus{border-radius:2px;color:var(--accent);transition:transform .28s cubic-bezier(0.16,1,0.3,1),border-color .2s ease,background-color .2s ease !important}
+.faq details[open] summary .plus{transform:rotate(45deg);background:var(--accent-soft)}
+.faq details>div{animation:faqOpen .26s cubic-bezier(0.16,1,0.3,1)}
+@keyframes faqOpen{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
 
 /* ---------- long-form ---------- */
 .prose{font-family:var(--font-serif);font-size:1.125rem;line-height:1.8}
@@ -554,12 +569,23 @@ button[type="submit"] {
   position: fixed !important;
   top: 72px !important;
   left: 50% !important;
-  transform: translateX(-50%) !important;
+  transform: translateX(-50%) translateY(-8px) scale(0.985) !important;
   width: min(1080px, calc(100vw - 32px)) !important;
   flex-direction: column !important;
   padding: 24px 28px 20px !important;
   grid-template-columns: none !important;
   z-index: 100 !important;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.24s cubic-bezier(0.16, 1, 0.3, 1), transform 0.24s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  will-change: opacity, transform;
+}
+
+.mega--platform.is-open,
+.mega--solutions.is-open {
+  opacity: 1 !important;
+  transform: translateX(-50%) translateY(0) scale(1) !important;
+  pointer-events: auto !important;
 }
 
 .mega--platform[hidden],
@@ -638,7 +664,7 @@ button[type="submit"] {
 .platform-panel {
   flex-direction: column;
   gap: 16px;
-  animation: platformPanelFade 0.18s ease;
+  animation: platformPanelFade 0.24s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .platform-panel[hidden] {
@@ -650,7 +676,7 @@ button[type="submit"] {
 }
 
 @keyframes platformPanelFade {
-  from { opacity: 0; transform: translateY(4px); }
+  from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
@@ -709,13 +735,17 @@ button[type="submit"] {
   background: transparent;
   text-decoration: none;
   color: inherit;
-  transition: all 0.16s ease;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .platform-card:hover {
   background: rgba(196, 154, 69, 0.08);
   border-color: rgba(196, 154, 69, 0.25);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -6px rgba(13, 26, 52, 0.08);
 }
 
 .platform-card__meta {

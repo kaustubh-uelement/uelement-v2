@@ -17,36 +17,57 @@
   function initHeader() {
     var triggers = Array.prototype.slice.call(document.querySelectorAll(".nav__trigger"));
     var closeTimer = null;
+
+    function openMenu(b, p) {
+      if (!b || !p) return;
+      if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
+      b.setAttribute("aria-expanded", "true");
+      p.hidden = false;
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          p.classList.add("is-open");
+        });
+      });
+    }
+
+    function closeMenu(b, p) {
+      if (!b || !p) return;
+      b.setAttribute("aria-expanded", "false");
+      p.classList.remove("is-open");
+      setTimeout(function () {
+        if (b.getAttribute("aria-expanded") !== "true") {
+          p.hidden = true;
+        }
+      }, 220);
+    }
+
     function closeAll(except) {
       if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
       triggers.forEach(function (b) {
         if (b === except) return;
-        b.setAttribute("aria-expanded", "false");
         var p = document.getElementById(b.getAttribute("aria-controls"));
-        if (p) p.hidden = true;
+        if (p) closeMenu(b, p);
       });
     }
+
     triggers.forEach(function (b) {
       if (b._bound) return;
       b._bound = true;
       var item = b.closest(".nav__item");
-      if (item) {
+      var p = document.getElementById(b.getAttribute("aria-controls"));
+      if (item && p) {
         item.addEventListener("mouseenter", function () {
           if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
           if (window.innerWidth >= 1024) {
             closeAll(b);
-            b.setAttribute("aria-expanded", "true");
-            var p = document.getElementById(b.getAttribute("aria-controls"));
-            if (p) p.hidden = false;
+            openMenu(b, p);
           }
         });
         item.addEventListener("mouseleave", function () {
           if (window.innerWidth >= 1024) {
             closeTimer = setTimeout(function () {
-              b.setAttribute("aria-expanded", "false");
-              var p = document.getElementById(b.getAttribute("aria-controls"));
-              if (p) p.hidden = true;
-            }, 120);
+              closeMenu(b, p);
+            }, 140);
           }
         });
       }
@@ -54,9 +75,11 @@
         ev.stopPropagation();
         var open = b.getAttribute("aria-expanded") === "true";
         closeAll(b);
-        b.setAttribute("aria-expanded", open ? "false" : "true");
-        var p = document.getElementById(b.getAttribute("aria-controls"));
-        if (p) p.hidden = open;
+        if (open) {
+          closeMenu(b, p);
+        } else {
+          openMenu(b, p);
+        }
       });
     });
     if (!document._headerBound) {
@@ -339,10 +362,85 @@
     });
   }
 
+  /* ---------------------------------------------------------------- smooth scroll for hash links */
+  function initSmoothScroll() {
+    function getTarget(hash) {
+      if (!hash || hash === "#") return null;
+      try {
+        var id = decodeURIComponent(hash.replace(/^#/, ""));
+        return document.getElementById(id) || document.querySelector(hash);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function smoothScrollTo(element, pushHash) {
+      if (!element) return;
+      var header = document.querySelector(".header");
+      var headerHeight = header ? header.offsetHeight : 72;
+      var elementPosition = element.getBoundingClientRect().top;
+      var offsetPosition = elementPosition + window.pageYOffset - (headerHeight + 20);
+
+      window.scrollTo({
+        top: Math.max(0, offsetPosition),
+        behavior: "smooth"
+      });
+
+      if (pushHash && element.id && history.pushState) {
+        history.pushState(null, "", "#" + element.id);
+      }
+    }
+
+    // Intercept clicks on anchor tags pointing to hash
+    document.addEventListener("click", function (e) {
+      var link = e.target.closest("a");
+      if (!link) return;
+      var href = link.getAttribute("href");
+      if (!href) return;
+
+      var currentPath = window.location.pathname.replace(/\/$/, "");
+      var targetHash = "";
+
+      if (href.startsWith("#")) {
+        targetHash = href;
+      } else {
+        try {
+          var url = new URL(link.href, window.location.origin);
+          var linkPath = url.pathname.replace(/\/$/, "");
+          if (url.hash && linkPath === currentPath) {
+            targetHash = url.hash;
+          }
+        } catch (err) {}
+      }
+
+      if (targetHash) {
+        var targetEl = getTarget(targetHash);
+        if (targetEl) {
+          e.preventDefault();
+          smoothScrollTo(targetEl, true);
+        }
+      }
+    });
+
+    // Handle initial redirect or page load with hash in URL
+    if (window.location.hash) {
+      var initialEl = getTarget(window.location.hash);
+      if (initialEl) {
+        if ("scrollRestoration" in history) {
+          history.scrollRestoration = "manual";
+        }
+        window.scrollTo(0, 0);
+        setTimeout(function () {
+          smoothScrollTo(initialEl, false);
+        }, 180);
+      }
+    }
+  }
+
   window.initSite = start;
   function start() {
     document.documentElement.classList.add("js");
-    initHeader(); initPlatformTabs(); initArt(); initExposure(); initPicker(); initForm();
+    initHeader(); initPlatformTabs(); initArt(); initExposure(); initPicker(); initForm(); initSmoothScroll();
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
   else start();
