@@ -235,6 +235,10 @@
     function update() {
       var h = Array.prototype.filter.call(boxes, function (b) { return b.checked; }).length;
       var need = Math.max(1, h);
+      Array.prototype.forEach.call(boxes, function (b) {
+        var lbl = b.closest(".pick");
+        if (lbl) lbl.classList.toggle("is-checked", b.checked);
+      });
       var opts = PACKAGES.map(function (p) {
         var extra = Math.max(0, need - p.modules);
         return { p: p, extra: extra, total: p.build + extra * EXTRA_MODULE };

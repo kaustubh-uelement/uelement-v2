@@ -251,12 +251,36 @@ mark,
 .callout{border:0;border-left:3px solid #C49A45;border-radius:0;background:rgba(196,154,69,.1)}
 .formula{border-block:0;background:var(--gold-rule) top/100% 1px no-repeat,var(--gold-rule) bottom/100% 1px no-repeat}
 .formula__eq{font-family:var(--font-heading);font-weight:700;font-style:normal;background:var(--gold-metal);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
-.table-wrap{border:0;border-radius:3px;background:var(--creme-card);box-shadow:var(--shadow-paper)}
+.table-wrap{
+  border:1px solid rgba(13,26,52,.12);
+  border-radius:3px;
+  background:var(--creme-card);
+  box-shadow:var(--shadow-paper);
+  --text:#2B3452;
+  --text-strong:var(--enamel-ink);
+  --text-2:#4E5774;
+  --text-3:#6E7590;
+  color:var(--text);
+}
 table.data th{background:var(--enamel);color:#E4E8EF}
 table.data td:first-child{color:var(--accent)}
 
 /* ---------- interactive tools ---------- */
-.calc{background:var(--creme-card);border:0;border-radius:3px;box-shadow:var(--shadow-paper)}
+.calc{
+  background:var(--creme-card);
+  border:1px solid rgba(13,26,52,.12);
+  border-radius:3px;
+  box-shadow:var(--shadow-paper);
+  --text:#2B3452;
+  --text-strong:var(--enamel-ink);
+  --text-2:#4E5774;
+  --text-3:#6E7590;
+  --line:rgba(13,26,52,.12);
+  --line-2:rgba(13,26,52,.2);
+  --accent:var(--gold-ink);
+  color:var(--text);
+}
+.calc label,.calc dt,.calc dd{color:var(--text-strong)}
 .slider label{color:var(--text-strong)}
 input[type=range]::-webkit-slider-runnable-track{background:linear-gradient(90deg,#B48632 var(--fill,50%),#D8CCB4 var(--fill,50%))}
 input[type=range]::-moz-range-track{background:#D8CCB4}
@@ -267,21 +291,137 @@ input[type=range]::-moz-range-thumb{background:#FFFCF6;border-color:#B48632}
 .verdict{border-radius:2px}
 .verdict--bad{background:rgba(184,134,11,.1);border-color:rgba(184,134,11,.55)}
 .verdict--ok{background:rgba(13,26,52,.05);border-color:var(--line-2)}
-.pick{border-radius:2px;background:#FFFCF6}
-.pick input{accent-color:#B48632}
-.price-card{background:var(--creme-card);border:0;border-radius:3px;box-shadow:var(--shadow-paper)}
-.price-card[data-best=true]{background:var(--enamel);box-shadow:0 30px 60px -24px rgba(13,26,52,.5);
-  --text:#D9DEE8; --text-strong:#fff; --text-2:#B4BED0; --text-3:#8D97AD; --line:rgba(255,255,255,.12); --accent:var(--gold-on-navy);color:var(--text)}
-.price-card[data-best=true] .h-card,.price-card[data-best=true] .price{color:#fff}
+
+/* Nexus Module Picker Boxes */
+.pick{
+  border-radius:3px;
+  background:#FFFCF6 !important;
+  border:1px solid rgba(13,26,52,.15) !important;
+  box-shadow:0 1px 3px rgba(13,26,52,.07);
+  cursor:pointer;
+  align-items:flex-start;
+  gap:12px;
+  min-height:44px;
+  padding:14px 16px;
+  transition:border-color .15s,background-color .15s,box-shadow .15s;
+  display:flex;
+  --text:#2B3452;
+  --text-strong:#0E1B36;
+  --text-2:#4E5774;
+  --text-3:#6E7590;
+  color:#2B3452 !important;
+}
+.pick:hover{
+  border-color:#B48632 !important;
+  box-shadow:0 2px 8px rgba(13,26,52,.12);
+}
+.pick input{
+  accent-color:#B48632;
+  flex-shrink:0;
+  width:16px;
+  height:16px;
+  margin-top:4px;
+}
+.pick .h-card{
+  color:#0E1B36 !important;
+  font-weight:600;
+}
+.pick .tiny{
+  color:#6E7590 !important;
+}
+
+/* Checked state for module picker boxes */
+.pick:has(input:checked),.pick.is-checked{
+  background:#FFF6E5 !important;
+  border-color:#B48632 !important;
+  box-shadow:0 0 0 1px #B48632,0 2px 8px rgba(180,134,50,.18) !important;
+  --text:#2B3452;
+  --text-strong:#0E1B36;
+  --text-2:#4E5774;
+  --text-3:#8A6522;
+  color:#2B3452 !important;
+}
+.pick:has(input:checked) .h-card,.pick.is-checked .h-card{
+  color:#0E1B36 !important;
+  font-weight:700;
+}
+.pick:has(input:checked) .tiny,.pick.is-checked .tiny{
+  color:#8A6522 !important;
+  font-weight:600;
+}
+
+/* Price Cards (Default / Unselected) */
+.price-card{
+  background:var(--creme-card) !important;
+  border:1px solid rgba(13,26,52,.12) !important;
+  border-radius:3px;
+  box-shadow:var(--shadow-paper);
+  flex-direction:column;
+  gap:12px;
+  min-width:0;
+  padding:24px;
+  display:flex;
+  --text:#2B3452;
+  --text-strong:var(--enamel-ink);
+  --text-2:#4E5774;
+  --text-3:#6E7590;
+  --line:rgba(13,26,52,.12);
+  --line-2:rgba(13,26,52,.2);
+  --accent:var(--gold-ink);
+  color:var(--text) !important;
+}
+.price-card .h-card,
+.price-card .price,
+.price-card strong{
+  color:var(--enamel-ink) !important;
+}
+.price-card .tiny{
+  color:var(--text-3) !important;
+}
+.price-card .small{
+  color:var(--text-2) !important;
+}
+.price-card .hr{
+  background:rgba(13,26,52,.12) !important;
+}
+
+/* Price Cards (Best Fit / Selected) */
+.price-card[data-best=true]{
+  background:var(--enamel) !important;
+  border-color:var(--gold-on-navy) !important;
+  box-shadow:0 30px 60px -24px rgba(13,26,52,.5),0 0 0 1px var(--gold-on-navy) !important;
+  --text:#D9DEE8;
+  --text-strong:#FFFFFF;
+  --text-2:#B4BED0;
+  --text-3:#8D97AD;
+  --line:rgba(255,255,255,.12);
+  --line-2:rgba(255,255,255,.2);
+  --accent:var(--gold-on-navy);
+  color:var(--text) !important;
+}
+.price-card[data-best=true] .h-card,
+.price-card[data-best=true] .price,
+.price-card[data-best=true] strong{
+  color:#FFFFFF !important;
+}
+.price-card[data-best=true] .tiny{
+  color:#8D97AD !important;
+}
+.price-card[data-best=true] .small{
+  color:#B4BED0 !important;
+}
+.price-card[data-best=true] .hr{
+  background:rgba(255,255,255,.12) !important;
+}
 .tl__label{color:var(--text-3)}
 .tl__mark span{color:var(--text)}
 .tl__mark>span:last-child{background:var(--bg);box-shadow:-4px 0 0 var(--bg)}
 
 /* ---------- forms: filled paper fields ---------- */
 .field label{color:var(--text-strong)}
-.field input,.field select,.field textarea{background:var(--creme-input);border:1px solid transparent;border-radius:2px;color:var(--text-strong);font-family:var(--font-body)}
+.field input,.field select,.field textarea{background:var(--creme-input);border:1px solid rgba(13,26,52,.12);border-radius:2px;color:var(--enamel-ink) !important;font-family:var(--font-body)}
 .field input::placeholder,.field textarea::placeholder{color:#8B8FA0;font-style:italic}
-.field input:focus,.field select:focus,.field textarea:focus{background:#FFFCF6;border-color:#B48632;box-shadow:0 0 0 3px rgba(196,154,69,.2)}
+.field input:focus,.field select:focus,.field textarea:focus{background:#FFFCF6;border-color:#B48632;box-shadow:0 0 0 3px rgba(196,154,69,.2);color:var(--enamel-ink) !important}
 .field .err{color:#9A3412}
 
 /* ---------- team portraits stay enamel ---------- */
