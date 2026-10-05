@@ -33,8 +33,8 @@ const vertexShader = `
     
     vec4 mvPosition = viewMatrix * worldPos;
     
-    // Size attenuation with smooth perspective scaling (thick & prominent)
-    gl_PointSize = uPointSize * uPixelRatio * (340.0 / -mvPosition.z) * (0.82 + 0.38 * fade);
+    // Size attenuation with smooth perspective scaling
+    gl_PointSize = uPointSize * uPixelRatio * (300.0 / -mvPosition.z) * (0.85 + 0.35 * fade);
     gl_Position = projectionMatrix * mvPosition;
   }
 `;
@@ -54,8 +54,8 @@ const fragmentShader = `
     if (distSq > 0.25) discard;
     
     float dist = sqrt(distSq);
-    // Solid, thick core with smooth anti-aliased edge
-    float soft = 1.0 - smoothstep(0.38, 0.50, dist);
+    // Defined, thick core with smooth anti-aliased edge
+    float soft = 1.0 - smoothstep(0.35, 0.50, dist);
     
     gl_FragColor = vec4(vColor, vAlpha * soft);
   }
@@ -63,7 +63,7 @@ const fragmentShader = `
 
 export default function HeroDottedGlobe({
   className = '',
-  totalPoints = 65000, // Rich, dense constellation (65k points)
+  totalPoints = 34000, // Balanced, elegant density (34k points)
   radius = 200,
 }: HeroDottedGlobeProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -146,8 +146,8 @@ export default function HeroDottedGlobe({
       positions[idx + 1] = y * radius;
       positions[idx + 2] = z * radius;
 
-      // ~14% highlight points distributed systematically
-      const isHighlight = i % 7 === 0;
+      // ~11% highlight points distributed systematically
+      const isHighlight = i % 9 === 0;
 
       if (isHighlight) {
         colors[idx] = highR;
@@ -173,7 +173,7 @@ export default function HeroDottedGlobe({
     const shaderMaterial = new THREE.ShaderMaterial({
       uniforms: {
         uPixelRatio: { value: pixelRatio },
-        uPointSize: { value: isMobile ? 4.5 : 3.8 },
+        uPointSize: { value: isMobile ? 3.4 : 2.9 },
       },
       vertexShader,
       fragmentShader,
