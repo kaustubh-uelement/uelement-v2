@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import HeroDottedGlobe from "@/components/HeroDottedGlobe";
+import GoldenRatioSphere from "@/components/ui/GoldenRatioSphere";
 
 export const metadata: Metadata = {
   "title": "UElement: Quantum-safe security and enterprise platforms",
@@ -39,12 +39,9 @@ export default function Home() {
     <main id="main">
       <section className="hero hero--earth">
         <div className="earth" aria-hidden="true">
-          <div className="earth__stars" />
-          <div className="earth__stars earth__stars--b" />
           <div className="earth__dotted-globe">
-            <HeroDottedGlobe />
+            <GoldenRatioSphere showControls={false} radius={180} pointColor="#e4c57d" className="w-full h-full" />
           </div>
-          <div className="earth__halo" />
         </div>
         <div className="wrap">
           <div className="earth__inner">

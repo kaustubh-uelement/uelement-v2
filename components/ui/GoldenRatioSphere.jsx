@@ -3,180 +3,159 @@
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
+const vertexShader = `
+  uniform float uPixelRatio;
+  uniform float uPointSize;
+  uniform float uRadius;
+  varying float vAlpha;
+
+  void main() {
+    vec4 worldPos = modelMatrix * vec4(position, 1.0);
+    
+    // Normalized vertical height on sphere (-1.0 to +1.0)
+    float normY = worldPos.y / uRadius;
+    
+    // Smooth semi-sphere fade to the bottom
+    float fade = smoothstep(-0.35, 0.20, normY);
+    vAlpha = fade;
+    
+    vec4 mvPosition = viewMatrix * worldPos;
+    
+    // Size attenuation with perspective scaling
+    gl_PointSize = uPointSize * uPixelRatio * (380.0 / -mvPosition.z) * (0.85 + 0.35 * fade);
+    gl_Position = projectionMatrix * mvPosition;
+  }
+`;
+
+const fragmentShader = `
+  precision mediump float;
+  uniform vec3 uColor;
+  varying float vAlpha;
+
+  void main() {
+    if (vAlpha <= 0.015) discard;
+    
+    // Smooth circular particle
+    vec2 coord = gl_PointCoord - vec2(0.5);
+    float distSq = dot(coord, coord);
+    if (distSq > 0.25) discard;
+    
+    float dist = sqrt(distSq);
+    float soft = 1.0 - smoothstep(0.35, 0.50, dist);
+    
+    gl_FragColor = vec4(uColor, vAlpha * soft);
+  }
+`;
+
 const GoldenRatioSphere = ({
   className = '',
-  showControls = true,
-  totalPoints = 9000,
+  totalPoints = 24000,
   radius = 180,
+  pointColor = '#e4c57d',
+  showControls = false,
 }) => {
   const mountRef = useRef(null);
 
   useEffect(() => {
-    if (!mountRef.current) return;
-
     const container = mountRef.current;
+    if (!container) return;
+
+    let animId;
+    let isVisible = true;
+
+    const scene = new THREE.Scene();
+    const fov = 50;
 
     let width = container.clientWidth || window.innerWidth;
-    let height = container.clientHeight || 500;
-    if (container.clientHeight === 0 && className === '') {
-      height = window.innerHeight;
+    let height = container.clientHeight || width;
+
+    const camera = new THREE.PerspectiveCamera(
+      fov,
+      width / height,
+      0.1,
+      2000
+    );
+
+    const halfFovRad = (fov / 2) * (Math.PI / 180);
+    const fitFactor = 0.80;
+    const updateCameraDistance = (w, h) => {
+      const aspect = w / h;
+      if (aspect >= 1) {
+        camera.position.z = radius / (fitFactor * Math.tan(halfFovRad));
+      } else {
+        camera.position.z = radius / (fitFactor * Math.tan(halfFovRad) * aspect);
+      }
+      camera.aspect = aspect;
+      camera.updateProjectionMatrix();
+    };
+
+    updateCameraDistance(width, height);
+
+    const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+    const renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      alpha: true,
+      powerPreference: 'high-performance',
+    });
+    renderer.setPixelRatio(pixelRatio);
+    renderer.setSize(width, height);
+    renderer.domElement.style.display = 'block';
+    renderer.domElement.style.width = '100%';
+    renderer.domElement.style.height = '100%';
+    container.appendChild(renderer.domElement);
+
+    // Generate Golden Ratio (Fibonacci) Points
+    const phi = 0.618033988749895;
+    const goldenAngle = 2 * Math.PI * phi;
+
+    const positions = new Float32Array(totalPoints * 3);
+
+    for (let i = 0; i < totalPoints; i++) {
+      const y = 1 - (i / (totalPoints - 1)) * 2;
+      const r = Math.sqrt(Math.max(0, 1 - y * y));
+      const theta = goldenAngle * i;
+      const x = Math.cos(theta) * r;
+      const z = Math.sin(theta) * r;
+
+      const idx = i * 3;
+      positions[idx] = x * radius;
+      positions[idx + 1] = y * radius;
+      positions[idx + 2] = z * radius;
     }
 
-    let scene;
-    let camera;
-    let renderer;
-    let points;
-    let material;
-    let geometry;
-    let gui;
-    let animationFrameId;
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
-    let vertices = [];
-    let highlightVertices = [];
+    const colorObj = new THREE.Color(pointColor);
+    const isMobile = window.innerWidth < 768;
 
-    let currentRadius = radius;
+    const shaderMaterial = new THREE.ShaderMaterial({
+      uniforms: {
+        uPixelRatio: { value: pixelRatio },
+        uPointSize: { value: isMobile ? 3.0 : 2.5 },
+        uRadius: { value: radius },
+        uColor: { value: new THREE.Vector3(colorObj.r, colorObj.g, colorObj.b) },
+      },
+      vertexShader,
+      fragmentShader,
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.NormalBlending,
+    });
 
-    const getDeviceConfig = () => {
-      const vw = window.innerWidth;
+    const pointsMesh = new THREE.Points(geometry, shaderMaterial);
+    scene.add(pointsMesh);
 
-      if (vw < 768) {
-        return {
-          totalPoints,
-          pointSize: 2.8,
-          radius: 210,
-          cameraZ: 420,
-        };
-      }
+    // Initial slight forward tilt to reveal the golden spiral pole
+    pointsMesh.rotation.x = 0.22;
 
-      if (vw < 1024) {
-        return {
-          totalPoints,
-          pointSize: 2.4,
-          radius: 170,
-          cameraZ: 460,
-        };
-      }
-
-      return {
-        totalPoints,
-        pointSize: 2,
-        radius,
-        cameraZ: 500,
-      };
-    };
-
-    const deviceConfig = getDeviceConfig();
-
-    const controls = {
-      totalPoints: deviceConfig.totalPoints,
-      distributionConstant: 0.6180339887,
-      pointSize: deviceConfig.pointSize,
-      rotationSpeed: 0.002,
-      pointColor: '#cfa007',
-      highlightEnabled: false,
-      highlightPercentage: 0,
-      offset: 0,
-    };
-
+    // Interaction: click & drag with momentum and damping
     let isDragging = false;
     let previousPointer = { x: 0, y: 0 };
     let dragVelocity = { x: 0, y: 0 };
-    const dragSensitivity = 0.008;
+    const dragSensitivity = 0.005;
     const damping = 0.95;
-    const velocityFloor = 0.0002;
-
-    const createSphere = (pts, phi) => {
-      vertices = [];
-      highlightVertices = [];
-
-      for (let i = 0; i < pts; i++) {
-        const theta = 2 * Math.PI * i * phi;
-        const y = 1 - (i / (pts - 1)) * 2;
-        const r = Math.sqrt(1 - y * y);
-        const x = Math.cos(theta) * r;
-        const z = Math.sin(theta) * r;
-
-        vertices.push(x * currentRadius, y * currentRadius, z * currentRadius);
-      }
-
-      geometry.setAttribute(
-        'position',
-        new THREE.Float32BufferAttribute(vertices, 3)
-      );
-      geometry.attributes.position.needsUpdate = true;
-
-      highlightPoints();
-    };
-
-    const highlightPoints = () => {
-      highlightVertices = [];
-
-      if (!controls.highlightPercentage || controls.highlightPercentage <= 0) {
-        updateHighlight();
-        return;
-      }
-
-      for (let i = 0; i < controls.totalPoints; i++) {
-        if ((i + controls.offset) % controls.highlightPercentage === 0) {
-          highlightVertices.push(
-            vertices[i * 3],
-            vertices[i * 3 + 1],
-            vertices[i * 3 + 2]
-          );
-        }
-      }
-
-      updateHighlight();
-    };
-
-    const updateHighlight = () => {
-      const existingHighlightPoints = scene.getObjectByName('highlightPoints');
-      if (existingHighlightPoints) {
-        scene.remove(existingHighlightPoints);
-        existingHighlightPoints.geometry?.dispose();
-        existingHighlightPoints.material?.dispose();
-      }
-
-      if (controls.highlightEnabled && highlightVertices.length > 0) {
-        const highlightGeometry = new THREE.BufferGeometry();
-        highlightGeometry.setAttribute(
-          'position',
-          new THREE.Float32BufferAttribute(highlightVertices, 3)
-        );
-
-        const highlightMaterial = new THREE.PointsMaterial({
-          color: 0xffd700,
-          size: controls.pointSize * 1.1,
-        });
-
-        const highlightPointsMesh = new THREE.Points(
-          highlightGeometry,
-          highlightMaterial
-        );
-        highlightPointsMesh.name = 'highlightPoints';
-        highlightPointsMesh.rotation.copy(points.rotation);
-        scene.add(highlightPointsMesh);
-      }
-    };
-
-    const toggleHighlight = () => {
-      updateHighlight();
-    };
-
-    const updateSphere = () => {
-      createSphere(controls.totalPoints, controls.distributionConstant);
-      updateHighlight();
-    };
-
-    const updatePointSize = () => {
-      material.size = controls.pointSize;
-      material.needsUpdate = true;
-      updateHighlight();
-    };
-
-    const updatePointColor = () => {
-      material.color.set(controls.pointColor);
-    };
+    const velocityFloor = 0.0001;
 
     const getPointerPos = (e) => ({ x: e.clientX, y: e.clientY });
 
@@ -185,7 +164,6 @@ const GoldenRatioSphere = ({
       dragVelocity = { x: 0, y: 0 };
       previousPointer = getPointerPos(e);
       container.style.cursor = 'grabbing';
-      e.preventDefault();
     };
 
     const onPointerMove = (e) => {
@@ -199,8 +177,8 @@ const GoldenRatioSphere = ({
       const rotY = deltaX * dragSensitivity;
       const rotX = deltaY * dragSensitivity;
 
-      points.rotation.y += rotY;
-      points.rotation.x += rotX;
+      pointsMesh.rotation.y += rotY;
+      pointsMesh.rotation.x += rotX;
 
       dragVelocity = { x: rotX, y: rotY };
     };
@@ -211,196 +189,103 @@ const GoldenRatioSphere = ({
       container.style.cursor = 'grab';
     };
 
-    const setupInteraction = () => {
-      container.style.cursor = 'grab';
-      container.style.touchAction = 'none';
-      container.addEventListener('pointerdown', onPointerDown);
-      window.addEventListener('pointermove', onPointerMove);
-      window.addEventListener('pointerup', endDrag);
-      window.addEventListener('pointercancel', endDrag);
-      window.addEventListener('blur', endDrag);
+    container.style.cursor = 'grab';
+    container.style.touchAction = 'none';
+    container.addEventListener('pointerdown', onPointerDown);
+    window.addEventListener('pointermove', onPointerMove);
+    window.addEventListener('pointerup', endDrag);
+    window.addEventListener('pointercancel', endDrag);
+    window.addEventListener('blur', endDrag);
+
+    const handleResize = () => {
+      if (!container || !renderer) return;
+      const w = container.clientWidth || window.innerWidth;
+      const h = container.clientHeight || w;
+      const currentRatio = Math.min(window.devicePixelRatio || 1, 2);
+      renderer.setPixelRatio(currentRatio);
+      renderer.setSize(w, h);
+      shaderMaterial.uniforms.uPixelRatio.value = currentRatio;
+      updateCameraDistance(w, h);
     };
 
-    const teardownInteraction = () => {
-      container.removeEventListener('pointerdown', onPointerDown);
-      window.removeEventListener('pointermove', onPointerMove);
-      window.removeEventListener('pointerup', endDrag);
-      window.removeEventListener('pointercancel', endDrag);
-      window.removeEventListener('blur', endDrag);
-    };
+    let resizeObserver;
+    if (typeof ResizeObserver !== 'undefined') {
+      resizeObserver = new ResizeObserver(() => {
+        handleResize();
+      });
+      resizeObserver.observe(container);
+    }
+    window.addEventListener('resize', handleResize);
 
-    const animate = () => {
-      animationFrameId = requestAnimationFrame(animate);
+    const intersectionObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          isVisible = entry.isIntersecting;
+        });
+      },
+      { threshold: 0.05 }
+    );
+    intersectionObserver.observe(container);
+
+    let lastTime = performance.now();
+    const animate = (time) => {
+      animId = requestAnimationFrame(animate);
+
+      if (!isVisible) return;
+
+      const delta = Math.min((time - lastTime) / 1000, 0.1);
+      lastTime = time;
 
       if (isDragging) {
+        // Being directly manipulated
       } else if (
         Math.abs(dragVelocity.x) > velocityFloor ||
         Math.abs(dragVelocity.y) > velocityFloor
       ) {
-        points.rotation.x += dragVelocity.x;
-        points.rotation.y += dragVelocity.y;
+        pointsMesh.rotation.x += dragVelocity.x;
+        pointsMesh.rotation.y += dragVelocity.y;
         dragVelocity.x *= damping;
         dragVelocity.y *= damping;
       } else {
         dragVelocity = { x: 0, y: 0 };
-        points.rotation.y += controls.rotationSpeed;
-        points.rotation.x += controls.rotationSpeed * 0.5;
-      }
-
-      const highlightPointsMesh = scene.getObjectByName('highlightPoints');
-      if (highlightPointsMesh) {
-        highlightPointsMesh.rotation.copy(points.rotation);
+        // Gentle steady orbital auto-rotation
+        pointsMesh.rotation.y += 0.0016 * 60 * delta;
       }
 
       renderer.render(scene, camera);
     };
 
-    const applyResponsiveConfig = () => {
-      const config = getDeviceConfig();
-      currentRadius = config.radius;
-      controls.pointSize = config.pointSize;
-
-      if (material) {
-        material.size = controls.pointSize;
-        material.needsUpdate = true;
-      }
-
-      if (camera) {
-        camera.position.z = config.cameraZ;
-      }
-
-      updateSphere();
-    };
-
-    const handleResize = () => {
-      if (!container || !camera || !renderer) return;
-
-      width = container.clientWidth || window.innerWidth;
-      height = container.clientHeight || 500;
-
-      if (height === 0 && className === '') {
-        height = window.innerHeight;
-      }
-
-      camera.aspect = width / height;
-      camera.updateProjectionMatrix();
-
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-      renderer.setSize(width, height);
-
-      applyResponsiveConfig();
-    };
-
-    const init = async () => {
-      const config = getDeviceConfig();
-      currentRadius = config.radius;
-
-      scene = new THREE.Scene();
-
-      camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-      camera.position.z = config.cameraZ;
-
-      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-      renderer.setSize(width, height);
-      container.appendChild(renderer.domElement);
-
-      geometry = new THREE.BufferGeometry();
-
-      material = new THREE.PointsMaterial({
-        color: controls.pointColor,
-        size: controls.pointSize,
-      });
-
-      points = new THREE.Points(geometry, material);
-      scene.add(points);
-
-      if (showControls) {
-        try {
-          const dat = await import('dat.gui');
-          gui = new dat.GUI({ autoPlace: false });
-
-          gui.domElement.style.position = 'absolute';
-          gui.domElement.style.top = '10px';
-          gui.domElement.style.right = '10px';
-          container.appendChild(gui.domElement);
-
-          gui
-            .add(controls, 'totalPoints', 100, 12000)
-            .step(1)
-            .onChange(updateSphere);
-
-          gui
-            .add(controls, 'distributionConstant', 0.1, 4.6666)
-            .step(0.001)
-            .onChange(updateSphere);
-
-          gui
-            .add(controls, 'pointSize', 1, 10)
-            .step(0.1)
-            .onChange(updatePointSize);
-
-          gui.add(controls, 'rotationSpeed', 0.001, 0.1).step(0.001);
-          gui.addColor(controls, 'pointColor').onChange(updatePointColor);
-          gui.add(controls, 'highlightEnabled').onChange(toggleHighlight);
-
-          gui
-            .add(controls, 'highlightPercentage', 1, 100)
-            .step(1)
-            .onChange(highlightPoints);
-
-          gui.add(controls, 'offset', 0, 100).step(1).onChange(highlightPoints);
-        } catch (e) {
-          console.error('dat.gui could not be loaded', e);
-        }
-      }
-
-      createSphere(controls.totalPoints, controls.distributionConstant);
-      highlightPoints();
-      setupInteraction();
-      animate();
-    };
-
-    window.addEventListener('resize', handleResize);
-    init();
+    animId = requestAnimationFrame(animate);
 
     return () => {
+      cancelAnimationFrame(animId);
+      container.removeEventListener('pointerdown', onPointerDown);
+      window.removeEventListener('pointermove', onPointerMove);
+      window.removeEventListener('pointerup', endDrag);
+      window.removeEventListener('pointercancel', endDrag);
+      window.removeEventListener('blur', endDrag);
       window.removeEventListener('resize', handleResize);
-      cancelAnimationFrame(animationFrameId);
-      teardownInteraction();
+      if (resizeObserver) resizeObserver.disconnect();
+      intersectionObserver.disconnect();
 
-      if (gui) {
-        gui.destroy();
-      }
-
-      const existingHighlightPoints = scene?.getObjectByName('highlightPoints');
-      if (existingHighlightPoints) {
-        scene.remove(existingHighlightPoints);
-        existingHighlightPoints.geometry?.dispose();
-        existingHighlightPoints.material?.dispose();
-      }
-
-      if (
-        renderer &&
-        renderer.domElement &&
-        container.contains(renderer.domElement)
-      ) {
+      if (renderer.domElement && container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
       }
 
-      geometry?.dispose();
-      material?.dispose();
-      renderer?.dispose();
+      geometry.dispose();
+      shaderMaterial.dispose();
+      renderer.dispose();
     };
-  }, [className, showControls, totalPoints, radius]);
+  }, [totalPoints, radius, pointColor]);
 
   return (
     <div
       ref={mountRef}
-      className={`relative w-full ${className}`}
+      className={`relative w-full h-full ${className}`}
       style={{
-        minHeight: className ? undefined : '100vh',
-        backgroundColor: 'transparent',
+        width: '100%',
+        height: '100%',
+        display: 'block',
         pointerEvents: 'auto',
       }}
     />
