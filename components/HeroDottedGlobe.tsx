@@ -25,16 +25,16 @@ const vertexShader = `
     float normY = worldPos.y / 200.0;
     
     // Smooth fade going to bottom:
-    // Full opacity on upper hemisphere, fading through the equator to 0 below -0.35
-    float fade = smoothstep(-0.38, 0.22, normY);
+    // Full opacity on upper hemisphere, fading through the equator to 0 below -0.40
+    float fade = smoothstep(-0.40, 0.20, normY);
     
     vAlpha = fade * aBrightness;
     vColor = aColor;
     
     vec4 mvPosition = viewMatrix * worldPos;
     
-    // Size attenuation with smooth perspective scaling
-    gl_PointSize = uPointSize * uPixelRatio * (280.0 / -mvPosition.z) * (0.85 + 0.35 * fade);
+    // Size attenuation with smooth perspective scaling (thick & prominent)
+    gl_PointSize = uPointSize * uPixelRatio * (340.0 / -mvPosition.z) * (0.82 + 0.38 * fade);
     gl_Position = projectionMatrix * mvPosition;
   }
 `;
@@ -54,7 +54,8 @@ const fragmentShader = `
     if (distSq > 0.25) discard;
     
     float dist = sqrt(distSq);
-    float soft = smoothstep(0.5, 0.12, dist);
+    // Solid, thick core with smooth anti-aliased edge
+    float soft = 1.0 - smoothstep(0.38, 0.50, dist);
     
     gl_FragColor = vec4(vColor, vAlpha * soft);
   }
@@ -62,7 +63,7 @@ const fragmentShader = `
 
 export default function HeroDottedGlobe({
   className = '',
-  totalPoints = 22000, // Significantly increased density (22k points)
+  totalPoints = 65000, // Rich, dense constellation (65k points)
   radius = 200,
 }: HeroDottedGlobeProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -123,15 +124,15 @@ export default function HeroDottedGlobe({
     const colors = new Float32Array(totalPoints * 3);
     const brightnesses = new Float32Array(totalPoints);
 
-    // Base color: Metallic Warm Gold (#E0A769)
-    const baseR = 0.878;
-    const baseG = 0.655;
-    const baseB = 0.412;
+    // Base color: Rich Metallic Warm Gold (#E2AC6E)
+    const baseR = 0.91;
+    const baseG = 0.70;
+    const baseB = 0.45;
 
-    // Highlight color: Luminous Champagne Gold (#FFF8E7)
+    // Highlight color: Brilliant Champagne Gold (#FFFBF0)
     const highR = 1.0;
-    const highG = 0.972;
-    const highB = 0.906;
+    const highG = 0.985;
+    const highB = 0.94;
 
     for (let i = 0; i < totalPoints; i++) {
       const y = 1 - (i / (totalPoints - 1)) * 2;
@@ -145,17 +146,17 @@ export default function HeroDottedGlobe({
       positions[idx + 1] = y * radius;
       positions[idx + 2] = z * radius;
 
-      // ~9% highlight points distributed systematically
-      const isHighlight = i % 11 === 0;
+      // ~14% highlight points distributed systematically
+      const isHighlight = i % 7 === 0;
 
       if (isHighlight) {
         colors[idx] = highR;
         colors[idx + 1] = highG;
         colors[idx + 2] = highB;
-        brightnesses[i] = 0.98;
+        brightnesses[i] = 1.0;
       } else {
         // Subtle natural variation in base dots
-        const shade = 0.82 + (i % 5) * 0.04;
+        const shade = 0.88 + (i % 5) * 0.04;
         colors[idx] = baseR * shade;
         colors[idx + 1] = baseG * shade;
         colors[idx + 2] = baseB * shade;
@@ -172,7 +173,7 @@ export default function HeroDottedGlobe({
     const shaderMaterial = new THREE.ShaderMaterial({
       uniforms: {
         uPixelRatio: { value: pixelRatio },
-        uPointSize: { value: isMobile ? 2.2 : 1.75 },
+        uPointSize: { value: isMobile ? 4.5 : 3.8 },
       },
       vertexShader,
       fragmentShader,
