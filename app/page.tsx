@@ -1,288 +1,40 @@
-import Link from 'next/link';
-import GoldenRatioSphere from '@/components/ui/GoldenRatioSphere';
-import { getDictionary, branding } from '@/lib/content/dictionary';
+import type { Metadata } from "next";
 
-export default function HomePage() {
-  const dict = getDictionary();
+export const metadata: Metadata = {
+  "title": "UElement: Quantum-safe security and enterprise platforms",
+  "description": "UElement is a DeepTech company in Pune, India. We help banks, insurers and critical infrastructure move to quantum-safe cryptography, and we run the digital front door of growing companies on the MainSTAY platform.",
+  "alternates": {
+    "canonical": "https://uelement.in/"
+  },
+  "openGraph": {
+    "title": "Quantum-safe security and the MainSTAY platform \u00b7 UElement",
+    "description": "UElement is a DeepTech company in Pune, India. We help banks, insurers and critical infrastructure move to quantum-safe cryptography, and we run the digital front door of growing companies on the MainSTAY platform.",
+    "url": "https://uelement.in/",
+    "siteName": "UElement",
+    "locale": "en_IN",
+    "type": "website",
+    "images": [
+      {
+        "url": "https://uelement.in/og.png",
+        "width": 1200,
+        "height": 630
+      }
+    ]
+  },
+  "twitter": {
+    "card": "summary_large_image",
+    "title": "Quantum-safe security and the MainSTAY platform \u00b7 UElement",
+    "description": "UElement is a DeepTech company in Pune, India. We help banks, insurers and critical infrastructure move to quantum-safe cryptography, and we run the digital front door of growing companies on the MainSTAY platform.",
+    "images": [
+      "https://uelement.in/og.png"
+    ]
+  }
+};
 
+const content = "<section class=\"hero hero--earth\"><div class=\"earth\" aria-hidden=\"true\"><div class=\"earth__stars\"></div><div class=\"earth__stars earth__stars--b\"></div><div class=\"earth__disc\"></div><div class=\"earth__globe\"><div class=\"earth__night\"><div class=\"earth__lights\"></div></div></div><div class=\"earth__halo\"></div></div><div class=\"wrap\"><div class=\"earth__inner\"><p class=\"eyebrow\">No Plan B. No Planet B.</p><h1 class=\"display d-5\">Sovereign DeepTech for the systems <em>that cannot fail.</em></h1><p class=\"lede\">We help banks, insurers and critical infrastructure find every cryptographic lock they depend on and move it to quantum-safe cryptography. Through MainSTAY, we also run the digital front door of growing companies on one platform.</p><nav aria-label=\"Start here\"><ul class=\"earth__links\"><li><a href=\"#exposure\" class=\"earth__primary\">Check your quantum exposure</a></li><li><a href=\"/contact?topic=assessment\">Book a readiness assessment</a></li><li><a href=\"/quantum\">UElement Quantum</a></li><li><a href=\"/mainstay\">MainSTAY</a></li><li><a href=\"/industries\">Industries</a></li><li><a href=\"/company#purpose\">Why we exist</a></li></ul></nav><a href=\"#today\" class=\"earth__cue\">What we sell today, and what we don\u2019t yet<svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M8 2v11M3.5 8.5 8 13l4.5-4.5\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path></svg></a></div></div></section><section class=\"section\" aria-labelledby=\"today\"><div class=\"wrap grid-12\"><div class=\"span-5 stack gap-3\"><p class=\"eyebrow\">Before anything else</p><h2 id=\"today\" class=\"h-section\">Here is exactly what we sell today, and what we don\u2019t yet.</h2><p class=\"body muted\">Security buyers check everything. So every product on this site carries a label that says whether paying customers use it, whether it is in pilot, or whether it is still on the roadmap. We change a label only when the status changes.</p><a href=\"/company/trust\" class=\"textlink\">How we earn trust <svg class=\"arrow\" width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"none\" aria-hidden=\"true\"><path d=\"M1 7h11M8 3l4 4-4 4\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path></svg></a></div><div class=\"span-7\"><div class=\"ledger\"><div class=\"ledger__head\"><h2 class=\"h-card\">What is true today</h2><span class=\"code\">As of 1 October 2026</span></div><div><div class=\"ledger__group\">UElement Quantum</div><a href=\"/quantum/discovery\" class=\"ledger__row\"><span class=\"code\">Q\u00b701</span><span class=\"min0\"><span class=\"h-card\" style=\"font-size:0.9375rem;display:block\">Cryptographic Discovery</span><span class=\"tiny\">CBOM and quantum readiness assessment</span></span><span class=\"chip chip--pilot\" title=\"Available to a limited number of customers under a scoped engagement.\">Early access</span></a><a href=\"/quantum/pqc\" class=\"ledger__row\"><span class=\"code\">Q\u00b702</span><span class=\"min0\"><span class=\"h-card\" style=\"font-size:0.9375rem;display:block\">Post-Quantum Cryptography</span><span class=\"tiny\">Migration to NIST post-quantum algorithms</span></span><span class=\"chip chip--pilot\" title=\"Running on real systems with design partners before general release.\">Proof-of-concept</span></a><a href=\"/quantum/crypto-agility\" class=\"ledger__row\"><span class=\"code\">Q\u00b703</span><span class=\"min0\"><span class=\"h-card\" style=\"font-size:0.9375rem;display:block\">Crypto-Agility</span><span class=\"tiny\">Axis \u00b7 Codex \u00b7 Crucible</span></span><span class=\"chip chip--build\" title=\"Being built now. Design partners get it first.\">In development</span></a><a href=\"/quantum/qkd\" class=\"ledger__row\"><span class=\"code\">Q\u00b704</span><span class=\"min0\"><span class=\"h-card\" style=\"font-size:0.9375rem;display:block\">Quantum Key Distribution</span><span class=\"tiny\">Physics-based key exchange, with partners</span></span><span class=\"chip chip--later\" title=\"Committed on our roadmap, delivered with partners. Not available yet.\">Planned 2027</span></a><a href=\"/quantum/networking\" class=\"ledger__row\"><span class=\"code\">Q\u00b705</span><span class=\"min0\"><span class=\"h-card\" style=\"font-size:0.9375rem;display:block\">Quantum Networking</span><span class=\"tiny\">Research and network design studies</span></span><span class=\"chip chip--later\" title=\"Studies and collaborations. We do not sell this as a product.\">Research</span></a><a href=\"/quantum/qml\" class=\"ledger__row\"><span class=\"code\">Q\u00b706</span><span class=\"min0\"><span class=\"h-card\" style=\"font-size:0.9375rem;display:block\">Quantum Machine Learning</span><span class=\"tiny\">Feasibility and benchmark studies</span></span><span class=\"chip chip--later\" title=\"Studies and collaborations. We do not sell this as a product.\">Research</span></a></div><div><div class=\"ledger__group\">MainSTAY</div><a href=\"/mainstay/nexus\" class=\"ledger__row\"><span class=\"code\">M\u00b701</span><span class=\"min0\"><span class=\"h-card\" style=\"font-size:0.9375rem;display:block\">MainSTAY Nexus</span><span class=\"tiny\">The Enterprise Digital Fabric</span></span><span class=\"chip chip--live\" title=\"Paying customers use it today. Ask us for a reference call.\">In production</span></a><a href=\"/mainstay/vizor\" class=\"ledger__row\"><span class=\"code\">M\u00b702</span><span class=\"min0\"><span class=\"h-card\" style=\"font-size:0.9375rem;display:block\">MainSTAY Vizor</span><span class=\"tiny\">Observability \u00b7 Security \u00b7 GRC</span></span><span class=\"chip chip--build\" title=\"Working product, offered to a small group who shape it with us.\">Design partners</span></a><a href=\"/mainstay/kayak\" class=\"ledger__row\"><span class=\"code\">M\u00b703</span><span class=\"min0\"><span class=\"h-card\" style=\"font-size:0.9375rem;display:block\">MainSTAY Kayak</span><span class=\"tiny\">Everything as a Service</span></span><span class=\"chip chip--later\" title=\"Designed, not built. No deployments yet.\">Roadmap</span></a></div><div class=\"ledger__foot\"><p class=\"tiny\">A label changes only when the status changes. For anything In production, ask us for a reference call. <a href=\"/company/trust\">How we label</a></p></div></div></div></div></section><section id=\"exposure\" class=\"section section--rule\" aria-labelledby=\"exposure-title\"><div class=\"wrap stack gap-6\"><div class=\"grid-12\" style=\"align-items:end\"><div class=\"span-7 stack gap-2\"><p class=\"eyebrow\">Harvest now, decrypt later</p><h2 id=\"exposure-title\" class=\"h-section\">Your data can be stolen today and <em>read later.</em></h2></div><p class=\"span-5 body muted\">An adversary can record encrypted traffic now and decrypt it once a large quantum computer exists. Whether that matters depends on three numbers. Try yours.</p></div><div class=\"calc\" aria-labelledby=\"_R_8qnnb_-title\"><div class=\"stack gap-4\"><div class=\"stack gap-1\"><p class=\"eyebrow\">Quantum exposure check</p><h3 id=\"_R_8qnnb_-title\" class=\"h-sub\">When does your data stop being secret?</h3><p class=\"small\">Three numbers, from Michele Mosca\u2019s planning rule. You control the first two.</p></div><div class=\"slider\"><div class=\"slider__top\"><label for=\"_R_8qnnb_-x\">How long must the data stay secret?</label><output for=\"_R_8qnnb_-x\" class=\"tnum\">10 years</output></div><input id=\"_R_8qnnb_-x\" type=\"range\" min=\"1\" max=\"30\" step=\"1\" style=\"--fill:31.03448275862069%\" aria-describedby=\"_R_8qnnb_-x-hint\" value=\"10\"/><p id=\"_R_8qnnb_-x-hint\" class=\"tiny\">x \u00b7 For example, session data a day; KYC and loan files years; insurance and health records decades.</p></div><div class=\"slider\"><div class=\"slider__top\"><label for=\"_R_8qnnb_-y\">How long will your migration take?</label><output for=\"_R_8qnnb_-y\" class=\"tnum\">4 years</output></div><input id=\"_R_8qnnb_-y\" type=\"range\" min=\"1\" max=\"12\" step=\"1\" style=\"--fill:27.27272727272727%\" aria-describedby=\"_R_8qnnb_-y-hint\" value=\"4\"/><p id=\"_R_8qnnb_-y-hint\" class=\"tiny\">y \u00b7 Inventory, vendor upgrades, testing and cutover across every system that holds this data.</p></div><div class=\"slider\"><div class=\"slider__top\"><label for=\"_R_8qnnb_-z\">Your assumption: years until a quantum computer can break RSA</label><output for=\"_R_8qnnb_-z\" class=\"tnum\">10 years</output></div><input id=\"_R_8qnnb_-z\" type=\"range\" min=\"3\" max=\"25\" step=\"1\" style=\"--fill:31.818181818181817%\" aria-describedby=\"_R_8qnnb_-z-hint\" value=\"10\"/><p id=\"_R_8qnnb_-z-hint\" class=\"tiny\">z \u00b7 Nobody knows this number. Try several values. Regulators set dates rather than guess it.</p></div></div><div class=\"stack gap-4\" aria-live=\"polite\"><div class=\"stack gap-2\"><div class=\"bar\" role=\"img\" aria-label=\"Migration 4 years plus secrecy 10 years, compared with 10 years\"><span class=\"bar__seg\" style=\"left:0;width:25%;background:rgba(224,167,105,0.85)\"></span><span class=\"bar__seg\" style=\"left:25%;width:62.5%;background:rgba(164,181,196,0.45)\"></span><span class=\"bar__seg\" style=\"left:62.5%;width:25%;background:repeating-linear-gradient(135deg, rgba(245,193,22,0.55) 0 6px, rgba(245,193,22,0.15) 6px 12px)\"></span><span class=\"bar__z\" style=\"left:calc(62.5% - 1px)\"></span></div><div class=\"legend\"><span><i style=\"background:rgba(224,167,105,0.85)\"></i>Migration (y)</span><span><i style=\"background:rgba(164,181,196,0.45)\"></i>Must stay secret (x)</span><span><i style=\"background:var(--highlight)\"></i>Assumed quantum date (z)</span></div></div><dl class=\"spec\"><dt>Data recorded in 2026</dt><dd class=\"tnum\">must stay secret until 2036</dd><dt>Migration finishes</dt><dd class=\"tnum\">2030</dd><dt>Data still recorded until then</dt><dd class=\"tnum\">must stay secret until 2040</dd><dt>Your assumed quantum date</dt><dd class=\"tnum\">2036</dd></dl><div class=\"verdict verdict--bad\"><p class=\"body\"><strong>Exposed by 4 years.</strong> Data encrypted before your migration finishes would still need protection 4 years after your assumed quantum date. Recording it today is enough for an adversary.</p></div><p class=\"tiny\">A planning rule, not a prediction. <a href=\"/insights/harvest-now-decrypt-later\">How it works</a> \u00b7 <a href=\"/quantum/discovery\">Measure your real y with an assessment</a></p></div></div></div></section><section class=\"section section--deep\" aria-labelledby=\"lines\"><div class=\"wrap stack gap-6\"><div class=\"stack gap-2\" style=\"max-width:860px\"><p class=\"eyebrow\">Two product lines</p><h2 id=\"lines\" class=\"h-section\">Start with the problem you have today.</h2></div><div class=\"cols-2\"><article class=\"card card--accent\" style=\"background:var(--deep-2)\"><p class=\"eyebrow\">UElement Quantum</p><h3 class=\"display d-4\">Quantum-safe security, from inventory to agility.</h3><p class=\"body muted\">For banks, insurers, NBFCs, fintechs and critical infrastructure that must move their public-key cryptography ahead of India\u2019s deadlines.</p><ul class=\"ruled\"><li style=\"padding-block:14px\"><a href=\"/quantum/discovery\" class=\"row\" style=\"justify-content:space-between;text-decoration:none;color:var(--text-strong)\"><span class=\"h-card\" style=\"font-size:0.9375rem\">Cryptographic Discovery</span><span class=\"chip chip--pilot\">Early access</span></a></li><li style=\"padding-block:14px\"><a href=\"/quantum/pqc\" class=\"row\" style=\"justify-content:space-between;text-decoration:none;color:var(--text-strong)\"><span class=\"h-card\" style=\"font-size:0.9375rem\">Post-Quantum Cryptography</span><span class=\"chip chip--pilot\">Proof-of-concept</span></a></li><li style=\"padding-block:14px\"><a href=\"/quantum/crypto-agility\" class=\"row\" style=\"justify-content:space-between;text-decoration:none;color:var(--text-strong)\"><span class=\"h-card\" style=\"font-size:0.9375rem\">Crypto-Agility</span><span class=\"chip chip--build\">In development</span></a></li><li style=\"padding-block:14px\"><a href=\"/quantum/qkd\" class=\"row\" style=\"justify-content:space-between;text-decoration:none;color:var(--text-strong)\"><span class=\"h-card\" style=\"font-size:0.9375rem\">Quantum Key Distribution</span><span class=\"chip chip--later\">Planned 2027</span></a></li><li style=\"padding-block:14px\"><a href=\"/quantum/networking\" class=\"row\" style=\"justify-content:space-between;text-decoration:none;color:var(--text-strong)\"><span class=\"h-card\" style=\"font-size:0.9375rem\">Quantum Networking</span><span class=\"chip chip--later\">Research</span></a></li><li style=\"padding-block:14px\"><a href=\"/quantum/qml\" class=\"row\" style=\"justify-content:space-between;text-decoration:none;color:var(--text-strong)\"><span class=\"h-card\" style=\"font-size:0.9375rem\">Quantum Machine Learning</span><span class=\"chip chip--later\">Research</span></a></li></ul><div class=\"row mt-1\"><a href=\"/quantum\" class=\"btn btn--gold\">Explore Quantum <svg class=\"arrow\" width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"none\" aria-hidden=\"true\"><path d=\"M1 7h11M8 3l4 4-4 4\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path></svg></a></div></article><article class=\"card\" style=\"background:var(--deep-2)\"><p class=\"eyebrow\">MainSTAY</p><h3 class=\"display d-4\">The line that holds up your digital operations.</h3><p class=\"body muted\">For startups, SMEs and mid-market companies that want their website, portals, sign-in and workflows on one platform, and later their observability and assets too.</p><ul class=\"ruled\"><li style=\"padding-block:14px\"><a href=\"/mainstay/nexus\" class=\"row\" style=\"justify-content:space-between;text-decoration:none;color:var(--text-strong)\"><span class=\"h-card\" style=\"font-size:0.9375rem\">MainSTAY Nexus <span class=\"tiny\" style=\"font-family:var(--font-body);font-weight:400\">\u00b7 The Enterprise Digital Fabric</span></span><span class=\"chip chip--live\">In production</span></a></li><li style=\"padding-block:14px\"><a href=\"/mainstay/vizor\" class=\"row\" style=\"justify-content:space-between;text-decoration:none;color:var(--text-strong)\"><span class=\"h-card\" style=\"font-size:0.9375rem\">MainSTAY Vizor <span class=\"tiny\" style=\"font-family:var(--font-body);font-weight:400\">\u00b7 Observability \u00b7 Security \u00b7 GRC</span></span><span class=\"chip chip--build\">Design partners</span></a></li><li style=\"padding-block:14px\"><a href=\"/mainstay/kayak\" class=\"row\" style=\"justify-content:space-between;text-decoration:none;color:var(--text-strong)\"><span class=\"h-card\" style=\"font-size:0.9375rem\">MainSTAY Kayak <span class=\"tiny\" style=\"font-family:var(--font-body);font-weight:400\">\u00b7 Everything as a Service</span></span><span class=\"chip chip--later\">Roadmap</span></a></li><li style=\"padding-block:14px\" class=\"row\"><span class=\"small\">Nexus packages from</span><span class=\"mono\" style=\"color:var(--accent)\">USD 2,500</span></li></ul><div class=\"row mt-1\"><a href=\"/mainstay\" class=\"btn btn--line\">Explore MainSTAY <svg class=\"arrow\" width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"none\" aria-hidden=\"true\"><path d=\"M1 7h11M8 3l4 4-4 4\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path></svg></a></div></article></div></div></section><section class=\"section\" aria-labelledby=\"why-now\"><div class=\"wrap stack gap-6\"><div class=\"grid-12\" style=\"align-items:end\"><div class=\"span-7 stack gap-2\"><p class=\"eyebrow\">Why now</p><h2 id=\"why-now\" class=\"h-section\">India has put dates on the quantum transition.</h2></div><p class=\"span-5 body muted\">The algorithms are final. The national roadmap has milestones. The banking regulator has a committee. Nobody knows the year a quantum computer arrives, which is exactly why the dates matter more than the predictions.</p></div><figure class=\"stack gap-3\" style=\"margin:0\"><div class=\"tl\" role=\"region\" aria-label=\"Post-quantum milestones, 2024 to 2035\" tabindex=\"0\"><div class=\"tl__inner\"><div class=\"tl__axis\" aria-hidden=\"true\"><span></span><span>2024</span><span>2025</span><span>2026</span><span>2027</span><span>2028</span><span>2029</span><span>2030</span><span>2031</span><span>2032</span><span>2033</span><span>2034</span><span>2035</span></div><div class=\"tl__lane\"><span class=\"tl__label\" style=\"grid-column:1;grid-row:1\">NIST (global)</span><div class=\"tl__mark\" style=\"grid-column:2 / span 3;grid-row:1\"><span class=\"diamond\"></span><span><b>2024</b><span>FIPS 203, 204, 205 final</span></span></div><div class=\"tl__mark\" style=\"grid-column:8 / span 3;grid-row:1\"><span class=\"diamond\"></span><span><b>2030</b><span>RSA, ECC deprecated (proposed)</span></span></div><div class=\"tl__mark\" style=\"grid-column:13 / span 1;grid-row:1\"><span class=\"diamond\"></span><span><b>2035</b><span>Disallowed (proposed)</span></span></div></div><div class=\"tl__lane\"><span class=\"tl__label\" style=\"grid-column:1;grid-row:1\">RBI</span><div class=\"tl__mark\" style=\"grid-column:4 / span 2;grid-row:1\"><span class=\"diamond\"></span><span><b>2026</b><span>Q-SAFE expert committee. No deadline yet</span></span></div></div><div class=\"tl__lane\"><span class=\"tl__label\" style=\"grid-column:1;grid-row:1\">DST \u00b7 critical infrastructure</span><div class=\"tl__mark\" style=\"grid-column:5 / span 1;grid-row:1\"><span class=\"diamond\"></span><span><b>2027</b><span>Foundations</span></span></div><div class=\"tl__mark\" style=\"grid-column:6 / span 1;grid-row:1\"><span class=\"diamond\"></span><span><b>2028</b><span>High-priority systems</span></span></div><div class=\"tl__mark\" style=\"grid-column:7 / span 2;grid-row:1\"><span class=\"diamond\"></span><span><b>2029</b><span>Full adoption</span></span></div></div><div class=\"tl__lane\"><span class=\"tl__label\" style=\"grid-column:1;grid-row:1\">DST \u00b7 enterprises</span><div class=\"tl__mark\" style=\"grid-column:6 / span 2;grid-row:1\"><span class=\"diamond\"></span><span><b>2028</b><span>Foundations</span></span></div><div class=\"tl__mark\" style=\"grid-column:8 / span 3;grid-row:1\"><span class=\"diamond\"></span><span><b>2030</b><span>High-priority systems</span></span></div><div class=\"tl__mark\" style=\"grid-column:11 / span 2;grid-row:1\"><span class=\"diamond\"></span><span><b>2033</b><span>Full adoption</span></span></div></div><div class=\"tl__lane\"><span class=\"tl__label\" style=\"grid-column:1;grid-row:1\">EU coordinated roadmap</span><div class=\"tl__mark\" style=\"grid-column:8 / span 3;grid-row:1\"><span class=\"diamond\"></span><span><b>2030</b><span>High-risk use cases</span></span></div><div class=\"tl__mark\" style=\"grid-column:13 / span 1;grid-row:1\"><span class=\"diamond\"></span><span><b>2035</b><span>As many as feasible</span></span></div></div><div class=\"tl__now\" style=\"left:calc(180px + (100% - 180px) * 0.22916666666666666)\" aria-hidden=\"true\"><span>Today</span></div></div></div><figcaption class=\"tiny\" style=\"margin-top:18px\">Sources: NIST FIPS 203\u2013205 and IR 8547 (draft); DST Task Force report, Feb 2026; RBI, Global FinTech Fest 2026; EU NIS Cooperation Group roadmap, Jun 2025. Last reviewed 1 October 2026. <a href=\"/insights/india-pqc-deadlines\">Read the full tracker</a></figcaption></figure></div></section><section class=\"section section--rule\" aria-labelledby=\"method\"><div class=\"wrap stack gap-6\"><div class=\"stack gap-2\" style=\"max-width:860px\"><p class=\"eyebrow\">How a quantum engagement runs</p><h2 id=\"method\" class=\"h-section\">Discover, prioritise, migrate, then stay agile.</h2></div><ol class=\"steps\"><li><span class=\"code\" style=\"color:var(--accent)\">01 \u00b7 Discovery</span><h3 class=\"h-card\">Find every lock</h3><p class=\"small\">A cryptographic bill of materials for one application: algorithms, keys, certificates, protocols and owners.</p></li><li><span class=\"code\" style=\"color:var(--accent)\">02 \u00b7 Ranking</span><h3 class=\"h-card\">Order by data lifetime</h3><p class=\"small\">Long-lived data moves first, because it is the data an adversary is recording today.</p></li><li><span class=\"code\" style=\"color:var(--accent)\">03 \u00b7 PQC</span><h3 class=\"h-card\">Migrate, in shadow first</h3><p class=\"small\">Hybrid ML-KEM key exchange and ML-DSA signatures on one path, measured before cutover.</p></li><li><span class=\"code\" style=\"color:var(--text-3)\">04 \u00b7 Crypto-agility \u00b7 in development</span><h3 class=\"h-card\">Make the next change routine</h3><p class=\"small\">Policy-driven algorithms and rehearsed rotation, so the next standard is a configuration change.</p></li></ol></div></section><section class=\"section section--surface\" aria-labelledby=\"principles\"><div class=\"wrap grid-12\"><div class=\"span-4 stack gap-3\"><p class=\"eyebrow\">How we earn trust</p><h2 id=\"principles\" class=\"h-section\">Every claim on this site has a source.</h2><p class=\"body muted\">We would rather show you a short list of true things than a long list of impressive ones.</p></div><div class=\"span-8 cols-2\" style=\"row-gap:36px\"><div class=\"bullet-row\"><span class=\"diamond\"></span><div class=\"stack gap-1\"><h3 class=\"h-card\">A maturity label on every product</h3><p class=\"small\">In production, early access, proof-of-concept, in development, design partners, planned or research. We change a label only when the status changes.</p></div></div><div class=\"bullet-row\"><span class=\"diamond\"></span><div class=\"stack gap-1\"><h3 class=\"h-card\">Numbers only with a source</h3><p class=\"small\">Customer figures appear when the customer approves them. Standards and regulations link to the original document.</p></div></div><div class=\"bullet-row\"><span class=\"diamond\"></span><div class=\"stack gap-1\"><h3 class=\"h-card\">Customers named with permission</h3><p class=\"small\">Until a customer agrees in writing, we describe the sector, not the logo.</p></div></div><div class=\"bullet-row\"><span class=\"diamond\"></span><div class=\"stack gap-1\"><h3 class=\"h-card\">Partners with agreements</h3><p class=\"small\">A partner is listed only when an agreement is in place, with what it covers.</p></div></div><div class=\"bullet-row\"><span class=\"diamond\"></span><div class=\"stack gap-1\"><h3 class=\"h-card\">Reference calls on request</h3><p class=\"small\">For anything marked In production, we will put you in touch with a customer who uses it.</p></div></div><div class=\"bullet-row\"><span class=\"diamond\"></span><div class=\"stack gap-1\"><h3 class=\"h-card\">We say what we do not do</h3><p class=\"small\">Every product page has a section on its limits, and where we would send you instead.</p></div></div></div></div></section><section class=\"section\" aria-labelledby=\"people\"><div class=\"wrap stack gap-6\"><div class=\"grid-12\" style=\"align-items:end\"><div class=\"span-7 stack gap-2\"><p class=\"eyebrow\">Who is accountable</p><h2 id=\"people\" class=\"h-section\">Named people, a real office, a phone that gets answered.</h2></div><div class=\"span-5 row\" style=\"justify-content:flex-end\"><a href=\"/company/team\" class=\"textlink\">Meet the team <svg class=\"arrow\" width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"none\" aria-hidden=\"true\"><path d=\"M1 7h11M8 3l4 4-4 4\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path></svg></a></div></div><div class=\"cols-4\"><article class=\"stack gap-2\"><div class=\"portrait\"><canvas aria-hidden=\"true\" data-art=\"lattice\" data-seed=\"5\" data-still=\"\" data-dense=\"\"></canvas><span class=\"portrait__initials\" aria-hidden=\"true\">CG</span></div><h3 class=\"h-card\">Chaitanya Vijay Ghate</h3><p class=\"code\" style=\"color:var(--accent)\">Co-founder &amp; Chairman and Managing Director</p><p class=\"small\">Leads the quantum security practice.</p></article><article class=\"stack gap-2\"><div class=\"portrait\"><canvas aria-hidden=\"true\" data-art=\"lattice\" data-seed=\"36\" data-still=\"\" data-dense=\"\"></canvas><span class=\"portrait__initials\" aria-hidden=\"true\">VJ</span></div><h3 class=\"h-card\">Vikalp Jambhulkar</h3><p class=\"code\" style=\"color:var(--accent)\">Chief Executive Officer</p><p class=\"small\">Leads operations and MainSTAY commercial work.</p></article><article class=\"stack gap-2\"><div class=\"portrait\"><canvas aria-hidden=\"true\" data-art=\"lattice\" data-seed=\"67\" data-still=\"\" data-dense=\"\"></canvas><span class=\"portrait__initials\" aria-hidden=\"true\">SS</span></div><h3 class=\"h-card\">Satrajit Sengupta</h3><p class=\"code\" style=\"color:var(--accent)\">Co-founder &amp; Chief Technology Officer</p><p class=\"small\">Leads cryptographic discovery and CBOM engineering.</p></article><article class=\"stack gap-2\"><div class=\"portrait\"><canvas aria-hidden=\"true\" data-art=\"lattice\" data-seed=\"98\" data-still=\"\" data-dense=\"\"></canvas><span class=\"portrait__initials\" aria-hidden=\"true\">KN</span></div><h3 class=\"h-card\">Kaustubh Narwade</h3><p class=\"code\" style=\"color:var(--accent)\">Co-founder &amp; Chief Product Officer</p><p class=\"small\">Owns the MainSTAY product line.</p></article></div></div></section><section class=\"section section--rule\" aria-labelledby=\"read\"><div class=\"wrap stack gap-6\"><div class=\"grid-12\" style=\"align-items:end\"><div class=\"span-7 stack gap-2\"><p class=\"eyebrow\">Insights</p><h2 id=\"read\" class=\"h-section\">Plain answers, dated and sourced.</h2></div><div class=\"span-5 row\" style=\"justify-content:flex-end\"><a href=\"/insights\" class=\"textlink\">All insights <svg class=\"arrow\" width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"none\" aria-hidden=\"true\"><path d=\"M1 7h11M8 3l4 4-4 4\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path></svg></a></div></div><div class=\"cols-3\"><a href=\"/insights/india-pqc-deadlines\" class=\"card card--link\"><div class=\"row\" style=\"justify-content:space-between\"><span class=\"eyebrow\">Tracker</span><span class=\"code\">6 min</span></div><h3 class=\"h-sub\">India\u2019s post-quantum deadlines, sector by sector</h3><p class=\"small\">The national roadmap has dates. The banking regulator has a committee. The algorithms are final. Here is what is required, what is recommended and what is still open, with sources.</p><span class=\"tiny mono\">Reviewed 1 October 2026</span></a><a href=\"/insights/what-is-a-cbom\" class=\"card card--link\"><div class=\"row\" style=\"justify-content:space-between\"><span class=\"eyebrow\">Explainer</span><span class=\"code\">5 min</span></div><h3 class=\"h-sub\">What is a cryptographic bill of materials?</h3><p class=\"small\">A CBOM lists every algorithm, key, certificate and protocol in a system and where each is used. It is the first step of every post-quantum programme. Here is what goes in one.</p><span class=\"tiny mono\">Reviewed 1 October 2026</span></a><a href=\"/insights/harvest-now-decrypt-later\" class=\"card card--link\"><div class=\"row\" style=\"justify-content:space-between\"><span class=\"eyebrow\">Explainer</span><span class=\"code\">4 min</span></div><h3 class=\"h-sub\">Harvest now, decrypt later: when does your data stop being secret?</h3><p class=\"small\">Encrypted traffic recorded today can be read once a large quantum computer exists. A simple inequality tells you whether your data is already exposed.</p><span class=\"tiny mono\">Reviewed 1 October 2026</span></a></div></div></section><section class=\"section section--surface\" aria-labelledby=\"cta-title\"><div class=\"wrap grid-12\" style=\"align-items:end\"><div class=\"span-7 stack gap-3\"><p class=\"eyebrow\">Next step</p><h2 id=\"cta-title\" class=\"h-section\">Start with one application. See every algorithm it relies on.</h2><p class=\"lede\">Tell us about your systems and timeline. A founder reads every message and replies within one working day.</p></div><div class=\"span-5 stack gap-3\" style=\"align-items:flex-start\"><div class=\"row\"><a href=\"/contact?topic=assessment\" class=\"btn btn--gold\">Book a readiness assessment <svg class=\"arrow\" width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"none\" aria-hidden=\"true\"><path d=\"M1 7h11M8 3l4 4-4 4\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path></svg></a><a href=\"/contact?topic=nexus\" class=\"btn btn--line\">Book a Nexus demo</a></div><p class=\"small mono\">+91 76206 90561 \u00b7 contact@uelement.in</p></div></div></section><script type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"WebSite\",\"@id\":\"https://uelement.in/#website\",\"url\":\"https://uelement.in\",\"name\":\"UElement\",\"description\":\"UElement is a DeepTech company in Pune, India. We help banks, insurers and critical infrastructure move to quantum-safe cryptography, and we run the digital front door of growing companies on the MainSTAY platform.\",\"publisher\":{\"@id\":\"https://uelement.in/#organization\"},\"inLanguage\":\"en-IN\"}</script>";
+
+export default function Home() {
   return (
-    <>
-      {/* ═══════ HERO ═══════ */}
-      <div className="hero">
-        <div className="hero-fabric" />
-
-        {/* Golden Ratio Sphere Background (Desktop) / Below Buttons (Mobile) */}
-        <div className="absolute inset-0 pointer-events-none mix-blend-screen hidden md:flex justify-center z-0">
-          <div className="w-full max-w-[1100px] relative h-full mx-auto">
-            <div className="absolute -right-20 top-1/2 -translate-y-1/2 w-full md:w-1/2 h-full scale-[1.15]">
-              <GoldenRatioSphere
-                showControls={false}
-                className="w-full h-full"
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className="wrap relative z-10 pointer-events-none">
-          <div className="flex flex-col items-center md:items-start max-w-full md:max-w-[65%] gap-0 text-center md:text-left mx-auto md:mx-0">
-            {/* Kicker */}
-            <div className="text-(--gold-500) mb-2 text-[13px] tracking-[1px]">
-              {dict.hero.kicker}
-            </div>
-
-            <h1 className="display-sm mb-0">
-              Sovereign <span className="au">DeepTech</span>{' '}
-              <br className="hidden md:block" />
-              systems for Enterprise <br className="hidden md:block" />
-              <span className="au">Resilience</span>.
-            </h1>
-
-            <p className="lede mt-6 md:mt-8">
-              Engineering{' '}
-              <span className="italic font-medium">Quantum-secure</span> and
-              resilient autonomous systems that create a seamless{' '}
-              <span className="italic font-medium">Digital fabric</span> for the
-              advanced Enterprise.
-            </p>
-
-            {/* CTA Buttons: re-enable pointer events just here */}
-            <div className="flex flex-col md:flex-row items-center md:items-start justify-center md:justify-start gap-4 mt-10 md:mt-16 w-full md:w-auto pointer-events-auto">
-              <Link href="/company" className="btn btn-gold">
-                About Us
-              </Link>
-              <Link href="/stambh" className="btn btn-line">
-                Explore the Platforms
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile Golden Ratio Sphere (visible only on small screens) */}
-        <div className="md:hidden w-full flex justify-center pointer-events-none mt-auto overflow-hidden opacity-80 mix-blend-screen z-0">
-          <div className="w-[120%] max-w-[500px] flex justify-center">
-            <GoldenRatioSphere
-              showControls={false}
-              radius={250}
-              totalPoints={2000}
-              className="w-full aspect-square"
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* ═══════ THE PORTFOLIO ═══════ */}
-      <div className="section alt">
-        <div className="wrap">
-          <div className="kicker" id="portfolio">
-            The portfolio
-          </div>
-          <h2 className="display text-navy-gradient">
-            Three programs. One practice.
-            <br />
-            Every layer of <span className="au">Sovereignty.</span>
-          </h2>
-          <div className="grid3" style={{ marginTop: 44 }}>
-            <Link
-              href="/adviq"
-              className="card link"
-              style={{ textDecoration: 'none' }}
-            >
-              <div className="proglabel">Quantum Security</div>
-              <h4>{branding.adviq}</h4>
-              <p>{dict.portfolio.adviqSummary}</p>
-              <p
-                className="mono"
-                style={{ marginTop: 14, color: 'var(--gold-500)' }}
-              >
-                {branding.quantumSecuritySub}
-              </p>
-            </Link>
-            <Link
-              href="/stambh"
-              className="card link"
-              style={{ textDecoration: 'none' }}
-            >
-              <div className="proglabel slate">Enterprise Fabric</div>
-              <h4>{branding.stambh}</h4>
-              <p>{dict.portfolio.stambhSummary}</p>
-              <p
-                className="mono"
-                style={{ marginTop: 14, color: 'var(--gold-500)' }}
-              >
-                {branding.enterpriseFabricSub}
-              </p>
-            </Link>
-            <Link
-              href="/tripura"
-              className="card link"
-              style={{ textDecoration: 'none' }}
-            >
-              <div className="proglabel slate">Edge Platform</div>
-              <h4>{branding.tripura}</h4>
-              <p>{dict.portfolio.tripuraSummary}</p>
-              <p
-                className="mono"
-                style={{ marginTop: 14, color: 'var(--gold-500)' }}
-              >
-                {branding.edgePlatformSub}
-              </p>
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      {/* ═══════ WHY UELEMENT ═══════ */}
-      <div className="section navy" id="whyuelement">
-        <div
-          className="wrap grid2"
-          style={{ alignItems: 'center', columnGap: '60px' }}
-        >
-          <div>
-            <div className="kicker">Why UElement</div>
-            <p className="serif-line">
-              Harvest now, decrypt later is not a hypothesis. It is a
-              procurement line item in adversary budgets.
-            </p>
-            <p className="mut" style={{ marginTop: 18 }}>
-              Every platform we ship is built on the same convictions:
-              cryptography must survive the quantum transition, systems must
-              operate when networks are denied, and evidence must be generated
-              as operational exhaust, not reconstructed for audit season.
-            </p>
-          </div>
-          <div className="grid2 relative">
-            {/* Vertical divider */}
-            <div className="hidden md:block absolute inset-y-0 left-1/2 border-l border-dotted border-[#c5d0dc]/40" />
-            {/* Horizontal divider */}
-            <div className="hidden md:block absolute inset-x-0 top-1/2 border-t border-dotted border-[#c5d0dc]/40" />
-
-            <div className="stat">
-              <b>13</b>
-              <span>
-                Global customers across USA, Europe, Middle-east &amp; JAPAC
-              </span>
-            </div>
-            <div className="stat">
-              <b>2 + 1</b>
-              <span>DeepTech programs and a dedicated quantum practice</span>
-            </div>
-            <div className="stat">
-              <b>500+</b>
-              <span>
-                Pre-built adaptors and protocol parsers across IT and OT
-              </span>
-            </div>
-            <div className="stat">
-              <b>0</b>
-              <span>Blind spots we consider acceptable</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* ═══════ INDUSTRIES ═══════ */}
-      <div className="section navy">
-        <div className="wrap">
-          <div className="kicker" id="industries">
-            Industries
-          </div>
-          <h2 className="display">
-            Built where failure is <span className="au">not an option</span>.
-          </h2>
-          <div className="grid3" style={{ marginTop: 40 }}>
-            <Link
-              href="/industries"
-              className="card link"
-              style={{ textDecoration: 'none' }}
-            >
-              <h4>Defence &amp; Aerospace</h4>
-              <p>
-                Air-gapped deployment, DDIL operation, ITAR-free export
-                eligibility.
-              </p>
-            </Link>
-            <Link
-              href="/industries"
-              className="card link"
-              style={{ textDecoration: 'none' }}
-            >
-              <h4>Banking &amp; Financial Services</h4>
-              <p>{dict.industries.bfsi}</p>
-            </Link>
-            <Link
-              href="/industries"
-              className="card link"
-              style={{ textDecoration: 'none' }}
-            >
-              <h4>Manufacturing &amp; Industrial OT</h4>
-              <p>
-                Purdue-native monitoring, 40+ OT protocol parsers,
-                passive-by-architecture at Levels 0–2.
-              </p>
-            </Link>
-            <Link
-              href="/industries"
-              className="card link"
-              style={{ textDecoration: 'none' }}
-            >
-              <h4>Government &amp; Public Sector</h4>
-              <p>{dict.industries.gov}</p>
-            </Link>
-            <Link
-              href="/industries"
-              className="card link"
-              style={{ textDecoration: 'none' }}
-            >
-              <h4>Healthcare &amp; Pharma</h4>
-              <p>{dict.industries.health}</p>
-            </Link>
-            <Link
-              href="/industries"
-              className="card link"
-              style={{ textDecoration: 'none' }}
-            >
-              <h4>Datacenter &amp; Warehouse</h4>
-              <p>
-                Rack space, hardware, power and movement metered as services on
-                a blockchain-verified fabric.
-              </p>
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      {/* ═══════ CREAM QUOTE ═══════ */}
-      <div className="section cream">
-        <div className="wrap" style={{ textAlign: 'center' }}>
-          <p
-            className="serif-line serif-line--quote"
-            style={{ maxWidth: 760, margin: '0 auto' }}
-          >
-            &quot;We don&apos;t connect the edge to the cloud.
-            <br />
-            We turn the edge into the cloud.&quot;
-          </p>
-          <p
-            className="mut"
-            style={{
-              marginTop: 16,
-              fontFamily: 'var(--font-heading)',
-              fontSize: 12,
-              letterSpacing: '1px',
-              textTransform: 'uppercase',
-            }}
-          >
-            {branding.tripuraThesis}
-          </p>
-          <Link
-            href="/tripura"
-            className="btn btn-gold"
-            style={{ marginTop: 28 }}
-          >
-            See how
-          </Link>
-        </div>
-      </div>
-    </>
+    <main id="main" dangerouslySetInnerHTML={{ __html: content }} />
   );
 }

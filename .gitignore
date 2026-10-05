@@ -13,6 +13,7 @@
 # testing
 /coverage
 UE-Case-Studies/
+/uelement-html
 
 # next.js
 /.next/
@@ -20,6 +21,7 @@ UE-Case-Studies/
 
 # production
 /build
+
 
 # misc
 .DS_Store

@@ -1,144 +1,40 @@
-import Link from 'next/link';
-import type { Metadata } from 'next';
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: 'Industries | UElement Technologies',
-  description:
-    'UElement builds for sectors where downtime is measured in consequences, not minutes.',
+  "title": "Industries \u00b7 UElement",
+  "description": "How UElement helps banks, insurers, government and critical infrastructure, manufacturers and growing companies, with the deadlines and constraints specific to each.",
+  "alternates": {
+    "canonical": "https://uelement.in/industries/"
+  },
+  "openGraph": {
+    "title": "Industries \u00b7 UElement",
+    "description": "How UElement helps banks, insurers, government and critical infrastructure, manufacturers and growing companies, with the deadlines and constraints specific to each.",
+    "url": "https://uelement.in/industries/",
+    "siteName": "UElement",
+    "locale": "en_IN",
+    "type": "website",
+    "images": [
+      {
+        "url": "https://uelement.in/og.png",
+        "width": 1200,
+        "height": 630
+      }
+    ]
+  },
+  "twitter": {
+    "card": "summary_large_image",
+    "title": "Industries \u00b7 UElement",
+    "description": "How UElement helps banks, insurers, government and critical infrastructure, manufacturers and growing companies, with the deadlines and constraints specific to each.",
+    "images": [
+      "https://uelement.in/og.png"
+    ]
+  }
 };
+
+const content = "<section class=\"hero hero--page\"><div class=\"hero__art\"><canvas aria-hidden=\"true\" data-art=\"mesh\" data-seed=\"5\"></canvas></div><div class=\"hero__veil\"></div><div class=\"wrap\"><div class=\"hero__inner\"><nav aria-label=\"Breadcrumb\"><ol class=\"crumbs\"><li><a href=\"/\">Home</a></li><li aria-current=\"page\">Industries</li></ol></nav><script type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https://uelement.in/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Industries\",\"item\":\"https://uelement.in/industries/\"}]}</script><div class=\"hero__meta\"><p class=\"eyebrow\">Industries</p></div><h1 class=\"display d-5\">Same mathematics, <em>different deadlines.</em></h1><p class=\"lede\">A bank, an insurer and a power utility all depend on RSA and elliptic curves. What differs is how long their data must stay secret, which regulator sets the pace, and where their systems are allowed to run.</p></div></div></section><section class=\"section\"><div class=\"wrap\"><ul class=\"ruled\" style=\"list-style:none\"><li><a href=\"/industries/banking-financial-services\" class=\"grid-12\" style=\"text-decoration:none;color:var(--text);align-items:center\"><span class=\"span-4 stack gap-1\"><span class=\"code\">01</span><span class=\"h-sub\" style=\"color:var(--text-strong)\">Banking and financial services</span><span class=\"tiny\">Banks, NBFCs and payment operators</span></span><span class=\"span-6 body muted\">Payments run on cryptography that has an expiry date.</span><span class=\"span-2 textlink\" style=\"justify-content:flex-end\">Read <svg class=\"arrow\" width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"none\" aria-hidden=\"true\"><path d=\"M1 7h11M8 3l4 4-4 4\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path></svg></span></a></li><li><a href=\"/industries/insurance\" class=\"grid-12\" style=\"text-decoration:none;color:var(--text);align-items:center\"><span class=\"span-4 stack gap-1\"><span class=\"code\">02</span><span class=\"h-sub\" style=\"color:var(--text-strong)\">Insurance</span><span class=\"tiny\">Life, health and general insurers</span></span><span class=\"span-6 body muted\">A life policy outlives the cryptography that protects it.</span><span class=\"span-2 textlink\" style=\"justify-content:flex-end\">Read <svg class=\"arrow\" width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"none\" aria-hidden=\"true\"><path d=\"M1 7h11M8 3l4 4-4 4\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path></svg></span></a></li><li><a href=\"/industries/government-critical-infrastructure\" class=\"grid-12\" style=\"text-decoration:none;color:var(--text);align-items:center\"><span class=\"span-4 stack gap-1\"><span class=\"code\">03</span><span class=\"h-sub\" style=\"color:var(--text-strong)\">Government and critical infrastructure</span><span class=\"tiny\">Public sector, energy, telecom and defence</span></span><span class=\"span-6 body muted\">Critical infrastructure has the earliest dates.</span><span class=\"span-2 textlink\" style=\"justify-content:flex-end\">Read <svg class=\"arrow\" width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"none\" aria-hidden=\"true\"><path d=\"M1 7h11M8 3l4 4-4 4\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path></svg></span></a></li><li><a href=\"/industries/manufacturing-ot\" class=\"grid-12\" style=\"text-decoration:none;color:var(--text);align-items:center\"><span class=\"span-4 stack gap-1\"><span class=\"code\">04</span><span class=\"h-sub\" style=\"color:var(--text-strong)\">Manufacturing and industrial OT</span><span class=\"tiny\">Plants, utilities and process industries</span></span><span class=\"span-6 body muted\">The plant floor cannot be polled like a server.</span><span class=\"span-2 textlink\" style=\"justify-content:flex-end\">Read <svg class=\"arrow\" width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"none\" aria-hidden=\"true\"><path d=\"M1 7h11M8 3l4 4-4 4\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path></svg></span></a></li><li><a href=\"/industries/startups-smes\" class=\"grid-12\" style=\"text-decoration:none;color:var(--text);align-items:center\"><span class=\"span-4 stack gap-1\"><span class=\"code\">05</span><span class=\"h-sub\" style=\"color:var(--text-strong)\">Startups and SMEs</span><span class=\"tiny\">Growing companies, from first site to many portals</span></span><span class=\"span-6 body muted\">Launch the front door once, then add rooms as you grow.</span><span class=\"span-2 textlink\" style=\"justify-content:flex-end\">Read <svg class=\"arrow\" width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"none\" aria-hidden=\"true\"><path d=\"M1 7h11M8 3l4 4-4 4\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path></svg></span></a></li></ul></div></section><section class=\"section section--surface\" aria-labelledby=\"cta-title\"><div class=\"wrap grid-12\" style=\"align-items:end\"><div class=\"span-7 stack gap-3\"><p class=\"eyebrow\">Next step</p><h2 id=\"cta-title\" class=\"h-section\">Talk to the people who build it.</h2><p class=\"lede\">A founder reads every message. Tell us about your systems and timeline.</p></div><div class=\"span-5 stack gap-3\" style=\"align-items:flex-start\"><div class=\"row\"><a href=\"/contact\" class=\"btn btn--gold\">Start a conversation <svg class=\"arrow\" width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"none\" aria-hidden=\"true\"><path d=\"M1 7h11M8 3l4 4-4 4\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path></svg></a></div><p class=\"small mono\">+91 76206 90561 \u00b7 contact@uelement.in</p></div></div></section>";
 
 export default function IndustriesPage() {
   return (
-    <>
-      <div className="hero hero-half">
-        <div className="hero-art">
-          <img src="/u92-flower.png" alt="" aria-hidden="true" />
-        </div>
-        <div className="hero-fabric" />
-        <div className="wrap">
-          <div className="crumb">
-            <Link href="/">Home</Link> / Industries
-          </div>
-          <div className="kicker">Industries</div>
-          <h1 className="display" style={{ fontSize: 'var(--text-display)' }}>
-            Where we operate.
-          </h1>
-          <p className="lede" style={{ marginTop: 20 }}>
-            UElement builds for sectors where downtime is measured in
-            consequences, not minutes. Each industry pairing below maps our
-            platforms to the problems that define it.
-          </p>
-        </div>
-      </div>
-
-      <div className="section alt">
-        <div
-          className="wrap"
-          style={{ display: 'flex', flexDirection: 'column', gap: 22 }}
-        >
-          <div className="card" id="ind-def">
-            <div className="grid2" style={{ alignItems: 'center' }}>
-              <div>
-                <h4>Defence &amp; Aerospace</h4>
-                <p>
-                  DDIL-native autonomy, air-gapped deployment, and post-quantum
-                  communications. ITAR-free and export-eligible by design.
-                </p>
-              </div>
-              <div className="chips">
-                <span className="chip">TRIpura</span>
-                <span className="chip">AdviQ PQC</span>
-                <span className="chip">Kayak custody</span>
-              </div>
-            </div>
-          </div>
-          <div className="card" id="ind-bfsi">
-            <div className="grid2" style={{ alignItems: 'center' }}>
-              <div>
-                <h4>Banking &amp; Financial Services</h4>
-                <p>
-                  Quantum-safe transaction protection, UPI/CBS journey
-                  observability, RBI &amp; SEBI compliance evidence generated as
-                  daily exhaust.
-                </p>
-              </div>
-              <div className="chips">
-                <span className="chip">AdviQ PQC</span>
-                <span className="chip">AdviQ Crypto-Agility</span>
-                <span className="chip">Vizor</span>
-                <span className="chip">Ankura</span>
-              </div>
-            </div>
-          </div>
-          <div className="card" id="ind-mfg">
-            <div className="grid2" style={{ alignItems: 'center' }}>
-              <div>
-                <h4>Manufacturing &amp; Industrial OT</h4>
-                <p>
-                  Purdue-native observability across 40+ OT protocols, passive
-                  by architecture at Levels 0–2, IEC 62443 conformance graphed
-                  in real time.
-                </p>
-              </div>
-              <div className="chips">
-                <span className="chip">Vizor OT</span>
-                <span className="chip">Kayak</span>
-                <span className="chip">U92 Industrial</span>
-              </div>
-            </div>
-          </div>
-          <div className="card" id="ind-gov">
-            <div className="grid2" style={{ alignItems: 'center' }}>
-              <div>
-                <h4>Government &amp; Public Sector</h4>
-                <p>
-                  Sovereign cloud and air-gapped topologies, CERT-In 6-hour
-                  incident reporting, GeM procurement readiness under
-                  Make-in-India.
-                </p>
-              </div>
-              <div className="chips">
-                <span className="chip">Vizor</span>
-                <span className="chip">TRIpura</span>
-                <span className="chip">AdviQ QKD</span>
-              </div>
-            </div>
-          </div>
-          <div className="card" id="ind-health">
-            <div className="grid2" style={{ alignItems: 'center' }}>
-              <div>
-                <h4>Healthcare &amp; Pharma</h4>
-                <p>
-                  HIPAA and DPDP-aligned operations, clinical uptime, and
-                  serialized provenance from production line to patient.
-                </p>
-              </div>
-              <div className="chips">
-                <span className="chip">Kayak provenance</span>
-                <span className="chip">Vizor</span>
-                <span className="chip">U92</span>
-              </div>
-            </div>
-          </div>
-          <div className="card" id="ind-dc">
-            <div className="grid2" style={{ alignItems: 'center' }}>
-              <div>
-                <h4>Datacenter &amp; Warehouse</h4>
-                <p>
-                  Rack space, hardware, power, cooling, SKUs, and movement:
-                  metered, digital-twinned, and billed as services on a verified
-                  fabric.
-                </p>
-              </div>
-              <div className="chips">
-                <span className="chip">Kayak EaaS</span>
-                <span className="chip">Vizor Cloud</span>
-                <span className="chip">Ankura portals</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
+    <main id="main" dangerouslySetInnerHTML={{ __html: content }} />
   );
 }

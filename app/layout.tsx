@@ -7,10 +7,9 @@ import {
   DM_Serif_Text,
 } from 'next/font/google';
 import './globals.css';
-import Header from '@/components/ui/Header';
-import Footer from '@/components/layout/FooterV2';
-import SplashScreen from '@/components/ui/SplashScreen';
-import { SITE_URL } from '@/lib/content/locales';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import SiteScript from '@/components/SiteScript';
 
 const redditSans = Reddit_Sans({
   subsets: ['latin'],
@@ -49,42 +48,36 @@ const dmSerifText = DM_Serif_Text({
 });
 
 export const metadata: Metadata = {
-  title:
-    'UElement Technologies | Building Sovereign DeepTech & Quantum Secure Enterprise Fabric',
+  metadataBase: new URL('https://uelement.in'),
+  title: 'UElement: Quantum-safe security and enterprise platforms',
   description:
-    'a Global DeepTech company engineering Quantum-safe security, Autonomous systems and Enterprise-scale digital infrastructure.',
-  metadataBase: new URL(SITE_URL),
-  alternates: {
-    canonical: SITE_URL,
-    languages: {
-      'en-IN': 'https://uelement.in',
-      'en': 'https://uelement.co',
-      'x-default': 'https://uelement.co',
-    },
+    'UElement is a DeepTech company in Pune, India. We help banks, insurers and critical infrastructure move to quantum-safe cryptography, and we run the digital front door of growing companies on the MainSTAY platform.',
+  icons: {
+    icon: '/favicon.svg',
   },
   openGraph: {
-    title:
-      'UElement Technologies | Building Sovereign DeepTech & Quantum Secure Enterprise Fabric',
+    title: 'Quantum-safe security and the MainSTAY platform · UElement',
     description:
-      'a Global DeepTech company engineering Quantum-safe security, Autonomous systems and Enterprise-scale digital infrastructure.',
-    url: SITE_URL,
+      'UElement is a DeepTech company in Pune, India. We help banks, insurers and critical infrastructure move to quantum-safe cryptography, and we run the digital front door of growing companies on the MainSTAY platform.',
+    url: 'https://uelement.in/',
     siteName: 'UElement',
-    locale: 'en_US',
+    locale: 'en_IN',
     type: 'website',
     images: [
       {
-        url: '/ue-website-og-image.png',
+        url: 'https://uelement.in/og.png',
         width: 1200,
         height: 630,
-        alt: 'UElement Technologies | Building Sovereign DeepTech & Quantum Secure Enterprise Fabric',
+        alt: 'UElement: Sovereign DeepTech for the systems that cannot fail.',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'UElement Technologies',
-    description: 'Sovereign deeptech for the systems that cannot fail.',
-    images: ['/ue-website-og-image.png'],
+    title: 'Quantum-safe security and the MainSTAY platform · UElement',
+    description:
+      'UElement is a DeepTech company in Pune, India. We help banks, insurers and critical infrastructure move to quantum-safe cryptography, and we run the digital front door of growing companies on the MainSTAY platform.',
+    images: ['https://uelement.in/og.png'],
   },
 };
 
@@ -95,17 +88,22 @@ export default function RootLayout({
 }) {
   return (
     <html
-      lang="en"
+      lang="en-IN"
       className={`${redditSans.variable} ${montserrat.variable} ${notoSans.variable} ${robotoMono.variable} ${dmSerifText.variable}`}
     >
       <head>
-        <link rel="icon" href="/favicon.ico" />
+        <meta name="theme-color" content="#0D1A34" />
+        <meta name="color-scheme" content="light" />
+        <link rel="icon" href="/favicon.svg" />
       </head>
       <body>
-        <SplashScreen />
+        <a className="skip" href="#main">
+          Skip to content
+        </a>
         <Header />
-        <main>{children}</main>
+        {children}
         <Footer />
+        <SiteScript />
       </body>
     </html>
   );
