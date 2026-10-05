@@ -16,7 +16,9 @@
   /* ---------------------------------------------------------------- header */
   function initHeader() {
     var triggers = Array.prototype.slice.call(document.querySelectorAll(".nav__trigger"));
+    var closeTimer = null;
     function closeAll(except) {
+      if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
       triggers.forEach(function (b) {
         if (b === except) return;
         b.setAttribute("aria-expanded", "false");
@@ -27,6 +29,26 @@
     triggers.forEach(function (b) {
       if (b._bound) return;
       b._bound = true;
+      var item = b.closest(".nav__item");
+      if (item) {
+        item.addEventListener("mouseenter", function () {
+          if (window.innerWidth >= 1024) {
+            closeAll(b);
+            b.setAttribute("aria-expanded", "true");
+            var p = document.getElementById(b.getAttribute("aria-controls"));
+            if (p) p.hidden = false;
+          }
+        });
+        item.addEventListener("mouseleave", function () {
+          if (window.innerWidth >= 1024) {
+            closeTimer = setTimeout(function () {
+              b.setAttribute("aria-expanded", "false");
+              var p = document.getElementById(b.getAttribute("aria-controls"));
+              if (p) p.hidden = true;
+            }, 120);
+          }
+        });
+      }
       b.addEventListener("click", function (ev) {
         ev.stopPropagation();
         var open = b.getAttribute("aria-expanded") === "true";
@@ -42,6 +64,37 @@
     document.addEventListener("keydown", function (ev) {
       if (ev.key === "Escape") { closeAll(null); closeDrawer(); }
     });
+
+  /* ---------------------------------------------------------------- platform tabs (SentinelOne style) */
+  function initPlatformTabs() {
+    var tabs = Array.prototype.slice.call(document.querySelectorAll(".platform-tab"));
+    var panels = Array.prototype.slice.call(document.querySelectorAll(".platform-panel"));
+    if (!tabs.length) return;
+
+    tabs.forEach(function (tab) {
+      if (tab._bound) return;
+      tab._bound = true;
+
+      function activate() {
+        var targetId = tab.getAttribute("data-target");
+        tabs.forEach(function (t) {
+          var active = t === tab;
+          t.classList.toggle("is-active", active);
+          t.setAttribute("aria-selected", active ? "true" : "false");
+        });
+        panels.forEach(function (panel) {
+          panel.hidden = panel.id !== targetId;
+        });
+      }
+
+      tab.addEventListener("mouseenter", activate);
+      tab.addEventListener("focus", activate);
+      tab.addEventListener("click", function (e) {
+        e.preventDefault();
+        activate();
+      });
+    });
+  }
 
     var btn = document.querySelector(".menu-btn");
     var drawer = document.getElementById("drawer");
@@ -267,7 +320,7 @@
   window.initSite = start;
   function start() {
     document.documentElement.classList.add("js");
-    initHeader(); initArt(); initExposure(); initPicker(); initForm();
+    initHeader(); initPlatformTabs(); initArt(); initExposure(); initPicker(); initForm();
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
   else start();

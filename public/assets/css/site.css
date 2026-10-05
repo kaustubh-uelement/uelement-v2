@@ -303,3 +303,212 @@ button[type="submit"] {
   display: block;
 }
 
+
+/* ==========================================================================
+   SentinelOne-style Platform Mega Menu & Tabs
+   ========================================================================== */
+.mega--platform {
+  width: min(1080px, calc(100vw - 32px)) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 24px 28px 20px !important;
+  grid-template-columns: none !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+}
+
+.platform-head {
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 18px;
+}
+
+.platform-body {
+  display: flex;
+  gap: 28px;
+  min-height: 290px;
+}
+
+.platform-tabs {
+  flex: 0 0 210px;
+  border-right: 1px solid var(--line);
+  padding-right: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.platform-tab {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 6px;
+  font-family: var(--font-heading);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-2);
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.16s ease;
+}
+
+.platform-tab:hover,
+.platform-tab.is-active {
+  background: rgba(196, 154, 69, 0.12);
+  color: var(--enamel-ink);
+  font-weight: 700;
+  border-color: rgba(196, 154, 69, 0.22);
+}
+
+.platform-tab .tab__arrow {
+  color: var(--text-3);
+  transition: transform 0.16s, color 0.16s;
+}
+
+.platform-tab:hover .tab__arrow,
+.platform-tab.is-active .tab__arrow {
+  color: var(--accent);
+  transform: translateX(3px);
+}
+
+.platform-panels {
+  flex: 1;
+  min-width: 0;
+}
+
+.platform-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: platformPanelFade 0.18s ease;
+}
+
+@keyframes platformPanelFade {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.platform-featured {
+  background: rgba(13, 26, 52, 0.035);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.platform-featured:hover {
+  background: rgba(196, 154, 69, 0.06);
+  border-color: rgba(196, 154, 69, 0.28);
+}
+
+.platform-featured__title {
+  font-size: 1.125rem;
+  margin: 0 0 3px 0;
+  color: var(--text-strong);
+}
+
+.platform-featured__desc {
+  margin: 0;
+  color: var(--text-2);
+  line-height: 1.5;
+  max-width: 58ch;
+}
+
+.platform-featured__cta {
+  flex-shrink: 0;
+}
+
+.platform-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.platform-grid--6 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.platform-grid--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.platform-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 14px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: transparent;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.16s ease;
+}
+
+.platform-card:hover {
+  background: rgba(196, 154, 69, 0.08);
+  border-color: rgba(196, 154, 69, 0.25);
+  transform: translateY(-1px);
+}
+
+.platform-card__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.platform-card h4 {
+  font-size: 0.9375rem;
+  margin: 0;
+  color: var(--text-strong);
+  line-height: 1.3;
+}
+
+.platform-card p {
+  color: var(--text-2);
+  margin: 0;
+  line-height: 1.45;
+}
+
+.platform-footer {
+  border-top: 1px solid var(--line);
+  margin-top: 16px;
+  padding-top: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.platform-footer__links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+@media (max-width: 960px) {
+  .platform-body {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .platform-tabs {
+    flex: none;
+    flex-direction: row;
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+    padding-right: 0;
+    padding-bottom: 12px;
+  }
+  .platform-grid--6,
+  .platform-grid--3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
