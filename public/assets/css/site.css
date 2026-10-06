@@ -152,9 +152,10 @@ body.nav-open {
 .header {
   position: relative !important;
   z-index: 100 !important;
-  background: linear-gradient(180deg, #112142 0%, var(--enamel) 100%);
-  border-bottom: 0;
-  box-shadow: 0 1px 0 rgba(0, 0, 0, .25);
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
 }
 
 .nav-backdrop {
@@ -179,7 +180,7 @@ body.nav-open .nav-backdrop {
 .nav-backdrop[hidden] {
   display: none !important;
 }
-.header:after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--gold-rule);opacity:.7}
+.header:after{display:none !important}
 .header__bar {
   max-width: 1180px !important;
   margin-inline: auto !important;
