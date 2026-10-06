@@ -135,68 +135,9 @@ a:hover{color:var(--text-strong)}
 .textlink:hover{color:var(--accent)}
 .section--deep .textlink{color:#fff}
 
-/* ---------- header & scroll lock: navy enamel with a gold hairline ---------- */
-html.nav-open,
-body.nav-open {
-  overflow: hidden !important;
-  overscroll-behavior: none !important;
-  touch-action: none !important;
-}
-
-.header-sticky-wrapper {
-  position: sticky !important;
-  top: 0 !important;
-  z-index: 100 !important;
-}
-
-.header {
-  position: relative !important;
-  z-index: 100 !important;
-  background: transparent !important;
-  border: none !important;
-  border-bottom: 1px solid transparent !important;
-  box-shadow: none !important;
-  transition: background 0.28s cubic-bezier(0.16, 1, 0.3, 1),
-              background-color 0.28s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.28s cubic-bezier(0.16, 1, 0.3, 1),
-              -webkit-backdrop-filter 0.28s cubic-bezier(0.16, 1, 0.3, 1),
-              backdrop-filter 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
-}
-
-.header.is-scrolled,
-.header-sticky-wrapper.is-scrolled .header,
-body.nav-open .header {
-  background: linear-gradient(180deg, rgba(17, 33, 66, 0.96) 0%, rgba(13, 26, 52, 0.98) 100%) !important;
-  -webkit-backdrop-filter: blur(16px) saturate(140%) !important;
-  backdrop-filter: blur(16px) saturate(140%) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-  box-shadow: 0 4px 24px -2px rgba(4, 10, 25, 0.45) !important;
-}
-
-.nav-backdrop {
-  position: fixed !important;
-  inset: 0 !important;
-  top: 72px !important;
-  background: rgba(4, 10, 25, 0.65) !important;
-  backdrop-filter: blur(4px) !important;
-  -webkit-backdrop-filter: blur(4px) !important;
-  z-index: 90 !important;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
-}
-
-.nav-backdrop.is-open,
-body.nav-open .nav-backdrop {
-  opacity: 1 !important;
-  pointer-events: auto !important;
-}
-
-.nav-backdrop[hidden] {
-  display: none !important;
-}
-.header:after{display:none !important}
+/* ---------- header: navy enamel with a gold hairline ---------- */
+.header{background:linear-gradient(180deg,#112142 0%,var(--enamel) 100%);border-bottom:0;box-shadow:0 1px 0 rgba(0,0,0,.25)}
+.header:after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--gold-rule);opacity:.7}
 .header__bar {
   max-width: 1180px !important;
   margin-inline: auto !important;
@@ -234,7 +175,6 @@ body.nav-open .nav-backdrop {
   --bg:var(--creme); --surface:var(--creme-card); --text:#2B3452; --text-strong:var(--enamel-ink); --text-2:#4E5774; --text-3:#6E7590;
   --accent:var(--gold-ink); --accent-line:rgba(138,101,34,.42); --line:rgba(13,26,52,.11); --line-2:rgba(13,26,52,.2);
   background:var(--creme-card);border:0;border-radius:3px;box-shadow:0 30px 70px -20px rgba(4,10,25,.55);color:var(--text);
-  z-index: 105;
   opacity:0;
   transform:translateY(-8px) scale(0.985);
   pointer-events:none;
@@ -535,7 +475,7 @@ button[type="submit"] {
   flex-direction: column !important;
   padding: 24px 28px 20px !important;
   grid-template-columns: none !important;
-  z-index: 105 !important;
+  z-index: 100 !important;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.24s cubic-bezier(0.16, 1, 0.3, 1), transform 0.24s cubic-bezier(0.16, 1, 0.3, 1) !important;

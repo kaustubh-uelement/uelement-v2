@@ -15,51 +15,14 @@
 
   /* ---------------------------------------------------------------- header */
   function initHeader() {
-    // In Next.js client, Header.tsx natively manages header state and events
-    if (document.querySelector(".header-sticky-wrapper")) return;
-
     var triggers = Array.prototype.slice.call(document.querySelectorAll(".nav__trigger"));
-    var backdrop = document.getElementById("nav-backdrop");
-    var btn = document.querySelector(".menu-btn");
-    var drawer = document.getElementById("drawer");
     var closeTimer = null;
-
-    function lockScroll() {
-      document.documentElement.classList.add("nav-open");
-      document.body.classList.add("nav-open");
-      if (backdrop) {
-        backdrop.hidden = false;
-        requestAnimationFrame(function () {
-          backdrop.classList.add("is-open");
-        });
-      }
-    }
-
-    function unlockScroll() {
-      var anyOpen = triggers.some(function (b) {
-        return b.getAttribute("aria-expanded") === "true";
-      });
-      var drawerOpen = drawer && !drawer.hidden && btn && btn.getAttribute("aria-expanded") === "true";
-      if (!anyOpen && !drawerOpen) {
-        document.documentElement.classList.remove("nav-open");
-        document.body.classList.remove("nav-open");
-        if (backdrop) {
-          backdrop.classList.remove("is-open");
-          setTimeout(function () {
-            if (!document.body.classList.contains("nav-open")) {
-              backdrop.hidden = true;
-            }
-          }, 240);
-        }
-      }
-    }
 
     function openMenu(b, p) {
       if (!b || !p) return;
       if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
       b.setAttribute("aria-expanded", "true");
       p.hidden = false;
-      lockScroll();
       requestAnimationFrame(function () {
         requestAnimationFrame(function () {
           p.classList.add("is-open");
@@ -76,7 +39,6 @@
           p.hidden = true;
         }
       }, 220);
-      unlockScroll();
     }
 
     function closeAll(except) {
@@ -84,19 +46,8 @@
       triggers.forEach(function (b) {
         if (b === except) return;
         var p = document.getElementById(b.getAttribute("aria-controls"));
-        if (p) {
-          b.setAttribute("aria-expanded", "false");
-          p.classList.remove("is-open");
-          setTimeout(function () {
-            if (b.getAttribute("aria-expanded") !== "true") {
-              p.hidden = true;
-            }
-          }, 220);
-        }
+        if (p) closeMenu(b, p);
       });
-      if (!except) {
-        unlockScroll();
-      }
     }
 
     triggers.forEach(function (b) {
@@ -105,49 +56,32 @@
       var item = b.closest(".nav__item");
       var p = document.getElementById(b.getAttribute("aria-controls"));
       if (item && p) {
-        function handleEnter() {
+        item.addEventListener("mouseenter", function () {
           if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
           if (window.innerWidth >= 1024) {
             closeAll(b);
             openMenu(b, p);
           }
-        }
-        function handleLeave() {
+        });
+        item.addEventListener("mouseleave", function () {
           if (window.innerWidth >= 1024) {
-            if (closeTimer) clearTimeout(closeTimer);
             closeTimer = setTimeout(function () {
               closeMenu(b, p);
-            }, 240);
+            }, 140);
           }
-        }
-        item.addEventListener("mouseenter", handleEnter);
-        item.addEventListener("mouseleave", handleLeave);
-        p.addEventListener("mouseenter", handleEnter);
-        p.addEventListener("mouseleave", handleLeave);
+        });
       }
       b.addEventListener("click", function (ev) {
         ev.stopPropagation();
         var open = b.getAttribute("aria-expanded") === "true";
+        closeAll(b);
         if (open) {
-          closeAll(null);
+          closeMenu(b, p);
         } else {
-          closeAll(b);
           openMenu(b, p);
         }
       });
     });
-
-    if (backdrop && !backdrop._bound) {
-      backdrop._bound = true;
-      backdrop.addEventListener("click", function () {
-        closeAll(null);
-        closeDrawer();
-      });
-      backdrop.addEventListener("mouseenter", function () {
-        closeAll(null);
-      });
-    }
-
     if (!document._headerBound) {
       document._headerBound = true;
       document.addEventListener("click", function (ev) {
@@ -156,45 +90,6 @@
       document.addEventListener("keydown", function (ev) {
         if (ev.key === "Escape") { closeAll(null); closeDrawer(); }
       });
-    }
-
-    if (!window._navScrollLockBound) {
-      window._navScrollLockBound = true;
-
-      function preventBgScroll(e) {
-        if (!document.body.classList.contains("nav-open")) return;
-        var scrollable = e.target.closest && e.target.closest(".mega.is-open, .drawer:not([hidden])");
-        if (!scrollable) {
-          e.preventDefault();
-          return;
-        }
-        var delta = e.deltaY !== undefined ? e.deltaY : -(e.wheelDelta || 0);
-        var atTop = scrollable.scrollTop <= 0;
-        var atBottom = scrollable.scrollTop + scrollable.clientHeight >= scrollable.scrollHeight - 1;
-        if ((delta < 0 && atTop) || (delta > 0 && atBottom)) {
-          e.preventDefault();
-        }
-      }
-
-      window.addEventListener("wheel", preventBgScroll, { passive: false });
-      window.addEventListener("touchmove", preventBgScroll, { passive: false });
-
-      window.addEventListener("keydown", function (e) {
-        if (!document.body.classList.contains("nav-open")) return;
-        var keys = ["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Space", " "];
-        if (keys.indexOf(e.key) !== -1) {
-          var inInput = e.target && (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA" || e.target.isContentEditable);
-          if (!inInput) {
-            e.preventDefault();
-          }
-        }
-      });
-
-      window.addEventListener("scroll", function () {
-        if (document.body.classList.contains("nav-open")) {
-          closeAll(null);
-        }
-      }, { passive: true });
     }
 
     var megaLinks = Array.prototype.slice.call(document.querySelectorAll(".mega a"));
@@ -206,6 +101,8 @@
       });
     });
 
+    var btn = document.querySelector(".menu-btn");
+    var drawer = document.getElementById("drawer");
     var ICON_OPEN = '<svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>';
     var ICON_CLOSE = '<svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 4l12 12M16 4 4 16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>';
     function closeDrawer() {
@@ -214,7 +111,6 @@
       btn.setAttribute("aria-expanded", "false");
       btn.setAttribute("aria-label", "Open menu");
       btn.innerHTML = ICON_OPEN;
-      unlockScroll();
     }
     if (btn && drawer && !btn._bound) {
       btn._bound = true;
@@ -225,23 +121,9 @@
         btn.setAttribute("aria-expanded", "true");
         btn.setAttribute("aria-label", "Close menu");
         btn.innerHTML = ICON_CLOSE;
-        lockScroll();
       });
       window.addEventListener("resize", function () { if (window.innerWidth > 1040) closeDrawer(); });
     }
-
-    var header = document.querySelector(".header");
-    var stickyWrapper = document.querySelector(".header-sticky-wrapper");
-    function updateHeaderScroll() {
-      var scrolled = window.scrollY > 20;
-      if (header) header.classList.toggle("is-scrolled", scrolled);
-      if (stickyWrapper) stickyWrapper.classList.toggle("is-scrolled", scrolled);
-    }
-    if (!window._headerScrollBound) {
-      window._headerScrollBound = true;
-      window.addEventListener("scroll", updateHeaderScroll, { passive: true });
-    }
-    updateHeaderScroll();
   }
 
   /* ---------------------------------------------------------------- platform tabs (SentinelOne style) */
