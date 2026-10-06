@@ -121,7 +121,8 @@ export default function Header() {
   };
 
   return (
-    <div className={`header-sticky-wrapper ${isScrolled ? "is-scrolled" : ""}`}>
+    <>
+      <div className={`header-sticky-wrapper ${isScrolled ? "is-scrolled" : ""}`}>
       <header className={`header ${isScrolled ? "is-scrolled" : ""}`}>
         <div className="wrap header__bar">
           <Link href="/" className="brand" aria-label="UElement home" onClick={() => setActiveMenu(null)}>
@@ -155,7 +156,7 @@ export default function Header() {
               <div
                 className={`mega mega--platform ${activeMenu === "platform" ? "is-open" : ""}`}
                 id="menu-platform"
-                hidden={activeMenu !== "platform"}
+                aria-hidden={activeMenu !== "platform"}
                 onMouseEnter={() => handleMouseEnter("platform")}
                 onMouseLeave={() => handleMouseLeave("platform")}
               >
@@ -382,7 +383,7 @@ export default function Header() {
               <div
                 className={`mega mega--solutions ${activeMenu === "solutions" ? "is-open" : ""}`}
                 id="menu-solutions"
-                hidden={activeMenu !== "solutions"}
+                aria-hidden={activeMenu !== "solutions"}
                 onMouseEnter={() => handleMouseEnter("solutions")}
                 onMouseLeave={() => handleMouseLeave("solutions")}
               >
@@ -623,7 +624,7 @@ export default function Header() {
               <div
                 className={`mega ${activeMenu === "company" ? "is-open" : ""}`}
                 id="menu-company"
-                hidden={activeMenu !== "company"}
+                aria-hidden={activeMenu !== "company"}
                 style={{
                   left: "auto",
                   right: "0px",
@@ -692,17 +693,6 @@ export default function Header() {
             </button>
           </div>
         </div>
-
-        {/* Backdrop for dropdowns and mobile drawer */}
-        <div
-          className={`nav-backdrop ${activeMenu || isDrawerOpen ? "is-open" : ""}`}
-          id="nav-backdrop"
-          hidden={!activeMenu && !isDrawerOpen}
-          onClick={() => {
-            setActiveMenu(null);
-            setIsDrawerOpen(false);
-          }}
-        />
 
         {/* Mobile Drawer */}
         <div className="drawer" id="drawer" hidden={!isDrawerOpen}>
@@ -794,5 +784,17 @@ export default function Header() {
         </div>
       </header>
     </div>
+
+    {/* Backdrop for dropdowns and mobile drawer */}
+    <div
+      className={`nav-backdrop ${activeMenu || isDrawerOpen ? "is-open" : ""}`}
+      id="nav-backdrop"
+      aria-hidden={!activeMenu && !isDrawerOpen}
+      onClick={() => {
+        setActiveMenu(null);
+        setIsDrawerOpen(false);
+      }}
+    />
+    </>
   );
 }

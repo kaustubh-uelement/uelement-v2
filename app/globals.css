@@ -210,7 +210,15 @@ body.nav-open {
 }
 
 .header.is-scrolled,
-.header-sticky-wrapper.is-scrolled .header,
+.header-sticky-wrapper.is-scrolled .header {
+  background: linear-gradient(180deg, rgba(17, 33, 66, 0.95) 0%, rgba(13, 26, 52, 0.98) 100%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(140%) !important;
+  backdrop-filter: blur(16px) saturate(140%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 8px 32px -4px rgba(4, 10, 25, 0.5) !important;
+}
+
+/* Mobile drawer open → also darken header */
 body.nav-open .header {
   background: linear-gradient(180deg, rgba(17, 33, 66, 0.95) 0%, rgba(13, 26, 52, 0.98) 100%) !important;
   -webkit-backdrop-filter: blur(16px) saturate(140%) !important;
@@ -230,16 +238,12 @@ body.nav-open .header {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  display: block !important;
 }
 
-.nav-backdrop.is-open,
-body.nav-open .nav-backdrop {
+.nav-backdrop.is-open {
   opacity: 1 !important;
   pointer-events: auto !important;
-}
-
-.nav-backdrop[hidden] {
-  display: none !important;
 }
 .header:after{display:none !important}
 .header__bar {
@@ -293,6 +297,20 @@ body.nav-open .nav-backdrop {
     overflow-y: auto !important;
   }
 }
+.nav__item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+.nav__caret {
+  width: 10px;
+  height: 10px;
+  flex-shrink: 0;
+  transition: transform 0.18s ease;
+}
+.nav__trigger[aria-expanded=true] .nav__caret {
+  transform: rotate(180deg);
+}
 .nav__link,.nav__trigger{
   color: #D9DEE8 !important;
   height: 34px !important;
@@ -307,6 +325,7 @@ body.nav-open .nav-backdrop {
   background: transparent !important;
   border: none !important;
   text-decoration: none !important;
+  cursor: pointer !important;
   transition: color 0.18s ease, background 0.18s ease !important;
 }
 .nav__link:hover,.nav__trigger:hover,.nav__trigger[aria-expanded=true],.nav__link[aria-current=page]{
@@ -322,6 +341,11 @@ body.nav-open .nav-backdrop {
 .mega{
   --bg:var(--creme); --surface:var(--creme-card); --text:#2B3452; --text-strong:var(--enamel-ink); --text-2:#4E5774; --text-3:#6E7590;
   --accent:var(--gold-ink); --accent-line:rgba(138,101,34,.42); --line:rgba(13,26,52,.11); --line-2:rgba(13,26,52,.2);
+  display: block !important;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: 260px;
   background:var(--creme-card);border:0;border-radius:3px;box-shadow:0 30px 70px -20px rgba(4,10,25,.55);color:var(--text);
   z-index: 105;
   opacity:0;
@@ -708,13 +732,9 @@ button[type="submit"] {
   pointer-events: auto !important;
 }
 
-.mega--platform[hidden],
-.mega--solutions[hidden] {
-  display: none !important;
-}
-
-.mega--platform:not([hidden]),
-.mega--solutions:not([hidden]) {
+/* mega--platform and mega--solutions are always in the DOM; visibility is CSS-only */
+.mega--platform,
+.mega--solutions {
   display: flex !important;
 }
 
