@@ -221,6 +221,19 @@
       });
       window.addEventListener("resize", function () { if (window.innerWidth > 1040) closeDrawer(); });
     }
+
+    var header = document.querySelector(".header");
+    var stickyWrapper = document.querySelector(".header-sticky-wrapper");
+    function updateHeaderScroll() {
+      var scrolled = window.scrollY > 20;
+      if (header) header.classList.toggle("is-scrolled", scrolled);
+      if (stickyWrapper) stickyWrapper.classList.toggle("is-scrolled", scrolled);
+    }
+    if (!window._headerScrollBound) {
+      window._headerScrollBound = true;
+      window.addEventListener("scroll", updateHeaderScroll, { passive: true });
+    }
+    updateHeaderScroll();
   }
 
   /* ---------------------------------------------------------------- platform tabs (SentinelOne style) */

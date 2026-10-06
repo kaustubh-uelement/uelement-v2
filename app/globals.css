@@ -184,8 +184,24 @@ body.nav-open {
   z-index: 100 !important;
   background: transparent !important;
   border: none !important;
-  border-bottom: 0 !important;
+  border-bottom: 1px solid transparent !important;
   box-shadow: none !important;
+  transition: background 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              -webkit-backdrop-filter 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              backdrop-filter 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.header.is-scrolled,
+.header-sticky-wrapper.is-scrolled .header,
+body.nav-open .header {
+  background: linear-gradient(180deg, rgba(17, 33, 66, 0.96) 0%, rgba(13, 26, 52, 0.98) 100%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(140%) !important;
+  backdrop-filter: blur(16px) saturate(140%) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 4px 24px -2px rgba(4, 10, 25, 0.45) !important;
 }
 
 .nav-backdrop {
