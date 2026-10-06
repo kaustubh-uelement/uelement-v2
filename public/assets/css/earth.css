@@ -30,11 +30,43 @@ background:radial-gradient(circle closest-side,transparent calc(100% - 93px),rgb
 .earth__inner .eyebrow{color:var(--city);letter-spacing:.22em}
 .earth__inner h1{text-wrap:balance;text-shadow:0 2px 28px rgba(3,6,14,.9);margin-bottom:0}
 .earth__inner .lede{margin-inline:auto;max-width:62ch;text-wrap:pretty;text-shadow:0 1px 18px rgba(3,6,14,.95);margin-top:clamp(36px,5.5vw,84px)}
-.earth__links{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:10px 30px}
-.earth__links a{font-family:var(--font-heading);font-size:.8125rem;font-weight:500;letter-spacing:.02em;color:var(--text-2);text-decoration:none;padding-block:4px;border-bottom:1px solid transparent;transition:color .2s,border-color .2s}
-.earth__links a:hover{color:var(--text-strong);border-bottom-color:var(--line-2)}
-.earth__links a.earth__primary{color:var(--accent);border-bottom-color:var(--accent-line)}
-.earth__links a.earth__primary:hover{color:var(--text-strong);border-bottom-color:var(--accent)}
+.earth__links{list-style:none;margin:18px 0 0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px 14px}
+.earth__links a{
+  font-family:var(--font-heading);
+  font-size:0.8125rem;
+  font-weight:500;
+  letter-spacing:0.02em;
+  color:#D9DEE8;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  padding:6px 16px;
+  border-radius:9999px;
+  border:1px dashed rgba(255,255,255,0.3);
+  background:rgba(13,26,52,0.45);
+  -webkit-backdrop-filter:blur(8px);
+  backdrop-filter:blur(8px);
+  transition:all 0.22s cubic-bezier(0.16,1,0.3,1);
+}
+.earth__links a:hover{
+  color:#FFFFFF;
+  border-color:var(--accent);
+  background:rgba(224,167,105,0.15);
+  box-shadow:0 0 16px rgba(224,167,105,0.3), inset 0 0 8px rgba(224,167,105,0.1);
+  transform:translateY(-1px);
+}
+.earth__links a.earth__primary{
+  color:var(--accent);
+  border:1px dashed var(--accent-line);
+  background:rgba(224,167,105,0.08);
+}
+.earth__links a.earth__primary:hover{
+  color:#FFFFFF;
+  border-color:var(--accent);
+  background:rgba(224,167,105,0.22);
+  box-shadow:0 0 20px rgba(224,167,105,0.38), inset 0 0 10px rgba(224,167,105,0.15);
+  transform:translateY(-1px);
+}
 .earth__cue{margin-top:clamp(28px,4vw,52px);display:flex;flex-direction:column;align-items:center;gap:10px;font-family:var(--font-heading);font-size:.75rem;font-weight:500;letter-spacing:.04em;color:var(--text-3);text-decoration:none}
 .earth__cue:hover{color:var(--text)}
 .earth__cue svg{animation:earth-bob 2.4s ease-in-out infinite}
