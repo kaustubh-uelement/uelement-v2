@@ -7,7 +7,7 @@
   "use strict";
 
   var SITE = {
-    email: "contact@uelement.in",
+    email: "contact@uelement.co",
     phone: "+91 76206 90561",
     /* Set this to your form service URL (Formspree, Basin, your own API) to switch on online sending. */
     formEndpoint: ""
@@ -355,7 +355,7 @@
           if (!res.ok) throw new Error("status " + res.status);
           var done = document.createElement("div");
           done.className = "callout"; done.setAttribute("role", "status");
-          done.innerHTML = '<p class="h-sub">Message sent.</p><p class="body">A founder will reply within one working day from an @uelement.in address.</p>';
+          done.innerHTML = '<p class="h-sub">Message sent.</p><p class="body">A founder will reply within one working day from an @uelement.co address.</p>';
           form.replaceWith(done);
         })
         .catch(function () { submit.disabled = false; submit.textContent = "Send message"; notice("error"); });

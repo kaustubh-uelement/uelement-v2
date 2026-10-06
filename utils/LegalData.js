@@ -35,7 +35,7 @@ export const legalData = {
       {
        
         content:
-          `By accessing, browsing, or using the UElement Technologies website at uelement.in (the "Site"), including any content, features, services, or materials provided through it, you ("User" or "you") agree to be bound by these Terms of Use ("Terms"). These Terms constitute a legally binding agreement between you and UElement Technologies Private Limited ("UElement," "we," "us," or "our"), a company incorporated under the laws of India and focused on delivering next-generation cybersecurity, cloud infrastructure, and AI solutions.`
+          `By accessing, browsing, or using the UElement Technologies website at uelement.co (the "Site"), including any content, features, services, or materials provided through it, you ("User" or "you") agree to be bound by these Terms of Use ("Terms"). These Terms constitute a legally binding agreement between you and UElement Technologies Private Limited ("UElement," "we," "us," or "our"), a company incorporated under the laws of India and focused on delivering next-generation cybersecurity, cloud infrastructure, and AI solutions.`
       },
       {
         content:

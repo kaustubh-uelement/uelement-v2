@@ -6,13 +6,13 @@ export const metadata: Metadata = {
   "openGraph": {
     "title": "UElement: Sovereign DeepTech for the systems that cannot fail.",
     "description": "UElement is a DeepTech company in Pune, India. We help banks, insurers and critical infrastructure move to quantum-safe cryptography, and we run the digital front door of growing companies on the MainSTAY platform.",
-    "url": "https://uelement.in/",
+    "url": "https://uelement.co/",
     "siteName": "UElement",
     "locale": "en_IN",
     "type": "website",
     "images": [
       {
-        "url": "https://uelement.in/og.png",
+        "url": "https://uelement.co/og.png",
         "width": 1200,
         "height": 630
       }
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     "title": "UElement: Sovereign DeepTech for the systems that cannot fail.",
     "description": "UElement is a DeepTech company in Pune, India. We help banks, insurers and critical infrastructure move to quantum-safe cryptography, and we run the digital front door of growing companies on the MainSTAY platform.",
     "images": [
-      "https://uelement.in/og.png"
+      "https://uelement.co/og.png"
     ]
   }
 };

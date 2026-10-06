@@ -3,8 +3,8 @@ set -euo pipefail
 
 log(){ echo "[$(date +%Y-%m-%dT%H:%M:%S)] [ObtainCert] $*"; }
 
-DOMAINS=("uelement.in" "www.uelement.in")
-EMAIL="satrajit@uelement.in"  # replace with your admin email or make it a variable
+DOMAINS=("uelement.co" "www.uelement.co")
+EMAIL="satrajit@uelement.co"  # replace with your admin email or make it a variable
 
 # If cert exists, exit
 if sudo test -d "/etc/letsencrypt/live/${DOMAINS[0]}"; then

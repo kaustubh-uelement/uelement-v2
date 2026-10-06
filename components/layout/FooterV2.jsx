@@ -328,7 +328,7 @@ const ContactUs = () => {
               </div>
               <div className="flex items-center justify-start font-heading gap-3 lg:gap-4">
                 <Icon name="email" />
-                <span>contact@uelement.in</span>
+                <span>contact@uelement.co</span>
               </div>
               <div className="flex items-start justify-start font-heading gap-3 lg:gap-4">
                 <Icon name="location" />

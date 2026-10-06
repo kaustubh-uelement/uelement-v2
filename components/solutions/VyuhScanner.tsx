@@ -380,13 +380,13 @@ export default function VyuhScanner() {
       'Source Page':
         typeof window !== 'undefined'
           ? window.location.href
-          : 'https://uelement.in/vyuh',
+          : 'https://uelement.co/vyuh',
       ...extra,
     };
 
     // Primary delivery: FormSubmit AJAX to NEXT_PUBLIC_FORM_SUBMIT_EMAIL
     const formSubmitEmail =
-      process.env.NEXT_PUBLIC_FORM_SUBMIT_EMAIL || 'kaustubh@uelement.in';
+      process.env.NEXT_PUBLIC_FORM_SUBMIT_EMAIL || 'kaustubh@uelement.co';
     let dispatched = false;
 
     if (formSubmitEmail) {
@@ -1338,7 +1338,7 @@ export default function VyuhScanner() {
       doc.setFontSize(7.5);
       doc.setTextColor(130, 130, 130);
       doc.text(
-        'UElement Technologies Private Limited · Wakad, Pune, Maharashtra 411057, India · www.uelement.in · contact@uelement.in',
+        'UElement Technologies Private Limited · Wakad, Pune, Maharashtra 411057, India · www.uelement.co · contact@uelement.co',
         M,
         H - 38
       );
@@ -1651,7 +1651,7 @@ export default function VyuhScanner() {
     // Next steps
     drawSectionTitle('Engagement with {branding.adviqPractice}');
     drawParagraph(
-      'Vyuh provides single-target scanning. Estate-wide discovery, continuous automated CBOM monitoring, hardware security module (HSM) migration, and crypto-agility implementation are delivered by {branding.adviqPractice}, our dedicated quantum security practice. Contact our cryptographic engineering team at contact@uelement.in or call +91 7620690561 to review your assessment.'
+      'Vyuh provides single-target scanning. Estate-wide discovery, continuous automated CBOM monitoring, hardware security module (HSM) migration, and crypto-agility implementation are delivered by {branding.adviqPractice}, our dedicated quantum security practice. Contact our cryptographic engineering team at contact@uelement.co or call +91 7620690561 to review your assessment.'
     );
 
     printFooter(page);

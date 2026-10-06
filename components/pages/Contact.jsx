@@ -329,7 +329,7 @@ const ContactUs = () => {
               </div>
               <div className="flex items-center justify-start font-reddit-sans gap-3 lg:gap-4">
                 <Icon name="email" />
-                <span>contact@uelement.in</span>
+                <span>contact@uelement.co</span>
               </div>
               <div className="flex items-start justify-start font-reddit-sans gap-3 lg:gap-4">
                 <Icon name="location" />
@@ -501,8 +501,8 @@ const channels = [
   {
     title: 'New business',
     description: 'Scoping a project or evaluating a partner.',
-    contact: 'contact@uelement.in',
-    href: 'mailto:contact@uelement.in',
+    contact: 'contact@uelement.co',
+    href: 'mailto:contact@uelement.co',
     icon: 'email',
   },
   {
@@ -515,8 +515,8 @@ const channels = [
   {
     title: 'Careers',
     description: 'Open roles across quantum, platform, and AI engineering.',
-    contact: 'careers@uelement.in',
-    href: 'mailto:careers@uelement.in',
+    contact: 'careers@uelement.co',
+    href: 'mailto:careers@uelement.co',
     icon: 'email',
   },
 ];

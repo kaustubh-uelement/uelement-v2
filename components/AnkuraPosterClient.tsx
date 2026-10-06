@@ -308,7 +308,7 @@ export default function AnkuraPosterClient() {
 
               <div className="id">
                 <div className="contact">
-                  <a href="mailto:contact@uelement.in">contact@uelement.in</a>
+                  <a href="mailto:contact@uelement.co">contact@uelement.co</a>
                   <br />
                   <a href="tel:+919007374836">+91 90073 74836</a>
                 </div>

@@ -13,5 +13,5 @@ User-Agent: Applebot-Extended
 User-Agent: Bingbot
 Allow: /
 
-Host: https://uelement.in
-Sitemap: https://uelement.in/sitemap.xml
+Host: https://uelement.co
+Sitemap: https://uelement.co/sitemap.xml

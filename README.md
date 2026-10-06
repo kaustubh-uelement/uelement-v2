@@ -4,9 +4,9 @@ This project is a static-exported Next.js site deployed on Cloudflare Pages, wit
 
 ## Current architecture
 
-- App domain: `https://uelement.in`
+- App domain: `https://uelement.co`
 - Image bucket: `uelement-images` (R2)
-- Optional image domain: `https://images.uelement.in`
+- Optional image domain: `https://images.uelement.co`
 - Next.js output mode: `output: 'export'`
 - Pages Function route: `/images/*` via `functions/images/[[path]].js`
 
@@ -56,16 +56,16 @@ In Pages project settings:
 
 ## 3) DNS and custom domains
 
-- `uelement.in` should point to your Cloudflare Pages project.
-- `images.uelement.in` should be attached as a custom domain on bucket `uelement-images`.
-- Verify `images.uelement.in` custom domain status:
+- `uelement.co` should point to your Cloudflare Pages project.
+- `images.uelement.co` should be attached as a custom domain on bucket `uelement-images`.
+- Verify `images.uelement.co` custom domain status:
   - Ownership: `active`
   - SSL: `active`
 
 ## 4) Cache/CORS (recommended)
 
 - R2 custom domain can return CORS based on bucket CORS policy.
-- Add a bucket CORS rule for `GET`, `HEAD` with origin `https://uelement.in`.
+- Add a bucket CORS rule for `GET`, `HEAD` with origin `https://uelement.co`.
 - Purge cache after changing CORS or image contents.
 
 ## Deployment steps
@@ -101,9 +101,9 @@ Run this command from repo root so Wrangler uploads `out/` and includes `functio
 Use this exact sequence:
 
 1. Check if an image exists via main domain function route:
-   - `https://uelement.in/images/landing/hero_bg1.webp`
+   - `https://uelement.co/images/landing/hero_bg1.webp`
 2. Check if image exists via R2 custom domain:
-   - `https://images.uelement.in/landing/hero_bg1.webp`
+   - `https://images.uelement.co/landing/hero_bg1.webp`
 3. If #2 works but #1 fails:
    - Missing/incorrect Pages R2 binding `IMAGE_BUCKET`
    - Function not deployed (often due dashboard drag-and-drop upload)
@@ -113,12 +113,12 @@ Use this exact sequence:
    - Look for relative image paths like `images/...` (without leading `/`)
 6. Purge Cloudflare cache and retest.
 
-## Optional pattern: serve directly from `images.uelement.in`
+## Optional pattern: serve directly from `images.uelement.co`
 
 If you want to bypass `/images/*` function routing entirely, you can switch URLs in code to absolute URLs:
 
 - From: `/images/landing/hero_bg1.webp`
-- To: `https://images.uelement.in/landing/hero_bg1.webp`
+- To: `https://images.uelement.co/landing/hero_bg1.webp`
 
 If you do this, keep CORS and cache headers configured on the R2 custom domain.
 

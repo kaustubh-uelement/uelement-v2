@@ -36,7 +36,7 @@ export async function onRequest(context) {
   }
   headers.set('Cache-Control', 'public, max-age=31536000, immutable');
 
-  // Helps when assets are requested from images.uelement.in and embedded on uelement.in.
+  // Helps when assets are requested from images.uelement.co and embedded on uelement.co.
   headers.set('Access-Control-Allow-Origin', '*');
 
   return new Response(object.body, { headers });

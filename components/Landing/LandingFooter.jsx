@@ -43,7 +43,7 @@ const LandingFooter = () => {
           <div className="md:col-span-1">
             <h3 className="text-gray-500 text-xs font-semibold tracking-widest uppercase mb-6">Connect</h3>
             <ul className="space-y-3 text-sm">
-              <li><a href="mailto:contact@uelement.in" className="hover:text-white transition-colors">contact@uelement.in</a></li>
+              <li><a href="mailto:contact@uelement.co" className="hover:text-white transition-colors">contact@uelement.co</a></li>
               <li>+91 762 069 0561</li>
               <li className="leading-relaxed">UElement Technologies Pvt. Ltd.<br/>9th Floor, Pride Gateway,<br/>Sr. No. 112, Baner, Pune.</li>
             </ul>

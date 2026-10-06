@@ -85,7 +85,14 @@
   line-height:1.06;
   color:#FFFFFF;
 }
-.hero--earth .display em{font-style:normal;font-weight:inherit;background:var(--gold-metal);-webkit-background-clip:text;background-clip:text;color:transparent !important;-webkit-text-fill-color:transparent !important;padding-right:.04em}
+.hero--earth .display em{
+  color: #E0A769 !important;
+  font-style: italic !important;
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  background-clip: unset !important;
+  -webkit-text-fill-color: #E0A769 !important;
+}
 .hero--earth .lede{
   color:#CDD5DB;
   font-family:var(--font-body);
@@ -132,12 +139,10 @@ a:hover{color:var(--text-strong)}
 .h-hero .au,
 .h-sub em,
 .h-card em,
-h1 em,
+h1:not(.hero--earth .display) em,
 h2 em,
 h3 em,
 h4 em,
-.hero--earth .display em,
-.hero--earth h1 em,
 .highlight,
 mark,
 .au {
@@ -491,14 +496,13 @@ input[type=range]::-moz-range-thumb{background:#FFFCF6;border-color:#B48632}
 /* ---------- team portraits stay enamel ---------- */
 .portrait{background:var(--enamel);border-radius:2px}
 
-/* ---------- footer: enamel, a belief line, then the columns ---------- */
-.footer{background:radial-gradient(120% 120% at 100% 0%,#14284f 0%,var(--enamel) 60%);border-top:0;position:relative;padding-block:88px 40px}
+/* ---------- footer: enamel, then the columns ---------- */
+.footer{background:radial-gradient(120% 120% at 100% 0%,#14284f 0%,var(--enamel) 60%);border-top:0;position:relative;padding-block:56px 40px}
 .footer:before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:var(--gold-rule)}
-.footer>.wrap:before{content:"We believe";display:block;font-family:var(--font-heading);font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-on-navy);margin-bottom:14px}
-.footer__grid:before{content:"सशक्त · सक्षम · सुरक्षित";grid-column:1/-1;text-wrap:balance;font-family:var(--font-deva),var(--font-hero);font-weight:700;letter-spacing:.06em;line-height:1.15;font-size:clamp(2rem,1.4rem + 2.6vw,3.4rem);background:var(--metal-gold);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding-bottom:32px;margin-bottom:8px;border-bottom:1px solid rgba(255,255,255,.12)}
 .footer h2{color:var(--gold-on-navy);letter-spacing:.16em}
 .footer ul a{color:#C4CCDA;font-family:var(--font-body)}
 .footer ul a:hover{color:#fff}
+.footer__social:hover{color:#fff !important}
 .footer .small,.footer address{color:#B4BED0}
 .footer__base{border-top-color:rgba(255,255,255,.12)}
 

@@ -18,28 +18,28 @@ UElement does not describe any system as quantum-proof. As of October 2026 RBI h
 
 ## Products
 
-- [UElement Quantum overview](https://uelement.in/quantum/)
-- [Cryptographic Discovery](https://uelement.in/quantum/discovery/): CBOM in CycloneDX 1.6, exposure ranking, migration plan.
-- [Post-Quantum Cryptography](https://uelement.in/quantum/pqc/)
-- [Crypto-Agility](https://uelement.in/quantum/crypto-agility/)
-- [Quantum Key Distribution](https://uelement.in/quantum/qkd/)
-- [Quantum Networking](https://uelement.in/quantum/networking/)
-- [Quantum Machine Learning](https://uelement.in/quantum/qml/)
-- [MainSTAY overview](https://uelement.in/mainstay/)
-- [MainSTAY Nexus](https://uelement.in/mainstay/nexus/): modules and published pricing.
-- [MainSTAY Vizor](https://uelement.in/mainstay/vizor/)
-- [MainSTAY Kayak](https://uelement.in/mainstay/kayak/)
+- [UElement Quantum overview](https://uelement.co/quantum/)
+- [Cryptographic Discovery](https://uelement.co/quantum/discovery/): CBOM in CycloneDX 1.6, exposure ranking, migration plan.
+- [Post-Quantum Cryptography](https://uelement.co/quantum/pqc/)
+- [Crypto-Agility](https://uelement.co/quantum/crypto-agility/)
+- [Quantum Key Distribution](https://uelement.co/quantum/qkd/)
+- [Quantum Networking](https://uelement.co/quantum/networking/)
+- [Quantum Machine Learning](https://uelement.co/quantum/qml/)
+- [MainSTAY overview](https://uelement.co/mainstay/)
+- [MainSTAY Nexus](https://uelement.co/mainstay/nexus/): modules and published pricing.
+- [MainSTAY Vizor](https://uelement.co/mainstay/vizor/)
+- [MainSTAY Kayak](https://uelement.co/mainstay/kayak/)
 
 ## Reference
 
-- [India's post-quantum deadlines, sector by sector](https://uelement.in/insights/india-pqc-deadlines/)
-- [What is a cryptographic bill of materials?](https://uelement.in/insights/what-is-a-cbom/)
-- [Harvest now, decrypt later](https://uelement.in/insights/harvest-now-decrypt-later/)
-- [Hybrid key exchange, explained](https://uelement.in/insights/hybrid-key-exchange/)
-- [Questions and answers](https://uelement.in/faq/)
+- [India's post-quantum deadlines, sector by sector](https://uelement.co/insights/india-pqc-deadlines/)
+- [What is a cryptographic bill of materials?](https://uelement.co/insights/what-is-a-cbom/)
+- [Harvest now, decrypt later](https://uelement.co/insights/harvest-now-decrypt-later/)
+- [Hybrid key exchange, explained](https://uelement.co/insights/hybrid-key-exchange/)
+- [Questions and answers](https://uelement.co/faq/)
 
 ## Company
 
-- [About](https://uelement.in/company/) · [Team](https://uelement.in/company/team/) · [Trust and security](https://uelement.in/company/trust/) · [Partners](https://uelement.in/company/partners/)
-- Contact: contact@uelement.in · +91 76206 90561 · Wakad, Pune, Maharashtra 411057, India
+- [About](https://uelement.co/company/) · [Team](https://uelement.co/company/team/) · [Trust and security](https://uelement.co/company/trust/) · [Partners](https://uelement.co/company/partners/)
+- Contact: contact@uelement.co · +91 76206 90561 · Wakad, Pune, Maharashtra 411057, India
 - Legal: UElement Technologies Private Limited · CIN U63990PN2026PTC251047 · GSTIN 27AAECU0576G1Z9

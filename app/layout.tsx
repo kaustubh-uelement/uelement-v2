@@ -48,7 +48,7 @@ const dmSerifText = DM_Serif_Text({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://uelement.in'),
+  metadataBase: new URL('https://uelement.co'),
   title: 'UElement: Quantum-safe security and enterprise platforms',
   description:
     'UElement is a DeepTech company in Pune, India. We help banks, insurers and critical infrastructure move to quantum-safe cryptography, and we run the digital front door of growing companies on the MainSTAY platform.',
@@ -59,13 +59,13 @@ export const metadata: Metadata = {
     title: 'Quantum-safe security and the MainSTAY platform · UElement',
     description:
       'UElement is a DeepTech company in Pune, India. We help banks, insurers and critical infrastructure move to quantum-safe cryptography, and we run the digital front door of growing companies on the MainSTAY platform.',
-    url: 'https://uelement.in/',
+    url: 'https://uelement.co/',
     siteName: 'UElement',
     locale: 'en_IN',
     type: 'website',
     images: [
       {
-        url: 'https://uelement.in/og.png',
+        url: 'https://uelement.co/og.png',
         width: 1200,
         height: 630,
         alt: 'UElement: Sovereign DeepTech for the systems that cannot fail.',
@@ -77,7 +77,7 @@ export const metadata: Metadata = {
     title: 'Quantum-safe security and the MainSTAY platform · UElement',
     description:
       'UElement is a DeepTech company in Pune, India. We help banks, insurers and critical infrastructure move to quantum-safe cryptography, and we run the digital front door of growing companies on the MainSTAY platform.',
-    images: ['https://uelement.in/og.png'],
+    images: ['https://uelement.co/og.png'],
   },
 };
 

@@ -79,7 +79,7 @@ function buildOtpEmailHtml(code, name) {
  */
 export async function sendOtpEmail(recipientEmail, code, name) {
   const apiKey = (process.env.RESEND_API_KEY || '').trim();
-  const fromEmail = (process.env.RESEND_FROM_EMAIL || 'Vyuh Security <contact@uelement.in>').trim();
+  const fromEmail = (process.env.RESEND_FROM_EMAIL || 'Vyuh Security <contact@uelement.co>').trim();
 
   // If no API key configured, operate in resilient Dev Mode
   if (!apiKey) {
