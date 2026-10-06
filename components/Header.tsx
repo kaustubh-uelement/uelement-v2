@@ -12,31 +12,46 @@ export default function Header() {
   const [solutionsTab, setSolutionsTab] = useState<"industries" | "usecases">("industries");
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const closeTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const hoveredMenuRef = useRef<string | null>(null);
 
   // Close everything on route change
   useEffect(() => {
+    hoveredMenuRef.current = null;
     setActiveMenu(null);
     setIsDrawerOpen(false);
   }, [pathname]);
 
-  // Handle scroll detection and close open menu on scroll
+  // Handle scroll detection
   useEffect(() => {
     const handleScroll = () => {
-      const scrolled = window.scrollY > 60;
-      setIsScrolled(scrolled);
-      setActiveMenu(null);
+      setIsScrolled(window.scrollY > 60);
     };
 
-    setIsScrolled(window.scrollY > 60);
+    handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // When activeMenu is open, wheel scrolling on the page smoothly closes it
+  useEffect(() => {
+    if (!activeMenu) return;
+    const handleWheel = (e: WheelEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (!target?.closest(".mega")) {
+        hoveredMenuRef.current = null;
+        setActiveMenu(null);
+      }
+    };
+    window.addEventListener("wheel", handleWheel, { passive: true });
+    return () => window.removeEventListener("wheel", handleWheel);
+  }, [activeMenu]);
 
   // Handle click outside to close dropdowns and drawer
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as HTMLElement | null;
       if (!target?.closest(".nav__item") && !target?.closest(".menu-btn") && !target?.closest(".drawer")) {
+        hoveredMenuRef.current = null;
         setActiveMenu(null);
         setIsDrawerOpen(false);
       }
@@ -45,10 +60,9 @@ export default function Header() {
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
-  // Lock scroll and handle backdrop when menu or drawer is open
+  // Lock scroll only for full-screen mobile drawer (never for desktop dropdowns to prevent layout jerk)
   useEffect(() => {
-    const isOpen = Boolean(activeMenu || isDrawerOpen);
-    if (isOpen) {
+    if (isDrawerOpen) {
       document.documentElement.classList.add("nav-open");
       document.body.classList.add("nav-open");
     } else {
@@ -58,6 +72,7 @@ export default function Header() {
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
+        hoveredMenuRef.current = null;
         setActiveMenu(null);
         setIsDrawerOpen(false);
       }
@@ -69,10 +84,11 @@ export default function Header() {
       document.body.classList.remove("nav-open");
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [activeMenu, isDrawerOpen]);
+  }, [isDrawerOpen]);
 
   const handleMouseEnter = (menuName: string) => {
-    if (window.innerWidth < 1024) return;
+    if (typeof window !== "undefined" && window.innerWidth < 1024) return;
+    hoveredMenuRef.current = menuName;
     if (closeTimerRef.current) {
       clearTimeout(closeTimerRef.current);
       closeTimerRef.current = null;
@@ -80,19 +96,28 @@ export default function Header() {
     setActiveMenu(menuName);
   };
 
-  const handleMouseLeave = () => {
-    if (window.innerWidth < 1024) return;
+  const handleMouseLeave = (menuName: string) => {
+    if (typeof window !== "undefined" && window.innerWidth < 1024) return;
+    if (hoveredMenuRef.current === menuName) {
+      hoveredMenuRef.current = null;
+    }
     if (closeTimerRef.current) {
       clearTimeout(closeTimerRef.current);
     }
     closeTimerRef.current = setTimeout(() => {
-      setActiveMenu(null);
-    }, 220);
+      if (!hoveredMenuRef.current) {
+        setActiveMenu(null);
+      }
+    }, 180);
   };
 
   const toggleMenu = (menuName: string, ev: React.MouseEvent) => {
     ev.stopPropagation();
-    setActiveMenu((prev) => (prev === menuName ? null : menuName));
+    setActiveMenu((prev) => {
+      const next = prev === menuName ? null : menuName;
+      hoveredMenuRef.current = next;
+      return next;
+    });
   };
 
   return (
@@ -112,7 +137,7 @@ export default function Header() {
             <div
               className="nav__item"
               onMouseEnter={() => handleMouseEnter("platform")}
-              onMouseLeave={handleMouseLeave}
+              onMouseLeave={() => handleMouseLeave("platform")}
             >
               <button
                 type="button"
@@ -132,7 +157,7 @@ export default function Header() {
                 id="menu-platform"
                 hidden={activeMenu !== "platform"}
                 onMouseEnter={() => handleMouseEnter("platform")}
-                onMouseLeave={handleMouseLeave}
+                onMouseLeave={() => handleMouseLeave("platform")}
               >
                 <div className="platform-head">
                   <span className="eyebrow" style={{ color: "var(--text-3)", fontSize: "0.6875rem", letterSpacing: "0.18em" }}>
@@ -339,7 +364,7 @@ export default function Header() {
             <div
               className="nav__item"
               onMouseEnter={() => handleMouseEnter("solutions")}
-              onMouseLeave={handleMouseLeave}
+              onMouseLeave={() => handleMouseLeave("solutions")}
             >
               <button
                 type="button"
@@ -359,7 +384,7 @@ export default function Header() {
                 id="menu-solutions"
                 hidden={activeMenu !== "solutions"}
                 onMouseEnter={() => handleMouseEnter("solutions")}
-                onMouseLeave={handleMouseLeave}
+                onMouseLeave={() => handleMouseLeave("solutions")}
               >
                 <div className="platform-head">
                   <span className="eyebrow" style={{ color: "var(--text-3)", fontSize: "0.6875rem", letterSpacing: "0.18em" }}>
@@ -580,7 +605,7 @@ export default function Header() {
             <div
               className="nav__item"
               onMouseEnter={() => handleMouseEnter("company")}
-              onMouseLeave={handleMouseLeave}
+              onMouseLeave={() => handleMouseLeave("company")}
             >
               <button
                 type="button"
@@ -606,7 +631,7 @@ export default function Header() {
                   gridTemplateColumns: "1fr",
                 }}
                 onMouseEnter={() => handleMouseEnter("company")}
-                onMouseLeave={handleMouseLeave}
+                onMouseLeave={() => handleMouseLeave("company")}
               >
                 <ul className="mega__list">
                   <li>
