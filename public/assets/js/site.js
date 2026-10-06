@@ -102,20 +102,25 @@
       var item = b.closest(".nav__item");
       var p = document.getElementById(b.getAttribute("aria-controls"));
       if (item && p) {
-        item.addEventListener("mouseenter", function () {
+        function handleEnter() {
           if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
           if (window.innerWidth >= 1024) {
             closeAll(b);
             openMenu(b, p);
           }
-        });
-        item.addEventListener("mouseleave", function () {
+        }
+        function handleLeave() {
           if (window.innerWidth >= 1024) {
+            if (closeTimer) clearTimeout(closeTimer);
             closeTimer = setTimeout(function () {
               closeMenu(b, p);
-            }, 140);
+            }, 240);
           }
-        });
+        }
+        item.addEventListener("mouseenter", handleEnter);
+        item.addEventListener("mouseleave", handleLeave);
+        p.addEventListener("mouseenter", handleEnter);
+        p.addEventListener("mouseleave", handleLeave);
       }
       b.addEventListener("click", function (ev) {
         ev.stopPropagation();
