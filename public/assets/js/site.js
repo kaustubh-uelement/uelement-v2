@@ -15,6 +15,9 @@
 
   /* ---------------------------------------------------------------- header */
   function initHeader() {
+    // In Next.js client, Header.tsx natively manages header state and events
+    if (document.querySelector(".header-sticky-wrapper")) return;
+
     var triggers = Array.prototype.slice.call(document.querySelectorAll(".nav__trigger"));
     var backdrop = document.getElementById("nav-backdrop");
     var btn = document.querySelector(".menu-btn");
