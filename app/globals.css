@@ -549,7 +549,7 @@ input[type=range]::-moz-range-thumb{background:#FFFCF6;border-color:#B48632}
 
 /* Earth Hero Styles */
 /* Layout: deep space, a lit Earth rising from the top edge, centred copy over its night side. */
-.hero--earth{--space:radial-gradient(120% 140% at 0% 0%,#152a52 0%,var(--enamel) 55%,#0A1429 100%);--limb:#cfe6ff;--city:#f2c27e;--globe:100vw;--globe-top:clamp(200px,26vw,365px);background:radial-gradient(120% 140% at 0% 0%,#152a52 0%,var(--enamel) 55%,#0A1429 100%);text-align:center;position:relative;overflow:hidden;isolation:isolate;margin-top:calc(-1 * var(--header-h, 72px));padding-top:var(--header-h, 72px)}
+.hero--earth{--space:radial-gradient(120% 140% at 0% 0%,#152a52 0%,var(--enamel) 55%,#0A1429 100%);--limb:#cfe6ff;--city:#f2c27e;--globe:100vw;--globe-top:clamp(80px,15vw,215px);background:radial-gradient(120% 140% at 0% 0%,#152a52 0%,var(--enamel) 55%,#0A1429 100%);text-align:center;position:relative;overflow:hidden;isolation:isolate;margin-top:calc(-1 * var(--header-h, 72px));padding-top:var(--header-h, 72px)}
 .earth{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
 .earth__stars,
 .earth__stars--b{display:none!important}
@@ -575,7 +575,7 @@ box-shadow:inset 0 3px 2px -1px rgba(225,240,255,.9),inset 0 30px 60px -20px rgb
 .earth__inner{display:flex;flex-direction:column;align-items:center;gap:16px;max-width:960px;margin-inline:auto;padding-block:clamp(28px,4vw,56px) clamp(40px,5vw,64px)}
 .earth__inner .eyebrow{color:var(--city);letter-spacing:.22em}
 .earth__inner h1{text-wrap:balance;text-shadow:0 2px 28px rgba(3,6,14,.9);margin-bottom:0}
-.earth__inner .lede{margin-inline:auto;max-width:62ch;text-wrap:pretty;text-shadow:0 1px 18px rgba(3,6,14,.95);margin-top:clamp(80px,11vw,165px)}
+.earth__inner .lede{margin-inline:auto;max-width:62ch;text-wrap:pretty;text-shadow:0 1px 18px rgba(3,6,14,.95);margin-top:clamp(36px,5.5vw,84px)}
 .earth__links{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:10px 30px}
 .earth__links a{font-family:var(--font-heading);font-size:.8125rem;font-weight:500;letter-spacing:.02em;color:var(--text-2);text-decoration:none;padding-block:4px;border-bottom:1px solid transparent;transition:color .2s,border-color .2s}
 .earth__links a:hover{color:var(--text-strong);border-bottom-color:var(--line-2)}
