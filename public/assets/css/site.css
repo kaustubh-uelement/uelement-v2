@@ -138,6 +138,19 @@ a:hover{color:var(--text-strong)}
 /* ---------- header: navy enamel with a gold hairline ---------- */
 .header{background:linear-gradient(180deg,#112142 0%,var(--enamel) 100%);border-bottom:0;box-shadow:0 1px 0 rgba(0,0,0,.25)}
 .header:after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--gold-rule);opacity:.7}
+
+/* Landing page hero section: transparent navbar, no bottom golden border, seamless hero blend */
+.is-home .header,
+body:has(.hero--earth) .header {
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+}
+.is-home .header:after,
+body:has(.hero--earth) .header:after {
+  display: none !important;
+}
 .header__bar {
   max-width: 1180px !important;
   margin-inline: auto !important;

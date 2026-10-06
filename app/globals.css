@@ -176,6 +176,19 @@ mark,
 /* ---------- header: navy enamel with a gold hairline ---------- */
 .header{background:linear-gradient(180deg,#112142 0%,var(--enamel) 100%);border-bottom:0;box-shadow:0 1px 0 rgba(0,0,0,.25)}
 .header:after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--gold-rule);opacity:.7}
+
+/* Landing page hero section: transparent navbar, no bottom golden border, seamless hero blend */
+.is-home .header,
+body:has(.hero--earth) .header {
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+}
+.is-home .header:after,
+body:has(.hero--earth) .header:after {
+  display: none !important;
+}
 .header__bar {
   max-width: 1180px !important;
   margin-inline: auto !important;
@@ -497,7 +510,7 @@ input[type=range]::-moz-range-thumb{background:#FFFCF6;border-color:#B48632}
 
 /* Earth Hero Styles */
 /* Layout: deep space, a lit Earth rising from the top edge, centred copy over its night side. */
-.hero--earth{--space:radial-gradient(120% 140% at 0% 0%,#152a52 0%,var(--enamel) 55%,#0A1429 100%);--limb:#cfe6ff;--city:#f2c27e;--globe:100vw;--globe-top:clamp(80px,15vw,215px);background:radial-gradient(120% 140% at 0% 0%,#152a52 0%,var(--enamel) 55%,#0A1429 100%);text-align:center;position:relative;overflow:hidden;isolation:isolate}
+.hero--earth{--space:radial-gradient(120% 140% at 0% 0%,#152a52 0%,var(--enamel) 55%,#0A1429 100%);--limb:#cfe6ff;--city:#f2c27e;--globe:100vw;--globe-top:clamp(80px,15vw,215px);background:radial-gradient(120% 140% at 0% 0%,#152a52 0%,var(--enamel) 55%,#0A1429 100%);text-align:center;position:relative;overflow:hidden;isolation:isolate;margin-top:calc(-1 * var(--header-h, 72px));padding-top:var(--header-h, 72px)}
 .earth{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
 .earth__stars,
 .earth__stars--b{display:none!important}
